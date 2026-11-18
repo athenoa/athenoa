@@ -16,6 +16,8 @@ import toulouse from '../../assets/logos/toulouse-capitole.png';
 import defence from '../../assets/logos/national-defence-college.png';
 import galileo from '../../assets/logos/galileo-commission.png';
 import smn from '../../assets/logos/scientific-and-medical-network.png';
+import { getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
 import { getLocale, mainLocale } from '../../lib/locale';
 
 const t = {
@@ -72,20 +74,29 @@ const lines = [
     { name: t.smn, file: smn, h: 1.9 },
   ],
 ];
+
+// The raster marks are drawn at most 3rem tall, but the files are up to 2217 pixels wide (190 KB in
+// all). Each is sent as a WebP just tall enough for a sharp edge on a 3x screen (the mask only reads
+// its transparency): about a tenth of the weight. The SVG marks stay as they are.
+const sized = async (file: ImageMetadata, h: number) =>
+  file.format === 'svg'
+    ? file.src
+    : (await getImage({ src: file, height: Math.min(file.height, Math.ceil(h * 16 * 3)), format: 'webp', quality: 90 })).src;
+const marks = await Promise.all(lines.map((line) => Promise.all(line.map(async (mark) => ({ ...mark, src: await sized(mark.file, mark.h) })))));
 ---
 
 <ul class="logos" role="list">
   {
-    lines.map((line, i) => (
+    marks.map((line, i) => (
       <>
         {i > 0 && <li class="logos__break" aria-hidden="true" />}
-        {line.map(({ name, file, h }) => (
+        {line.map(({ name, file, h, src }) => (
           <li>
             <span
               class="logos__mark"
               role="img"
               aria-label={name}
-              style={`--h:${h}rem;--ratio:${file.width} / ${file.height};--mark:url('${file.src}')`}
+              style={`--h:${h}rem;--ratio:${file.width} / ${file.height};--mark:url('${src}')`}
             />
           </li>
         ))}
