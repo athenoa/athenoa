@@ -274,6 +274,9 @@ const w = gate.words[locale];
       try {
         localStorage.setItem(KEY, '1');
       } catch {}
+      // The site is entered from its top (client direction, 18 November 2026): moved there at once,
+      // behind the blur, before it comes into view
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
       // The field and the button fade, and «Εἴσελθε» fades in in their place
       verdict.textContent = '';
       input.disabled = true;

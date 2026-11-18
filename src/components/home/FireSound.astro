@@ -3,40 +3,47 @@
 // the page scrolls past it; on a page without a hero it never plays. It is a sound effect, not music:
 // the sound button, which mutes only the music, leaves it alone (client direction, 15 October 2026).
 // Before the visitor's first click, tap or key press (browsers allow no sound until then) it is silent.
+// It plays through the site's Web Audio context (sound.ts), whose loudness the iPhone obeys: as an
+// <audio> element it played at full volume on phones, which ignore an element's volume (client
+// direction, 18 November 2026: quieter, and on phones above all).
 ---
 
-<audio src="/audio/fire.mp3" loop preload="none" data-fire-audio></audio>
-
 <script>
-  const VOLUME = 0.045; // loudest, with the page at its top: under the music, a few steps from the flame
+  import { loopSound } from '../../scripts/sound';
+
+  const FILE = '/audio/fire.mp3';
+  const VOLUME = 0.025; // loudest, with the page at its top: well under the music, a few steps from the flame
   const REACH = 0.85; // share of the hero's height over which the fire dies away
-  const FADE_IN = 1500; // ms: every start eases in, it never arrives at full level
+  const FADE_IN = 1.5; // seconds: every start eases in, it never arrives at full level
 
   const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
 
+  type Fire = NonNullable<Awaited<ReturnType<typeof loopSound>>>;
+  let fire: Fire | null = null;
+  let starting = false;
   let cleanup: Array<() => void> = [];
+
+  function quench() {
+    if (!fire) return;
+    const f = fire;
+    fire = null;
+    const now = f.ctx.currentTime;
+    f.gain.cancelScheduledValues(now);
+    f.gain.setValueAtTime(f.gain.value, now);
+    f.gain.linearRampToValueAtTime(0, now + 0.4);
+    setTimeout(() => f.stop(), 500);
+  }
 
   function stop() {
     cleanup.forEach((fn) => fn());
     cleanup = [];
+    quench();
   }
 
   function setup() {
     stop();
-    const audio = document.querySelector<HTMLAudioElement>('[data-fire-audio]');
     const hero = document.querySelector<HTMLElement>('.hero');
-    if (!audio) return;
-    if (!hero) {
-      if (!audio.paused) audio.pause();
-      return;
-    }
-
-    let frame = 0;
-    let began = 0; // when the current fade in started
-
-    // Tried at once: where the browser allows sound before a click it plays from the start, elsewhere
-    // the attempt fails quietly and the first click, tap or key press starts it.
-    const allowed = () => true;
+    if (!hero) return;
 
     // 1 with the page at its top, 0 once most of the hero has scrolled away
     const level = () => {
@@ -47,45 +54,49 @@
       return left * left;
     };
 
-    const apply = () => {
-      cancelAnimationFrame(frame);
-      frame = 0;
-      const target = allowed() ? VOLUME * level() : 0;
-      if (target <= 0) {
-        if (!audio.paused) audio.pause();
+    const apply = async () => {
+      const target = VOLUME * level();
+      if (target <= 0) return quench();
+      if (!fire) {
+        if (starting) return;
+        starting = true;
+        // Silent until the browser allows sound (the first click, tap or key press): tried again then
+        const started = await loopSound(FILE);
+        starting = false;
+        if (!started) return;
+        if (!cleanup.length) return started.stop(); // the page changed meanwhile
+        fire = started;
+        const now = fire.ctx.currentTime;
+        fire.gain.setValueAtTime(0, now);
+        fire.gain.linearRampToValueAtTime(VOLUME * level(), now + FADE_IN);
         return;
       }
-      if (audio.paused) {
-        began = performance.now();
-        audio.volume = 0;
-        // No file, or the browser still wants a gesture: stay silent, the next change tries again.
-        audio.play().catch(() => {});
-      }
-      const fade = clamp((performance.now() - began) / FADE_IN, 0, 1);
-      audio.volume = clamp(target * fade, 0, 1); // never outside 0..1: the browser throws on that
-      if (fade < 1 && !audio.paused) frame = requestAnimationFrame(apply);
+      const now = fire.ctx.currentTime;
+      fire.gain.cancelScheduledValues(now);
+      fire.gain.setValueAtTime(fire.gain.value, now);
+      fire.gain.setTargetAtTime(target, now, 0.3);
     };
 
+    let frame = 0;
     const onScroll = () => {
-      if (!frame) frame = requestAnimationFrame(apply);
+      if (!frame)
+        frame = requestAnimationFrame(() => {
+          frame = 0;
+          apply();
+        });
     };
     window.addEventListener('scroll', onScroll, { passive: true });
-    cleanup.push(() => window.removeEventListener('scroll', onScroll));
+    cleanup.push(() => {
+      window.removeEventListener('scroll', onScroll);
+      cancelAnimationFrame(frame);
+    });
 
-    // The music starts on the first click, tap or key press, in a listener that runs before this one.
-    // Answering the same gesture lets the fire start inside it, which some browsers insist on.
-    const onGesture = () => {
-      apply();
-    };
-    for (const type of ['pointerdown', 'keydown']) {
+    // sound.ts wakes the context on the first click, tap or key press (its listener runs first)
+    const onGesture = () => apply();
+    for (const type of ['pointerdown', 'keydown', 'touchend']) {
       window.addEventListener(type, onGesture, { passive: true });
       cleanup.push(() => window.removeEventListener(type, onGesture));
     }
-
-    cleanup.push(() => {
-      cancelAnimationFrame(frame);
-      if (!audio.paused) audio.pause();
-    });
 
     apply();
   }

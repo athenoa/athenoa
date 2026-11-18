@@ -63,6 +63,40 @@ export function preloadSounds(...files: string[]) {
   if (ctx) files.forEach((file) => load(ctx, file).catch(() => {}));
 }
 
+/** Starts a sound looping, silent, and hands back its loudness to set (a gain, which the iPhone obeys,
+ *  unlike an <audio> element's volume) and a way to stop it. Null while the browser holds sound back. */
+export async function loopSound(file: string) {
+  const ctx = make();
+  if (!ctx) return null;
+  try {
+    if (ctx.state !== 'running') {
+      if (!woken) return null;
+      await ctx.resume();
+    }
+    const buffer = await load(ctx, file);
+    const source = ctx.createBufferSource();
+    source.buffer = buffer;
+    source.loop = true;
+    const gain = ctx.createGain();
+    gain.gain.value = 0;
+    source.connect(gain).connect(ctx.destination);
+    source.start();
+    return {
+      ctx,
+      gain: gain.gain,
+      stop() {
+        try {
+          source.stop();
+        } catch {}
+        source.disconnect();
+        gain.disconnect();
+      },
+    };
+  } catch {
+    return null;
+  }
+}
+
 /** The shared context, ready to play now, or null while the browser holds sound back. For sounds
  *  made in code rather than played from a file (the preview gate's knocks). */
 export async function soundContext() {
