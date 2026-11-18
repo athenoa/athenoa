@@ -149,8 +149,8 @@ const custom = Object.entries(images).find(([file]) =>
   //                      they leap again with another.
   //   Nostos (island):   a gust of wind, and the windmill's sails go round once, slowly. A click while
   //                      they turn changes nothing.
-  // Sounds follow the site's sound button (see scripts/sound.ts).
-  import { playSound as play } from '../scripts/sound';
+  // The bird is silent while the site's sound button is off; the other sounds play either way (scripts/sound.ts).
+  import { ambienceMuted, playSound as play } from '../scripts/sound';
   const once = (el: Element, name: string, ms: number) => {
     if (el.classList.contains(name)) return false;
     el.classList.add(name);
@@ -173,7 +173,7 @@ const custom = Object.entries(images).find(([file]) =>
           scene.dataset.footerDone = '';
           bird.classList.add('is-flying');
           window.setTimeout(() => bird.classList.remove('is-flying'), 3600);
-          window.setTimeout(() => play('/audio/chirp-2.mp3', 0.16), 250);
+          if (!ambienceMuted()) window.setTimeout(() => play('/audio/chirp-2.mp3', 0.08), 250);
         }
       } else if (kind === 'aegean') {
         const dived = scene.classList.toggle('is-dived');

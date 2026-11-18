@@ -7,7 +7,7 @@
 // title, measures where its top is, and walks the bird through its states (away, in, sit, sing, out)
 // with timers; the stylesheet does the movement. Only transforms and opacity change, on two small
 // layers (the bird and its wing), so it costs nothing to animate.
-// It only runs with motion on. The chirp follows the site's sound switch (the music button).
+// It only runs with motion on. The chirp is silent while the sound button in the corner is off.
 import Illustration from '../Illustration.astro';
 ---
 
@@ -17,10 +17,10 @@ import Illustration from '../Illustration.astro';
 </span>
 
 <script>
-  import { playSound } from '../../scripts/sound';
+  import { ambienceMuted, playSound } from '../../scripts/sound';
 
   const PERIOD = 25000; // one visit every twenty-five seconds
-  const VOLUME = 0.187;
+  const VOLUME = 0.09; // (was 0.187: halved, client direction, 18 November 2026)
   // Three calls; each visit sings the next one
   const CALLS = ['/audio/chirp-1.mp3', '/audio/chirp-2.mp3', '/audio/chirp-3.mp3'];
   let call = 0;
@@ -68,7 +68,9 @@ import Illustration from '../Illustration.astro';
       return false;
     };
 
-    const chirp = () => playSound(CALLS[call++ % CALLS.length], VOLUME);
+    const chirp = () => {
+      if (!ambienceMuted()) playSound(CALLS[call++ % CALLS.length], VOLUME);
+    };
 
     let timers: number[] = [];
     const at = (ms: number, state: string, then?: () => void) =>

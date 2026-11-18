@@ -1,18 +1,18 @@
 ---
 // A soft fire for the brazier in the hero drawing. It burns while the hero is in view and dies away as
-// the page scrolls past it; on a page without a hero it never plays. It is a sound effect, not music:
-// the sound button, which mutes only the music, leaves it alone (client direction, 15 October 2026).
+// the page scrolls past it; on a page without a hero it never plays.
 // Before the visitor's first click, tap or key press (browsers allow no sound until then) it is silent.
 // It plays through the site's Web Audio context (sound.ts), whose loudness the iPhone obeys: as an
 // <audio> element it played at full volume on phones, which ignore an element's volume (client
-// direction, 18 November 2026: quieter, and on phones above all).
+// direction, 18 November 2026: quieter, and on phones above all). It is silent while the sound button
+// in the corner is off, like the music (client direction, the same day).
 ---
 
 <script>
-  import { loopSound } from '../../scripts/sound';
+  import { AMBIENCE, ambienceMuted, loopSound } from '../../scripts/sound';
 
   const FILE = '/audio/fire.mp3';
-  const VOLUME = 0.025; // loudest, with the page at its top: well under the music, a few steps from the flame
+  const VOLUME = 0.015; // loudest, with the page at its top: well under the music, a few steps from the flame
   const REACH = 0.85; // share of the hero's height over which the fire dies away
   const FADE_IN = 1.5; // seconds: every start eases in, it never arrives at full level
 
@@ -55,7 +55,7 @@
     };
 
     const apply = async () => {
-      const target = VOLUME * level();
+      const target = ambienceMuted() ? 0 : VOLUME * level();
       if (target <= 0) return quench();
       if (!fire) {
         if (starting) return;
@@ -90,6 +90,11 @@
       window.removeEventListener('scroll', onScroll);
       cancelAnimationFrame(frame);
     });
+
+    // the sound button in the corner turned on or off
+    const onAmbience = () => apply();
+    window.addEventListener(AMBIENCE, onAmbience);
+    cleanup.push(() => window.removeEventListener(AMBIENCE, onAmbience));
 
     // sound.ts wakes the context on the first click, tap or key press (its listener runs first)
     const onGesture = () => apply();

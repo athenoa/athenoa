@@ -74,7 +74,7 @@ const { ui } = content(getLocale(Astro.url));
 </div>
 
 <script>
-  import { playSound, soundHeldBack } from '../scripts/sound';
+  import { AMBIENCE, playSound, soundHeldBack } from '../scripts/sound';
 
   const KEY = 'ath-music';
   const AT = 'ath-music-at'; // where in the piece the last page left off (this tab only)
@@ -144,6 +144,8 @@ const { ui } = content(getLocale(Astro.url));
       try {
         localStorage.setItem(KEY, value);
       } catch {}
+      // the fire and the birds follow the button too (sound.ts, ambienceMuted)
+      window.dispatchEvent(new CustomEvent(AMBIENCE));
     };
 
     button.addEventListener('click', () => {

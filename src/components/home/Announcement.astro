@@ -70,19 +70,19 @@ const announced = home.announcement.courses
 {announced.map((course) => <CourseDialog course={course} />)}
 
 <script>
-  import { playSound } from '../../scripts/sound';
+  import { ambienceMuted, playSound } from '../../scripts/sound';
 
   // The dove's wings, very quietly, and a single chirp, as it flies in to the newsletter slip: eight soft beats in step
   // with the drawing (which starts half a second after the slip comes into view). Once per visit to
   // the page, only with motion on, and silent when the visitor has muted the site's sound.
   const VOLUME = 0.049;
-  const CHIRP = 0.112;
+  const CHIRP = 0.056; // (was 0.112: halved, client direction, 18 November 2026)
   document.addEventListener('astro:page-load', () => {
     const slip = document.querySelector<HTMLElement>('.slip');
     if (!slip || slip.dataset.wings) return;
     slip.dataset.wings = 'ready';
     const play = () => {
-      if (!document.documentElement.classList.contains('motion')) return;
+      if (!document.documentElement.classList.contains('motion') || ambienceMuted()) return;
       window.setTimeout(() => playSound('/audio/wings.mp3', VOLUME), 500);
       // and one small chirp as it comes in over the slip
       window.setTimeout(() => playSound('/audio/chirp-single.mp3', CHIRP), 1700);

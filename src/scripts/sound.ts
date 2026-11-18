@@ -9,8 +9,8 @@
 // Each browser decides whether a page may sound before the visitor has pressed anything: most say no,
 // but Chrome says yes to a site its user often plays sound on. So the context is tried at once, and if
 // the browser holds it back, it is woken by the first click, tap or key press instead (and the corner
-// invites one, see BackgroundMusic.astro). The sound button in the corner mutes only the music: these
-// effects play either way (client direction, 15 October 2026).
+// invites one, see BackgroundMusic.astro). The sound button in the corner mutes the music, the fire and
+// the birds (ambienceMuted below); the other effects play either way (client direction, 18 November 2026).
 
 type Win = Window & { webkitAudioContext?: typeof AudioContext };
 
@@ -30,6 +30,18 @@ function wake() {
   const ctx = make();
   if (ctx && ctx.state !== 'running') ctx.resume().catch(() => {});
 }
+
+/** The sound button in the corner (BackgroundMusic.astro) mutes the music and, with it, the sounds of
+ *  the place: the hero's fire and the birds (client direction, 18 November 2026). The site's other small
+ *  effects still play. True while the button is off; BackgroundMusic sends AMBIENCE when it changes. */
+export const ambienceMuted = () => {
+  try {
+    return localStorage.getItem('ath-music') === 'off';
+  } catch {
+    return false;
+  }
+};
+export const AMBIENCE = 'ath:ambience';
 
 /** True while the browser is still holding sound back until the visitor presses something. */
 export const soundHeldBack = () => {
