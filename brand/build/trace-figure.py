@@ -90,16 +90,26 @@ if gap.sum() > 0.2 * W * H:
 inner = grow((int(cx), int(cy)), ~(outside | band | gap))  # hairline + panel + drawing
 panel = erode(inner, 6)  # without the hairline
 
-# Let the drawing that touches the bottom of the panel run on past it
+# Let the drawing that touches the bottom of the panel run on past it, solid across the hem's whole
+# width (the hem's pleat lines end at the edge; they must not run on as stripes)
 fig = dark & panel
 ext = np.zeros_like(fig)
+bottom_of = {}
+touch = np.zeros(W, dtype=bool)
 for col in range(W):
     rows = np.nonzero(panel[:, col])[0]
     if len(rows) == 0:
         continue
     yb = rows.max()
-    if yb > cy and fig[yb - 4 : yb + 1, col].all():  # real hem, not a speck at the edge
-        ext[yb + 1 : min(H, yb + 18), col] = True
+    bottom_of[col] = yb
+    touch[col] = yb > cy and fig[yb - 4 : yb + 1, col].all()  # real hem, not a speck at the edge
+cols = np.nonzero(touch)[0]
+for a, b in zip(cols[:-1], cols[1:]):
+    if b - a <= 16:  # close the gaps left by the pleat lines
+        touch[a:b] = True
+for col in np.nonzero(touch)[0]:
+    yb = bottom_of[col]
+    ext[yb - 2 : min(H, yb + 48), col] = True
 
 img = np.full_like(grey, 255.0)
 img[panel] = grey[panel]
