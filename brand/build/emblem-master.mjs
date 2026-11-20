@@ -1,16 +1,17 @@
 // ATHENOA emblem, vector master (Greek).
 // Maria's choices, 20 November 2026: the black-figure Athena of generation 96 (traced, see
-// trace-figure.py), the oval and dark band of 96, lettering spread round the ring as in 113, set in
-// the thin monoline capitals of generation 1 (drawn here, so no font licence is needed), and the
-// monad (circle with a point, the One) at either side.
+// trace-figure.py), the oval and dark band of 96 without an outer line, lettering wrapping the whole
+// ring as in 1 and 113 in 1's hollow geometric capitals, and the monad (circle with a point, the One)
+// at either side.
 //
 //   node brand/build/emblem-master.mjs <trace-dir>   (trace-dir holds figure.json and figure-trace.svg)
-//   -> brand/emblem/*.svg and brand/sketches/emblem-02.html
+//   -> brand/emblem/*.svg and brand/sketches/emblem-03.html
 
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { optimize } from 'svgo';
+import { create } from 'fontkitten';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const traceDir = resolve(process.argv[2] ?? resolve(here, '../emblem/src'));
@@ -90,44 +91,41 @@ function walker(e, t0, t1, N = 2400) {
   return { total, at };
 }
 
-/* ---------- Monoline capitals (cap height 1, y down), after the lettering of generation 1 ---------- */
-const circle = (cx, cy, r) => `M${cx - r},${cy}A${r},${r} 0 1 1 ${cx + r},${cy}A${r},${r} 0 1 1 ${cx - r},${cy}`;
-const ellipse = (cx, cy, rx, ry) => `M${cx - rx},${cy}A${rx},${ry} 0 1 1 ${cx + rx},${cy}A${rx},${ry} 0 1 1 ${cx - rx},${cy}`;
-const A = { w: 0.8, d: 'M0,1L0.4,0L0.8,1M0.17,0.6H0.63' };
-const E = { w: 0.56, d: 'M0.56,0H0V1H0.56M0,0.5H0.46' };
-const H = { w: 0.72, d: 'M0,0V1M0.72,0V1M0,0.5H0.72' };
-const I = { w: 0, d: 'M0,0V1' };
-const M = { w: 0.92, d: 'M0,1L0.1,0L0.46,0.72L0.82,0L0.92,1' };
-const N = { w: 0.74, d: 'M0,1V0L0.74,1V0' };
-const O = { w: 1.04, d: circle(0.52, 0.5, 0.52) };
-const T = { w: 0.76, d: 'M0,0H0.76M0.38,0V1' };
-const GLYPHS = {
-  Α: A, Ε: E, Η: H, Ι: I, Μ: M, Ν: N, Ο: O, Τ: T,
-  Θ: { w: 1.04, d: circle(0.52, 0.5, 0.52) + 'M0.3,0.5H0.74' },
-  Δ: { w: 0.84, d: 'M0,1L0.42,0L0.84,1Z' },
-  Κ: { w: 0.66, d: 'M0,0V1M0.64,0L0.02,0.55L0.66,1' },
-  Λ: { w: 0.8, d: 'M0,1L0.4,0L0.8,1' },
-  Π: { w: 0.72, d: 'M0,1V0H0.72V1' },
-  Σ: { w: 0.66, d: 'M0.66,0H0L0.38,0.5L0,1H0.66' },
-  Φ: { w: 0.88, d: 'M0.44,0V1' + ellipse(0.44, 0.5, 0.44, 0.31) },
-  Ω: { w: 1.04, d: 'M0.02,1H0.3A0.52,0.52 0 1 1 0.74,1H1.02' },
+/* ---------- Lettering: the hollow geometric capitals of generation 1 ----------
+   Didact Gothic (SIL Open Font Licence, in brand/build/fonts), which has Greek, made bolder and drawn
+   as an outline: a wide paper stroke under a narrower ink stroke of the same letter leaves only a
+   paper contour round an ink-filled letter, so on the dark band each letter reads hollow, as in 1. */
+const FONTS = {
+  latin: create(readFileSync(resolve(here, 'fonts/didact-gothic-latin-400-normal.woff2'))),
+  greek: create(readFileSync(resolve(here, 'fonts/didact-gothic-greek-400-normal.woff2'))),
 };
+const CAP = FONTS.latin.capHeight;
+const BOLD = 0.05; // how far each side of a stroke grows, in cap heights
+const LINE = 0.048; // the paper contour, in cap heights
+const glyphs = new Map();
+function glyph(ch) {
+  if (glyphs.has(ch)) return glyphs.get(ch);
+  const cp = ch.codePointAt(0);
+  const g = (cp >= 0x370 ? FONTS.greek : FONTS.latin).glyphForCodePoint(cp);
+  if (!g || !g.path.commands.length) throw new Error(`no glyph for ${ch}`);
+  const bb = g.bbox;
+  const bw = (bb.maxX - bb.minX) / CAP;
+  // place: font units (y up, baseline 0) to cap units (y down, cap top 0, baseline 1)
+  const out = { bw, w: bw + 2 * (BOLD + LINE), d: g.path.toSVG(), place: `scale(${1 / CAP} ${-1 / CAP}) translate(${-bb.minX} ${-CAP})` };
+  glyphs.set(ch, out);
+  return out;
+}
 
 // Lay a line of capitals along a walker, its first and last letters `span` apart (centre to centre),
 // with even gaps between letters and a wider gap between words.
-function letter(text, walk, h, spanFrac, wordExtra, sw) {
-  const words = text.split(' ').map((w) => [...w].map((ch) => {
-    const g = GLYPHS[ch];
-    if (!g) throw new Error(`no glyph for ${ch}`);
-    return g;
-  }));
-  const glyphs = words.flat();
-  const n = glyphs.length;
+function letter(text, walk, h, spanFrac, wordExtra) {
+  const words = text.split(' ').map((w) => [...w].map(glyph));
+  const all = words.flat();
+  const n = all.length;
   const span = walk.total * spanFrac;
-  const sumW = glyphs.reduce((s, g) => s + g.w, 0) * h;
-  const inner = sumW - (glyphs[0].w * h) / 2 - (glyphs[n - 1].w * h) / 2;
-  const spaces = words.length - 1;
-  const gap = (span - inner - spaces * wordExtra * h) / (n - 1);
+  const sumW = all.reduce((s, g) => s + g.w, 0) * h;
+  const inner = sumW - (all[0].w * h) / 2 - (all[n - 1].w * h) / 2;
+  const gap = (span - inner - (words.length - 1) * wordExtra * h) / (n - 1);
   let s = walk.total / 2 - span / 2;
   const out = [];
   let k = 0;
@@ -135,25 +133,31 @@ function letter(text, walk, h, spanFrac, wordExtra, sw) {
     word.forEach((g, gi) => {
       if (k > 0) s += gap + (gi === 0 && wi > 0 ? wordExtra * h : 0) + (g.w * h) / 2;
       const p = walk.at(s);
-      out.push(`<path d="${g.d}" stroke-width="${f(sw / h)}" transform="translate(${f(p.x)} ${f(p.y)}) rotate(${f((p.ang * 180) / Math.PI)}) scale(${h}) translate(${-g.w / 2} -0.5)"/>`);
+      out.push(`<path d="${g.d}" transform="translate(${f(p.x)} ${f(p.y)}) rotate(${f((p.ang * 180) / Math.PI)}) scale(${h}) translate(${f(-g.bw / 2)} -0.5) ${g.place}"/>`);
       s += (g.w * h) / 2;
       k++;
     });
   });
-  return { svg: out.join(''), gap: gap / h };
+  return { svg: out.join(''), gap: gap / h, h };
+}
+// The same, shrinking the letters until the gaps between them are at least `minGap` cap heights
+function fitLetter(text, walk, h, spanFrac, wordExtra, minGap) {
+  let r = letter(text, walk, h, spanFrac, wordExtra);
+  while (r.gap < minGap && h > 20) r = letter(text, walk, (h -= 1), spanFrac, wordExtra);
+  return r;
 }
 
-const TEXT = { top: 'ΑΘΕΝΟΑ', bottom: 'ΑΚΑΔΗΜΙΑ ΕΛΛΗΝΙΚΗΣ ΣΟΦΙΑΣ' };
+// Ribbon wording (Maria, 20 November 2026; logged as proposed in tasks/text-changes.md)
+const TEXT = {
+  el: { top: 'ΑΘΕΝΟΑ', bottom: 'ΑΚΑΔΗΜΙΑ ΕΛΛΗΝΙΚΗΣ ΣΟΦΙΑΣ' },
+  en: { top: 'ATHENOA', bottom: 'ACADEMY OF HELLENIC WISDOM' },
+};
 
-function emblem({ id = 'e', outerLine = false, letters = true, colours = { ink: INK, paper: PAPER } } = {}) {
+function emblem({ id = 'e', lang = 'el', letters = true, colours = { ink: INK, paper: PAPER } } = {}) {
   const { ink, paper } = colours;
-  const pad = outerLine ? 16 : 3;
+  const pad = 3;
   const vb = [C.x - OUTER.a - pad, C.y - OUTER.bt - pad, 2 * (OUTER.a + pad), OUTER.bt + OUTER.bb + 2 * pad].map(f);
   const parts = [];
-  if (outerLine) {
-    parts.push(`<path fill="${ink}" fill-rule="evenodd" d="${ring(grow(OUTER, 13), grow(OUTER, 8.5))}"/>`);
-    parts.push(`<path fill="${paper}" fill-rule="evenodd" d="${ring(grow(OUTER, 8.5), OUTER)}"/>`);
-  }
   parts.push(`<path fill="${ink}" fill-rule="evenodd" d="${ring(OUTER, BAND_IN)}"/>`);
   parts.push(`<path fill="${paper}" fill-rule="evenodd" d="${ring(BAND_IN, HAIR_OUT)}"/>`);
   parts.push(`<path fill="${ink}" fill-rule="evenodd" d="${ring(HAIR_OUT, HAIR_IN)}"/>`);
@@ -161,9 +165,14 @@ function emblem({ id = 'e', outerLine = false, letters = true, colours = { ink: 
   parts.push(`<clipPath id="${id}-panel"><path d="${eggPath(HAIR_IN)}"/></clipPath>`);
   parts.push(`<g clip-path="url(#${id}-panel)" fill="${ink}">${figure}</g>`);
   if (letters) {
-    const top = letter(TEXT.top, walker(MID, -Math.PI, 0), 56, 0.55, 0, 5.2);
-    const bottom = letter(TEXT.bottom, walker(MID, Math.PI, 0), 39, 0.74, 0.55, 3.9);
-    parts.push(`<g fill="none" stroke="${paper}" stroke-linecap="round" stroke-linejoin="round">${top.svg}${bottom.svg}</g>`);
+    // Full wrap, as in 1: each line runs round a whole half of the ring, from monad to monad
+    const top = fitLetter(TEXT[lang].top, walker(MID, -Math.PI, 0), 66, 0.86, 0, 0.3);
+    const bottom = fitLetter(TEXT[lang].bottom, walker(MID, Math.PI, 0), 46, 0.86, 0.5, 0.24);
+    const stroke = (w) => `stroke-width="${f(w * CAP)}" stroke-linejoin="miter" stroke-miterlimit="3"`;
+    parts.push(`<defs><g id="${id}-letters">${top.svg}${bottom.svg}</g></defs>`);
+    parts.push(`<use href="#${id}-letters" fill="${paper}" stroke="${paper}" ${stroke(2 * (BOLD + LINE))}/>`);
+    parts.push(`<use href="#${id}-letters" fill="${ink}" stroke="${ink}" ${stroke(2 * BOLD)}/>`);
+    console.log(`${lang}: top ${top.h} (gap ${f(top.gap)}), bottom ${bottom.h} (gap ${f(bottom.gap)})`);
   }
   const L = point(MID, Math.PI);
   const R = point(MID, 0);
@@ -173,24 +182,35 @@ function emblem({ id = 'e', outerLine = false, letters = true, colours = { ink: 
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb.join(' ')}" role="img" aria-label="ATHENOA">${parts.join('')}</svg>`;
 }
 
+// The favicon: her helmeted head inside a ring, cut from the same drawing (the whole figure is a
+// smudge below about 40 px)
+const HEAD = { x: 458, y: 286, r: 132, band: 22 };
+function favicon({ id = 'fav', colours = { ink: INK, paper: PAPER } } = {}) {
+  const { ink, paper } = colours;
+  const { x, y, r, band } = HEAD;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${x - r} ${y - r} ${2 * r} ${2 * r}" role="img" aria-label="ATHENOA">` +
+    `<circle cx="${x}" cy="${y}" r="${r}" fill="${ink}"/><circle cx="${x}" cy="${y}" r="${r - band}" fill="${paper}"/>` +
+    `<clipPath id="${id}-c"><circle cx="${x}" cy="${y}" r="${r - band}"/></clipPath>` +
+    `<g clip-path="url(#${id}-c)" fill="${ink}">${figure}</g></svg>`;
+}
+
 /* ---------- Files ---------- */
 const outDir = resolve(here, '../emblem');
 mkdirSync(outDir, { recursive: true });
-const header = '<!-- ATHENOA emblem. Athena traced from a Higgsfield generation chosen by Maria; lettering drawn as monoline strokes (no font). Built by brand/build/emblem-master.mjs -->\n';
-const svgoConfig = { multipass: true, floatPrecision: 2, plugins: [{ name: 'preset-default', params: { overrides: { cleanupIds: false } } }] };
+const header = '<!-- ATHENOA emblem. Athena traced from a Higgsfield generation chosen by Maria; lettering in Didact Gothic (SIL Open Font Licence) as hollow outlines. Built by brand/build/emblem-master.mjs -->\n';
+// applyTransforms off: the letters take their stroke from <use>, which svgo cannot see, so baking
+// their transforms into the paths would leave the strokes at the wrong scale
+const svgoConfig = { multipass: true, floatPrecision: 2, plugins: [{ name: 'preset-default', params: { overrides: { cleanupIds: false, convertPathData: { applyTransforms: false } } } }] };
 const write = (name, svg) => writeFileSync(resolve(outDir, name), header + optimize(svg, svgoConfig).data + '\n');
-write('athenoa-emblem-el.svg', emblem({ id: 'el' }));
-write('athenoa-emblem-el-outline.svg', emblem({ id: 'elo', outerLine: true }));
+write('athenoa-emblem-el.svg', emblem({ id: 'el', lang: 'el' }));
+write('athenoa-emblem-en.svg', emblem({ id: 'en', lang: 'en' }));
 write('athenoa-mark.svg', emblem({ id: 'mk', letters: false }));
+write('athenoa-favicon.svg', favicon({ id: 'fav' }));
 
 /* ---------- Preview page ---------- */
 // The page shows the written files (no copies inlined), so it stays small
 const img = (file, h) => `<img src="../emblem/${file}" alt="" style="height:${h}px;width:auto;display:block">`;
-const A1 = 'athenoa-emblem-el.svg';
-const B1 = 'athenoa-emblem-el-outline.svg';
-const at = (file, h) => img(file, h);
-const mark = (h) => img('athenoa-mark.svg', h);
-const page = `<!doctype html><html lang="el"><head><meta charset="utf-8"><title>ATHENOA emblem, master 02</title>
+const page = `<!doctype html><html lang="el"><head><meta charset="utf-8"><title>ATHENOA emblem, master 03</title>
 <style>
 @font-face { font-family: 'EBG'; src: url('../../node_modules/@fontsource-variable/eb-garamond/files/eb-garamond-latin-wght-normal.woff2') format('woff2'); font-weight: 400 800; }
 @font-face { font-family: 'Disp'; src: url('../../node_modules/@fontsource-variable/noto-serif-display/files/noto-serif-display-latin-standard-normal.woff2') format('woff2-variations'); font-weight: 100 900; font-stretch: 62.5% 100%; }
@@ -205,22 +225,26 @@ h2 { font: 400 14px/1 'EBG'; letter-spacing: .14em; text-transform: uppercase; m
 .bar.night { background: #080d42; box-shadow: none; }
 .bar span { font: 400 30px/1 'Disp'; font-stretch: 75%; letter-spacing: .06em; color: #0b1c8c; }
 .bar.night span { color: #f2e9d3; }
+.tab { display: flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 10px 10px 0 0; background: #fff; font: 13px/1 -apple-system, sans-serif; color: #333; width: 220px; }
 </style></head><body><main>
-<h1>ATHENOA emblem, vector master 02</h1>
-<p>Athena traced from 96; the oval and band rebuilt to 96's measures; lettering spread round the ring as in 113, in the thin monoline capitals of 1; a monad at either side.</p>
-<h2>Large: without and with the outer line of 113</h2>
-<div class="row"><div class="cell">${at(A1, 560)}without</div><div class="cell">${at(B1, 560)}with the outer line</div></div>
+<h1>ATHENOA emblem, vector master 03</h1>
+<p>Athena traced from 96 and the oval rebuilt to its measures; the lettering wraps the whole ring as in 1 and 113, in 1's hollow geometric capitals (Didact Gothic, open licence, outlined); a monad at either side.</p>
+<h2>Greek and English</h2>
+<div class="row"><div class="cell">${img('athenoa-emblem-el.svg', 560)}Greek</div><div class="cell">${img('athenoa-emblem-en.svg', 560)}English</div></div>
 <h2>Sizes</h2>
-<div class="row">${[240, 160, 96].map((h) => `<div class="cell">${at(A1, h)}${h} px</div>`).join('')}
-${[96, 56, 32, 16].map((h) => `<div class="cell">${mark(h)}mark, ${h} px</div>`).join('')}</div>
+<div class="row">${[240, 160, 96].map((h) => `<div class="cell">${img('athenoa-emblem-el.svg', h)}${h} px</div>`).join('')}
+${[96, 56].map((h) => `<div class="cell">${img('athenoa-mark.svg', h)}mark, ${h} px</div>`).join('')}</div>
 <h2>Header, 56 px</h2>
 <div class="row" style="flex-direction:column;align-items:flex-start;gap:14px">
-<div class="bar">${at(A1, 56)}<span>ATHENOA</span></div>
-<div class="bar">${mark(56)}<span>ATHENOA</span></div>
-<div class="bar sky">${mark(56)}<span>ATHENOA</span></div>
-<div class="bar night">${mark(56)}<span>ATHENOA</span></div>
+<div class="bar">${img('athenoa-emblem-el.svg', 56)}<span>ATHENOA</span></div>
+<div class="bar">${img('athenoa-mark.svg', 56)}<span>ATHENOA</span></div>
+<div class="bar sky">${img('athenoa-mark.svg', 56)}<span>ATHENOA</span></div>
+<div class="bar night">${img('athenoa-mark.svg', 56)}<span>ATHENOA</span></div>
 </div>
+<h2>Favicon</h2>
+<div class="row">${[180, 96, 48, 32, 16].map((h) => `<div class="cell">${img('athenoa-favicon.svg', h)}${h} px</div>`).join('')}
+<div class="cell"><div class="tab">${img('athenoa-favicon.svg', 16)}ATHENOA | Study at the…</div>in a browser tab</div></div>
 </main></body></html>`;
 mkdirSync(resolve(here, '../sketches'), { recursive: true });
-writeFileSync(resolve(here, '../sketches/emblem-02.html'), page);
-console.log('wrote brand/emblem/*.svg and brand/sketches/emblem-02.html');
+writeFileSync(resolve(here, '../sketches/emblem-03.html'), page);
+console.log('wrote brand/emblem/*.svg and brand/sketches/emblem-03.html');
