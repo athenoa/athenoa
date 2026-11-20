@@ -274,3 +274,12 @@ At the client's request, the GitHub Pages preview opens behind a gate: the newsl
 | The right answer (all languages) | Εἴσελθε. | same |
 
 The inscription is the sign said to have stood over Plato's Academy, ἀγεωμέτρητος μηδεὶς εἰσίτω ("let no one ignorant of geometry enter"), with the Mysteries' word for the uninitiated in place of geometry. The refusal is Plato, Phaedo 69c, quoting the Mysteries ("many carry the wand, few are Bacchants"); the welcome means "enter". The riddle is Athena's reading of the word hero: ἥρως comes from ἔρως, and without eros no one can walk the heroic path (talk xLQXoDX7i94, 12:51). The answer passes as eros, erota, erotas (also erws, erwta, erwtas) or έρως, έρωτα, έρωτας, with or without accents and in capitals. It replaced "Ethics is an anagram of ___." (Ithaca). The Ancient Greek draft has «Ἓν ῥῆμα» and «Κροῦε», with Athena's line in modern Greek. Adding ?relock to any address forgets that browser's pass, to see the gate again.
+
+## Logo emblem lettering (brand chat, proposed)
+
+The new emblem (Bureau Veritas structure, chosen by Maria on 20 November 2026) carries a ribbon of lettering around the statue of Athena. Proposed, not yet on the site.
+
+| Part | Wording | Note |
+| --- | --- | --- |
+| Top of the ribbon | ΑΘΕΝΟΑ | Greek capitals, spelled with an epsilon as on Athena's own hero image (ΑΘΗΝΟΑ would be the usual spelling: to confirm with her) |
+| Foot of the ribbon, proposed by Maria | ΕΛΛΗΝΙΚΗ ΣΟΦΙΑ ("Hellenic wisdom") | Fallback if too long: ΑΚΑΔΗΜΙΑ. Replaces the earlier sketch's PLATONIC ACADEMY |
