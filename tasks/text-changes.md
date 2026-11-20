@@ -282,4 +282,4 @@ The new emblem (Bureau Veritas structure, chosen by Maria on 20 November 2026) c
 | Part | Wording | Note |
 | --- | --- | --- |
 | Top of the ribbon | ΑΘΕΝΟΑ | Greek capitals, spelled with an epsilon as on Athena's own hero image (ΑΘΗΝΟΑ would be the usual spelling: to confirm with her) |
-| Foot of the ribbon, proposed by Maria | ΕΛΛΗΝΙΚΗ ΣΟΦΙΑ ("Hellenic wisdom") | Fallback if too long: ΑΚΑΔΗΜΙΑ. Replaces the earlier sketch's PLATONIC ACADEMY |
+| Foot of the ribbon, proposed by Maria | ΑΚΑΔΗΜΙΑ ΕΛΛΗΝΙΚΗΣ ΣΟΦΙΑΣ ("Academy of Hellenic Wisdom") | Replaces ΕΛΛΗΝΙΚΗ ΣΟΦΙΑ (round 2) and the first sketch's PLATONIC ACADEMY. An English version follows once the Greek is settled |
