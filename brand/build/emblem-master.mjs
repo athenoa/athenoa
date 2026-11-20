@@ -5,8 +5,8 @@
 //   never a perfect oval, and organic: the edges waver very slightly and are a touch rough
 // - the black-figure Athena of 96 (traced, trace-figure.py), rising from behind the dark band
 // - no thin line between band and panel
-// - the classical inscription capitals of generation 00 and of round 3 (70-77): Cardo, SIL Open Font
-//   Licence, with Greek (brand/build/fonts), at its own weight, with clear blue above and below
+// - the lettering the image model draws (round 3), harvested letter by letter from generations 121 and
+//   123 (harvest-letters.py) and set on this ring, with clear blue above and below
 // - a wider band; ΑΘΕΝΟΑ spread over about a third of the ring, the foot line round the rest, with a
 //   monad (circle with a point, the One) in each of the two gaps
 // The SVGs are the working source; the finished emblem is delivered as PNG (brand/emblem/png).
@@ -17,7 +17,6 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { create } from 'fontkitten';
 import { chromium } from 'playwright-core';
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -107,40 +106,32 @@ const RING = (() => {
   return { L, at };
 })();
 
-/* ---------- Lettering: classical inscription capitals (Cardo, open licence, has Greek) ---------- */
-const FONTS = {
-  latin: create(readFileSync(resolve(here, 'fonts/cardo-latin-400-normal.woff2'))),
-  greek: create(readFileSync(resolve(here, 'fonts/cardo-greek-400-normal.woff2'))),
+/* ---------- Lettering: the image model's own capitals ----------
+   Maria wants the lettering the image generator draws (round 3). harvest-letters.py took one clean copy
+   of each letter from generations 121 (Greek) and 123 (Latin), turned it upright and traced it; here
+   the letters are set on this emblem's ring, so spelling, shape and spacing stay exact. */
+const LETTERS = Object.fromEntries(['el', 'en'].map((l) => [l, JSON.parse(readFileSync(resolve(srcDir, `letters-${l}.json`), 'utf8')).glyphs]));
+const glyphOf = (lang) => (ch) => {
+  const g = LETTERS[lang][ch];
+  if (!g) throw new Error(`no harvested letter for ${ch} (${lang})`);
+  return { bw: g.w, svg: g.svg };
 };
-const CAP = FONTS.latin.capHeight;
-const glyphCache = new Map();
-function glyph(ch) {
-  if (glyphCache.has(ch)) return glyphCache.get(ch);
-  const cp = ch.codePointAt(0);
-  const g = (cp >= 0x370 ? FONTS.greek : FONTS.latin).glyphForCodePoint(cp);
-  if (!g || !g.path.commands.length) throw new Error(`no glyph for ${ch}`);
-  const bb = g.bbox;
-  const out = { bw: (bb.maxX - bb.minX) / CAP, d: g.path.toSVG(), place: `scale(${1 / CAP} ${-1 / CAP}) translate(${-bb.minX} ${-CAP})` };
-  glyphCache.set(ch, out);
-  return out;
-}
 // A run of words along the ring, centred at arc position `centre`, reading clockwise (dir 1, the top)
 // or anticlockwise (dir -1, the foot, so its letters stand upright).
-function run(text, centre, dir, h, track, word, bold) {
-  const words = text.split(' ').map((w) => [...w].map(glyph));
-  const w = (g) => g.bw + 2 * bold;
+function run(text, lang, centre, dir, h, track, word) {
+  const words = text.split(' ').map((w) => [...w].map(glyphOf(lang)));
   const n = words.flat().length;
-  const length = h * (words.flat().reduce((s, g) => s + w(g), 0) + (n - 1) * track + (words.length - 1) * word);
+  const length = h * (words.flat().reduce((s, g) => s + g.bw, 0) + (n - 1) * track + (words.length - 1) * word);
   let s = centre - (dir * length) / 2;
   const out = [];
   words.forEach((wd, wi) => {
     if (wi > 0) s += dir * h * (track + word);
     wd.forEach((g, gi) => {
       if (gi > 0) s += dir * h * track;
-      const p = RING.at(s + (dir * h * w(g)) / 2);
+      const p = RING.at(s + (dir * h * g.bw) / 2);
       const ang = (p.ang * 180) / Math.PI + (dir < 0 ? 180 : 0);
-      out.push(`<path d="${g.d}" transform="translate(${f(p.x)} ${f(p.y)}) rotate(${f(ang)}) scale(${h}) translate(${f(-g.bw / 2)} -0.5) ${g.place}"/>`);
-      s += dir * h * w(g);
+      out.push(`<g transform="translate(${f(p.x)} ${f(p.y)}) rotate(${f(ang)}) scale(${h}) translate(${f(-g.bw / 2)} -0.5)">${g.svg}</g>`);
+      s += dir * h * g.bw;
     });
   });
   return { svg: out.join(''), length };
@@ -153,7 +144,7 @@ const TEXT = {
 };
 // ΑΘΕΝΟΑ spread over `topShare` of the ring; the foot line spaced to fill the rest but for two gaps of
 // `gap`, one monad in each. Cap heights about half the band's depth, so the letters have room.
-const TYPE = { topH: 80, topShare: 0.28, footH: 60, word: 0.55, gap: 140, bold: 0 };
+const TYPE = { topH: 80, topShare: 0.28, footH: 60, word: 0.55, gap: 140 };
 
 // A rough edge, as if cut and printed: the same technique as the site's #rough, much finer. The band,
 // the panel's edge and the letters get `rough`; Athena gets `rough-fine`, so her rays stay whole.
@@ -162,7 +153,7 @@ const ROUGH = [
   ['rough-fine', '0.09 0.1', 1.1, 13],
 ].map(([id, freq, scale, seed]) => `<filter id="${id}" filterUnits="userSpaceOnUse" x="-60" y="-80" width="1100" height="1280" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="${freq}" numOctaves="2" seed="${seed}" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="${scale}" xChannelSelector="R" yChannelSelector="G"/></filter>`).join('');
 
-function emblem({ id = 'e', lang = 'el', letters = true, bold = TYPE.bold, rough = true } = {}) {
+function emblem({ id = 'e', lang = 'el', letters = true, rough = true } = {}) {
   const pad = 18;
   const vb = [C.x - OUTER.a - pad, C.y - OUTER.top.b - pad, 2 * (OUTER.a + pad), OUTER.top.b + OUTER.bottom.b + 2 * pad].map(f);
   const parts = [];
@@ -176,17 +167,16 @@ function emblem({ id = 'e', lang = 'el', letters = true, bold = TYPE.bold, rough
     // spacing that makes a line `length` long
     const spaced = (text, length, h) => {
       const n = text.replace(/ /g, '').length;
-      const base = run(text, 0, 1, h, 0, TYPE.word, bold).length;
+      const base = run(text, lang, 0, 1, h, 0, TYPE.word).length;
       return (length - base) / ((n - 1) * h);
     };
     const topTrack = spaced(t.top, TYPE.topShare * RING.L, TYPE.topH);
-    const top = run(t.top, 0, 1, TYPE.topH, topTrack, TYPE.word, bold);
+    const top = run(t.top, lang, 0, 1, TYPE.topH, topTrack, TYPE.word);
     const footTrack = spaced(t.bottom, RING.L - top.length - 2 * TYPE.gap, TYPE.footH);
-    const foot = run(t.bottom, RING.L / 2, -1, TYPE.footH, footTrack, TYPE.word, bold);
+    const foot = run(t.bottom, lang, RING.L / 2, -1, TYPE.footH, footTrack, TYPE.word);
     const gap = (RING.L - top.length - foot.length) / 2;
     console.log(`${id}: letter spacing, top ${f(topTrack)}, foot ${f(footTrack)} cap heights`);
-    const strokeW = bold ? ` stroke="${PAPER}" stroke-width="${f(2 * bold * CAP)}" stroke-linejoin="miter" stroke-miterlimit="3"` : '';
-    parts.push(`<g fill="${PAPER}"${strokeW}>${top.svg}${foot.svg}</g>`);
+    parts.push(`<g fill="${PAPER}">${top.svg}${foot.svg}</g>`);
     // a monad in the middle of each gap
     for (const s of [top.length / 2 + gap / 2, -(top.length / 2 + gap / 2)]) {
       const p = RING.at(s);
@@ -211,7 +201,7 @@ function favicon({ id = 'fav' } = {}) {
 }
 
 /* ---------- Files ---------- */
-const header = '<!-- ATHENOA emblem, working source. Athena traced from a Higgsfield generation chosen by Maria; lettering in Cardo (SIL Open Font Licence). The finished emblem is the PNGs in brand/emblem/png. Built by brand/build/emblem-master.mjs -->\n';
+const header = '<!-- ATHENOA emblem, working source. Athena traced from a Higgsfield generation chosen by Maria; lettering harvested from the image generator capitals. The finished emblem is the PNGs in brand/emblem/png. Built by brand/build/emblem-master.mjs -->\n';
 const svgs = {
   'athenoa-emblem-el.svg': emblem({ id: 'el', lang: 'el' }),
   'athenoa-emblem-en.svg': emblem({ id: 'en', lang: 'en' }),
@@ -263,7 +253,7 @@ h2 { font: 400 14px/1 'EBG'; letter-spacing: .14em; text-transform: uppercase; m
 .bar.night span { color: #f2e9d3; }
 </style></head><body><main>
 <h1>ATHENOA emblem, 05</h1>
-<p>The shape of 5 and 41 to 46, slightly uneven and rough at the edge; a wider band; the classical inscription capitals of 00 and round 3 (Cardo) with room above and below; ΑΘΕΝΟΑ over about a third of the ring and the foot line round the rest, a monad in each gap.</p>
+<p>The shape of 5 and 41 to 46, slightly uneven and rough at the edge; a wider band; the image model's own capitals (as in round 3), set exactly with room above and below; ΑΘΕΝΟΑ over about a third of the ring and the foot line round the rest, a monad in each gap.</p>
 <h2>Greek and English, beside round 3 (70), whose lettering Maria chose</h2>
 <div class="row"><div class="cell">${img('emblem-el-1080.png', 560)}Greek</div><div class="cell">${img('emblem-en-1080.png', 560)}English</div>
 <div class="cell"><img src="ref-round3-lettering.png" alt="" style="height:560px;width:auto;display:block">round 3 (70)</div></div>
