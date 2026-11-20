@@ -5,8 +5,8 @@
 //   never a perfect oval, and organic: the edges waver very slightly and are a touch rough
 // - the black-figure Athena of 96 (traced, trace-figure.py), rising from behind the dark band
 // - no thin line between band and panel
-// - the classical inscription capitals of generation 00 (the first image Maria liked): EB Garamond,
-//   SIL Open Font Licence, with Greek (brand/build/fonts), with clear blue above and below the letters
+// - the classical inscription capitals of generation 00 and of round 3 (70-77): Cardo, SIL Open Font
+//   Licence, with Greek (brand/build/fonts), at its own weight, with clear blue above and below
 // - a wider band; ΑΘΕΝΟΑ spread over about a third of the ring, the foot line round the rest, with a
 //   monad (circle with a point, the One) in each of the two gaps
 // The SVGs are the working source; the finished emblem is delivered as PNG (brand/emblem/png).
@@ -107,10 +107,10 @@ const RING = (() => {
   return { L, at };
 })();
 
-/* ---------- Lettering: classical inscription capitals (EB Garamond, open licence, has Greek) ---------- */
+/* ---------- Lettering: classical inscription capitals (Cardo, open licence, has Greek) ---------- */
 const FONTS = {
-  latin: create(readFileSync(resolve(here, 'fonts/eb-garamond-latin-wght-normal.woff2'))),
-  greek: create(readFileSync(resolve(here, 'fonts/eb-garamond-greek-wght-normal.woff2'))),
+  latin: create(readFileSync(resolve(here, 'fonts/cardo-latin-400-normal.woff2'))),
+  greek: create(readFileSync(resolve(here, 'fonts/cardo-greek-400-normal.woff2'))),
 };
 const CAP = FONTS.latin.capHeight;
 const glyphCache = new Map();
@@ -153,7 +153,7 @@ const TEXT = {
 };
 // ΑΘΕΝΟΑ spread over `topShare` of the ring; the foot line spaced to fill the rest but for two gaps of
 // `gap`, one monad in each. Cap heights about half the band's depth, so the letters have room.
-const TYPE = { topH: 70, topShare: 0.31, footH: 56, word: 0.6, gap: 170, bold: 0.012 };
+const TYPE = { topH: 80, topShare: 0.28, footH: 60, word: 0.55, gap: 140, bold: 0 };
 
 // A rough edge, as if cut and printed: the same technique as the site's #rough, much finer. The band,
 // the panel's edge and the letters get `rough`; Athena gets `rough-fine`, so her rays stay whole.
@@ -211,7 +211,7 @@ function favicon({ id = 'fav' } = {}) {
 }
 
 /* ---------- Files ---------- */
-const header = '<!-- ATHENOA emblem, working source. Athena traced from a Higgsfield generation chosen by Maria; lettering in EB Garamond (SIL Open Font Licence). The finished emblem is the PNGs in brand/emblem/png. Built by brand/build/emblem-master.mjs -->\n';
+const header = '<!-- ATHENOA emblem, working source. Athena traced from a Higgsfield generation chosen by Maria; lettering in Cardo (SIL Open Font Licence). The finished emblem is the PNGs in brand/emblem/png. Built by brand/build/emblem-master.mjs -->\n';
 const svgs = {
   'athenoa-emblem-el.svg': emblem({ id: 'el', lang: 'el' }),
   'athenoa-emblem-en.svg': emblem({ id: 'en', lang: 'en' }),
@@ -263,10 +263,10 @@ h2 { font: 400 14px/1 'EBG'; letter-spacing: .14em; text-transform: uppercase; m
 .bar.night span { color: #f2e9d3; }
 </style></head><body><main>
 <h1>ATHENOA emblem, 05</h1>
-<p>The shape of 5 and 41 to 46, slightly uneven and rough at the edge; a wider band; the classical inscription capitals of 00 (EB Garamond) with room above and below; ΑΘΕΝΟΑ over about a third of the ring and the foot line round the rest, a monad in each gap.</p>
-<h2>Greek and English, beside the lettering of 00</h2>
+<p>The shape of 5 and 41 to 46, slightly uneven and rough at the edge; a wider band; the classical inscription capitals of 00 and round 3 (Cardo) with room above and below; ΑΘΕΝΟΑ over about a third of the ring and the foot line round the rest, a monad in each gap.</p>
+<h2>Greek and English, beside round 3 (70), whose lettering Maria chose</h2>
 <div class="row"><div class="cell">${img('emblem-el-1080.png', 560)}Greek</div><div class="cell">${img('emblem-en-1080.png', 560)}English</div>
-<div class="cell"><img src="ref-00-lettering.png" alt="" style="width:420px;height:auto;display:block">the lettering of 00</div></div>
+<div class="cell"><img src="ref-round3-lettering.png" alt="" style="height:560px;width:auto;display:block">round 3 (70)</div></div>
 <h2>Sizes</h2>
 <div class="row"><div class="cell">${img('emblem-el-1080.png', 240)}240 px</div><div class="cell">${img('emblem-el-192.png', 96)}footer, 96 px</div><div class="cell">${img('mark-112.png', 56)}header mark, 56 px</div></div>
 <h2>Header, 56 px</h2>
