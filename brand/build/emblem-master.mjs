@@ -5,13 +5,14 @@
 //   never a perfect oval, and organic: the edges waver very slightly and are a touch rough
 // - the black-figure Athena of 96 (traced, trace-figure.py), rising from behind the dark band
 // - no thin line between band and panel
-// - solid geometric capitals (Didact Gothic, SIL Open Font Licence, brand/build/fonts)
-// - ΑΘΕΝΟΑ set close; the foot line wraps on past halfway, so together they go all the way round,
-//   with a monad (circle with a point, the One) in each of the two gaps
+// - the classical inscription capitals of generation 00 (the first image Maria liked): EB Garamond,
+//   SIL Open Font Licence, with Greek (brand/build/fonts), with clear blue above and below the letters
+// - a wider band; ΑΘΕΝΟΑ spread over about a third of the ring, the foot line round the rest, with a
+//   monad (circle with a point, the One) in each of the two gaps
 // The SVGs are the working source; the finished emblem is delivered as PNG (brand/emblem/png).
 //
 //   node brand/build/emblem-master.mjs
-//   -> brand/emblem/*.svg, brand/emblem/png/*.png, brand/sketches/emblem-04.html
+//   -> brand/emblem/*.svg, brand/emblem/png/*.png, brand/sketches/emblem-05.html
 
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
@@ -41,10 +42,10 @@ const figure = `<g transform="translate(${ox} ${oy}) scale(${1 / meta.bitmap_sca
 const C = { x: meta.centre[0], y: meta.centre[1] };
 const half = (b, mx, ny) => ({ b, mx, ny });
 const shape = (a, top, bottom, waver = null) => ({ a, top, bottom, waver });
-const OUTER = shape(431, half(556, 2.15, 2.6), half(556, 2.1, 2.2), { seed: 3, amp: 0.0042 });
+const OUTER = shape(449, half(576, 2.15, 2.6), half(576, 2.1, 2.2), { seed: 3, amp: 0.0042 });
 const PANEL = shape(334, half(445, 2.0, 2.7), half(445, 2.0, 2.37), { seed: 9, amp: 0.0048 });
 const grow = (e, d) => ({ ...e, a: e.a + d, top: { ...e.top, b: e.top.b + d }, bottom: { ...e.bottom, b: e.bottom.b + d } });
-const MID = shape(382.5, half(500.5, 2.08, 2.65), half(500.5, 2.05, 2.3)); // centre line of the lettering
+const MID = shape(391.5, half(510.5, 2.08, 2.65), half(510.5, 2.05, 2.29)); // centre line of the lettering
 
 function rand(seed) {
   let s = seed * 9301 + 49297;
@@ -106,10 +107,10 @@ const RING = (() => {
   return { L, at };
 })();
 
-/* ---------- Lettering: solid geometric capitals (Didact Gothic, open licence, has Greek) ---------- */
+/* ---------- Lettering: classical inscription capitals (EB Garamond, open licence, has Greek) ---------- */
 const FONTS = {
-  latin: create(readFileSync(resolve(here, 'fonts/didact-gothic-latin-400-normal.woff2'))),
-  greek: create(readFileSync(resolve(here, 'fonts/didact-gothic-greek-400-normal.woff2'))),
+  latin: create(readFileSync(resolve(here, 'fonts/eb-garamond-latin-wght-normal.woff2'))),
+  greek: create(readFileSync(resolve(here, 'fonts/eb-garamond-greek-wght-normal.woff2'))),
 };
 const CAP = FONTS.latin.capHeight;
 const glyphCache = new Map();
@@ -150,8 +151,9 @@ const TEXT = {
   el: { top: 'ΑΘΕΝΟΑ', bottom: 'ΑΚΑΔΗΜΙΑ ΕΛΛΗΝΙΚΗΣ ΣΟΦΙΑΣ' },
   en: { top: 'ATHENOA', bottom: 'ACADEMY OF HELLENIC WISDOM' },
 };
-// ΑΘΕΝΟΑ set close; the foot line spaced to fill the ring but for two gaps of `gap`, one monad in each
-const TYPE = { topH: 66, topTrack: 0.26, footH: 66, word: 0.55, gap: 280 };
+// ΑΘΕΝΟΑ spread over `topShare` of the ring; the foot line spaced to fill the rest but for two gaps of
+// `gap`, one monad in each. Cap heights about half the band's depth, so the letters have room.
+const TYPE = { topH: 70, topShare: 0.31, footH: 56, word: 0.6, gap: 170, bold: 0.012 };
 
 // A rough edge, as if cut and printed: the same technique as the site's #rough, much finer. The band,
 // the panel's edge and the letters get `rough`; Athena gets `rough-fine`, so her rays stay whole.
@@ -160,7 +162,7 @@ const ROUGH = [
   ['rough-fine', '0.09 0.1', 1.1, 13],
 ].map(([id, freq, scale, seed]) => `<filter id="${id}" filterUnits="userSpaceOnUse" x="-60" y="-80" width="1100" height="1280" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="${freq}" numOctaves="2" seed="${seed}" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="${scale}" xChannelSelector="R" yChannelSelector="G"/></filter>`).join('');
 
-function emblem({ id = 'e', lang = 'el', letters = true, bold = 0, rough = true } = {}) {
+function emblem({ id = 'e', lang = 'el', letters = true, bold = TYPE.bold, rough = true } = {}) {
   const pad = 18;
   const vb = [C.x - OUTER.a - pad, C.y - OUTER.top.b - pad, 2 * (OUTER.a + pad), OUTER.top.b + OUTER.bottom.b + 2 * pad].map(f);
   const parts = [];
@@ -171,14 +173,18 @@ function emblem({ id = 'e', lang = 'el', letters = true, bold = 0, rough = true 
   parts.push(`<g clip-path="url(#${id}-panel)" fill="${INK}"><g${rough ? ' filter="url(#rough-fine)"' : ''}>${figure}</g></g>`);
   if (letters) {
     const t = TEXT[lang];
-    const top = run(t.top, 0, 1, TYPE.topH, TYPE.topTrack, TYPE.word, bold);
-    const footLength = RING.L - top.length - 2 * TYPE.gap;
-    const nFoot = t.bottom.replace(/ /g, '').length;
-    const base = run(t.bottom, 0, -1, TYPE.footH, 0, TYPE.word, bold).length;
-    const footTrack = (footLength - base) / ((nFoot - 1) * TYPE.footH);
+    // spacing that makes a line `length` long
+    const spaced = (text, length, h) => {
+      const n = text.replace(/ /g, '').length;
+      const base = run(text, 0, 1, h, 0, TYPE.word, bold).length;
+      return (length - base) / ((n - 1) * h);
+    };
+    const topTrack = spaced(t.top, TYPE.topShare * RING.L, TYPE.topH);
+    const top = run(t.top, 0, 1, TYPE.topH, topTrack, TYPE.word, bold);
+    const footTrack = spaced(t.bottom, RING.L - top.length - 2 * TYPE.gap, TYPE.footH);
     const foot = run(t.bottom, RING.L / 2, -1, TYPE.footH, footTrack, TYPE.word, bold);
     const gap = (RING.L - top.length - foot.length) / 2;
-    console.log(`${id}: foot letter spacing ${f(footTrack)} cap heights`);
+    console.log(`${id}: letter spacing, top ${f(topTrack)}, foot ${f(footTrack)} cap heights`);
     const strokeW = bold ? ` stroke="${PAPER}" stroke-width="${f(2 * bold * CAP)}" stroke-linejoin="miter" stroke-miterlimit="3"` : '';
     parts.push(`<g fill="${PAPER}"${strokeW}>${top.svg}${foot.svg}</g>`);
     // a monad in the middle of each gap
@@ -205,12 +211,10 @@ function favicon({ id = 'fav' } = {}) {
 }
 
 /* ---------- Files ---------- */
-const header = '<!-- ATHENOA emblem, working source. Athena traced from a Higgsfield generation chosen by Maria; lettering in Didact Gothic (SIL Open Font Licence). The finished emblem is the PNGs in brand/emblem/png. Built by brand/build/emblem-master.mjs -->\n';
+const header = '<!-- ATHENOA emblem, working source. Athena traced from a Higgsfield generation chosen by Maria; lettering in EB Garamond (SIL Open Font Licence). The finished emblem is the PNGs in brand/emblem/png. Built by brand/build/emblem-master.mjs -->\n';
 const svgs = {
   'athenoa-emblem-el.svg': emblem({ id: 'el', lang: 'el' }),
   'athenoa-emblem-en.svg': emblem({ id: 'en', lang: 'en' }),
-  'athenoa-emblem-el-bold.svg': emblem({ id: 'elb', lang: 'el', bold: 0.035 }),
-  'athenoa-emblem-en-bold.svg': emblem({ id: 'enb', lang: 'en', bold: 0.035 }),
   'athenoa-mark.svg': emblem({ id: 'mk', letters: false }),
   'athenoa-favicon.svg': favicon(),
 };
@@ -221,8 +225,6 @@ for (const [name, svg] of Object.entries(svgs)) writeFileSync(resolve(outDir, na
 const EXPORTS = [
   ['athenoa-emblem-el.svg', 'emblem-el-1080.png', 1080],
   ['athenoa-emblem-en.svg', 'emblem-en-1080.png', 1080],
-  ['athenoa-emblem-el-bold.svg', 'emblem-el-bold-1080.png', 1080],
-  ['athenoa-emblem-en-bold.svg', 'emblem-en-bold-1080.png', 1080],
   ['athenoa-emblem-el.svg', 'emblem-el-192.png', 192],
   ['athenoa-emblem-en.svg', 'emblem-en-192.png', 192],
   ['athenoa-mark.svg', 'mark-112.png', 112],
@@ -244,7 +246,7 @@ await browser.close();
 
 /* ---------- Preview page ---------- */
 const img = (file, h) => `<img src="../emblem/png/${file}" alt="" style="height:${h}px;width:auto;display:block">`;
-const html = `<!doctype html><html lang="el"><head><meta charset="utf-8"><title>ATHENOA emblem, 04</title>
+const html = `<!doctype html><html lang="el"><head><meta charset="utf-8"><title>ATHENOA emblem, 05</title>
 <style>
 @font-face { font-family: 'EBG'; src: url('../../node_modules/@fontsource-variable/eb-garamond/files/eb-garamond-latin-wght-normal.woff2') format('woff2'); font-weight: 400 800; }
 @font-face { font-family: 'Disp'; src: url('../../node_modules/@fontsource-variable/noto-serif-display/files/noto-serif-display-latin-standard-normal.woff2') format('woff2-variations'); font-weight: 100 900; font-stretch: 62.5% 100%; }
@@ -260,11 +262,11 @@ h2 { font: 400 14px/1 'EBG'; letter-spacing: .14em; text-transform: uppercase; m
 .bar span { font: 400 30px/1 'Disp'; font-stretch: 75%; letter-spacing: .06em; color: #0b1c8c; }
 .bar.night span { color: #f2e9d3; }
 </style></head><body><main>
-<h1>ATHENOA emblem, 04</h1>
-<p>The shape of 5 and 41 to 46, slightly uneven and rough at the edge; no thin line inside the band; solid capitals in two weights; ΑΘΕΝΟΑ set close and the foot line wrapping on past halfway, with a monad in each gap.</p>
-<h2>Regular and bolder letters</h2>
-<div class="row"><div class="cell">${img('emblem-el-1080.png', 520)}Greek, regular</div><div class="cell">${img('emblem-el-bold-1080.png', 520)}Greek, bolder</div></div>
-<div class="row" style="margin-top:28px"><div class="cell">${img('emblem-en-1080.png', 520)}English, regular</div><div class="cell">${img('emblem-en-bold-1080.png', 520)}English, bolder</div></div>
+<h1>ATHENOA emblem, 05</h1>
+<p>The shape of 5 and 41 to 46, slightly uneven and rough at the edge; a wider band; the classical inscription capitals of 00 (EB Garamond) with room above and below; ΑΘΕΝΟΑ over about a third of the ring and the foot line round the rest, a monad in each gap.</p>
+<h2>Greek and English, beside the lettering of 00</h2>
+<div class="row"><div class="cell">${img('emblem-el-1080.png', 560)}Greek</div><div class="cell">${img('emblem-en-1080.png', 560)}English</div>
+<div class="cell"><img src="ref-00-lettering.png" alt="" style="width:420px;height:auto;display:block">the lettering of 00</div></div>
 <h2>Sizes</h2>
 <div class="row"><div class="cell">${img('emblem-el-1080.png', 240)}240 px</div><div class="cell">${img('emblem-el-192.png', 96)}footer, 96 px</div><div class="cell">${img('mark-112.png', 56)}header mark, 56 px</div></div>
 <h2>Header, 56 px</h2>
@@ -277,5 +279,5 @@ h2 { font: 400 14px/1 'EBG'; letter-spacing: .14em; text-transform: uppercase; m
 <div class="row">${[['favicon-180.png', 180], ['favicon-96.png', 96], ['favicon-96.png', 48], ['favicon-32.png', 32], ['favicon-32.png', 16]].map(([p, h]) => `<div class="cell">${img(p, h)}${h} px</div>`).join('')}</div>
 </main></body></html>`;
 mkdirSync(resolve(here, '../sketches'), { recursive: true });
-writeFileSync(resolve(here, '../sketches/emblem-04.html'), html);
-console.log('wrote brand/emblem/*.svg, brand/emblem/png/*.png, brand/sketches/emblem-04.html');
+writeFileSync(resolve(here, '../sketches/emblem-05.html'), html);
+console.log('wrote brand/emblem/*.svg, brand/emblem/png/*.png, brand/sketches/emblem-05.html');
