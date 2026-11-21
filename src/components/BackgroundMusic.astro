@@ -175,9 +175,36 @@ const { ui } = content(getLocale(Astro.url));
     // the first press (which starts everything). The page stays usable throughout: it is only a note.
     const invite = root.querySelector<HTMLElement>('[data-sound-invite]');
     if (invite) {
+      // With a mouse or trackpad the note rides beside the pointer, its arrow pointing at it (client
+      // direction, 21 November 2026). Touch screens have no pointer to follow: there it stays beside
+      // the button. It shows only once the pointer has moved, and steps aside when it leaves the window.
+      let x = 0;
+      let y = 0;
+      let frame = 0;
+      const place = () => {
+        frame = 0;
+        const left = Math.min(x, window.innerWidth - invite.offsetWidth - 24);
+        invite.style.transform = `translate3d(${left}px, ${y}px, 0)`;
+      };
+      const track = (event: PointerEvent) => {
+        if (event.pointerType === 'touch') return;
+        x = event.clientX;
+        y = event.clientY;
+        invite.classList.add('is-placed');
+        if (!frame) frame = requestAnimationFrame(place);
+      };
+      const away = () => invite.classList.remove('is-placed');
+      const follow = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+      if (follow) {
+        invite.classList.add('is-following');
+        window.addEventListener('pointermove', track, { passive: true });
+        document.documentElement.addEventListener('pointerleave', away);
+      }
       const leave = () => {
         clearTimeout(timer);
         root.classList.remove('is-inviting');
+        window.removeEventListener('pointermove', track);
+        document.documentElement.removeEventListener('pointerleave', away);
         window.setTimeout(() => (invite.hidden = true), 400);
       };
       const timer = window.setTimeout(() => {
@@ -369,6 +396,16 @@ const { ui } = content(getLocale(Astro.url));
   .music.is-inviting .music__invite {
     opacity: 1;
     translate: 0 0;
+  }
+  /* Beside the pointer (the script moves it): just right of the pointer's dot, level with it */
+  .music__invite.is-following {
+    position: fixed;
+    left: 1.05rem;
+    top: -0.68rem;
+    bottom: auto;
+  }
+  .music__invite.is-following:not(.is-placed) {
+    opacity: 0;
   }
   @keyframes music-invite {
     0%,
