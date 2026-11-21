@@ -27,10 +27,11 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      # the preview is gated (src/components/PreviewGate.astro); the real launch is not
+      # The gate (src/components/PreviewGate.astro) is hidden for now (Maria, 21 November 2026); its code
+      # stays, and setting this to 'on' brings it back on the preview. The real launch never has it.
       - run: npm run build
         env:
-          PUBLIC_PREVIEW_GATE: 'on'
+          PUBLIC_PREVIEW_GATE: 'off'
       - run: node scripts/pages-preview.mjs "/${{ github.event.repository.name }}"
       - uses: actions/upload-pages-artifact@v3
         with:
