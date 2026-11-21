@@ -71,7 +71,7 @@ const custom = Object.entries(images).find(([file]) =>
 <footer class:list={['footer', `footer--${scene}`]}>
   <div class="wrap footer__grid" data-reveal-group>
     <div class="footer__brand">
-      <Image src={locale === 'en' ? emblemEn : emblemEl} alt="" width={94} height={120} densities={[1, 2]} class="footer__logo" />
+      <span class="medal"><Image src={locale === 'en' ? emblemEn : emblemEl} alt="" width={94} height={120} densities={[1, 2]} class="footer__logo" /></span>
       <p class="footer__name">{site.name}</p>
     </div>
 

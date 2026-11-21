@@ -23,7 +23,7 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
 <header class="header" data-header>
   <div class="header__bar">
     <a class="header__brand" href={home} aria-label={ui.homeLink}>
-      <Image src={logo} alt="" width={48} height={62} densities={[1, 2]} loading="eager" class="header__logo" />
+      <span class="medal"><Image src={logo} alt="" width={48} height={62} densities={[1, 2]} loading="eager" class="header__logo" /></span>
       <span class="header__name">{site.name}</span>
     </a>
 
@@ -264,15 +264,9 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
   .header__links > li:not(.header__lang) > a[data-here] {
     pointer-events: none;
   }
-  /* The name and the little statue lean in together */
-  .header__brand .header__logo {
-    transition: rotate var(--dur-2) var(--ease-out) var(--hover-delay);
-  }
+  /* The emblem rises and catches the light (.medal, global.css) while the name opens a little */
   .header__brand .header__name {
     transition: letter-spacing var(--dur-2) var(--ease-out) var(--hover-delay);
-  }
-  .header__brand:hover .header__logo {
-    rotate: -5deg;
   }
   .header__brand:hover .header__name {
     letter-spacing: 0.085em;

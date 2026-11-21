@@ -89,7 +89,7 @@ const emblems = { en: emblemEn, el: emblemEl };
     {
       locales.map((locale) => (
         <a class="nf__emblem" href={notfound[locale].home.href} aria-label={content(locale).ui.homeLink} data-lang={locale}>
-          <Image src={emblems[locale]} alt="" width={147} height={187} densities={[1, 2]} loading="eager" />
+          <span class="medal"><Image src={emblems[locale]} alt="" width={147} height={187} densities={[1, 2]} loading="eager" /></span>
         </a>
       ))
     }
@@ -298,10 +298,6 @@ const emblems = { en: emblemEn, el: emblemEl };
   .nf__emblem :global(img) {
     height: var(--emblem-h);
     width: auto;
-    transition: rotate var(--dur-2) var(--ease-out) var(--hover-delay);
-  }
-  .nf__emblem:hover :global(img) {
-    rotate: -5deg;
   }
   .nf__sea {
     grid-row: 2;
