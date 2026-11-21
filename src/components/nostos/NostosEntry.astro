@@ -4,18 +4,22 @@
 // the emblem at its centre, in the page's language, for a little over three seconds, then the sheet
 // fades. A soft light breathes around the emblem and a few long wave lines, very faint, drift behind it
 // like sound. With motion off: the emblem alone, then the fade.
-// The timing is all in the CSS below, so the sheet never stays up; src/scripts/nostos-entry.ts keeps it
-// away on moves between Nostos pages, holds the star map's arrival until it fades, and removes it after.
-// Not shown without JavaScript, nor inside a lesson's embedded map (?embed).
+// It is in every page's layout (Base.astro), kept across page changes (transition:persist) and still
+// while the page beneath changes (a view transition of its own): open from the first paint on the map
+// and Learn, hidden elsewhere, and brought up by src/scripts/nostos-entry.ts the moment a link into
+// them is clicked, so the click answers at once however slow the connection. Its fade is in the CSS
+// below, so it can never stay up. Not shown without JavaScript, nor inside a lesson's embedded map.
 // The one word it adds for screen readers ("Loading") is the learning flow's own, from src/data/nostos/ui.ts.
 import { Image } from 'astro:assets';
 import emblemEl from '../../assets/media/emblem-el.png';
 import emblemEn from '../../assets/media/emblem-en.png';
 import { nostosUi } from '../../data/nostos/ui';
-import { getLocale, mainLocale } from '../../lib/locale';
+import { barePath, getLocale, mainLocale } from '../../lib/locale';
 
 const locale = getLocale(Astro.url);
 const loading = nostosUi[mainLocale(locale)].play.path.loading;
+// up from the first paint on the map and on Learn
+const open = ['/nostos/', '/nostos/play/'].includes(barePath(Astro.url.pathname).replace(/\/*$/, '/'));
 
 // The wave lines: sines drawn as smooth curves, twice the width of the window, repeating exactly at
 // half their length, so sliding a layer by half its width loops without a seam. Each layer is one SVG
@@ -45,7 +49,7 @@ const layers = [
 ];
 ---
 
-<div class="nentry" data-nentry role="status">
+<div class="nentry" data-nentry role="status" hidden={!open} transition:persist="nostos-entry">
   <div class="nentry__waves" aria-hidden="true">
     {
       layers.map((paths, i) => (
@@ -61,10 +65,11 @@ const layers = [
   </div>
   <div class="nentry__mark">
     <span class="nentry__glow" aria-hidden="true"></span>
-    <Image src={locale === 'en' ? emblemEn : emblemEl} alt="" width={214} height={272} densities={[1, 2]} loading="eager" class="nentry__emblem" />
+    <Image src={locale === 'en' ? emblemEn : emblemEl} alt="" width={214} height={272} densities={[1, 2]} loading="lazy" class="nentry__emblem" />
   </div>
   <p class="visually-hidden">{loading}</p>
 </div>
+{open && <script is:inline>if (new URLSearchParams(location.search).has('embed')) document.querySelector('[data-nentry]').hidden = true;</script>}
 <noscript><style>.nentry { display: none; }</style></noscript>
 
 <script>
@@ -82,8 +87,21 @@ const layers = [
     background-color: var(--paper);
     background-image: var(--grain);
     background-size: 400px 400px;
-    /* held a little over three seconds (the page's own fade in takes the first half second), then faded */
+    /* held a little over three seconds (the page's own fade in takes the first half second), then faded;
+       held longer while the page it was brought up for is still on its way */
     animation: nentry-out 0.8s var(--ease-in-out) 3.5s forwards;
+    view-transition-name: nostos-entry;
+  }
+  .nentry.is-waiting {
+    animation-play-state: paused;
+  }
+  /* it stays exactly as it is while the page beneath it changes */
+  :global(::view-transition-old(nostos-entry)) {
+    display: none;
+  }
+  :global(::view-transition-group(nostos-entry)),
+  :global(::view-transition-new(nostos-entry)) {
+    animation: none;
   }
   .nentry[hidden],
   :global(html.nmap-embed) .nentry {
