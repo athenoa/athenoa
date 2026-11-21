@@ -20,7 +20,8 @@ import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import Illustration from './Illustration.astro';
 import SocialIcons from './SocialIcons.astro';
-import logo from '../assets/media/logo.png';
+import emblemEl from '../assets/media/emblem-el.png';
+import emblemEn from '../assets/media/emblem-en.png';
 import { content } from '../data';
 import { barePath, getLocale } from '../lib/locale';
 
@@ -70,7 +71,7 @@ const custom = Object.entries(images).find(([file]) =>
 <footer class:list={['footer', `footer--${scene}`]}>
   <div class="wrap footer__grid" data-reveal-group>
     <div class="footer__brand">
-      <Image src={logo} alt="" width={96} height={94} class="footer__logo" />
+      <Image src={locale === 'en' ? emblemEn : emblemEl} alt="" width={94} height={120} densities={[1, 2]} class="footer__logo" />
       <p class="footer__name">{site.name}</p>
     </div>
 
@@ -208,9 +209,10 @@ const custom = Object.entries(images).find(([file]) =>
     align-items: center;
     gap: 0.8rem;
   }
+  /* The emblem with its ribbon (brand/emblem), in the page's language, large enough for the ribbon */
   .footer__logo {
-    width: clamp(2.75rem, 2.4rem + 1.2vw, 3.75rem);
-    height: auto;
+    height: clamp(5.5rem, 4.8rem + 2.2vw, 7.5rem);
+    width: auto;
   }
   .footer__name {
     font-family: var(--font-title);

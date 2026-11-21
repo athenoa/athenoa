@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import logo from '../assets/media/logo.png';
+import logo from '../assets/media/emblem-mark.png';
 import { content } from '../data';
 import { languages } from '../data/ui';
 import { getLocale, pathIn, barePath } from '../lib/locale';
@@ -23,7 +23,7 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
 <header class="header" data-header>
   <div class="header__bar">
     <a class="header__brand" href={home} aria-label={ui.homeLink}>
-      <Image src={logo} alt="" width={56} height={55} loading="eager" class="header__logo" />
+      <Image src={logo} alt="" width={49} height={62} densities={[1, 2]} loading="eager" class="header__logo" />
       <span class="header__name">{site.name}</span>
     </a>
 
@@ -195,9 +195,10 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
   .header__nav {
     min-width: 0;
   }
+  /* The emblem without its lettering (brand/emblem), upright, so it is sized by its height */
   .header__logo {
-    width: clamp(2.5rem, 2.2rem + 1vw, 3.25rem);
-    height: auto;
+    height: clamp(3rem, 2.65rem + 1.1vw, 3.9rem);
+    width: auto;
   }
   .header__name {
     font-family: var(--font-title);

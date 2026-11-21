@@ -218,6 +218,7 @@ const EXPORTS = [
   ['athenoa-emblem-el.svg', 'emblem-el-192.png', 192],
   ['athenoa-emblem-en.svg', 'emblem-en-192.png', 192],
   ['athenoa-mark.svg', 'mark-112.png', 112],
+  ['athenoa-mark.svg', 'mark-360.png', 360],
   ['athenoa-favicon.svg', 'favicon-32.png', 32],
   ['athenoa-favicon.svg', 'favicon-96.png', 96],
   ['athenoa-favicon.svg', 'favicon-180.png', 180],
