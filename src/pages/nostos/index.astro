@@ -4,6 +4,7 @@
 // (tasks/nostos.md, step 8). THE CONTENT IS NEW WORDING for Athena to review (src/lib/nostos.ts).
 import Base from '../../layouts/Base.astro';
 import NostosNav from '../../components/nostos/NostosNav.astro';
+import NostosEntry from '../../components/nostos/NostosEntry.astro';
 import StarMap from '../../components/nostos/StarMap.astro';
 import ConceptNote from '../../components/nostos/ConceptNote.astro';
 import { nostosUi } from '../../data/nostos/ui';
@@ -49,6 +50,7 @@ const sections = arc
   <script is:inline>
     if (new URLSearchParams(location.search).has('embed')) document.documentElement.classList.add('nmap-embed');
   </script>
+  <NostosEntry />
   <NostosNav />
   <section class="section nostos-top">
     <div class="wrap">

@@ -760,6 +760,10 @@ const playHref = pathIn(locale, '/nostos/play/');
   :global(html.motion) .nmap.is-live .nmap__lines {
     animation: nstar-in 1.6s var(--ease-out) 1.3s backwards;
   }
+  /* (held while the screen for entering Nostos is up, so they come out as it fades: NostosEntry.astro) */
+  :global(body:has(.nentry.is-holding)) .nmap.is-live :is(.star, .star__shape, .nmap__lines) {
+    animation-play-state: paused;
+  }
   @keyframes nstar-in {
     from {
       opacity: 0;
