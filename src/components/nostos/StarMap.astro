@@ -823,12 +823,29 @@ const playHref = pathIn(locale, '/nostos/play/');
   }
   .star__shape {
     color: var(--star);
+    transform-box: fill-box;
+    transform-origin: center;
+    transition: transform var(--dur-1) var(--ease-out);
   }
   .star__ring {
     fill: none;
     stroke: var(--map-ink);
     stroke-width: calc(var(--u) * 1.4px);
     opacity: 0;
+    transition: opacity var(--dur-1) var(--ease-out);
+  }
+  /* Under the pointer a star swells a little and a faint ring comes round it (client direction,
+     21 November 2026). Pointers that hover only: on touch the effect would stick after a tap. */
+  @media (hover: hover) {
+    .star:hover .star__shape {
+      transform: scale(1.18);
+    }
+    .star:hover .star__ring {
+      opacity: 0.3;
+    }
+    .nmap__svg.has-sel .star:not(.is-lit):hover {
+      opacity: 0.6;
+    }
   }
   .star.is-known .star__ring {
     opacity: 0.45;
