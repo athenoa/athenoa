@@ -2,8 +2,8 @@
 // across page changes). Its fade is in its CSS. Arriving fresh at the map or Learn it is up from the
 // first paint. A click into them from outside Nostos brings it up at once, before the new page has
 // arrived (on a slow connection that took up to ten seconds, and the click seemed dead: Maria,
-// 21 November 2026); it waits for the page, is carried into it, and fades once it has been up a little
-// over three seconds and the page is there. Moving between Nostos pages it never shows (it stays as it
+// 21 November 2026); it waits for the page, is carried into it, and fades once it has been up four
+// seconds and the page is there (the emblem slowly fading in, then out, in that time). Moving between Nostos pages it never shows (it stays as it
 // was: hidden). This also holds the star map's arrival until it fades, and takes it out once faded.
 
 const w = window as unknown as { __nostosEntry?: boolean };
@@ -14,6 +14,8 @@ if (!w.__nostosEntry) {
   const isEntry = (path: string) => /\/nostos\/(?:play\/)?$/.test(path);
   const screen = () => document.querySelector<HTMLElement>('[data-nentry]');
   const fadeOf = (el: HTMLElement) => el.getAnimations().find((a) => (a as CSSAnimation).animationName === 'nentry-out');
+  const markFadeOf = (el: HTMLElement) =>
+    el.getAnimations({ subtree: true }).find((a) => (a as CSSAnimation).animationName === 'nentry-mark-out');
   let shownAt = 0;
 
   // the emblem is fetched as soon as a link in looks likely to be followed
@@ -49,6 +51,17 @@ if (!w.__nostosEntry) {
     }
   });
 
+  // Carried into the new page, the screen starts its animations over: the fades already under way are
+  // put back where they were (before the new page is drawn), so the emblem does not blink out and
+  // come up again. (Its fading out, and the screen's, wait paused until the page is working.)
+  document.addEventListener('astro:after-swap', () => {
+    const el = screen();
+    if (!el || el.hidden || !el.classList.contains('is-waiting')) return;
+    const since = performance.now() - shownAt;
+    for (const a of el.getAnimations({ subtree: true }))
+      if ((a as CSSAnimation).animationName === 'nentry-in') a.currentTime = since;
+  });
+
   document.addEventListener('astro:page-load', () => {
     const el = screen();
     // (the emblem is also fetched once any page has settled, so it is there the moment it is needed)
@@ -62,8 +75,13 @@ if (!w.__nostosEntry) {
     }
     const hold = Number(fade.effect?.getTiming().delay ?? 0);
     if (el.classList.contains('is-waiting')) {
-      // up since the click: on towards its fade, or into it now if it has been up long enough
-      fade.currentTime = Math.min(hold, performance.now() - shownAt);
+      // up since the click: on towards its fade, as far as the time it has been up, but never past the
+      // start of the emblem's fading out, so a page that came late still sees the emblem go slowly
+      const markFade = markFadeOf(el);
+      const start = markFade ? Number(markFade.effect?.getTiming().delay ?? hold) : hold;
+      const at = Math.min(start, performance.now() - shownAt);
+      fade.currentTime = at;
+      if (markFade) markFade.currentTime = at;
       el.classList.remove('is-waiting');
     }
     const wait = hold - Number(fade.currentTime ?? 0);

@@ -87,9 +87,9 @@ const layers = [
     background-color: var(--paper);
     background-image: var(--grain);
     background-size: 400px 400px;
-    /* held a little over three seconds (the page's own fade in takes the first half second), then faded;
+    /* held four seconds, while the emblem slowly comes and goes (Maria, 21 November 2026), then faded;
        held longer while the page it was brought up for is still on its way */
-    animation: nentry-out 0.8s var(--ease-in-out) 3.5s forwards;
+    animation: nentry-out 0.8s var(--ease-in-out) 4s forwards;
     view-transition-name: nostos-entry;
   }
   .nentry.is-waiting {
@@ -161,9 +161,16 @@ const layers = [
     stroke-linecap: round;
   }
 
-  /* motion: the emblem comes up softly, its light breathes, the waves drift and swell */
+  /* motion: the emblem slowly fades in and, before the screen lifts, slowly out again (Maria,
+     21 November 2026); its light breathes, the waves drift and swell. While the page it was brought up
+     for is still on its way, the emblem stays (its fading out waits, like the screen's). */
   :global(html.motion) .nentry__mark {
-    animation: nentry-in 1.1s var(--ease-out) 0.15s backwards;
+    animation:
+      nentry-in 1.5s var(--ease-in-out) 0.1s backwards,
+      nentry-mark-out 1.5s var(--ease-in-out) 2.4s forwards;
+  }
+  :global(html.motion) .nentry.is-waiting .nentry__mark {
+    animation-play-state: running, paused;
   }
   :global(html.motion) .nentry__glow {
     animation: nentry-breathe 5s var(--ease-in-out) infinite;
@@ -189,6 +196,11 @@ const layers = [
   }
   @keyframes nentry-in {
     from {
+      opacity: 0;
+    }
+  }
+  @keyframes nentry-mark-out {
+    to {
       opacity: 0;
     }
   }
