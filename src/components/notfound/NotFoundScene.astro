@@ -232,7 +232,7 @@ const emblems = { en: emblemEn, el: emblemEl };
     --sun: 43%;
     /* The emblem at the top: three times the header's mark. */
     --emblem-h: clamp(9rem, 7.95rem + 3.3vw, 11.7rem);
-    --emblem-top: 1rem;
+    --emblem-top: clamp(1.75rem, 1rem + 2vw, 3rem);
     /* Sky kept clear above the sentence: the emblem, or the clouds where they reach lower. */
     --sky-top: max(var(--header-h) + var(--cloud-zone), var(--emblem-top) + var(--emblem-h) + 1.5rem);
     /* Sky kept clear below the sentence: on wide screens the islands stand to either side of it,
