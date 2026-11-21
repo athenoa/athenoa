@@ -190,6 +190,20 @@ function emblem({ id = 'e', lang = 'el', letters = true, rough = true } = {}) {
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb.join(' ')}" role="img" aria-label="ATHENOA">${body}</svg>`;
 }
 
+// The header mark: the crème panel and Athena with only a thin outline round them, no band (Maria,
+// 21 November 2026). Her hem runs to the outline, as it runs under the band in the full emblem.
+function mark({ id = 'mk', line = 30, rough = true } = {}) {
+  const O = grow(PANEL, line);
+  const pad = 14;
+  const vb = [C.x - O.a - pad, C.y - O.top.b - pad, 2 * (O.a + pad), O.top.b + O.bottom.b + 2 * pad].map(f);
+  const filt = (name) => (rough ? ` filter="url(#${name})"` : '');
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb.join(' ')}" role="img" aria-label="ATHENOA">${rough ? `<defs>${ROUGH}</defs>` : ''}` +
+    `<g${filt('rough')}><path fill="${PAPER}" d="${shapePath(PANEL)}"/></g>` +
+    `<clipPath id="${id}-panel"><path d="${shapePath(grow(PANEL, 3))}"/></clipPath>` +
+    `<g clip-path="url(#${id}-panel)" fill="${INK}"><g${filt('rough-fine')}>${figure}</g></g>` +
+    `<g${filt('rough')}><path fill="${INK}" fill-rule="evenodd" d="${shapePath(O)}${shapePath(PANEL, 180, true)}"/></g></svg>`;
+}
+
 // The favicon: her helmeted head inside a ring (the whole figure is a smudge below about 40 px)
 const HEAD = { x: 458, y: 286, r: 132, band: 22 };
 function favicon({ id = 'fav' } = {}) {
@@ -205,7 +219,7 @@ const header = '<!-- ATHENOA emblem, working source. Athena traced from a Higgsf
 const svgs = {
   'athenoa-emblem-el.svg': emblem({ id: 'el', lang: 'el' }),
   'athenoa-emblem-en.svg': emblem({ id: 'en', lang: 'en' }),
-  'athenoa-mark.svg': emblem({ id: 'mk', letters: false }),
+  'athenoa-mark.svg': mark(),
   'athenoa-favicon.svg': favicon(),
 };
 mkdirSync(resolve(outDir, 'png'), { recursive: true });
@@ -230,7 +244,8 @@ for (const [svg, png, h] of EXPORTS) {
   const vb = svgs[svg].match(/viewBox="([^"]+)"/)[1].split(' ').map(Number);
   const w = Math.round((h * vb[2]) / vb[3]);
   await page.setViewportSize({ width: w, height: h });
-  await page.goto(pathToFileURL(resolve(outDir, svg)).href);
+  // a fresh address each time: loading the same file twice in a row can keep the old layout
+  await page.goto(`${pathToFileURL(resolve(outDir, svg)).href}?h=${h}`);
   await page.screenshot({ path: resolve(outDir, 'png', png), omitBackground: true, clip: { x: 0, y: 0, width: w, height: h } });
 }
 await browser.close();

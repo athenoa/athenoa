@@ -23,7 +23,7 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
 <header class="header" data-header>
   <div class="header__bar">
     <a class="header__brand" href={home} aria-label={ui.homeLink}>
-      <Image src={logo} alt="" width={49} height={62} densities={[1, 2]} loading="eager" class="header__logo" />
+      <Image src={logo} alt="" width={48} height={62} densities={[1, 2]} loading="eager" class="header__logo" />
       <span class="header__name">{site.name}</span>
     </a>
 
@@ -195,7 +195,7 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
   .header__nav {
     min-width: 0;
   }
-  /* The emblem without its lettering (brand/emblem), upright, so it is sized by its height */
+  /* The emblem without its band: Athena on the crème panel in a thin outline (brand/emblem), upright, so it is sized by its height */
   .header__logo {
     height: clamp(3rem, 2.65rem + 1.1vw, 3.9rem);
     width: auto;
