@@ -24,8 +24,11 @@
 // Motion is CSS only. The loops run under html.motion (set by Base when motion is allowed) and
 // prefers-reduced-motion: no-preference; otherwise the same layers stand still as one picture,
 // with the boat right of centre.
+import { Image } from 'astro:assets';
 import Illustration from '../Illustration.astro';
+import emblem from '../../assets/media/emblem-mark.png';
 import { notfound } from '../../data/notfound';
+import { content } from '../../data';
 
 const locales = ['en', 'el'] as const;
 // How far each word of the note strays from its line (in ems) and how much it leans: an uneven hand
@@ -79,6 +82,14 @@ const headings = { en: notfound.en.heading, el: notfound.el.heading };
   </div>
 
   <div class="nf__sky">
+    {/* The emblem, top centre, three times the header's (client direction, 21 November 2026) */}
+    {
+      locales.map((locale) => (
+        <a class="nf__emblem" href={notfound[locale].home.href} aria-label={content(locale).ui.homeLink} data-lang={locale}>
+          <Image src={emblem} alt="" width={147} height={187} densities={[1, 2]} loading="eager" />
+        </a>
+      ))
+    }
     {/* By night: the hero's sky, with its galaxy, its glimmering stars and now and then a falling star */}
     <div class="nf__night" aria-hidden="true">
       <Illustration name="portal-b-milkyway" />
@@ -216,6 +227,9 @@ const headings = { en: notfound.en.heading, el: notfound.el.heading };
     --land-zone: calc(var(--u) * 90);
     /* Where the sun stands along the horizon. */
     --sun: 43%;
+    /* The emblem at the top: three times the header's. */
+    --emblem-h: clamp(9rem, 7.95rem + 3.3vw, 11.7rem);
+    --emblem-top: 1rem;
 
     position: relative;
     isolation: isolate;
@@ -251,14 +265,50 @@ const headings = { en: notfound.en.heading, el: notfound.el.heading };
   }
 
   /* ---------- rows ---------- */
+  /* The sentence stands in the middle of the sky, from the top of the page to the horizon
+     (client direction, 21 November 2026). The rows above and below it share the room equally;
+     only when the window is short do the emblem, the clouds and the islands hold it off centre.
+     (Two growing spacers in a column, not grid rows: a grid would count the larger minimum twice
+     when the page sizes itself, and the page would scroll.) */
   .nf__sky {
     grid-row: 1;
     position: relative;
-    display: grid;
-    align-content: center;
-    justify-items: center;
-    padding: calc(var(--header-h) + var(--cloud-zone)) var(--gutter) var(--land-zone);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-inline: var(--gutter);
     text-align: center;
+  }
+  .nf__sky::before,
+  .nf__sky::after {
+    content: '';
+    flex: 1 1 0;
+  }
+  .nf__sky::before {
+    min-height: max(var(--header-h) + var(--cloud-zone), var(--emblem-top) + var(--emblem-h) + 1.5rem);
+  }
+  .nf__sky::after {
+    min-height: var(--land-zone);
+  }
+
+  /* ---------- the emblem ---------- */
+  /* At the top, in front of the clouds, which drift behind it. */
+  .nf__emblem {
+    position: absolute;
+    z-index: 9;
+    left: 50%;
+    top: var(--emblem-top);
+    translate: -50% 0;
+    display: block;
+    line-height: 0;
+  }
+  .nf__emblem :global(img) {
+    height: var(--emblem-h);
+    width: auto;
+    transition: rotate var(--dur-2) var(--ease-out) var(--hover-delay);
+  }
+  .nf__emblem:hover :global(img) {
+    rotate: -5deg;
   }
   .nf__sea {
     grid-row: 2;
