@@ -13,6 +13,7 @@ import CookieNotice from '../components/CookieNotice.astro';
 import LemmaNotes from '../components/LemmaNotes.astro';
 import CustomCursor from '../components/CustomCursor.astro';
 import PreviewGate from '../components/PreviewGate.astro';
+import NostosEntry from '../components/nostos/NostosEntry.astro';
 import { content } from '../data';
 import { getLocale } from '../lib/locale';
 
@@ -149,6 +150,7 @@ const gated = import.meta.env.PUBLIC_PREVIEW_GATE === 'on';
   </head>
   <body class={bodyClass}>
     {gated && <PreviewGate />}
+    <NostosEntry />
     <a class="skip-link" href="#main">{ui.skip}</a>
     <SvgDefs />
     {header && <Header />}
@@ -166,6 +168,7 @@ const gated = import.meta.env.PUBLIC_PREVIEW_GATE === 'on';
     <script>
       import '../scripts/motion.ts';
       import '../scripts/fields.ts';
+      import '../scripts/navigating.ts';
     </script>
   </body>
 </html>

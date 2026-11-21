@@ -1,0 +1,28 @@
+---
+// Nostos: every idea's note (ConceptNote) and nothing else, for the map page to fetch once it is
+// showing and set under each idea in its list, and beside the map when a star is chosen
+// (src/pages/nostos/index.astro). The notes were about two thirds of the map page's weight (Maria,
+// 21 November 2026: clicks into Nostos seemed dead on a slow connection). Not a page to visit.
+import ConceptNote from '../../components/nostos/ConceptNote.astro';
+import { concepts } from '../../lib/nostos';
+import { getLocale } from '../../lib/locale';
+
+const locale = getLocale(Astro.url);
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+  </head>
+  <body>
+    {
+      concepts.map((c) => (
+        <section data-note={c.id}>
+          <ConceptNote concept={c} />
+        </section>
+      ))
+    }
+  </body>
+</html>

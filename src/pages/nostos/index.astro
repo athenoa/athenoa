@@ -1,6 +1,7 @@
 ---
-// Nostos, the front door: the star map of her ideas, then the same ideas as a readable list (which is
-// the whole page without JavaScript). Not in the sitemap and marked noindex until launch
+// Nostos, the front door: the star map of her ideas, then the same ideas as a readable list (each idea's
+// note arrives a moment after the page, from src/pages/nostos/notes.astro; without JavaScript the list
+// is the names alone). Not in the sitemap and marked noindex until launch
 // (tasks/nostos.md, step 8). THE CONTENT IS NEW WORDING for Athena to review (src/lib/nostos.ts).
 import Base from '../../layouts/Base.astro';
 import NostosNav from '../../components/nostos/NostosNav.astro';
@@ -17,6 +18,10 @@ const locale = getLocale(Astro.url);
 const ui = nostosUi[mainLocale(locale)];
 const lessons = pathOutline.reduce((n, c) => n + c.lessons.length, 0);
 const t = ui.map;
+// each idea's note arrives a moment after the page (src/pages/nostos/notes.astro); until then its place
+// says "Loading", the learning flow's own word. ConceptNote is named here so its styles come with this page.
+const loading = ui.play.path.loading;
+void ConceptNote;
 // each idea's dot in the list, faint to bright by how central it is: the measure behind the size of
 // its star (client direction, 6 November 2026), from the least central idea (faintest) to the most
 const central = new Map(stars.map((s) => [s.id, s.c]));
@@ -73,7 +78,7 @@ const sections = arc
     </div>
   </section>
 
-  <section class="section nostos-list" aria-labelledby="nostos-list-title">
+  <section class="section nostos-list" aria-labelledby="nostos-list-title" data-notes-src={pathIn(locale, '/nostos/notes/')}>
     <div class="wrap">
       <h2 class="t-2" id="nostos-list-title">{t.listTitle}</h2>
       <p class="nostos-list__intro">{t.listIntro}</p>
@@ -100,8 +105,8 @@ const sections = arc
                       <span class="nostos-list__label">{c.label}</span>
                       {c.greek && <span class="nostos-list__greek" lang="grc">{c.greek}</span>}
                     </summary>
-                    <div class="nostos-list__body">
-                      <ConceptNote concept={c} />
+                    <div class="nostos-list__body" data-note-for={c.id}>
+                      <p class="nostos-list__wait">{loading}</p>
                       <button type="button" class="btn btn--ghost nostos-list__go" data-goto={c.id}>
                         {t.openOnMap}
                       </button>
@@ -133,6 +138,34 @@ const sections = arc
     </div>
   </section>
 </Base>
+
+<script>
+  // The ideas' notes, fetched once the page is showing and kept for the rest of the visit: each is set
+  // under its idea in the list (the map's own note copies it from there). Not inside a lesson's map.
+  const notes = new Map<string, Promise<Document>>();
+  document.addEventListener('astro:page-load', () => {
+    const list = document.querySelector<HTMLElement>('[data-notes-src]');
+    if (!list || document.documentElement.classList.contains('nmap-embed')) return;
+    const src = list.dataset.notesSrc!;
+    if (!notes.has(src))
+      notes.set(
+        src,
+        fetch(src)
+          .then((r) => (r.ok ? r.text() : Promise.reject(r.status)))
+          .then((html) => new DOMParser().parseFromString(html, 'text/html')),
+      );
+    notes
+      .get(src)!
+      .then((doc) => {
+        list.querySelectorAll<HTMLElement>('[data-note-for]').forEach((slot) => {
+          const note = doc.querySelector(`[data-note="${CSS.escape(slot.dataset.noteFor!)}"] > .cnote`);
+          if (note && !slot.querySelector('.cnote')) slot.prepend(document.importNode(note, true));
+        });
+        document.dispatchEvent(new Event('nostos:notes'));
+      })
+      .catch(() => notes.delete(src));
+  });
+</script>
 
 <style>
   .nostos-top {
@@ -335,6 +368,17 @@ const sections = arc
     gap: var(--space-s);
     padding: var(--space-s) 0 var(--space-m);
     justify-items: start;
+  }
+  .nostos-list__wait {
+    display: none;
+    margin: 0;
+    color: var(--ink-soft);
+  }
+  :global(html.nostos-live) .nostos-list__wait {
+    display: block;
+  }
+  :global(html.nostos-live) .nostos-list__body:has(.cnote) .nostos-list__wait {
+    display: none;
   }
   /* "show on the map" needs the map's script */
   .nostos-list__go {

@@ -26,6 +26,7 @@ import { sizeOf, type Praxis } from '../../lib/nostos-praxis';
 import { pxSpots, refSpots } from '../../lib/nostos-spots';
 import StageStele from '../../components/nostos/StageStele.astro';
 import { getLocale, mainLocale, pathIn } from '../../lib/locale';
+import { scenes, scenesHref } from '../../lib/nostos-scenes';
 import '../../styles/nostos-arena.css';
 
 const locale = getLocale(Astro.url);
@@ -94,18 +95,7 @@ const trail = (ci: number, n: number) =>
       return ` C${px.toFixed(1)} ${py + 50} ${x.toFixed(1)} ${y - 50} ${x.toFixed(1)} ${y}`;
     })
     .join('');
-// the places on the way home, drawn in src/assets/illustrations/journey-*.svg, three chapters to each;
-// each drawing is defined once (as a symbol) and shown behind its chapters
-const raw = import.meta.glob<string>('../../assets/illustrations/journey-*.svg', { query: '?raw', import: 'default', eager: true });
-const scenes = Object.entries(raw)
-  .sort(([a], [b]) => a.localeCompare(b, 'en', { numeric: true }))
-  .map(([file, svg], k) => {
-    const open = svg.match(/<svg\b([^>]*)>/)!;
-    // (the line weight is left to the page, so phones can have it heavier)
-    const attrs = open[1].replace(/\s(xmlns(:\w+)?|viewBox|width|height|stroke-width)="[^"]*"/g, '');
-    const inner = svg.slice(open.index! + open[0].length, svg.lastIndexOf('</svg>'));
-    return { id: k, viewBox: open[1].match(/viewBox="([^"]+)"/)?.[1] ?? '0 0 1600 1000', attrs, inner, name: file };
-  });
+// the places on the way home (src/lib/nostos-scenes.ts), three chapters to each, drawn from one file
 // a stage of the arc shows its own place (the cave in the cave, client direction); talks, before the arc,
 // took the places in turn
 const sceneFor = (ci: number) => {
@@ -200,7 +190,7 @@ const practice = [
         <div class="njscenes" aria-hidden="true" data-scenes>
           {scenes.map((sc) => (
             <svg class="njscene" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMax meet" focusable="false" data-scene={sc.id} data-place={sc.name.match(/journey-\d+-([a-z]+)/)?.[1]}>
-              <use href={`#njenv-${sc.id}`} />
+              <use href={`${scenesHref}#njenv-${sc.id}`} />
             </svg>
           ))}
         </div>
@@ -530,15 +520,6 @@ const practice = [
   </div>
 </Base>
 
-{
-  scenes.length > 0 && (
-    <svg class="visually-hidden" aria-hidden="true" focusable="false">
-      {scenes.map((sc) => (
-        <symbol id={`njenv-${sc.id}`} viewBox={sc.viewBox} set:html={`<g${sc.attrs}>${sc.inner}</g>`} />
-      ))}
-    </svg>
-  )
-}
 <script type="application/json" data-nplay-words set:html={JSON.stringify(words)} />
 <script type="application/json" data-npath set:html={JSON.stringify(pathOutline)} />
 
@@ -609,9 +590,11 @@ const practice = [
     position: relative;
     padding-bottom: var(--space-l);
   }
-  /* the place on the journey: still, behind everything, standing on the foot of the window and always
-     its full width, edge to edge, on every screen (client direction, 21 November 2026); the one for
-     the chapter in the middle of the screen fades in, the last one fades out */
+  /* the place on the journey: still, behind everything, the full width of the window at the drawing's
+     own proportions, standing on the foot of the window (on a window wider than the drawing the top of
+     its sky runs off the top; Maria, 21 November 2026: it had sat in a narrow column on wide screens);
+     the one for the chapter in the middle of the screen fades in, the last one fades out. Its lines keep
+     one weight on screen whatever its size (non-scaling), so drawn larger it is no louder. */
   .njscenes {
     position: fixed;
     inset: 0;
@@ -626,7 +609,7 @@ const practice = [
     width: 100%;
     height: auto;
     aspect-ratio: 1600 / 1000;
-    stroke-width: 2.6;
+    stroke-width: 1.5;
     opacity: 0;
     /* hidden once faded, so only the place in view (and the one leaving) is drawn */
     visibility: hidden;
@@ -646,9 +629,8 @@ const practice = [
   .njscene.is-on[data-place='cave'] {
     opacity: 0.35;
   }
-  /* Landscape: the drawing was too loud behind the path (client direction, 14 November 2026), so
-     there it is fainter. (It was also held to about half the window's height, which left it a small
-     picture in the middle of wide screens; full width now comes first.) */
+  /* Landscape: the drawing filled almost the whole window and was too loud behind the path (client
+     direction, 14 November 2026): fainter. */
   @media (orientation: landscape) {
     .njscene.is-on {
       opacity: 0.22;
@@ -657,10 +639,10 @@ const practice = [
       opacity: 0.18;
     }
   }
-  /* on phones the drawing is small: a heavier line keeps it from turning to hairlines */
+  /* on phones, where the drawing is small, a finer line (about what it was before) */
   @media (max-width: 37.5rem) {
     .njscene {
-      stroke-width: 4;
+      stroke-width: 1;
     }
   }
   :global(html:not(.motion)) .njscene {

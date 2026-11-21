@@ -451,8 +451,13 @@ const playHref = pathIn(locale, '/nostos/play/');
       }
       return row;
     };
+    // (the notes arrive a moment after the page, src/pages/nostos/index.astro: a star chosen before
+    // then opens its note when they come)
+    let waiting = '';
+    document.addEventListener('nostos:notes', () => waiting && openNote(waiting), on);
     const openNote = (id: string) => {
       const source = document.querySelector(`#c-${CSS.escape(id)} .cnote`);
+      waiting = source ? '' : id;
       if (!source) return;
       noteIn.replaceChildren(source.cloneNode(true));
       // the visitor's own link to this idea, made in Threads on the play page
@@ -475,6 +480,7 @@ const playHref = pathIn(locale, '/nostos/play/');
       root.classList.add('has-note');
     };
     const closeNote = () => {
+      waiting = '';
       note.hidden = true;
       root.classList.remove('has-note');
     };
@@ -759,6 +765,10 @@ const playHref = pathIn(locale, '/nostos/play/');
   }
   :global(html.motion) .nmap.is-live .nmap__lines {
     animation: nstar-in 1.6s var(--ease-out) 1.3s backwards;
+  }
+  /* (held while the screen for entering Nostos is up, so they come out as it fades: NostosEntry.astro) */
+  :global(body:has(.nentry.is-holding)) .nmap.is-live :is(.star, .star__shape, .nmap__lines) {
+    animation-play-state: paused;
   }
   @keyframes nstar-in {
     from {
