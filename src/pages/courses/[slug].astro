@@ -34,7 +34,8 @@ const canEnrol = course.available && Boolean(course.tuition?.length);
 <Base
   title={`${course.title} | ${site.name}`}
   description={course.summary ?? `${course.title}. ${coursesPage.ui.placeholderNote}`}
-  image={courseImage(course.image).src}
+  image={courseImage(course.image)}
+  imageAlt={course.imageAlt}
   schema={[
     courseSchema(course),
     breadcrumbSchema([...crumbs, { name: course.title, path: coursePageHref(course.slug) }]),

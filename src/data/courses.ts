@@ -230,10 +230,10 @@ export const courses: Course[] = [
     slug: 'eu-zen',
     title: 'Εὖ Ζῆν',
     status: 'open',
-    // stand-in until the course banner is added (the live page's artwork is not in the project yet)
-    image: 'gathering-pines-acropolis',
+    // The course banner, from the Academy (Maria, 22 November 2026)
+    image: 'course-eu-zen',
     imageAlt:
-      'A group sitting in a circle under pine trees on a hillside at dusk, the Acropolis and the Parthenon beyond',
+      'Course banner: Εὖ Ζῆν, The Ancient Art of Eudaimonia. Dr. Athena Potari in front of bookshelves, between an Ionic column with olive leaves and a marble bust of Athena with her owl; 16 experiential lessons of Greek Philosophy in practice, from Self-knowledge to Eudaimonia',
     subtitle: 'The Ancient Art of Eudaimonia',
     summary: '16 experiential lessons of Greek Philosophy in Practice. From Self-knowledge to Eudaimonia.',
     schedule: 'From 1 December 2026',
