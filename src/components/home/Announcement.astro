@@ -335,9 +335,12 @@ const announced = home.announcement.courses
       width: clamp(9.5rem, 1rem + 15vw, 16rem);
     }
 
-    /* One even row: the three cards share a height */
+    /* One even row: the three cards share a height. The row reaches into the page margins, so the
+       cards are wider than the text above them (Maria, 23 November 2026); never past the window. */
     .courses-row {
       grid-template-columns: repeat(3, minmax(0, 1fr));
+      /* as wide as the header bar on smaller desktops, up to 92rem on large screens */
+      margin-inline: min(0px, calc((100% - min(100vw - 4rem, 92rem)) / 2));
     }
   }
 </style>
