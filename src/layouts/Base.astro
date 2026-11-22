@@ -85,9 +85,10 @@ const gated = import.meta.env.PUBLIC_PREVIEW_GATE === 'on';
           var fromNoon = (((now.getUTCHours() * 60 + now.getUTCMinutes() - noon) % 1440) + 1440) % 1440;
           return Math.min(fromNoon, 1440 - fromNoon) > half;
         }
-        // Night after sunset, day after sunrise. A visitor who presses the switch keeps their
-        // choice until the sun next rises or sets (it is stored with the sun's state, as
-        // "dark@up"); ?theme=dark or ?theme=light in the address decides outright.
+        // Day (light) by default, whatever the hour (Maria, 22 November 2026; it used to turn to night
+        // after sunset). A visitor who presses the switch keeps their choice (stored as "dark@…" or
+        // "light@…"); ?theme=dark or ?theme=light in the address decides outright. The sun's state is
+        // still noted on the page (data-sun) for the drawings that use it.
         function theme() {
           var root = document.documentElement;
           var sun = sunDown(new Date()) ? 'down' : 'up';
@@ -95,12 +96,10 @@ const gated = import.meta.env.PUBLIC_PREVIEW_GATE === 'on';
           var asked = new URLSearchParams(location.search).get('theme');
           if (!asked) {
             try {
-              var kept = (localStorage.getItem('ath-theme') || '').split('@');
-              if (kept[1] === sun) asked = kept[0];
-              else localStorage.removeItem('ath-theme'); // the sun has moved on: the choice is spent
+              asked = (localStorage.getItem('ath-theme') || '').split('@')[0];
             } catch (e) {}
           }
-          if (!asked) asked = sun === 'down' ? 'dark' : 'light';
+          if (asked !== 'dark') asked = 'light';
           if (asked === 'dark') {
             if (root.dataset.theme !== 'dark') root.dataset.theme = 'dark';
           } else if (root.dataset.theme) delete root.dataset.theme;
