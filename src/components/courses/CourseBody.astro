@@ -11,7 +11,7 @@ import PaperNote from './PaperNote.astro';
 import { content } from '../../data';
 import type { Course } from '../../data/courses';
 import { getLocale } from '../../lib/locale';
-import { courseImage } from './media';
+import { courseBanner, courseImage } from './media';
 import { keepHyphens } from './text';
 import { fill, percent } from './money';
 
@@ -31,11 +31,18 @@ const isOpen = course.status === 'open';
 const waitlist = !course.available;
 const Title = page ? 'h1' : 'h2';
 const Label = page ? 'h2' : 'h3';
-// The facts, as on the card but in full: every date, the format, the language, the fee.
+// The facts, as on the card but in full: every date, the format, the language, the fee. With every date
+// listed, the format keeps only what comes before its first comma ("Live on Zoom", not "Live on Zoom,
+// Thursdays at 19:30"): the day and time are already in the dates (Maria, 22 November 2026).
+const comma = course.dates ? (course.format?.indexOf(', ') ?? -1) : -1;
+const format = comma < 0 ? course.format : course.format!.slice(0, comma);
+// A lettered banner is shown whole in a rectangle with rounded corners, not cut by the arch (Maria,
+// 22 November 2026); photographs keep the arch.
+const banner = courseBanner(course.image);
 const facts = [
   { label: ui.facts.dates, value: course.dates ? undefined : course.schedule, dates: course.dates },
   { label: ui.facts.duration, value: course.duration },
-  { label: ui.facts.format, value: course.format },
+  { label: ui.facts.format, value: format },
   { label: ui.facts.language, value: course.teaching && ui.languages[course.teaching] },
   {
     label: ui.facts.fee,
@@ -62,7 +69,7 @@ const symbolFor = 'description';
         class="body__media"
         src={image}
         alt={course.imageAlt}
-        shape="arch"
+        shape={banner ? 'soft' : 'arch'}
         ratio={`${image.width} / ${image.height}`}
         sizes={page ? '(min-width: 60rem) 56vw, 92vw' : '(min-width: 48rem) 26rem, 88vw'}
         priority={page}
@@ -234,6 +241,10 @@ const symbolFor = 'description';
   /* A low, wide arch: the course artwork carries lettering, so the curve stays clear of it */
   .body__media {
     --media-r: 50% 50% 1.6rem 1.9rem / 62% 62% 1.5rem 1.8rem;
+  }
+  /* A lettered banner: a rectangle with softly rounded corners, the whole banner in view */
+  .body__media.media--soft {
+    --media-r: var(--r-soft);
   }
   .body__by {
     font-style: italic;
