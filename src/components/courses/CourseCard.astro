@@ -156,9 +156,11 @@ const splitFee = (display: string) => {
     --frame: var(--r-soft);
     --panel-r: var(--r-soft);
     --pad: clamp(0.7rem, 0.5rem + 0.8vw, 1rem);
+    /* the rim of paper around the picture, at its top and sides: about half of --pad (Maria, 22 November 2026) */
+    --rim: clamp(0.5rem, 0.4rem + 0.3vw, 0.7rem);
     --foot: clamp(1.6rem, 1.2rem + 1.4vw, 2.4rem);
     position: relative;
-    padding: var(--pad) var(--pad) var(--foot);
+    padding: var(--rim) var(--rim) var(--foot);
   }
   /* The third paper is paper itself, a shade darker than the page it lies on */
   .card--paper {
@@ -184,8 +186,9 @@ const splitFee = (display: string) => {
   .card__figure:hover :global(.media__clip img) {
     scale: 1.035;
   }
+  /* the words keep their own inset (the narrower rim is made up here) */
   .card__text {
-    padding-inline: clamp(0.6rem, 0.3rem + 1.2vw, 1.25rem);
+    padding-inline: calc(clamp(0.6rem, 0.3rem + 1.2vw, 1.25rem) + var(--pad) - var(--rim));
   }
   .card__text > :global(* + *) {
     margin-top: var(--space-s);

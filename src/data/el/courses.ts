@@ -66,7 +66,7 @@ export const courses: Course[] = [
     months: 8,
     // lastLesson: no end date shown for now (Maria, 22 November 2026); set { when, short } to show one
     duration: '24 εβδομαδιαία μαθήματα',
-    format: 'Ζωντανά μέσω Zoom, με καταγραφές',
+    format: 'Ζωντανά μέσω Zoom, με recordings',
     teaching: 'el',
     available: true,
     instructor: 'Δρ. Αθηνά Δέσποινα Ποτάρη',
@@ -160,7 +160,7 @@ export const courses: Course[] = [
     months: 8,
     // lastLesson: no end date shown for now (Maria, 22 November 2026); set { when, short } to show one
     duration: '16 μαθήματα, περίπου 2 τον μήνα',
-    format: 'Ζωντανά μέσω Zoom, με καταγραφές',
+    format: 'Ζωντανά μέσω Zoom, με recordings',
     teaching: 'el',
     available: true,
     instructor: 'Δρ. Αθηνά Δέσποινα Ποτάρη',
@@ -258,7 +258,7 @@ export const courses: Course[] = [
     subtitle: 'Η Ελληνική Σοφία ως Δρόμος Αυτοπραγμάτωσης',
     schedule: 'Από τον Ιανουάριο 2027',
     duration: 'Τέσσερις εβδομαδιαίες συναντήσεις',
-    format: 'Ζωντανά μέσω Zoom, καταγραφές για 120 ημέρες',
+    format: 'Ζωντανά μέσω Zoom, recordings για 120 ημέρες',
     teaching: 'en',
     // Not open yet: "Join waitlist" (see the English file)
     available: false,
