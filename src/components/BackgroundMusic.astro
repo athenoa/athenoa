@@ -404,7 +404,8 @@ const { ui } = content(getLocale(Astro.url));
     top: -0.68rem;
     bottom: auto;
   }
-  .music__invite.is-following:not(.is-placed) {
+  /* hidden until the pointer has moved (it would otherwise wait in the top corner); outranks .is-inviting */
+  .music .music__invite.is-following:not(.is-placed) {
     opacity: 0;
   }
   @keyframes music-invite {
