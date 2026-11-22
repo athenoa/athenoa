@@ -178,6 +178,11 @@ html:is([lang='el'], [lang='grc']) {
 html[lang='el'] {
   --font-hand: 'Noto Serif Display Variable', 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
 }
+/* The hero subtitle in English is set like the Greek one (Maria, 22 November 2026) */
+html[lang='en'] .hero .t-sub {
+  font-family: 'Noto Serif Display Variable', 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
+  font-weight: 380;
+}
 html[lang='el'] :is(.hand, .t-sub, .prose blockquote) {
   font-weight: 380; /* a touch heavier than the light 300 (Maria, 22 November 2026) */
 }

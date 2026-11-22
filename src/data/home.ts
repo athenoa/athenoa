@@ -11,13 +11,14 @@ export const home = {
 
   hero: {
     // The live page sets this as two headings; here it is the page's single h1.
-    titleLines: ['STUDY AT THE MODERN PLATONIC ACADEMY', '& REMEMBER WHO YOU REALLY ARE'],
+    // Set like the Greek (Maria, 22 November 2026): title case as written, no ampersand
+    titleLines: ['A Modern Academy of Ancient Greek Wisdom', 'Remember Who You Really Are'],
     // The first line is the title; the second is its subtitle and is set smaller.
     // These words of the title sit on an organic highlight, which animates in last.
-    highlight: 'PLATONIC ACADEMY',
+    highlight: 'Greek Wisdom',
     // The subtitle as it is shown: the same words as the second title line, in lower case, because
     // the handwritten face is unreadable in capitals.
-    subtitle: '& remember who you really are',
+    subtitle: 'Remember Who You Really Are',
   },
 
   membership: {

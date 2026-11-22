@@ -292,14 +292,29 @@ const announced = home.announcement.courses
       grid-row: 1;
       padding-left: clamp(3rem, 1rem + 5vw, 5.5rem);
     }
-    /* With the newsletter slip hidden, the letter takes the whole row (Maria, 22 November 2026) */
+    /* With the newsletter slip hidden, the letter stands alone, centred, about two thirds of the row
+       wide: the words a comfortable measure, the photograph close beside them (Maria, 22 November 2026) */
     .announcement__top:not(:has(.slip)) .letter {
-      grid-column: 1 / -1;
-      padding-left: clamp(1.9rem, 1.2rem + 3.4vw, 4rem);
+      grid-column: 2 / span 10;
+      grid-template-columns: minmax(0, 30rem) auto;
+      justify-content: center;
+      align-content: center;
+      column-gap: clamp(2rem, 1rem + 3vw, 4rem);
+      padding-inline: clamp(1.9rem, 1.2rem + 3.4vw, 4rem);
     }
     .announcement__top:not(:has(.slip)) .letter h2,
     .announcement__top:not(:has(.slip)) .letter__text {
-      max-width: 40ch;
+      max-width: none;
+    }
+    .announcement__top:not(:has(.slip)) .letter__text {
+      margin-top: 0.4em;
+    }
+    .announcement__top:not(:has(.slip)) .letter {
+      align-items: center;
+      row-gap: 0;
+    }
+    .announcement__top:not(:has(.slip)) .letter > :is(h2, .letter__text) {
+      grid-column: 1;
     }
     .slip {
       grid-column: 2 / span 4;
