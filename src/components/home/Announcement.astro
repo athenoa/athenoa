@@ -292,6 +292,15 @@ const announced = home.announcement.courses
       grid-row: 1;
       padding-left: clamp(3rem, 1rem + 5vw, 5.5rem);
     }
+    /* With the newsletter slip hidden, the letter takes the whole row (Maria, 22 November 2026) */
+    .announcement__top:not(:has(.slip)) .letter {
+      grid-column: 1 / -1;
+      padding-left: clamp(1.9rem, 1.2rem + 3.4vw, 4rem);
+    }
+    .announcement__top:not(:has(.slip)) .letter h2,
+    .announcement__top:not(:has(.slip)) .letter__text {
+      max-width: 40ch;
+    }
     .slip {
       grid-column: 2 / span 4;
       grid-row: 1;
