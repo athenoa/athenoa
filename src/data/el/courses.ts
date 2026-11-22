@@ -448,6 +448,7 @@ export const coursesPage = {
       title: 'Εγγραφείτε στη λίστα αναμονής',
       forCourse: 'Για τον κύκλο μαθημάτων',
       submit: 'Προσθέστε με στη λίστα',
+      invite: 'Θέλετε να μάθετε πρώτοι πότε ανοίγουν οι εγγραφές;',
       notify: 'Θα σας ειδοποιήσουμε μόλις ανοίξουν οι εγγραφές.',
       // The quiet line under the button, followed by a link that opens an email to the Academy
       question: 'Έχετε κάποια ερώτηση;',

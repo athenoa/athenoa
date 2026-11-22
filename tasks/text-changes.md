@@ -445,3 +445,7 @@ The four earlier courses (The Hidden Non-Duality, and the three placeholders) ar
 - On the Greek pages the format's second line uses the English word (Maria): "με recordings", and "recordings για 120 ημέρες" for The Hidden Non-Duality. Athena's own sentences are unchanged, and so is the hidden draft text kept for that course in `later`.
 - Course cards: the picture sits closer to the card's edges (a rim of about 0.5–0.7rem on top and sides); the words keep their inset.
 - Home: the gap between the course cards is halved, so each card is a little wider.
+
+## Courses, round 13
+
+- The Hidden Non-Duality's page: the "Σύντομα" / "Coming soon" pill stands above the title. The waitlist moves to the foot of the page, under the line "Θέλετε να μάθετε πρώτοι πότε ανοίγουν οι εγγραφές;" / "Want to hear first when enrolment opens?" (proposed), followed by the button and "Έχετε κάποια ερώτηση; Επικοινωνήστε μαζί μας".

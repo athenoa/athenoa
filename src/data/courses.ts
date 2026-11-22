@@ -557,6 +557,8 @@ export const coursesPage = {
       // Followed by the title of the course
       forCourse: 'For the course',
       submit: 'Add me to the list',
+      // at the foot of a course page not open yet, over the waitlist button
+      invite: 'Want to hear first when enrolment opens?',
       // A small line under the button (client request, 15 October 2026)
       notify: 'We will notify you once the enrolments are open.',
       // The quiet line under the button, followed by a link that opens an email to the Academy

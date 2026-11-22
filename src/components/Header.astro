@@ -463,6 +463,8 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
     display: grid;
     gap: 0.15rem;
     min-width: 13rem;
+    /* never wider than the window can hold: a long title with its pill wraps instead of pushing out */
+    max-width: min(32rem, calc(100vw - 2rem));
     margin: 0;
     padding: 0.85rem 0.8rem 0.95rem;
     list-style: none;
@@ -491,7 +493,7 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
     transition-delay: 0s;
   }
   .header__links .drop__list a {
-    white-space: nowrap;
+    white-space: normal;
   }
   /* A course in the list (Maria, 22 November 2026): no highlighter mark, in any state, on the phone or on
      the slip. The current course is marked by a heavier title with a small dot before it, in the list's own

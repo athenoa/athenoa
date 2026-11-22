@@ -114,14 +114,14 @@ const symbolFor = 'description';
       }
     </div>
 
+    {/* A course not open yet says so above its title, on its page (Maria, 22 November 2026) */}
+    {page && course.comingSoon && <p class="body__soon"><span>{ui.soon}</span></p>}
     <Title
       class:list={['body__title', page ? 't-1' : 't-2']}
       id={titleId}
       data-split={page ? '' : undefined}
       set:html={keepHyphens(course.title)}
     />
-    {/* A course not open yet says so beside its title, on its page (Maria, 22 November 2026) */}
-    {page && course.comingSoon && <p class="body__soon"><span>{ui.soon}</span></p>}
     {/* The subtitle right under the title: smaller, lighter, in the title's face (Maria, 22 November 2026) */}
     {course.subtitle && <p class="body__subtitle" set:html={keepHyphens(course.subtitle)} />}
     {!page && <p class="body__by">{ui.taughtBy} {course.instructor}</p>}
@@ -176,7 +176,7 @@ const symbolFor = 'description';
         )
       }
       {
-        waitlist && (
+        waitlist && !page && (
           <p class="body__actions">
             {(
               <a
@@ -195,7 +195,7 @@ const symbolFor = 'description';
       }
       {/* A quiet way to ask something first; it opens an email to the Academy */}
       {
-        !isOpen && (
+        !isOpen && !page && (
           <p class="body__ask">
             {ui.waitlist.question} <a href={`mailto:${site.emails[0]}`}>{ui.contactInstead}</a>
           </p>
@@ -261,6 +261,29 @@ const symbolFor = 'description';
         </details>
         ) : null}
       </div>
+    )
+  }
+  {/* A course not open yet: at the foot of its page, a calm word and the way onto its waitlist (Maria) */}
+  {
+    page && waitlist && (
+      <section class="body__wait box on-blue-light" aria-label={ui.joinWaitlist}>
+        <p class="body__wait-line">{ui.waitlist.invite}</p>
+        <p>
+          <a
+            class="btn"
+            href={site.routes.contact}
+            aria-haspopup="dialog"
+            data-waitlist-open
+            data-waitlist-course={course.title}
+            data-waitlist-slug={course.slug}
+          >
+            {ui.joinWaitlist}
+          </a>
+        </p>
+        <p class="body__ask">
+          {ui.waitlist.question} <a href={`mailto:${site.emails[0]}`}>{ui.contactInstead}</a>
+        </p>
+      </section>
     )
   }
 </div>
@@ -551,6 +574,10 @@ const symbolFor = 'description';
     order: 1;
   }
   /* "Coming soon": a small pill on light-blue paper, under the title */
+  /* the pill stands above the title, close to it */
+  .body--page .body__soon {
+    margin-bottom: calc(var(--space-m) * -0.55);
+  }
   .body__soon span {
     display: inline-block;
     padding: 0.25em 0.95em 0.32em;
@@ -766,5 +793,20 @@ const symbolFor = 'description';
     .sec:not(.box, .panel) {
       padding-inline: clamp(0rem, -3rem + 6vw, 4.5rem) 0;
     }
+  }
+  .body__wait {
+    display: grid;
+    justify-items: center;
+    gap: var(--space-s);
+    max-width: 44rem;
+    margin: var(--space-xl) auto 0;
+    text-align: center;
+  }
+  .body__wait-line {
+    font-family: var(--font-title);
+    font-weight: var(--title-weight);
+    font-size: calc(var(--step-2) * var(--title-scale));
+    line-height: 1.15;
+    text-wrap: balance;
   }
 </style>
