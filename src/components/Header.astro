@@ -7,11 +7,11 @@ import { languages } from '../data/ui';
 import { getLocale, pathIn, barePath } from '../lib/locale';
 
 const locale = getLocale(Astro.url);
-const { site, ui, courses, coursePageHref } = content(locale);
+const { site, ui, courses, coursePageHref, coursesPage } = content(locale);
 // The pages under a menu item: 'courses' lists every course page, in the courses page's order
 const subMenu = (item: { menu?: string }) =>
   item.menu === 'courses'
-    ? courses.map((course) => ({ label: course.title, sub: course.subtitle, href: coursePageHref(course.slug) }))
+    ? courses.map((course) => ({ label: course.title, sub: course.subtitle, soon: course.comingSoon, href: coursePageHref(course.slug) }))
     : undefined;
 const path = barePath(Astro.url.pathname);
 const home = pathIn(locale, '/');
@@ -62,7 +62,11 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
                     {pages.map((page) => (
                       <li>
                         <a href={page.href} aria-current={isHere(page.href) ? 'page' : undefined} data-here={isHere(page.href) ? '' : undefined}>
-                          <span class="drop__title">{page.label}</span>
+                          <span class="drop__title">
+                            {page.label}
+                            {/* a course not open yet: "Coming soon" */}
+                            {page.soon && <span class="drop__soon">{coursesPage.ui.soon}</span>}
+                          </span>
                           {/* the subtitle under the title, smaller and quieter */}
                           {page.sub && <span class="drop__sub">{page.sub}</span>}
                         </a>
@@ -493,6 +497,18 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
   .drop__title,
   .drop__sub {
     display: block;
+  }
+  .drop__soon {
+    display: inline-block;
+    margin-left: 0.5em;
+    padding: 0.05em 0.6em 0.1em;
+    border-radius: 58% 42% 52% 48% / 48% 56% 44% 52%;
+    background: var(--blue-light);
+    color: var(--blue-deep);
+    font-size: 0.82em;
+    font-weight: 600;
+    white-space: nowrap;
+    vertical-align: 0.08em;
   }
   .drop__sub {
     margin-top: 0.05rem;

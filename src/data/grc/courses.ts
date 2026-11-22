@@ -33,6 +33,7 @@ export const coursesPage = {
     facts: { dates: 'Πότε', duration: 'Πόσον χρόνον', format: 'Πῶς', language: 'Τίνι γλώττῃ', fee: 'Πόσου' },
     languages: { el: 'Ἑλληνιστί', en: 'Ἀγγλιστί' },
     when: greekPage.ui.when,
+    soon: greekPage.ui.soon,
     close: 'Κλείσατε',
     enroll: 'Ἐγγράψασθε',
     placeholderNote:

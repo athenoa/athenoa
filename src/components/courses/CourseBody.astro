@@ -16,6 +16,7 @@ import { getLocale } from '../../lib/locale';
 import { courseImage } from './media';
 import { keepHyphens } from './text';
 import { feeOf, fill } from './money';
+import ZoomText from './ZoomText.astro';
 
 interface Props {
   course: Course;
@@ -33,11 +34,12 @@ const isOpen = course.status === 'open';
 const waitlist = !course.available;
 const Title = page ? 'h1' : 'h2';
 const Label = page ? 'h2' : 'h3';
-// The facts, as on the card but in full: every date, the format, the language, the fee. With every date
-// listed, the format keeps only what comes before its first comma ("Live on Zoom", not "Live on Zoom,
-// Thursdays at 19:30"): the day and time are already in the dates (Maria, 22 November 2026).
-const comma = course.dates ? (course.format?.indexOf(', ') ?? -1) : -1;
+// The facts, as on the card but in full: every date, the format, the language, the fee. The format reads
+// as on the card: what comes before its first comma, and what follows it as a quieter line ("Live on
+// Zoom" over "with recordings"; Maria, 22 November 2026); Zoom is named with its icon (ZoomText).
+const comma = course.format?.indexOf(', ') ?? -1;
 const format = comma < 0 ? course.format : course.format!.slice(0, comma);
+const formatNote = comma < 0 ? undefined : course.format!.slice(comma + 2);
 // Once known, the last lesson closes the dates and the months join the length
 const dates = course.dates && [
   ...course.dates,
@@ -50,7 +52,7 @@ const fee = course.tuition?.[0] ? feeOf(course.tuition[0], course.upfrontDiscoun
 const facts = [
   { label: ui.facts.dates, value: dates ? undefined : course.schedule, dates },
   { label: ui.facts.duration, value: length },
-  { label: ui.facts.format, value: format },
+  { label: ui.facts.format, value: format, note: formatNote },
   { label: ui.facts.language, value: course.teaching && ui.languages[course.teaching] },
   { label: ui.facts.fee, value: course.price?.display, fee: true },
 ].filter((fact) => fact.value || fact.dates);
@@ -119,6 +121,8 @@ const symbolFor = 'description';
       data-split={page ? '' : undefined}
       set:html={keepHyphens(course.title)}
     />
+    {/* A course not open yet says so beside its title, on its page (Maria, 22 November 2026) */}
+    {page && course.comingSoon && <p class="body__soon"><span>{ui.soon}</span></p>}
     {/* The subtitle right under the title: smaller, lighter, in the title's face (Maria, 22 November 2026) */}
     {course.subtitle && <p class="body__subtitle" set:html={keepHyphens(course.subtitle)} />}
     {!page && <p class="body__by">{ui.taughtBy} {course.instructor}</p>}
@@ -161,7 +165,10 @@ const symbolFor = 'description';
                       <span class="facts__month">{fill(ui.tuition.feeMonthly, { month: fee.month, n: fee.payments })}</span>
                     </>
                   ) : (
-                    fact.value
+                    <>
+                      <ZoomText text={fact.value!} />
+                      {'note' in fact && fact.note && <span class="facts__month">{fact.note}</span>}
+                    </>
                   )}
                 </dd>
               </div>
@@ -552,8 +559,20 @@ const symbolFor = 'description';
     gap: var(--space-m);
   }
   .body--page .body__title,
+  .body--page .body__soon,
   .body--page .body__subtitle {
     order: 1;
+  }
+  /* "Coming soon": a small pill on light-blue paper, under the title */
+  .body__soon span {
+    display: inline-block;
+    padding: 0.25em 0.95em 0.32em;
+    border-radius: 58% 42% 52% 48% / 48% 56% 44% 52%;
+    background: var(--blue-light);
+    color: var(--blue-deep);
+    font-size: var(--step-0);
+    font-weight: 600;
+    letter-spacing: 0.02em;
   }
   /* between the title and the section headings in size: on the page it sits close under the title */
   .body--page .body__subtitle {

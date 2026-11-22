@@ -17,6 +17,7 @@ import { getLocale } from '../../lib/locale';
 import { courseImage } from './media';
 import { keepHyphens } from './text';
 import { feeOf, fill } from './money';
+import ZoomText from './ZoomText.astro';
 
 interface Props {
   course: Course;
@@ -47,7 +48,7 @@ const place = courses.findIndex((item) => item.slug === course.slug);
 const tone = tones[Math.max(0, place) % tones.length];
 // The same facts on every card, in the same order, so cards can be compared at a glance. A fact may
 // have a quieter line under it: the introduction under the dates, and under the format what follows its
-// first comma ("Live on Zoom" over "Thursdays at 19:30 Greek time").
+// first comma ("Live on Zoom" over "with recordings"); Zoom is named with its icon (ZoomText).
 const comma = course.format?.indexOf(', ') ?? -1;
 // Once known: "From 26 November 2026 until 10 June 2027", and "24 weekly lessons · 8 months"
 const dates = course.lastLesson ? `${course.schedule} ${fill(ui.when.until, { date: course.lastLesson.short })}` : course.schedule;
@@ -128,11 +129,13 @@ const splitFee = (display: string) => {
               )
             ) : 'note' in fact && fact.note ? (
               <dd>
-                {fact.value}
+                <ZoomText text={fact.value!} />
                 <span class="card__aside">{fact.note}</span>
               </dd>
             ) : (
-              <dd>{fact.value}</dd>
+              <dd>
+                <ZoomText text={fact.value!} />
+              </dd>
             )}
           </div>
         ))

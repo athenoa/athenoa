@@ -403,3 +403,16 @@ The four earlier courses (The Hidden Non-Duality, and the three placeholders) ar
 - The courses' end date ("Τελευταίο μάθημα" and "έως …" on the cards) is removed everywhere for now (Maria); the length keeps its "· 8 μήνες / · 8 months".
 - Εὖ Ζῆν's dates in Maria's words: "Εισαγωγικό μάθημα - Παρουσίαση Κύκλου: Δευτέρα 23 Νοεμβρίου 2026, 19:30 (ώρα Ελλάδος)" and "Πρώτο Μάθημα: Τρίτη 1 Δεκεμβρίου 2026, 19:30". The English is "Introductory lesson - Presentation of the Cycle" (proposed). The card's line under the dates uses the same words. ΟΔΥΣΣΕΙΑ keeps "Εισαγωγή & Παρουσίαση Μαθήματος" / "Πρώτο μάθημα" for now.
 - ΟΔΥΣΣΕΙΑ takes Εὖ Ζῆν's wording for consistency: "Εισαγωγικό μάθημα - Παρουσίαση Κύκλου" and "Πρώτο Μάθημα" (its card line too); English "Introductory lesson - Presentation of the Cycle".
+
+## Courses, round 9
+
+- **Format**, on every course: "Ζωντανά μέσω Zoom" with "με καταγραφές" under it / "Live on Zoom" with "with recordings", next to Zoom's icon. The day and time are no longer repeated there (they are in the dates). The non-duality course now says "μέσω Zoom" (was "στο Zoom").
+- **Quotations** are set as quotations, a thin rule on their left, in the voice face:
+  - ΟΔΥΣΣΕΙΑ's Cavafy opening and close, and the Laestrygonians line;
+  - Εὖ Ζῆν's opening line.
+- **Wavy underlines** go on lead terms, as in the non-duality course:
+  - Εὖ Ζῆν's four unit titles;
+  - the number of lessons and "Βεβαίωση Παρακολούθησης" in both courses;
+  - "Μελέτη των 24 Ραψωδιών της Οδύσσειας".
+- **"Σύντομα" / "Coming soon"** (proposed) marks the non-duality course in the courses menu and under its title.
+- **Pricing**: the line "για Ολόκληρο τον Κύκλο" / "for the whole Cycle" (and membership's "για Ολόκληρο το Έτος") under the upfront amount is removed. The Markdown twins keep it, where the plain text needs it.

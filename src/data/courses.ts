@@ -68,6 +68,8 @@ export interface Course {
   teaching?: 'el' | 'en';
   /** True when visitors can enrol now: the card's button reads "Enroll" */
   available: boolean;
+  /** Marked "Coming soon" in the courses menu and on its page */
+  comingSoon?: boolean;
   instructor: string;
   /** The standard tuition, for the course card and search engines */
   price?: {
@@ -150,7 +152,7 @@ export const courses: Course[] = [
     months: 8,
     // lastLesson: no end date shown for now (Maria, 22 November 2026); set { when, short } to show one
     duration: '24 weekly lessons',
-    format: 'Live on Zoom, Thursdays at 19:30 Greek time',
+    format: 'Live on Zoom, with recordings',
     teaching: 'el',
     available: true,
     instructor: 'Dr. Athena Despoina Potari',
@@ -188,7 +190,7 @@ export const courses: Course[] = [
         id: 'description',
         label: 'Course Description',
         sublabel: 'Introduction',
-        html: `<p><em>“Always keep Ithaca in your Mind.<br>To arrive there is your destination.”</em></p>
+        html: `<blockquote><p>“Always keep Ithaca in your Mind.<br>To arrive there is your destination.”</p></blockquote>
 <p>Awe touches the Soul as it approaches the ever-flowing spring of Homer, the Source of the Tradition, over which our most ancient forefathers have leaned, generation after generation, for centuries: all those who drew close around the fire of Homer and the Primordial Wisdom recorded, historically, mythologically and mystically, in the great masterworks of the Epics. The eternal Archetypes that tell a primordial story, an age-old journey, familiar and mysterious: the journey of our very own Soul.</p>
 <p><strong>In this Cycle of Studies in Greek Philosophy we will study the Odyssey as a timeless treasure of Wisdom, a symbolic Map of the human Soul and of its Journey to Self-knowledge and Awakening.</strong> We will decode, Philosophically, Psychologically, Experientially and Initiatically, the deeper symbolism and the hidden Wisdom of the Homeric Epic. We will come into contact again with the Ancient Greek Language, with its vibration and its etymology, which has the power to illuminate the Mind and awaken the Soul.</p>
 <p><strong>Odysseus is Us.</strong></p>
@@ -199,7 +201,7 @@ export const courses: Course[] = [
 <p>Homer’s Odyssey, as a primordial Code of the Greek Spirit, carries a unique quality, a hue of its divine nature and origin: it describes at once all the journeys of all our hypostases. It speaks to us of the relation of the One to the Many. The Passage from Unity to Multiplicity. The Journey of the Soul into existence. And the path of our Soul’s Awakening.</p>
 <p>For the Odyssey is Life itself, the course of incarnation, and indeed of all incarnations, within the cyclical orbits of the god-made Aeons.</p>
 <p>It tells of our very own journey on Earth, through the much-suffering, many-turning human experience.</p>
-<p><em>~ “The Laestrygonians and the Cyclopes, wild Poseidon”, whom “you will not meet, unless you carry them within your soul.”</em></p>
+<blockquote><p>~ “The Laestrygonians and the Cyclopes, wild Poseidon”, whom “you will not meet, unless you carry them within your soul.”</p></blockquote>
 <p>Yet this journey is neither arbitrary nor uncharted. It bears Archetypal Elements, Structure and Stations. The trials we face, the challenges, the passions, the oblivion, are not unique to each of us. They are, archetypally and eternally, the same. The Universe has ways, constants and laws. Even the scenarios of oblivion and the simplicity of un-forgetting are constant.</p>
 <p>All of this is mapped in the living guide of the Odyssey, a timeless handbook… for navigating life. Here we meet the distillation of Wisdom. For this handbook, this sacred epic, describes at once, on parallel levels, all the philosophical, theological, physical, historical, ontological and psychological dimensions of life and of our Soul’s journey to the <span lang="el">Νόστος</span> of Remembrance, which for Socrates is the very definition of Knowledge.</p>
 <p>That is why the Goddess Athena, the Goddess of Knowledge and Wisdom, keeps ever-watchful guard at the side of Odysseus as his guide.</p>
@@ -212,13 +214,13 @@ export const courses: Course[] = [
         label: 'The Cycle of Studies Includes',
         sublabel: '24 lessons, one year of access',
         html: `<ul>
-<li>24 live, interactive online Lessons on Zoom</li>
+<li><u>24 live, interactive online Lessons</u> on Zoom</li>
 <li>Links to watch each lesson at your own time, in audio-visual form (video and audio/mp3), once its live broadcast is over</li>
 <li>Access to All the lesson videos and the Study Material for one year</li>
-<li>Study of the 24 Rhapsodies of the Odyssey, in contact with the original text and the Etymology of the Ancient Greek Language, delving into the Philosophical, Psychological, Spiritual and Symbolic meanings of the Homeric Epic</li>
+<li><u>Study of the 24 Rhapsodies of the Odyssey</u>, in contact with the original text and the Etymology of the Ancient Greek Language, delving into the Philosophical, Psychological, Spiritual and Symbolic meanings of the Homeric Epic</li>
 <li>A combination of the Dialectical Tradition, the Study of Ancient Texts &amp; Scientific Knowledge with Experiential Exercises of Self-knowledge &amp; Meditations</li>
 <li>Connecting Homeric Wisdom with the riches of Ancient Greek Philosophy, through original interpretive approaches and selected ancient texts</li>
-<li>Certificate of Attendance for the Cycle of Studies</li>
+<li><u>Certificate of Attendance</u> for the Cycle of Studies</li>
 <li>Question-and-Answer sessions and scholarly dialogue that encourage direct participation and interaction</li>
 <li>Additional Bibliography and Notes</li>
 <li>Participation in an active, inspired Online Community of Students &amp; Friends of Philosophy that fosters learning among students (optional)</li>
@@ -249,7 +251,7 @@ export const courses: Course[] = [
     months: 8,
     // lastLesson: no end date shown for now (Maria, 22 November 2026); set { when, short } to show one
     duration: '16 lessons, about two a month',
-    format: 'Live on Zoom, Tuesdays at 19:30 Greek time',
+    format: 'Live on Zoom, with recordings',
     teaching: 'el',
     available: true,
     instructor: 'Dr. Athena Despoina Potari',
@@ -290,7 +292,7 @@ export const courses: Course[] = [
         id: 'description',
         label: 'Course Description',
         sublabel: 'Introduction',
-        html: `<p><em>“A path of Self-knowledge, Truth, Virtue, Eros and Freedom, whose aim is to return Philosophy to its primordial mission: Awakening, Freedom &amp; the Art of <span lang="grc">Εὖ Ζῆν</span>.”</em></p>
+        html: `<blockquote><p>“A path of Self-knowledge, Truth, Virtue, Eros and Freedom, whose aim is to return Philosophy to its primordial mission: Awakening, Freedom &amp; the Art of <span lang="grc">Εὖ Ζῆν</span>.”</p></blockquote>
 <p>A new, experiential Cycle of Studies, dedicated to the practical application of Ancient Greek Philosophy in our everyday life: as a living path of Self-knowledge, of the cultivation of Virtue, of reconnection with our Authenticity and of the Awakening of the Soul.</p>
 <p>At its core lies the ancient Greek ideal of <span lang="grc">Εὖ Ζῆν</span>, living well. The Cycle of Studies «<span lang="grc">Εὖ Ζῆν</span>: Philosophy as the Art of Living» is an experiential path of 16 lessons, dedicated to the practical application of Ancient Greek Wisdom in our everyday life. We will explore how the timeless Wisdom of the Greeks can illuminate the deepest questions of human existence, guide us through the challenges of everyday life, and transform Philosophy from an object of knowledge into lived experience and a way of life.</p>
 <p>Unlike the Cycles that focus on the systematic study of one particular ancient work, here we will travel through selected passages of the Greek Philosophical Tradition and the study of the ancient Greek Language and its etymology, approaching by theme some of the most fundamental and timeless questions of human life:</p>
@@ -302,24 +304,24 @@ export const courses: Course[] = [
         id: 'themes',
         label: 'Indicative Themes',
         sublabel: 'Four units',
-        html: `<p><strong>Unit I: Know Thyself (<span lang="grc">ΓΝΩΘΙ ΣΑΥΤΟΝ</span>)</strong><br><em>The Mystery of the Self and the Awakening of Consciousness</em></p>
+        html: `<p><strong><u>Unit I: Know Thyself (<span lang="grc">ΓΝΩΘΙ ΣΑΥΤΟΝ</span>)</u></strong><br><em>The Mystery of the Self and the Awakening of Consciousness</em></p>
 <ul>
 <li>What does it mean to Live Truly? What is Eudaimonia?</li>
 <li>What is true <span lang="el">Παιδεία</span>, education of the whole person, and what follows from its absence?</li>
 <li><strong>Who Am I? What are Mind and Consciousness?</strong> Through Plato’s Cave we explore the nature of Mind and Consciousness, the habits and unconscious programs that shape us, in search of Self-knowledge and Awakening.</li>
 </ul>
-<p><strong>Unit II: The Return to Inner Truth</strong><br><em>From Self-knowledge to Inner Connection</em></p>
+<p><strong><u>Unit II: The Return to Inner Truth</u></strong><br><em>From Self-knowledge to Inner Connection</em></p>
 <ul>
 <li><strong>What is the Soul and what forces govern it? How do I hear my inner voice? How will I find my <span lang="el">Οικειοπραγία</span>, the doing of my own work? Why do I feel sorrow?</strong> We delve into the threefold nature of the Soul, into Truth and inner connection, into trauma and Freedom. We seek our <span lang="grc">Οἰκεῖον Ἔργον</span>, our proper work, and the possibility of our work becoming an ally of our true Nature.</li>
 <li><strong>What is Virtue? How are the Four Cardinal Virtues cultivated? What does it mean to live <span lang="grc">Κατὰ Φύσιν</span>, according to Nature? How does Philosophy become everyday practice?</strong> We explore Virtue, the Four Cardinal Virtues, the Aristotelian Mean and living <span lang="grc">Κατὰ Φύσιν</span>, as the foundations of a life of Truth, Freedom and Eudaimonia.</li>
 </ul>
-<p><strong>Unit III: Eros, Love and Human Relationships</strong><br><em>The Other as a Mirror of the Soul</em></p>
+<p><strong><u>Unit III: Eros, Love and Human Relationships</u></strong><br><em>The Other as a Mirror of the Soul</em></p>
 <ul>
 <li>What is Eros? Why do we fall in love?</li>
 <li>Conscious partnership: how do we create conscious relationships? Freedom and Love</li>
 <li>How do my family roots and the wounds of the past affect me?</li>
 </ul>
-<p><strong>Unit IV: The Soul in the World</strong><br><em>From Knowledge to Virtue, Psychopolitics and Lived Wisdom</em></p>
+<p><strong><u>Unit IV: The Soul in the World</u></strong><br><em>From Knowledge to Virtue, Psychopolitics and Lived Wisdom</em></p>
 <ul>
 <li><strong>Why Is This Happening to Me Now? Justice &amp; <span lang="el">Ειμαρμένη</span>: the Greek Counterpart of Karma?</strong> Ancient views of responsibility, retribution and catharsis, in dialogue with the idea of karma. The relation between Fate and Freedom. Is there a deeper order in the events of our lives?</li>
 <li><strong>Psychopolitics.</strong> How is individual Consciousness connected with collective Consciousness and with Politics? How can we realize our Nature as “political beings”?</li>
@@ -330,11 +332,11 @@ export const courses: Course[] = [
         label: 'The Cycle of Studies Includes',
         sublabel: '16 lessons, one year of access',
         html: `<ul>
-<li>16 interactive online Lessons on Zoom (about 2 lessons a month)</li>
+<li><u>16 interactive online Lessons</u> on Zoom (about 2 lessons a month)</li>
 <li>The option to watch at your own time: links to each lesson in audio-visual form (video and audio/mp3) are sent once its live broadcast is over</li>
 <li>Access to All the lesson videos and the Study Material for one year</li>
 <li>A combination of the Dialectical Tradition, the Study of Ancient Texts &amp; Scientific Knowledge with Experiential Exercises of Self-knowledge &amp; Meditations</li>
-<li>Certificate of Attendance for the Cycle of Studies</li>
+<li><u>Certificate of Attendance</u> for the Cycle of Studies</li>
 <li>Question-and-Answer and Dialogue sessions, for interaction and for putting the teaching into practice</li>
 <li>Additional Bibliography and Notes</li>
 <li>Participation in an active, inspired Online Community of Students &amp; Friends of Philosophy that fosters learning among students (optional)</li>
@@ -363,6 +365,7 @@ export const courses: Course[] = [
     teaching: 'en',
     // Not open yet: its button is "Join waitlist" (WaitlistDialog.astro). No tuition, so no registration shows.
     available: false,
+    comingSoon: true,
     instructor: 'Dr. Athena Despoina Potari',
     // The price is to come (Maria, 22 November 2026: not final); no fee is shown until it is set here
     sections: [
@@ -443,6 +446,8 @@ export const coursesPage = {
     when: { last: 'Last lesson', until: 'until {date}', months: '{n} months' },
     // The languages a course is taught in (Course.teaching)
     languages: { el: 'Greek', en: 'English' },
+    // The small mark on a course not open yet (Course.comingSoon)
+    soon: 'Coming soon',
     close: 'Close',
     enroll: 'Enroll',
     placeholderNote: 'Course details are on their way. Leave your name and we will write to you when enrolment opens.',

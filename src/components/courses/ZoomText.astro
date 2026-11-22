@@ -1,0 +1,42 @@
+---
+// A line of text that names Zoom, with Zoom's app icon (a blue rounded square, a white camera) beside the
+// word (Maria, 22 November 2026). The icon is drawn here, inline, and hidden from screen readers: the
+// word itself stays.
+interface Props {
+  text: string;
+}
+const { text } = Astro.props;
+const at = text.indexOf('Zoom');
+---
+
+{
+  at < 0 ? (
+    text
+  ) : (
+    <>
+      {text.slice(0, at)}
+      <span class="zoom">
+        <svg class="zoom__icon" viewBox="0 0 24 24" width="1em" height="1em" aria-hidden="true" focusable="false">
+          <rect width="24" height="24" rx="6.5" fill="#0b5cff" />
+          <rect x="4.6" y="8" width="10.2" height="8" rx="2.2" fill="#fff" />
+          <path d="M15.6 11.1 19.4 8.6v6.8l-3.8-2.5z" fill="#fff" />
+        </svg>
+        Zoom
+      </span>
+      {text.slice(at + 4)}
+    </>
+  )
+}
+
+<style>
+  .zoom {
+    white-space: nowrap;
+  }
+  .zoom__icon {
+    display: inline-block;
+    width: 0.95em;
+    height: 0.95em;
+    margin-right: 0.22em;
+    vertical-align: -0.12em;
+  }
+</style>

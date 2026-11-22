@@ -66,7 +66,15 @@ const canEnrol = course.available && Boolean(course.tuition?.length);
       {/* The registration form the tier buttons open */}
       {canEnrol && <RegisterDialog course={course} />}
       {/* A last line in Athena's voice (the live ΟΔΥΣΣΕΙΑ page ends on Cavafy's Ithaca) */}
-      {course.closing && <p class="course__closing hand hand--l" data-reveal>{course.closing}</p>}
+      {
+        course.closing && (
+          <div class="prose course__closing" data-reveal>
+            <blockquote>
+              <p>{course.closing}</p>
+            </blockquote>
+          </div>
+        )
+      }
       {/* The way into Nostos (NostosInvite) is hidden for the launch (Maria, 22 November 2026) */}
     </div>
   </article>
@@ -107,10 +115,11 @@ const canEnrol = course.available && Boolean(course.tuition?.length);
   .reg__head .hand {
     margin-top: 0.6rem;
   }
+  /* The closing quotation, set like every quotation of the course: the voice face, a thin rule on its left */
   .course__closing {
-    max-width: 34ch;
+    max-width: 40rem;
     margin: var(--space-xl) auto 0;
-    text-align: center;
+    font-size: var(--step-1);
   }
   /* The heading above, the ways to pay under it across the whole width: the tiers stand as columns */
   .reg {
