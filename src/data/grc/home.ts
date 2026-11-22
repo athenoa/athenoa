@@ -53,12 +53,9 @@ export const home = {
       text: 'Πρῶτοι πυνθάνεσθε τὰ παρ’ ἡμῶν ἀγγελλόμενα καὶ τὰ συγγράμματα καὶ ὅσα μέλλομεν πράξειν',
       cta: { label: 'Ἐγγράψασθε', href: '#newsletter' },
     },
-    // The three courses announced here. Each is drawn as a course card, the same as on the courses page.
-    courses: [
-      { slug: 'platos-republic' },
-      { slug: 'marcus-aurelius-the-self' },
-      { slug: 'plato-cratylus-platonic-virtues' },
-    ],
+    // The courses announced here (the two open on the live site, 22 November 2026). Each is drawn as a
+    // course card, the same as on the courses page.
+    courses: [{ slug: 'odusseia' }, { slug: 'eu-zen' }],
   },
 
   seminar: {
@@ -71,11 +68,12 @@ export const home = {
 
   series: {
     title: 'Θεάσασθε τὴν ἡμετέραν νέαν τῶν μαθημάτων σειράν',
-    // Same sentence as the summary of the course in ./courses.ts.
-    text: 'Καθ’ ἑκάστην ἑβδομάδα διερευνησόμεθα τὴν περὶ τοῦ μὴ δύο εἶναι διδαχήν, ἣν ἀπεφήναντο οἵδε οἱ μεγάλοι φιλόσοφοι ~ παλαιοὶ σοφοί· Πλωτῖνος, Πλάτων, Πυθαγόρας, οἱ πρὸ Σωκράτους',
-    cta: { label: 'Ἄρξασθε', href: courseHref('the-hidden-non-duality-of-ancient-greek-philosophy') },
+    // Same sentence as the summary of the course in ./courses.ts (the course shown in full below).
+    text: 'Σε αυτόν τον Κύκλο Σπουδών Ελληνικής Φιλοσοφίας θα διδαχθούμε την Οδύσσεια ως διαχρονικό θησαυρό Σοφίας, συμβολικό Χάρτη της ανθρώπινης Ψυχής και του Ταξειδιού της προς την Αυτογνωσία και την Αφύπνιση.',
+    cta: { label: 'Ἄρξασθε', href: courseHref('odusseia') },
     more: 'Μάθετε πλείω κατωτέρω',
-    courseSlug: 'the-hidden-non-duality-of-ancient-greek-philosophy',
+    // The course shown in full on the home page (CourseTabs.astro)
+    courseSlug: 'odusseia',
   },
 
   transmission: {

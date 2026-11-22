@@ -280,36 +280,17 @@ export const personSchema = (asked: AnyLocale = 'en'): Json => {
 const localeOf = (course: Course | undefined, asked?: unknown): Locale =>
   asked === 'en' || asked === 'el' ? asked : course && content('el').courses.includes(course) ? 'el' : 'en';
 
-const numberWords = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'];
-
-// How a course runs is the same in every language, so it is read once, from the English copy that the
-// Greek translates ("This four-week course", "Each week we will explore", "The platform we use for the
-// sessions is Zoom"). No dates, session lengths or start times are given there, so none appear here.
-const runOf = (slug: string) => {
-  const source = content('en').courses.find((item) => item.slug === slug);
-  const text = plain(source?.sections.map((section) => section.html).join(' ') ?? '');
-  const weeks = numberWords.indexOf(text.match(/\b(\w+)-week course\b/i)?.[1].toLowerCase() ?? '') + 1;
-  return {
-    online: text.includes('The platform we use for the sessions is Zoom'),
-    weeks: /\beach week\b/i.test(text) ? weeks : 0,
-  };
-};
-
-const courseInstance = (course: Course, locale: Locale): Json => {
-  const { online, weeks } = runOf(course.slug);
-  const access = course.sections.find((section) => section.id === 'access')?.html.match(/<p>([\s\S]*?)<\/p>/)?.[1];
-  return {
-    '@type': 'CourseInstance',
-    name: course.schedule,
-    description: access && plain(access),
-    courseMode: online ? 'Online' : undefined,
-    courseSchedule: weeks ? { '@type': 'Schedule', repeatFrequency: 'Weekly', repeatCount: weeks } : undefined,
-    instructor:
-      course.instructor === content(locale).site.founder
-        ? athenaRef(locale)
-        : { '@type': 'Person', name: course.instructor },
-  };
-};
+// How a course runs: online when it is taught on Zoom (its format says so). No start dates are set yet,
+// so none appear here.
+const courseInstance = (course: Course, locale: Locale): Json => ({
+  '@type': 'CourseInstance',
+  name: course.schedule,
+  courseMode: course.format?.includes('Zoom') ? 'Online' : undefined,
+  instructor:
+    course.instructor === content(locale).site.founder
+      ? athenaRef(locale)
+      : { '@type': 'Person', name: course.instructor },
+});
 
 const courseOffer = (price: NonNullable<Course['price']>, url: string): Json => ({
   '@type': 'Offer',
@@ -317,20 +298,14 @@ const courseOffer = (price: NonNullable<Course['price']>, url: string): Json => 
   price: price.amount,
   priceCurrency: price.currency,
   url,
-  // The copy quotes the price before tax: "€200 & VAT (24%)".
+  // The standard tuition for the whole cycle, then the same in eight monthly instalments: "€550 or 8 × €68.75".
   description: `${price.label} ${price.display}`,
-  priceSpecification: {
-    '@type': 'PriceSpecification',
-    price: price.amount,
-    priceCurrency: price.currency,
-    valueAddedTaxIncluded: price.vatRate > 0 ? false : undefined,
-  },
 });
 
 /**
  * A course that is open, with its description, run and price: everything Google asks of a Course.
  * A placeholder has none of those yet, so it is described as the page it is and not as a Course.
- * The language is the page's, not the course's: the copy does not say in which language a course is taught.
+ * The page's language is the record's; the courses themselves are taught in Greek (inLanguage).
  */
 export const courseSchema = (course: Course, asked?: unknown): Json => {
   const locale = localeOf(course, asked);
@@ -346,6 +321,7 @@ export const courseSchema = (course: Course, asked?: unknown): Json => {
     url,
     image: photo(course.image),
     provider: organizationRef(locale),
+    inLanguage: 'el',
     hasCourseInstance: courseInstance(course, locale),
     offers: courseOffer(course.price, url),
     mainEntityOfPage: onPage,

@@ -1,9 +1,10 @@
 ---
 // The course popup: a native <dialog>, one per course, rendered in the page so its content is in the HTML.
 // A card link with data-course-open="<slug>" opens it; so does arriving at /courses/#<slug>.
+// "Enroll" in its foot opens the last item, the ways to pay (each a Stripe Payment Link); without
+// JavaScript it is a link to the same place on the course page.
 import CourseBody from './CourseBody.astro';
 import CoursePrice from './CoursePrice.astro';
-import EnrollFlow from './EnrollFlow.astro';
 import { content } from '../../data';
 import type { Course } from '../../data/courses';
 import { getLocale } from '../../lib/locale';
@@ -12,10 +13,11 @@ interface Props {
   course: Course;
 }
 const { course } = Astro.props;
-const { ui } = content(getLocale(Astro.url)).coursesPage;
+const { coursesPage, coursePageHref, registrationTab } = content(getLocale(Astro.url));
+const { ui } = coursesPage;
 const titleId = `course-title-${course.slug}`;
 // The same test as the card's "Enroll" button
-const canEnrol = course.available;
+const canEnrol = course.available && Boolean(course.tuition?.length);
 ---
 
 <dialog class:list={['cd', canEnrol && 'cd--full']} data-course-dialog={course.slug} aria-labelledby={titleId}>
@@ -36,7 +38,9 @@ const canEnrol = course.available;
       canEnrol && (
         <div class="cd__foot on-blue-deep" data-course-foot>
           {course.price && <CoursePrice class="cd__price" price={course.price} />}
-          <EnrollFlow course={course} id={`enroll-${course.slug}`} />
+          <a class="btn" href={`${coursePageHref(course.slug)}#${registrationTab.id}`} data-enroll-start>
+            {ui.enroll}
+          </a>
         </div>
       )
     }
@@ -95,19 +99,19 @@ const canEnrol = course.available;
       if (event.target === dialog && pressedBackdrop) close(dialog);
     });
 
-    // The enrol flow reports its step: the sheet swaps between course information and enrolment.
-    dialog.addEventListener('enroll:step', (event) => {
-      const enrolling = (event as CustomEvent<string>).detail !== 'idle';
-      dialog.toggleAttribute('data-enrolling', enrolling);
-      // The request form is part of the same sheet of paper, not a blue panel laid over it:
-      // the foot gives up its dark ground while the form is showing.
-      dialog.querySelector('[data-course-foot]')?.classList.toggle('on-blue-deep', !enrolling);
-      dialog.querySelector('[data-course-foot]')?.scrollTo(0, 0);
+    // "Enroll": open the ways to pay, the accordion's last item, and bring it into view
+    dialog.querySelector('[data-enroll-start]')?.addEventListener('click', (event) => {
+      const item = dialog.querySelector<HTMLDetailsElement>('details[data-registration]');
+      if (!item) return;
+      event.preventDefault();
+      item.open = true;
+      requestAnimationFrame(() =>
+        item.scrollIntoView({ block: 'start', behavior: motionOn() ? 'smooth' : 'auto' }),
+      );
     });
 
     dialog.addEventListener('close', () => {
       dialog.classList.remove('is-closing');
-      dialog.querySelector('[data-enroll]')?.dispatchEvent(new CustomEvent('enroll:reset'));
       dialog.querySelector('[data-course-scroll]')?.scrollTo(0, 0);
       if (hashSlug() === slug) setHash('');
       // Back to the card that leads here (Safari does not restore focus to a clicked link by itself).
@@ -134,7 +138,7 @@ const canEnrol = course.available;
         if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
         event.preventDefault();
         open(dialog);
-        // "Enroll" on a card goes straight to the request form
+        // "Enroll" on a card goes straight to the ways to pay
         if (link.hasAttribute('data-course-enroll')) {
           dialog.querySelector<HTMLElement>('[data-enroll-start]')?.click();
         }
@@ -241,9 +245,6 @@ const canEnrol = course.available;
     border-radius: 1.6rem 1.3rem 1.7rem 1.2rem / 1.3rem 1.7rem 1.2rem 1.6rem;
     outline-offset: 3px;
   }
-  .cd[data-enrolling] .cd__close:focus-visible {
-    outline-color: var(--creme-light);
-  }
   .cd__close path {
     fill: none;
     stroke: currentColor;
@@ -251,8 +252,7 @@ const canEnrol = course.available;
     stroke-linecap: round;
   }
 
-  /* The foot: a darker blue cut-out along the bottom of the sheet holding the fee and the way in.
-     During enrolment it grows to fill the sheet. */
+  /* The foot: a darker blue cut-out along the bottom of the sheet holding the fee and the way in */
   .cd__foot {
     position: relative;
     isolation: isolate;
@@ -276,28 +276,6 @@ const canEnrol = course.available;
     background-image: var(--grain);
     background-size: 400px 400px;
     filter: url(#rough-sm);
-  }
-  .cd[data-enrolling] .cd__scroll,
-  .cd[data-enrolling] .cd__price {
-    display: none;
-  }
-  /* The request form takes the place of the course's details in the same sheet (client direction,
-     12 October 2026): no panel of its own, the sheet's paper and inks. */
-  .cd[data-enrolling] .cd__foot {
-    flex: 1 1 auto;
-    display: block;
-    min-height: 0;
-    margin: 0;
-    padding: 4.25rem clamp(1.4rem, 0.6rem + 3.8vw, 3.5rem) 2.25rem;
-    overflow-y: auto;
-    overscroll-behavior: contain;
-  }
-  .cd[data-enrolling] .cd__foot::before {
-    display: none;
-  }
-  /* the summary ticket is paper too: on the paper sheet it is set on light blue instead */
-  .cd[data-enrolling] :global(.enroll__ticket::before) {
-    background-color: var(--blue-light);
   }
   /* ---------- Open and close ---------- */
   .cd[open] {

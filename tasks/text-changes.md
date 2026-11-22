@@ -285,3 +285,24 @@ The new emblem (Bureau Veritas structure, chosen by Maria on 20 November 2026) c
 | Foot of the ribbon, proposed by Maria | ΑΚΑΔΗΜΙΑ ΕΛΛΗΝΙΚΗΣ ΣΟΦΙΑΣ ("Academy of Hellenic Wisdom") | Replaces ΕΛΛΗΝΙΚΗ ΣΟΦΙΑ (round 2) and the first sketch's PLATONIC ACADEMY. An English version follows once the Greek is settled |
 | English emblem, top | ATHENOA | as the site's name |
 | English emblem, foot | ACADEMY OF HELLENIC WISDOM | translation of the Greek foot line |
+
+## Courses: ΟΔΥΣΣΕΙΑ and Εὖ Ζῆν (22 November 2026)
+
+The four earlier courses (The Hidden Non-Duality, and the three placeholders) are replaced by the two courses open on the live site: athenoa.academy/odusseia and athenoa.academy/eu-zen (`src/data/courses.ts`, `src/data/el/courses.ts`). Those pages exist only in Greek.
+
+- **Greek (/el/): Athena's words.** Changes, all of form:
+  - ΟΔΥΣΣΕΙΑ: "την κρυμμένη Σοφίας" → "την κρυμμένη Σοφία"; the bullet "Συνδυασμός Διαλεκτικής Παράδοσης…" appeared twice in the list of what the cycle includes, now once; the lone "*" between paragraphs dropped; "Η Ιθάκη * Είναι *" set as "Η Ιθάκη <em>Είναι</em>"; short lines grouped into stanzas; the opening Cavafy lines are an italic epigraph.
+  - Εὖ Ζῆν: the header lines (Zoom, Tuesday 19:30, recordings, one year's access; "ετεροχρονισμένς" there was a typo) are now the card's facts and the list of what the cycle includes; in unit Β΄, ";;" → ";" and the question "Πώς ακούω την εσωτερική μου φωνή;" (written twice) kept once; "κ.α." → "κ.ά."; the second heading line "& την Τέχνη του Εὖ Ζῆν.”" (a repeat of the end of the first) dropped; the leftover "Στο κυρίως σώμα αυτού του email μπορείτε να βρείτε τις σχετικές πληροφορίες!" under the membership line dropped; the topic line "Ποιος Είμαι; • …" kept as one italic line.
+- **Prices: from Stripe (checked 22 November 2026).**
+  - ΟΔΥΣΣΕΙΑ: the page says 69€ and 83€ a month; Stripe charges 68,75€ and 82,50€.
+  - Εὖ Ζῆν: the page says 660€ (8 × 80€) and, for the Δίδακτρα Αγάπης, 550€ (8 × 90€). Stripe charges 640€ and 720€. **To confirm with Athena.**
+- **English (/courses/): a draft translation, proposed.** All of it is new text for Athena to review, including:
+  - the titles "Odyssey" and "Εὖ Ζῆν"; "Standard Tuition" and "Tuition of Love";
+  - Cavafy's lines in our own rendering;
+  - "Live on Zoom in Greek" (added: the courses are taught in Greek).
+- **New interface wording, proposed (en / el):**
+  - section labels "Course Description / Introduction" (Περιγραφή / Εισαγωγή), "Indicative Themes / Four units" (Ενδεικτικές Θεματικές / Τέσσερις ενότητες), "The Cycle of Studies Includes / 24 lessons, one year of access" (Ο Κύκλος Σπουδών Περιλαμβάνει / 24 μαθήματα, ένα έτος πρόσβασης);
+  - "Start date to be announced" (Η ημερομηνία έναρξης θα ανακοινωθεί), because the live pages give no dates;
+  - the buttons "Pay in full / Pay monthly" (the live page's Ετήσια Προπληρωμή / Μηνιαία καταβολή);
+  - the card's fee line "€550 or 8 × €68.75".
+- **Membership.** The live page's line about becoming a Member links to the membership form the home page already uses (site.membershipForm), since this site has no membership page.

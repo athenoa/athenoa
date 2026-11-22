@@ -1,15 +1,16 @@
 ---
-// Home: the full detail of the featured course as six tabs on a large light-blue sheet.
-// Without JavaScript the tab list stays hidden and the six panels read one after another under their headings.
+// Home: the full detail of the featured course (home.series.courseSlug) as tabs on a large light-blue
+// sheet: its sections, then the ways to pay.
+// Without JavaScript the tab list stays hidden and the panels read one after another under their headings.
 // Every word here comes from the data (tab labels included); the script adds none.
 import { handCase } from '../../lib/hand';
 import Illustration from '../Illustration.astro';
+import RegistrationInfo from '../courses/RegistrationInfo.astro';
 import { content } from '../../data';
 import { getLocale } from '../../lib/locale';
 
 const { home, courses, registrationTab } = content(getLocale(Astro.url));
 const course = courses.find((item) => item.slug === home.series.courseSlug)!;
-const cta = home.series.cta;
 const tabs = [...course.sections, registrationTab];
 ---
 
@@ -66,34 +67,9 @@ const tabs = [...course.sections, registrationTab];
               <h3 class="t-3">{registrationTab.label}</h3>
               <p class="hand hand--m">{handCase(registrationTab.sublabel)}</p>
             </hgroup>
-            <div class="prose">
-              <p>{course.registrationNote}</p>
-            </div>
             <div class="ctabs__fees">
-              {
-                course.price && (
-                  <p class="ctabs__price box on-blue-deep">
-                    <span class="ctabs__price-label">{course.price.label}</span>
-                    <span class="ctabs__price-amount t-2">{course.price.display}</span>
-                  </p>
-                )
-              }
-              <div class="ctabs__includes prose">
-                <p>
-                  <strong>{course.includesLabel}</strong>
-                </p>
-                <ul>
-                  {course.includes?.map((item) => (
-                    <li>
-                      <em>{item}</em>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              <RegistrationInfo course={course} level={4} />
             </div>
-            <p class="ctabs__cta">
-              <a class="btn" href={cta.href}>{cta.label}</a>
-            </p>
           </div>
         </div>
       </div>
@@ -101,7 +77,7 @@ const tabs = [...course.sections, registrationTab];
   </div>
 </section>
 
-<!-- Switches to the tabbed layout before first paint, so the six stacked panels never flash. -->
+<!-- Switches to the tabbed layout before first paint, so the stacked panels never flash. -->
 <script is:inline data-astro-rerun>
   (function () {
     var root = document.getElementById('course-details');
@@ -218,7 +194,7 @@ const tabs = [...course.sections, registrationTab];
     white-space: nowrap;
   }
 
-  /* ---------- Reading order without JavaScript: six panels under their headings ---------- */
+  /* ---------- Reading order without JavaScript: the panels under their headings ---------- */
   .ctabs__panel + .ctabs__panel {
     margin-top: var(--space-l);
     padding-top: var(--space-l);
@@ -339,31 +315,7 @@ const tabs = [...course.sections, registrationTab];
 
   /* ---------- Registration panel ---------- */
   .ctabs__fees {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    gap: var(--space-m) var(--space-l);
     max-width: var(--measure);
-    margin-top: var(--space-m);
-  }
-  .ctabs__price {
-    --box-r: var(--r-leaf);
-    display: grid;
-    gap: 0.35rem;
-    flex: 0 1 auto;
-    padding: 1.4rem clamp(1.4rem, 5vw, 2.1rem) 1.6rem;
-  }
-  .ctabs__price-label {
-    font-size: var(--step--1);
-  }
-  .ctabs__price-amount {
-    font-size: min(var(--step-3), 7.6vw);
-    white-space: nowrap;
-  }
-  .ctabs__includes {
-    flex: 1 1 18rem;
-  }
-  .ctabs__cta {
     margin-top: var(--space-m);
   }
 
@@ -405,7 +357,7 @@ const tabs = [...course.sections, registrationTab];
     }
   }
   /* The column follows the reader down the page only where the window is tall enough to show all
-     six pebbles under the header (the Greek labels make the tallest column). */
+     pebbles under the header (sized for six; the Greek labels make the tallest column). */
   @media (min-width: 60rem) and (min-height: 51rem) {
     .ctabs.is-tabbed .ctabs__list {
       position: sticky;

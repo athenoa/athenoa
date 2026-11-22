@@ -1,27 +1,119 @@
 ---
-// How to register and what the fee covers. Shared by the popup and the course page.
+// How to register: each tuition on a dark-blue slip, with its two Stripe Payment Links (the whole amount
+// at once, or eight monthly instalments), then the note on registration and the way to membership.
+// The links are the live site's own; payment happens on Stripe's page. Shared by the course page,
+// the course popup and the home page's course detail.
+import { content } from '../../data';
 import type { Course } from '../../data/courses';
+import { getLocale } from '../../lib/locale';
 
 interface Props {
   course: Course;
+  /** Heading level of each tuition's name, under the heading of the registration section */
+  level?: 3 | 4;
 }
-const { course } = Astro.props;
+const { course, level = 3 } = Astro.props;
+const { coursesPage, site } = content(getLocale(Astro.url));
+const { tuition, membership } = coursesPage.ui;
+const Name = level === 4 ? 'h4' : 'h3';
 ---
 
-<div class="prose">
-  {course.registrationNote && <p>{course.registrationNote}</p>}
+<div class="reginfo">
   {
-    course.includes && (
-      <>
-        <p>
-          <strong>{course.includesLabel}</strong>
-        </p>
-        <ul>
-          {course.includes.map((item) => (
-            <li>{item}</li>
-          ))}
-        </ul>
-      </>
+    course.tuition && (
+      <ul class="tiers" role="list">
+        {course.tuition.map((tier) => (
+          <li class="tier box on-blue-deep">
+            <Name class="tier__name">{tier.name}</Name>
+            <p class="tier__amount">
+              <span class="tier__sum">{tier.amount}</span> <span class="tier__per">{tuition.wholeCycle}</span>
+            </p>
+            <p class="tier__small">{tier.instalments}</p>
+            {tier.note && <p class="tier__small">{tier.note}</p>}
+            <p class="tier__register">{tuition.register}</p>
+            <p class="tier__pay">
+              <a class="btn" href={tier.payInFull}>
+                {tuition.payInFull}
+              </a>
+              <a class="btn btn--ghost" href={tier.payMonthly}>
+                {tuition.payMonthly}
+              </a>
+            </p>
+          </li>
+        ))}
+      </ul>
     )
   }
+  <div class="prose reginfo__notes">
+    {course.registrationNote && <p>{course.registrationNote}</p>}
+    <p>
+      {membership.text} <a href={site.membershipForm}>{membership.cta}</a>
+    </p>
+  </div>
 </div>
+
+<style>
+  .reginfo {
+    display: grid;
+    gap: var(--space-m);
+  }
+  .tiers {
+    display: grid;
+    gap: var(--space-s);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .tier {
+    display: grid;
+    gap: 0.5rem;
+    padding: clamp(1.25rem, 0.9rem + 1.6vw, 2rem);
+  }
+  .tier__name {
+    font-family: var(--font-title);
+    font-weight: var(--title-weight);
+    font-size: calc(var(--step-1) * (0.55 + 0.45 * var(--title-scale)));
+    line-height: 1.1;
+    letter-spacing: var(--title-tracking);
+    color: var(--ink-strong);
+  }
+  .tier__amount {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.1em 0.5em;
+  }
+  .tier__sum {
+    font-family: var(--font-title);
+    font-weight: var(--title-weight);
+    font-size: min(var(--step-2), 9vw);
+    line-height: 1;
+    letter-spacing: var(--title-tracking);
+    font-variant-numeric: lining-nums;
+    color: var(--ink-strong);
+  }
+  .tier__per,
+  .tier__small,
+  .tier__register {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  .tier__small {
+    max-width: 52ch;
+  }
+  .tier__register {
+    margin-top: 0.4rem;
+  }
+  .tier__pay {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem 0.75rem;
+  }
+  /* A long Greek label may run to two lines on a phone */
+  .tier__pay .btn {
+    text-align: center;
+  }
+  .reginfo__notes {
+    font-size: var(--step--1);
+  }
+</style>

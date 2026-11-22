@@ -1,14 +1,13 @@
-// Course catalogue. Four courses for the redesign. The first carries the full copy of the live site.
-// The other three are named on the live home page with titles only: their subtitles, descriptions,
-// dates, lengths and fees below are SAMPLE VALUES, written so the cards look complete. Each sample is
-// marked. Replace them with Athena's own before launch.
+// Course catalogue: the two courses open on the live site on 22 November 2026, ΟΔΥΣΣΕΙΑ
+// (athenoa.academy/odusseia) and Εὖ Ζῆν (athenoa.academy/eu-zen). Their pages exist only in Greek:
+// ./el/courses.ts carries Athena's own words. This English text is a DRAFT TRANSLATION of them, made
+// for the English site, to be reviewed by Athena (logged in tasks/text-changes.md as proposed).
 //
-// "The Hidden Non-Duality of Ancient Greek Philosophy" carries the full copy from the live home page.
-// The other two exist on the live site as titles only, so they are marked status: 'placeholder'
-// and show no invented description or price.
+// Payment: each tuition tier links to the Stripe Payment Links of the live site, one to pay in full and
+// one to pay in eight monthly instalments. The amounts below are the ones Stripe charges (checked
+// 22 November 2026). Nothing else connects to Stripe: no key, no server.
 //
-// Payment is not wired. To connect Stripe later, paste a Stripe Payment Link into
-// `stripePaymentLink` for each course (or swap that field for a Checkout Session endpoint).
+// The start dates are not on the live pages: `schedule` says so. Replace it with the date when it is known.
 
 export interface CourseSection {
   id: string;
@@ -16,6 +15,22 @@ export interface CourseSection {
   sublabel: string;
   /** Rich text exactly as written on the live site (typos fixed). */
   html: string;
+}
+
+/** One way to pay for a course, as the live page offers it: in full, or in eight monthly instalments. */
+export interface TuitionTier {
+  /** "Κανονικά Δίδακτρα", "Δίδακτρα Αγάπης" */
+  name: string;
+  /** The whole cycle, as shown: "€550" */
+  amount: string;
+  /** The sentence on paying in eight monthly instalments, with the monthly amount */
+  instalments: string;
+  /** What this tuition is, where the live page explains it */
+  note?: string;
+  /** Stripe Payment Link: the whole amount at once */
+  payInFull: string;
+  /** Stripe Payment Link: the monthly instalments */
+  payMonthly: string;
 }
 
 export interface Course {
@@ -38,174 +53,204 @@ export interface Course {
   /** True when visitors can enrol now: the card's button reads "Enroll" */
   available: boolean;
   instructor: string;
+  /** The standard tuition, for the course card and search engines */
   price?: {
     amount: number;
     currency: 'EUR';
-    vatRate: number;
-    /** As written on the live site */
+    /** "€550 or 8 × €68.75": the amount first, then a space */
     display: string;
     label: string;
   };
-  includesLabel?: string;
-  includes?: string[];
+  /** The ways to pay, each with its Stripe Payment Links */
+  tuition?: TuitionTier[];
   registrationNote?: string;
   sections: CourseSection[];
-  stripePaymentLink: string;
+  /** A last line in Athena's voice, after the registration */
+  closing?: string;
 }
 
 export const courseHref = (slug: string) => `/courses/#${slug}`;
 export const coursePageHref = (slug: string) => `/courses/${slug}/`;
 
+// Shared by both courses: the live pages carry the same sentence under each tuition.
+const registrationNote =
+  'Registration is for the whole Cycle of Studies and requires payment of the full amount, whichever way of paying you choose.';
+const generosity =
+  'The Tuition of Love and Generosity includes the standard tuition plus a sponsorship for our fellow students who need it. Your Generosity will help us offer reduced tuition to the students who need it, and will support the work of our School!';
+
 export const courses: Course[] = [
   {
-    slug: 'the-hidden-non-duality-of-ancient-greek-philosophy',
-    // Title and subtitle as lettered on the course banner.
-    title: 'The Hidden Non-Duality of Ancient Greek Philosophy',
+    slug: 'odusseia',
+    title: 'Odyssey',
     status: 'open',
-    image: 'course-non-duality',
-    imageAlt:
-      'Course banner: The Hidden Non-Duality of Ancient Greek Philosophy, with marble figures of Pythagoras, Plato and Aristotle against a night sky of constellations',
-    // As lettered on the course banner
-    subtitle: 'Hellenic Wisdom as a Path of Self-Realization',
+    // stand-in until the course banner is added (the live page's artwork is not in the project yet)
+    image: 'reading-by-the-sea',
+    imageAlt: 'Dr. Athena Potari smiling over an open book on a terrace above the sea, a white island village behind',
+    subtitle: 'The Journey of the Soul to Awakening through the archetypal map of Homer',
     summary:
-      'Each week we will delve into the non-dual teaching expressed by the following great Philosophers ~ Ancient Sages: Plotinus, Plato, Pythagoras, The Pre-Socratics',
-    schedule: 'Autumn 2026',
-    // From the course description: "this four-week course", live on Zoom, recordings kept 120 days
-    duration: 'Four weekly meetings',
-    format: 'Live on Zoom, with recordings',
+      'In this Cycle of Studies in Greek Philosophy we will study the Odyssey as a timeless treasure of Wisdom, a symbolic Map of the human Soul and of its Journey to Self-knowledge and Awakening.',
+    schedule: 'Start date to be announced',
+    duration: '24 weekly lessons',
+    // "in Greek": the course is taught in Greek. What follows the first comma is shown as a quieter line.
+    format: 'Live on Zoom in Greek, Thursdays at 19:30 Greek time',
     available: true,
     instructor: 'Dr. Athena Despoina Potari',
-    price: {
-      amount: 200,
-      currency: 'EUR',
-      vatRate: 24,
-      display: '€200 & VAT (24%)',
-      label: 'Participation cost:',
-    },
-    includesLabel: 'Course price includes:',
-    includes: [
-      'Access to all of the live meetings',
-      'Links to the streamable recordings after each meeting in both audio & video format',
-      'Access to all recordings for 120 days (4 months)',
-      'Course material - resources - additional presentations, texts & bibliography',
+    price: { amount: 550, currency: 'EUR', display: '€550 or 8 × €68.75', label: 'Tuition:' },
+    // The live page rounds the instalments to €69 and €83; Stripe charges €68.75 and €82.50.
+    tuition: [
+      {
+        name: 'Standard Tuition',
+        amount: '€550',
+        instalments: 'Tuition can be paid in 8 monthly instalments (€68.75 a month).',
+        payInFull: 'https://book.stripe.com/4gM28s5Ecf3dgO5cZO9sk06',
+        payMonthly: 'https://buy.stripe.com/3cI7sM5EcbR141jbVK9sk08',
+      },
+      {
+        name: 'Tuition of Love',
+        amount: '€660',
+        instalments: 'Tuition can be paid in 8 monthly instalments (€82.50 a month).',
+        note: generosity,
+        payInFull: 'https://book.stripe.com/3cI5kEfeM2greFX3pe9sk07',
+        payMonthly: 'https://buy.stripe.com/9B6dRaeaI8EPfK1f7W9sk09',
+      },
     ],
-    registrationNote:
-      "To register for the course scheduled for Autumn 2026, please use the 'Add to Cart' button below and follow the checkout process.",
+    registrationNote,
     sections: [
       {
         id: 'description',
         label: 'Course Description',
         sublabel: 'Introduction',
-        html: `<p>This four-week course undertakes <strong>a lived, philosophical and spiritual inquiry into a dimension of Ancient Greek Philosophy</strong> that has been systematically obscured within modern Western intellectual history.</p>
-<p>The Greek philosophical tradition did not originate from division; it did not begin with an ontological rupture between being and mind, spirit and matter, knower and known, inner and outer. These dualisms are later developments — products of historical bifurcations, theological polemics, and the gradual exteriorization of metaphysics into abstraction.</p>
-<p><strong>At its source, the Hellenic View recognizes the Unity of Being.</strong> Being is not split; the human is not external to the cosmos; Nous (awareness) and Reality are inherently interweaved.</p>
-<p>This holistic View finds a graceful, aesthetically and poetically inspired way of expression through all aspects of Hellenic Civilization: through Mathematics – seen as the living Theology of Nature, Philosophy ~ the language of human Awareness, as well as Poetry, Drama, Ethics, Ontology, Metaphysics; indeed all notions, and terms, which are invented during the same historical time, in the cradle of western civilization, a land blessed by nature, Apollonian luminosity and filled with an abundance of energetic portals.</p>
-<p><strong>In this short intensive course, we return to the foundations of the West to discover an ancient, yet perennial, spiritual Treasure: the original meaning of Philosophy as Love (“philo”) for Wisdom (“sophia”), as a spiritual path to Awakening</strong>; and particularly its <strong>non-dual view</strong> that formed both its founding view and its luminous culmination.</p>`,
+        html: `<p><em>“Always keep Ithaca in your Mind.<br>To arrive there is your destination.”</em></p>
+<p>Awe touches the Soul as it approaches the ever-flowing spring of Homer, the Source of the Tradition, over which our most ancient forefathers have leaned, generation after generation, for centuries: all those who drew close around the fire of Homer and the Primordial Wisdom recorded, historically, mythologically and mystically, in the great masterworks of the Epics. The eternal Archetypes that tell a primordial story, an age-old journey, familiar and mysterious: the journey of our very own Soul.</p>
+<p><strong>In this Cycle of Studies in Greek Philosophy we will study the Odyssey as a timeless treasure of Wisdom, a symbolic Map of the human Soul and of its Journey to Self-knowledge and Awakening.</strong> We will decode, Philosophically, Psychologically, Experientially and Initiatically, the deeper symbolism and the hidden Wisdom of the Homeric Epic. We will come into contact again with the Ancient Greek Language, with its vibration and its etymology, which has the power to illuminate the Mind and awaken the Soul.</p>
+<p><strong>Odysseus is Us.</strong></p>
+<p>We, the Soul. We, Consciousness.</p>
+<p>We, the Human being with the divine spark (or the divine spark in human form!), who journeys through the visible and invisible universes of Matter, of Spirit, of Mind, of relationships, crossing seas between mortal and immortal, oblivion and truth, sleep and Awakening.</p>
+<p>It is no accident that as he finally reaches Ithaca, Odysseus is asleep.<br>So he does not, strictly speaking, arrive in Ithaca.<br>Rather, he Wakes Up in Ithaca.</p>
+<p><strong>For Ithaca <em>Is</em> Awakening.</strong><br>The Awakened state of Consciousness that Remembers its true Self.<br>This is its <span lang="el">Νόστος</span>, its return home: Remembrance.<br>The State of Presence, of Truth (<span lang="el">Α-λήθεια</span>, un-forgetting), the Recognition of Who I Am beyond the dreams of a consciousness asleep.</p>
+<p>Homer’s Odyssey, as a primordial Code of the Greek Spirit, carries a unique quality, a hue of its divine nature and origin: it describes at once all the journeys of all our hypostases. It speaks to us of the relation of the One to the Many. The Passage from Unity to Multiplicity. The Journey of the Soul into existence. And the path of our Soul’s Awakening.</p>
+<p>For the Odyssey is Life itself, the course of incarnation, and indeed of all incarnations, within the cyclical orbits of the god-made Aeons.</p>
+<p>It tells of our very own journey on Earth, through the much-suffering, many-turning human experience.</p>
+<p><em>~ “The Laestrygonians and the Cyclopes, wild Poseidon”, whom “you will not meet, unless you carry them within your soul.”</em></p>
+<p>Yet this journey is neither arbitrary nor uncharted. It bears Archetypal Elements, Structure and Stations. The trials we face, the challenges, the passions, the oblivion, are not unique to each of us. They are, archetypally and eternally, the same. The Universe has ways, constants and laws. Even the scenarios of oblivion and the simplicity of un-forgetting are constant.</p>
+<p>All of this is mapped in the living guide of the Odyssey, a timeless handbook… for navigating life. Here we meet the distillation of Wisdom. For this handbook, this sacred epic, describes at once, on parallel levels, all the philosophical, theological, physical, historical, ontological and psychological dimensions of life and of our Soul’s journey to the <span lang="el">Νόστος</span> of Remembrance, which for Socrates is the very definition of Knowledge.</p>
+<p>That is why the Goddess Athena, the Goddess of Knowledge and Wisdom, keeps ever-watchful guard at the side of Odysseus as his guide.</p>
+<p>As if it is She who ripens Wisdom into a handbook and a map, who makes it an Odyssey and hands it down from generation to generation,<br>into the hands of every Odysseus,<br>who are You and I,<br>All of us.</p>
+<p><strong>What do the Cyclopes, Circe, the Sirens and Calypso symbolize? What is the deeper meaning of the trials of Odysseus? What is the role of the Goddess Athena? What does Penelope symbolize? What is Ithaca?</strong></p>
+<p>Through Greek Philosophy, Mythology and experiential exercises of Self-knowledge, we will follow the archetypal journey of the Soul to Awakening, with Homer’s handbook as our guide.</p>`,
       },
       {
-        id: 'meetings',
-        label: 'In our meetings, we will explore',
-        sublabel: 'Re-member',
-        html: `<p><strong>In our meetings, we will explore</strong> an aspect of Hellenism often obscured by its colonized appropriation by later western approaches and materialist-reductionist metaphysics: we will re-member <strong>the hidden non-dual teachings at the heart of Greek Philosophy</strong></p>
-<blockquote><i>(Re-member ~ for “all knowledge is Remembrance”, says Socrates)</i></blockquote>
-<p>To approach the unity at the foundations of Hellenism is to reconsider the foundation upon which Western thought was built.</p>
-<p><strong><u>In our four meetings</u></strong> we will learn about the Greek spiritual tradition not through abstraction but through a <strong>close, intimate and contemplative encounter with the tradition.</strong></p>
+        id: 'includes',
+        label: 'The Cycle of Studies Includes',
+        sublabel: '24 lessons, one year of access',
+        html: `<ul>
+<li>24 live, interactive online Lessons on Zoom</li>
+<li>Links to watch each lesson at your own time, in audio-visual form (video and audio/mp3), once its live broadcast is over</li>
+<li>Access to All the lesson videos and the Study Material for one year</li>
+<li>Study of the 24 Rhapsodies of the Odyssey, in contact with the original text and the Etymology of the Ancient Greek Language, delving into the Philosophical, Psychological, Spiritual and Symbolic meanings of the Homeric Epic</li>
+<li>A combination of the Dialectical Tradition, the Study of Ancient Texts &amp; Scientific Knowledge with Experiential Exercises of Self-knowledge &amp; Meditations</li>
+<li>Connecting Homeric Wisdom with the riches of Ancient Greek Philosophy, through original interpretive approaches and selected ancient texts</li>
+<li>Certificate of Attendance for the Cycle of Studies</li>
+<li>Question-and-Answer sessions and scholarly dialogue that encourage direct participation and interaction</li>
+<li>Additional Bibliography and Notes</li>
+<li>Participation in an active, inspired Online Community of Students &amp; Friends of Philosophy that fosters learning among students (optional)</li>
+</ul>`,
+      },
+    ],
+    closing: '“As you set out on the way to Ithaca, wish that the road be long, full of adventures, full of knowledge”…',
+  },
+  {
+    slug: 'eu-zen',
+    title: 'Εὖ Ζῆν',
+    status: 'open',
+    // stand-in until the course banner is added (the live page's artwork is not in the project yet)
+    image: 'gathering-pines-acropolis',
+    imageAlt:
+      'A group sitting in a circle under pine trees on a hillside at dusk, the Acropolis and the Parthenon beyond',
+    subtitle: 'The Ancient Art of Eudaimonia',
+    summary: '16 experiential lessons of Greek Philosophy in Practice. From Self-knowledge to Eudaimonia.',
+    schedule: 'Start date to be announced',
+    duration: '16 lessons, about two a month',
+    format: 'Live on Zoom in Greek, Tuesdays at 19:30 Greek time',
+    available: true,
+    instructor: 'Dr. Athena Despoina Potari',
+    // TO CONFIRM with Athena: their page says 660€ (8 × 80€) and, for the Tuition of Love, 550€ (8 × 90€).
+    // Stripe charges 640€ (8 × 80€) and 720€ (8 × 90€), which agree with the instalments, so these are shown.
+    price: { amount: 640, currency: 'EUR', display: '€640 or 8 × €80', label: 'Tuition:' },
+    tuition: [
+      {
+        name: 'Standard Tuition',
+        amount: '€640',
+        instalments: 'Tuition can be paid in 8 monthly instalments (€80 a month).',
+        payInFull: 'https://book.stripe.com/28EbJ2c2A2gr9lDe3S9sk0b',
+        payMonthly: 'https://buy.stripe.com/6oUdRaeaI6wHdBT8Jy9sk0d',
+      },
+      {
+        name: 'Tuition of Love',
+        amount: '€720',
+        instalments: 'Tuition can be paid in 8 monthly instalments (€90 a month).',
+        note: generosity,
+        payInFull: 'https://book.stripe.com/6oU14o2s0aMXfK10d29sk0c',
+        payMonthly: 'https://buy.stripe.com/5kQ28sd6EcV5apH5xm9sk0e',
+      },
+    ],
+    registrationNote,
+    sections: [
+      {
+        id: 'description',
+        label: 'Course Description',
+        sublabel: 'Introduction',
+        html: `<p><em>“A path of Self-knowledge, Truth, Virtue, Eros and Freedom, whose aim is to return Philosophy to its primordial mission: Awakening, Freedom &amp; the Art of <span lang="grc">Εὖ Ζῆν</span>.”</em></p>
+<p>A new, experiential Cycle of Studies, dedicated to the practical application of Ancient Greek Philosophy in our everyday life: as a living path of Self-knowledge, of the cultivation of Virtue, of reconnection with our Authenticity and of the Awakening of the Soul.</p>
+<p>At its core lies the ancient Greek ideal of <span lang="grc">Εὖ Ζῆν</span>, living well. The Cycle of Studies «<span lang="grc">Εὖ Ζῆν</span>: Philosophy as the Art of Living» is an experiential path of 16 lessons, dedicated to the practical application of Ancient Greek Wisdom in our everyday life. We will explore how the timeless Wisdom of the Greeks can illuminate the deepest questions of human existence, guide us through the challenges of everyday life, and transform Philosophy from an object of knowledge into lived experience and a way of life.</p>
+<p>Unlike the Cycles that focus on the systematic study of one particular ancient work, here we will travel through selected passages of the Greek Philosophical Tradition and the study of the ancient Greek Language and its etymology, approaching by theme some of the most fundamental and timeless questions of human life:</p>
+<p><em>Who Am I? • Eros, Love and Human Relationships • How do I discover the <span lang="grc">Οἰκεῖον Ἔργον</span>, the proper work, of my Soul? • Family, Bonds and Karma • <span lang="grc">Εἱμαρμένη</span> (Destiny), Freedom and Justice • The Soul and its Centres • and more</em></p>
+<p>Through the meeting of philosophical study with personal reflection, dialectic and experiential practice, we will seek to rediscover Philosophy in its original mission:</p>
+<p><strong>Not simply how to learn more, but how to become, every day, That which we truly Are.</strong></p>`,
+      },
+      {
+        id: 'themes',
+        label: 'Indicative Themes',
+        sublabel: 'Four units',
+        html: `<p><strong>Unit I: Know Thyself (<span lang="grc">ΓΝΩΘΙ ΣΑΥΤΟΝ</span>)</strong><br><em>The Mystery of the Self and the Awakening of Consciousness</em></p>
 <ul>
-<li>We will <strong>study</strong> <strong>excerpts from key ancient texts</strong> (presented by Athena in a way that makes them relatable – of course, in English translation) in a dialectical way, contemplating their meaning and essence together</li>
-<li><strong>Decode</strong> their initiatory <strong>spiritual etymology</strong> (in the universe of the Greek language, the etymology is a code of meaning and essence); and of course,</li>
-<li>Weave our investigation with <strong>meditations, contemplation, embodied practices and dialogue</strong></li>
-<li><strong>QnA</strong> ~ live dialogue with Athena and our course community</li>
+<li>What does it mean to Live Truly? What is Eudaimonia?</li>
+<li>What is true <span lang="el">Παιδεία</span>, education of the whole person, and what follows from its absence?</li>
+<li><strong>Who Am I? What are Mind and Consciousness?</strong> Through Plato’s Cave we explore the nature of Mind and Consciousness, the habits and unconscious programs that shape us, in search of Self-knowledge and Awakening.</li>
+</ul>
+<p><strong>Unit II: The Return to Inner Truth</strong><br><em>From Self-knowledge to Inner Connection</em></p>
+<ul>
+<li><strong>What is the Soul and what forces govern it? How do I hear my inner voice? How will I find my <span lang="el">Οικειοπραγία</span>, the doing of my own work? Why do I feel sorrow?</strong> We delve into the threefold nature of the Soul, into Truth and inner connection, into trauma and Freedom. We seek our <span lang="grc">Οἰκεῖον Ἔργον</span>, our proper work, and the possibility of our work becoming an ally of our true Nature.</li>
+<li><strong>What is Virtue? How are the Four Cardinal Virtues cultivated? What does it mean to live <span lang="grc">Κατὰ Φύσιν</span>, according to Nature? How does Philosophy become everyday practice?</strong> We explore Virtue, the Four Cardinal Virtues, the Aristotelian Mean and living <span lang="grc">Κατὰ Φύσιν</span>, as the foundations of a life of Truth, Freedom and Eudaimonia.</li>
+</ul>
+<p><strong>Unit III: Eros, Love and Human Relationships</strong><br><em>The Other as a Mirror of the Soul</em></p>
+<ul>
+<li>What is Eros? Why do we fall in love?</li>
+<li>Conscious partnership: how do we create conscious relationships? Freedom and Love</li>
+<li>How do my family roots and the wounds of the past affect me?</li>
+</ul>
+<p><strong>Unit IV: The Soul in the World</strong><br><em>From Knowledge to Virtue, Psychopolitics and Lived Wisdom</em></p>
+<ul>
+<li><strong>Why Is This Happening to Me Now? Justice &amp; <span lang="el">Ειμαρμένη</span>: the Greek Counterpart of Karma?</strong> Ancient views of responsibility, retribution and catharsis, in dialogue with the idea of karma. The relation between Fate and Freedom. Is there a deeper order in the events of our lives?</li>
+<li><strong>Psychopolitics.</strong> How is individual Consciousness connected with collective Consciousness and with Politics? How can we realize our Nature as “political beings”?</li>
 </ul>`,
       },
       {
-        id: 'structure',
-        label: 'Course Structure & Content',
-        sublabel: 'Each week we will explore',
-        html: `<p><u>Each week</u> we will explore the non-dual teachings in the work of the following great Philosophers ~ Ancient Sages:</p>
-<ul>
-<li><strong><u>Plotinus</u>: Nous and Logos; the One and/ (as) the Self * <em>“It is not a View, it is a Union”</em></strong></li>
-<li><strong><u>Plato:</u> The Hidden non-duality behind the - apparent - Platonic duality * <em>One, Eros &amp; Beauty, and Socrates’ secret Female Master</em></strong></li>
-<li><strong><u>Pythagoras</u>: The Initiate of the Egyptian Pyramids who invented the term “<em>Philosopher</em>” * “<em>You will realize you were never a mortal</em>”</strong></li>
-<li><strong><u>The Presocratics: Heraclitus – Parmenides</u>: At the start of the Journey: <em>En</em> and <em>Polla</em> ~ <em>The One and the Many</em></strong></li>
-</ul>
-<p>The discussion will also involve <strong>allusions to mythology</strong>, theology and even poetry and the Arts, as expressions of meaning and teachings pertaining to the holistic non-dual View of Hellenism.</p>`,
+        id: 'includes',
+        label: 'The Cycle of Studies Includes',
+        sublabel: '16 lessons, one year of access',
+        html: `<ul>
+<li>16 interactive online Lessons on Zoom (about 2 lessons a month)</li>
+<li>The option to watch at your own time: links to each lesson in audio-visual form (video and audio/mp3) are sent once its live broadcast is over</li>
+<li>Access to All the lesson videos and the Study Material for one year</li>
+<li>A combination of the Dialectical Tradition, the Study of Ancient Texts &amp; Scientific Knowledge with Experiential Exercises of Self-knowledge &amp; Meditations</li>
+<li>Certificate of Attendance for the Cycle of Studies</li>
+<li>Question-and-Answer and Dialogue sessions, for interaction and for putting the teaching into practice</li>
+<li>Additional Bibliography and Notes</li>
+<li>Participation in an active, inspired Online Community of Students &amp; Friends of Philosophy that fosters learning among students (optional)</li>
+</ul>`,
       },
-      {
-        id: 'access',
-        label: 'Access',
-        sublabel: 'Live sessions & recorded lessons',
-        html: `<p>Participants can attend the live sessions of the classes and/or watch the recorded lessons at their own time. <strong>All participants will receive audio and video links to stream the recordings of each class, and these will remain active for 120 days.</strong></p>
-<p>All you need to participate is a computer or a mobile device, such as a tablet or smartphone, with a built-in speaker and access to the internet. The platform we use for the sessions is Zoom. The sign-in process is very simple, and you will receive emails with the invitation to join ahead of the weekend.</p>
-<p>To optimise your course experience, we recommend a wired connection if possible. If you do use a Wi-Fi connection, close all or most other devices using the signal. For mobile devices, a 3G or higher connection is needed.</p>`,
-      },
-      {
-        id: 'orientation',
-        label: 'Orientation of the Course',
-        sublabel: 'Our journey together',
-        html: `<p>Our journey together at the roots of the West, is a calling of the Heart. It is not an attempt to superimpose foreign metaphysical categories upon Greece, but to re-member the Wisdom that shaped our history, our consciousness, our education ~ and which still remains active, alive, shining the way Home – to our true being.</p>
-<p>Greek Philosophy will be approached according to its original meaning; not merely an intellectual endeavor, but a path of Love and Wisdom with the ultimate goal of realizing one’s true nature and living a life of wholeness, inspiration, creativity aligned with this realization. What the Ancients called, “EF ZEN”~ the Good life. (<span lang="grc">Εὖ Ζῆν</span>)</p>`,
-      },
-      // The sixth tab, "Registration & Tuition Fees", is built from registrationNote, price and includes above.
     ],
-    stripePaymentLink: '',
-  },
-  {
-    slug: 'platos-republic',
-    title: "Plato's Republic",
-    // SAMPLE subtitle (the phrase is Athena's, from her biography), summary, dates, length and fee
-    subtitle: 'The Polity of the Soul',
-    summary: 'A slow, shared reading of the dialogue on justice, the soul and the city.',
-    schedule: 'Starts 12 January 2027',
-    duration: 'Eight weekly meetings',
-    format: 'Live on Zoom, with recordings',
-    price: { amount: 240, currency: 'EUR', vatRate: 24, display: '€240 & VAT (24%)', label: 'Participation cost:' },
-    available: true,
-    status: 'placeholder',
-    image: 'course-platos-republic',
-    imageAlt:
-      'Course artwork: the Parthenon under a starry sky, lettered in Greek ΠΛΑΤΩΝΟΣ ΠΟΛΙΤΕΙΑ (Plato’s Republic)',
-    instructor: 'Dr. Athena Despoina Potari',
-    sections: [],
-    stripePaymentLink: '',
-  },
-  {
-    slug: 'marcus-aurelius-the-self',
-    // The live title is "Marcus Aurelius - The Self"; here it is split into title and subtitle.
-    title: 'Marcus Aurelius',
-    subtitle: 'The Self',
-    // The summary renders the Greek lettering on the course artwork; dates, length and fee are SAMPLES
-    summary: 'An initiation into the world of the virtues, in theory and in practice.',
-    schedule: 'TBC',
-    duration: 'Six weekly meetings',
-    format: 'Live on Zoom, with recordings',
-    price: { amount: 180, currency: 'EUR', vatRate: 24, display: '€180 & VAT (24%)', label: 'Participation cost:' },
-    available: false,
-    status: 'placeholder',
-    image: 'course-marcus-aurelius',
-    imageAlt:
-      'Course artwork: a bronze figure of Marcus Aurelius before a lit temple at night, lettered in Greek ΜΥΗΣΗ ΣΤΟΝ ΚΟΣΜΟ ΤΩΝ ΑΡΕΤΩΝ ΣΕ ΘΕΩΡΙΑ & ΠΡΑΞΗ',
-    instructor: 'Dr. Athena Despoina Potari',
-    sections: [],
-    stripePaymentLink: '',
-  },
-  {
-    slug: 'plato-cratylus-platonic-virtues',
-    // The live title is "Plato, Cratylus - Platonic Virtues - Introduction to Greek Theology"; split here.
-    title: 'Plato, Cratylus',
-    subtitle: 'Platonic Virtues - Introduction to Greek Theology',
-    // SAMPLE summary, dates, length and fee
-    summary: 'The names of the gods and of the virtues, read through the dialogue on language.',
-    schedule: 'Spring 2027',
-    duration: 'Six weekly meetings',
-    format: 'Live on Zoom, with recordings',
-    price: { amount: 180, currency: 'EUR', vatRate: 24, display: '€180 & VAT (24%)', label: 'Participation cost:' },
-    available: false,
-    status: 'placeholder',
-    image: 'plato-statue',
-    imageAlt: 'Marble statue of Plato, seated, with a statue of Athena on a column behind',
-    instructor: 'Dr. Athena Despoina Potari',
-    sections: [],
-    stripePaymentLink: '',
   },
 ];
 
@@ -215,7 +260,7 @@ export const registrationTab = {
   sublabel: 'Register for the course',
 } as const;
 
-// New interface wording for the courses page and the enrol flow. None of this exists on the live site,
+// New interface wording for the courses page. None of this exists on the live site,
 // so it is kept in one place for Athena to review.
 export const coursesPage = {
   title: 'Live Courses',
@@ -229,19 +274,24 @@ export const coursesPage = {
     enroll: 'Enroll',
     placeholderNote: 'Course details are on their way. Leave your name and we will write to you when enrolment opens.',
     placeholderBadge: 'Details to follow',
-    fullName: 'Full name',
     email: 'Email',
     back: 'Back',
-    // The request to enrol (EnrollFlow.astro): asked for by the client on 11 October 2026. It also uses
-    // fullName, email, back and contactInstead.
-    whyInterested: 'Why are you interested?',
-    heardFrom: 'Where did you hear about us?',
-    sendRequest: 'Send request',
-    // Shown in place of the form after it is filled in: requests are not connected yet.
-    requestPending: 'Requests are not connected yet. Nothing has been sent.',
     contactInstead: 'Contact us',
     taughtBy: 'With',
-    orderSummary: 'Your enrolment',
+    // The tuition (RegistrationInfo.astro): the live page's own words, translated. Each tier's two
+    // buttons lead to its Stripe Payment Links.
+    tuition: {
+      wholeCycle: 'for the whole Cycle',
+      register: 'Register for the Cycle of Studies:',
+      payInFull: 'Pay in full',
+      payMonthly: 'Pay monthly',
+    },
+    // The live page's line under the tuition. There is no membership page on this site yet, so "Learn more"
+    // leads to the membership form the home page uses (site.membershipForm).
+    membership: {
+      text: 'Alternatively, you can become a Member of our Academy and have access to all the Cycles of Studies, with the privileges of Membership!',
+      cta: 'Learn more',
+    },
     // The waitlist, for a course that cannot be enrolled in yet (available: false). The button stands
     // where "Enroll" would; the rest are the words of the small popup it opens (WaitlistDialog.astro).
     // The popup also uses email, close and contactInstead from above.

@@ -208,6 +208,8 @@ const build = (locale: Locale) => {
       [
         `${coursesPage.ui.taughtBy} ${course.instructor}`,
         course.schedule,
+        course.duration,
+        course.format,
         course.price && `${course.price.label} ${course.price.display}`,
       ]
         .filter((fact) => fact !== undefined)
@@ -234,13 +236,22 @@ const build = (locale: Locale) => {
         ? [
             `## ${inline(registrationTab.label)}`,
             `*${inline(registrationTab.sublabel)}*`,
+            // each tuition with its two Stripe Payment Links
+            ...(course.tuition ?? []).flatMap((tier) => [
+              `### ${inline(tier.name)}`,
+              `**${inline(tier.amount)}** ${inline(coursesPage.ui.tuition.wholeCycle)}`,
+              inline(tier.instalments),
+              tier.note && inline(tier.note),
+              list([
+                `[${inline(coursesPage.ui.tuition.payInFull)}](${tier.payInFull})`,
+                `[${inline(coursesPage.ui.tuition.payMonthly)}](${tier.payMonthly})`,
+              ]),
+            ]),
             course.registrationNote && inline(course.registrationNote),
-            course.price && `**${inline(course.price.label)}** ${inline(course.price.display)}`,
-            course.includesLabel && inline(course.includesLabel),
-            course.includes && list(course.includes.map(inline)),
-            webLink(coursesPage.ui.enroll, coursePageHref(course.slug)),
+            `${inline(coursesPage.ui.membership.text)} [${inline(coursesPage.ui.membership.cta)}](${site.membershipForm})`,
           ]
         : []),
+      course.closing && `*${inline(course.closing)}*`,
 
       contact && contactSection(),
     );

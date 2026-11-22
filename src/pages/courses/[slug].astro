@@ -4,11 +4,8 @@
 import { handCase } from '../../lib/hand';
 import Base from '../../layouts/Base.astro';
 import Illustration from '../../components/Illustration.astro';
-import NostosInvite from '../../components/nostos/NostosInvite.astro';
 import CourseBody from '../../components/courses/CourseBody.astro';
-import CoursePrice from '../../components/courses/CoursePrice.astro';
 import RegistrationInfo from '../../components/courses/RegistrationInfo.astro';
-import EnrollFlow from '../../components/courses/EnrollFlow.astro';
 import { courseImage } from '../../components/courses/media';
 import { trail } from '../../components/courses/trail';
 import { content } from '../../data';
@@ -30,7 +27,7 @@ const { courses, coursePageHref, coursesPage, registrationTab, site } = content(
 const course = courses.find((item) => item.slug === Astro.props.course.slug) ?? Astro.props.course;
 const t = { en: { trail: 'Breadcrumb' }, el: { trail: 'Διαδρομή πλοήγησης' } }[mainLocale(locale)];
 const crumbs = trail(locale);
-const canEnrol = course.available && course.price;
+const canEnrol = course.available && Boolean(course.tuition?.length);
 ---
 
 <Base
@@ -69,19 +66,16 @@ const canEnrol = course.available && course.price;
                 </h2>
                 <p class="hand hand--m">{handCase(registrationTab.sublabel)}</p>
               </hgroup>
-              <div class="reg__body">
-                <div class="stack" data-reveal style="--i:1; --stack: var(--space-m)">
-                  <RegistrationInfo course={course} />
-                  <CoursePrice class="reg__price box on-blue-deep" price={course.price!} />
-                </div>
-                <EnrollFlow course={course} id="enroll" class="reg__enroll" />
+              <div class="reg__body" data-reveal style="--i:1">
+                <RegistrationInfo course={course} />
               </div>
             </div>
           </section>
         )
       }
-      {/* NEW: the way into Nostos (proposed, src/data/nostos/ui.ts) */}
-      <NostosInvite variant="course" />
+      {/* A last line in Athena's voice (the live ΟΔΥΣΣΕΙΑ page ends on Cavafy's Ithaca) */}
+      {course.closing && <p class="course__closing hand hand--l" data-reveal>{course.closing}</p>}
+      {/* The way into Nostos (NostosInvite) is hidden for the launch (Maria, 22 November 2026) */}
     </div>
   </article>
 </Base>
@@ -114,7 +108,7 @@ const canEnrol = course.available && course.price;
     padding-block: 0.5rem;
   }
 
-  /* Registration: a blue arch, the laurel in its crown, the enrol flow inside */
+  /* Registration: a blue arch, the laurel in its crown, the ways to pay inside */
   .reg {
     max-width: 66rem;
     margin: var(--space-xl) auto 0;
@@ -142,19 +136,10 @@ const canEnrol = course.available && course.price;
   .reg__head .hand {
     margin-top: 0.6rem;
   }
-  .reg__body {
-    display: grid;
-    gap: var(--space-m);
-  }
-  /* The fee on a darker blue slip, as in the popup. On a narrow phone the amount is set a little
-     smaller so "€200 & ΦΠΑ (24%)" stays on one line. */
-  .reg__price {
-    --price-size: min(var(--step-2), 6.9vw);
-    width: fit-content;
-    padding: 1rem clamp(1rem, 0.6rem + 1.8vw, 1.6rem) 1.2rem;
-  }
-  .reg__enroll {
-    margin-top: 0.25rem;
+  .course__closing {
+    max-width: 34ch;
+    margin: var(--space-xl) auto 0;
+    text-align: center;
   }
   @media (min-width: 60rem) {
     .reg__grid {

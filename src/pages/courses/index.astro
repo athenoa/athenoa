@@ -6,7 +6,6 @@
 import { handCase } from '../../lib/hand';
 import Base from '../../layouts/Base.astro';
 import Illustration from '../../components/Illustration.astro';
-import NostosInvite from '../../components/nostos/NostosInvite.astro';
 import CourseCard from '../../components/courses/CourseCard.astro';
 import CourseDialog from '../../components/courses/CourseDialog.astro';
 import { trail } from '../../components/courses/trail';
@@ -42,8 +41,7 @@ const others = courses.filter((course) => course !== lead);
     </div>
   </section>
 
-  {/* after the live courses: Nostos, the journey one takes on one's own (client direction) */}
-  <NostosInvite variant="journey" />
+  {/* The way into Nostos (NostosInvite) is hidden for the launch (Maria, 22 November 2026) */}
 
   {courses.map((course) => <CourseDialog course={course} />)}
 </Base>

@@ -53,12 +53,9 @@ export const home = {
       text: 'Ενημερωθείτε πρώτοι για τα νέα, τα άρθρα και τις προσεχείς δραστηριότητές μας',
       cta: { label: 'Εγγραφή', href: '#newsletter' },
     },
-    // The three courses announced here. Each is drawn as a course card, the same as on the courses page.
-    courses: [
-      { slug: 'platos-republic' },
-      { slug: 'marcus-aurelius-the-self' },
-      { slug: 'plato-cratylus-platonic-virtues' },
-    ],
+    // The courses announced here (the two open on the live site, 22 November 2026). Each is drawn as a
+    // course card, the same as on the courses page.
+    courses: [{ slug: 'odusseia' }, { slug: 'eu-zen' }],
   },
 
   seminar: {
@@ -70,10 +67,12 @@ export const home = {
 
   series: {
     title: 'Εξερευνήστε τη νέα μας σειρά μαθημάτων',
-    text: 'Κάθε εβδομάδα θα εμβαθύνουμε στη μη-δυαδική διδασκαλία που εξέφρασαν οι ακόλουθοι μεγάλοι Φιλόσοφοι ~ Αρχαίοι Σοφοί: Πλωτίνος, Πλάτων, Πυθαγόρας, οι Προσωκρατικοί',
-    cta: { label: 'Ξεκινήστε', href: courseHref('the-hidden-non-duality-of-ancient-greek-philosophy') },
+    // Same sentence as the summary of the course in ./courses.ts (the course shown in full below).
+    text: 'Σε αυτόν τον Κύκλο Σπουδών Ελληνικής Φιλοσοφίας θα διδαχθούμε την Οδύσσεια ως διαχρονικό θησαυρό Σοφίας, συμβολικό Χάρτη της ανθρώπινης Ψυχής και του Ταξειδιού της προς την Αυτογνωσία και την Αφύπνιση.',
+    cta: { label: 'Ξεκινήστε', href: courseHref('odusseia') },
     more: 'Μάθετε περισσότερα παρακάτω',
-    courseSlug: 'the-hidden-non-duality-of-ancient-greek-philosophy',
+    // The course shown in full on the home page (CourseTabs.astro)
+    courseSlug: 'odusseia',
   },
 
   transmission: {

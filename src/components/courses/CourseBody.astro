@@ -2,7 +2,7 @@
 // Everything there is to say about one course, rendered once so the popup and the course page cannot drift apart.
 //   variant="dialog"  compact header, sections as an accordion (the registration notes are its last item)
 //   variant="page"    h1 header, sections written out under h2 headings
-// The fee and the enrol flow are placed by the caller (CoursePrice, EnrollFlow).
+// On the page the registration is placed by the caller; in the popup it is the accordion's last item.
 import { handCase } from '../../lib/hand';
 import Media from '../Media.astro';
 import Illustration from '../Illustration.astro';
@@ -34,8 +34,8 @@ const Label = page ? 'h2' : 'h3';
 // Page only: each section sits on a different ground so the long read has a rhythm.
 // The three blues all appear down the page: light blue here, darker blue here, Greek blue for registration.
 const grounds = [[], ['box', 'box--offset', 'on-blue-light'], ['panel', 'on-blue-deep'], [], ['box', 'box--line']];
-// The monad (the One) closes the section that lists the teachings on the One and the Many.
-const symbolFor = 'structure';
+// The monad (the One) closes each course's description (ΟΔΥΣΣΕΙΑ speaks of "the relation of the One to the Many").
+const symbolFor = 'description';
 ---
 
 <div class:list={['body', `body--${variant}`]}>
@@ -161,7 +161,8 @@ const symbolFor = 'structure';
             <div class="acc__content prose" set:html={section.html} />
           </details>
         ))}
-        <details class="acc__item" name={`sections-${course.slug}`}>
+        {/* The ways to pay; "Enroll" in the popup's foot opens this item (CourseDialog.astro) */}
+        <details class="acc__item" name={`sections-${course.slug}`} data-registration>
           <summary>
             <Label class="acc__label">{registrationTab.label}</Label>
             <span class="acc__sub">{registrationTab.sublabel}</span>
@@ -171,7 +172,7 @@ const symbolFor = 'structure';
             </svg>
           </summary>
           <div class="acc__content">
-            <RegistrationInfo course={course} />
+            <RegistrationInfo course={course} level={4} />
           </div>
         </details>
       </div>

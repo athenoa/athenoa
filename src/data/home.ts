@@ -55,12 +55,9 @@ export const home = {
       text: 'Be the first to know about our news, articles and upcoming activities',
       cta: { label: 'Subscribe', href: '#newsletter' },
     },
-    // The three courses announced here. Each is drawn as a course card, the same as on the courses page.
-    courses: [
-      { slug: 'platos-republic' },
-      { slug: 'marcus-aurelius-the-self' },
-      { slug: 'plato-cratylus-platonic-virtues' },
-    ],
+    // The courses announced here (the two open on the live site, 22 November 2026). Each is drawn as a
+    // course card, the same as on the courses page.
+    courses: [{ slug: 'odusseia' }, { slug: 'eu-zen' }],
   },
 
   seminar: {
@@ -73,10 +70,12 @@ export const home = {
 
   series: {
     title: 'Explore our new course series',
-    text: 'Each week we will delve into the non-dual teaching expressed by the following great Philosophers ~ Ancient Sages: Plotinus, Plato, Pythagoras, The Pre-Socratics',
-    cta: { label: 'Get started', href: courseHref('the-hidden-non-duality-of-ancient-greek-philosophy') },
+    // Same sentence as the summary of the course in ./courses.ts (the course shown in full below).
+    text: 'In this Cycle of Studies in Greek Philosophy we will study the Odyssey as a timeless treasure of Wisdom, a symbolic Map of the human Soul and of its Journey to Self-knowledge and Awakening.',
+    cta: { label: 'Get started', href: courseHref('odusseia') },
     more: 'Learn more below',
-    courseSlug: 'the-hidden-non-duality-of-ancient-greek-philosophy',
+    // The course shown in full on the home page (CourseTabs.astro)
+    courseSlug: 'odusseia',
   },
 
   transmission: {
