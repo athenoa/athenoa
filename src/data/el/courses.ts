@@ -271,12 +271,7 @@ export const courses: Course[] = [
     // Not open yet: "Join waitlist" (see the English file)
     available: false,
     instructor: 'Δρ. Αθηνά Δέσποινα Ποτάρη',
-    price: {
-      amount: 200,
-      currency: 'EUR',
-      display: '€200 & ΦΠΑ (24%)',
-      label: 'Κόστος συμμετοχής:',
-    },
+    // The price is to come (Maria, 22 November 2026: not final); no fee is shown until it is set here
     sections: [
       {
         id: 'description',

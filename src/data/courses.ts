@@ -364,12 +364,7 @@ export const courses: Course[] = [
     // Not open yet: its button is "Join waitlist" (WaitlistDialog.astro). No tuition, so no registration shows.
     available: false,
     instructor: 'Dr. Athena Despoina Potari',
-    price: {
-      amount: 200,
-      currency: 'EUR',
-      display: '€200 & VAT (24%)',
-      label: 'Participation cost:',
-    },
+    // The price is to come (Maria, 22 November 2026: not final); no fee is shown until it is set here
     sections: [
       {
         id: 'description',
