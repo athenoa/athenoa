@@ -10,7 +10,6 @@ import CourseTabs from '../components/home/CourseTabs.astro';
 import Transmission from '../components/home/Transmission.astro';
 import Start from '../components/home/Start.astro';
 import Benefits from '../components/home/Benefits.astro';
-import NostosInvite from '../components/nostos/NostosInvite.astro';
 import { content } from '../data';
 import { organizationSchema, websiteSchema } from '../data/schema';
 import { getLocale } from '../lib/locale';
@@ -30,8 +29,7 @@ const { home } = content(locale);
   <Announcement />
   <Seminar />
   <CourseTabs />
-  {/* NEW: the way into Nostos (proposed, src/data/nostos/ui.ts) */}
-  <NostosInvite />
+  {/* The way into Nostos (NostosInvite) is hidden for the launch (Maria, 22 November 2026) */}
   <Transmission />
   <Start />
   <Benefits />

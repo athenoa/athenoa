@@ -1,12 +1,12 @@
 # ATHENOA, the modern Platonic Academy of Dr. Athena Despoina Potari
-# https://www.athenoa.com (English) and https://www.athenoa.com/el/ (Greek)
+# https://www.athenoa.academy (English) and https://www.athenoa.academy/el/ (Greek)
 #
 # Everyone is welcome here: search engines, AI crawlers and AI agents acting for a reader.
 # Only the design scratch pages under /lab/ and /el/lab/ are off limits.
 #
-# For AI agents: https://www.athenoa.com/llms.txt lists the pages with Markdown copies of each,
-# and https://www.athenoa.com/llms-full.txt has the whole site in one file.
-# The same two files in Greek: https://www.athenoa.com/el/llms.txt and https://www.athenoa.com/el/llms-full.txt
+# For AI agents: https://www.athenoa.academy/llms.txt lists the pages with Markdown copies of each,
+# and https://www.athenoa.academy/llms-full.txt has the whole site in one file.
+# The same two files in Greek: https://www.athenoa.academy/el/llms.txt and https://www.athenoa.academy/el/llms-full.txt
 
 User-agent: *
 Allow: /
@@ -42,4 +42,4 @@ Allow: /
 Disallow: /lab/
 Disallow: /el/lab/
 
-Sitemap: https://www.athenoa.com/sitemap-index.xml
+Sitemap: https://www.athenoa.academy/sitemap-index.xml

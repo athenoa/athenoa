@@ -1,12 +1,11 @@
 // DRAFT machine translation (English to Greek) of src/data/site.ts, for layout and typeface testing only.
 // To be reviewed by Athena before any of it is published.
-import { nostosUi } from '../nostos/ui';
 
 export const site = {
   name: 'ATHENOA',
   // The live footer signs off in Greek capitals.
   copyright: '© ΑΚΑΔΗΜΙΑ ΑΘΕΝΟΑ',
-  url: 'https://www.athenoa.com',
+  url: 'https://www.athenoa.academy',
   locale: 'el',
   // "Who We Are" from the old footer. No longer shown there; kept for descriptions and machine-readable summaries.
   description:
@@ -27,8 +26,8 @@ export const site = {
   nav: [
     { label: 'Σχετικά με τη Δρ. Αθηνά', href: '/el/about-athena/' },
     { label: 'Ζωντανά μαθήματα', href: '/el/courses/' },
-    // NEW WORDING, proposed for Maria's approval (src/data/nostos/ui.ts): the way into Nostos
-    { label: nostosUi.el.entry.nav, href: '/el/nostos/play/', section: '/el/nostos/' },
+    // Nostos is hidden from the menu for the launch (Maria, 22 November 2026). To bring it back:
+    // { label: nostosUi.el.entry.nav, href: '/el/nostos/play/', section: '/el/nostos/' }, with nostosUi imported from data/nostos/ui
   ],
   footer: {
     linksTitle: 'Εσωτερικοί Σύνδεσμοι',
