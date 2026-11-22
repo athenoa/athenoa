@@ -282,6 +282,11 @@ State when work stopped: all background agents were stopped. Hero candidates A/B
 - [ ] BEFORE LAUNCH: check every source cited in src/data/lemmas.ts against a text (written from memory); Athena to approve the notes
 - [ ] A symbol's note inside the enrolment form may be cut off by the form's scrolling area: not checked
 
+## Launch (Maria, 22 November 2026)
+
+- [ ] Confirm with the ATHENOA team that a monthly Stripe subscription stops by itself after the last instalment: 12 months for membership (83€ or 95€ a month), 8 for the courses. The payment links say "until you cancel", so today someone may have to stop each one by hand.
+- [ ] Add the Scholarship Fund (Ταμείο Υποτροφιών) to the Stripe checkout: an optional donation (their form offers 5, 10, 20, 50, 100 € or another amount). For now the course pages invite donations by email.
+
 ## Open questions
 
 See the chat message of 2026-10-10.
