@@ -416,3 +416,23 @@ The four earlier courses (The Hidden Non-Duality, and the three placeholders) ar
   - "Μελέτη των 24 Ραψωδιών της Οδύσσειας".
 - **"Σύντομα" / "Coming soon"** (proposed) marks the non-duality course in the courses menu and under its title.
 - **Pricing**: the line "για Ολόκληρο τον Κύκλο" / "for the whole Cycle" (and membership's "για Ολόκληρο το Έτος") under the upfront amount is removed. The Markdown twins keep it, where the plain text needs it.
+- **The membership sentence** (the third pricing column) now reads "Εναλλακτικά μπορείτε να γίνετε Μέλος της Ακαδημίας μας και να έχετε πρόσβαση σε όλους τους Κύκλους Σπουδών του έτους." / "Alternatively, you can become a Member of our Academy and have access to all the courses of that year." (Maria).
+- **The monthly option** reads "× 8" / "× 12", without "δόσεις" / "instalments".
+- **The handwritten lines under section headings are removed** from the course pages, popups, home course tabs, Markdown twins and the membership page's registration (Maria). Among them: "Εισαγωγή", "Τέσσερις ενότητες", "24 μαθήματα, ένα έτος πρόσβασης", "Εγγραφείτε στον κύκλο μαθημάτων" and "Ετήσια συνδρομή Μέλους".
+- **Tier names** in the pricing are one heading step up.
+- **ΟΔΥΣΣΕΙΑ** (condensed, approved by Maria):
+  - The passage on Athena as guardian is now one sentence in her words: "Γι’ αυτό στο πλευρό του Οδυσσέα φρουρός και οδηγός τελεί άγρυπνα η Θεά Αθηνά, η Θεά της Γνώσης και της Σοφίας, που παραδίδει τη Σοφία από γενιά σε γενιά στα χέρια κάθε Οδυσσέα: Εσένα και Εμένα, Όλων μας." (en to match).
+  - The description no longer repeats the summary sentence ("Σε αυτόν τον Κύκλο Σπουδών Ελληνικής Φιλοσοφίας θα διδαχθούμε την Οδύσσεια…"). The rest of that paragraph stays ("Θα αποκωδικοποιήσουμε…", "Θα έρθουμε πάλι σε επαφή με την Αρχαία Ελληνική Γλώσσα…"), since it says what the summary does not.
+- **Εὖ Ζῆν** (condensed, approved by Maria):
+  - Its first two paragraphs are one, keeping her phrases.
+  - The inline topic list ("Ποιος Είμαι; • …") is dropped; the four units carry it. The sentence before it now ends with a full stop.
+- **The Hidden Non-Duality** (condensed, approved by Maria):
+  - Until it opens, its page shows the summary, the facts, one section and the waitlist.
+  - That section is "Δομή & Περιεχόμενο του Κύκλου Μαθημάτων" / "Course Structure & Content": the four weeks, plus one sentence on how we work (study, decode, meditate, QnA).
+  - Format: "Ζωντανά μέσω Zoom" with "καταγραφές για 120 ημέρες" / "Live on Zoom" with "recordings for 120 days".
+  - The description, the meetings, the access notes and the orientation are kept in the data (`later`), to come back when it opens.
+- **No Zoom logo** after all (Maria): the format reads "Ζωντανά μέσω Zoom" with "με καταγραφές" under it, in plain words.
+- **Monthly option:** the count and the total sit on one line: "× 8 · σύνολο 640€" / "× 8 · €640 in all".
+- **The two ways of each tier are marked as alternatives** by a small round "ή" / "or" between them (new wording, proposed). The membership column's monthly line starts with the same "ή".
+- **Marks beside titles:** a heart beside "Δίδακτρα Αγάπης" / "Tuition of Love" (pricing and the registration form), and the membership page's bee beside "Μέλος της Ακαδημίας" / "Member of the Academy".
+- **Courses menu:** the current course is shown with a heavier title and a dot before it, with no highlighter mark (Maria).

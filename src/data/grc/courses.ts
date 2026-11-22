@@ -17,7 +17,6 @@ export const courses: Course[] = greekCourses;
 export const registrationTab = {
   id: 'registration',
   label: 'Ἐγγραφὴ καὶ δίδακτρα',
-  sublabel: 'Ἐγγράψασθε εἰς τὸ μάθημα',
 } as const;
 
 // New interface wording for the courses page. None of this exists on the live site,

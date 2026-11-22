@@ -27,7 +27,6 @@ export interface Membership {
   formLink: string;
   registration: {
     label: string;
-    sublabel: string;
     per: string;
     /** The share taken off when the whole year is paid upfront (0.1 is 10%) */
     upfrontDiscount?: number;
@@ -61,7 +60,6 @@ export const membershipEn: Membership = {
   formLink: 'Become a member',
   registration: {
     label: 'Registration & Tuition Fees',
-    sublabel: 'Annual membership',
     per: 'for the whole year',
     // 10% off the whole year paid upfront; change it or switch it off (0) here
     upfrontDiscount: 0.1,

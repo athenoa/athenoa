@@ -3,7 +3,6 @@
 // sheet: its sections, then the ways to pay.
 // Without JavaScript the tab list stays hidden and the panels read one after another under their headings.
 // Every word here comes from the data (tab labels included); the script adds none.
-import { handCase } from '../../lib/hand';
 import Illustration from '../Illustration.astro';
 import RegistrationInfo from '../courses/RegistrationInfo.astro';
 import { content } from '../../data';
@@ -43,7 +42,6 @@ const tabs = [...course.sections, registrationTab];
                 tabindex={i === 0 ? 0 : -1}
               >
                 <span class="ctabs__label">{tab.label}</span>
-                <span class="ctabs__sub hand">{handCase(tab.sublabel)}</span>
               </button>
             ))
           }
@@ -55,7 +53,6 @@ const tabs = [...course.sections, registrationTab];
               <div class:list={['ctabs__panel', i === 0 && 'is-active']} id={`course-panel-${section.id}`}>
                 <hgroup class="ctabs__heading">
                   <h3 class="t-3">{section.label}</h3>
-                  <p class="hand hand--m">{handCase(section.sublabel)}</p>
                 </hgroup>
                 <div class="prose" set:html={section.html} />
               </div>
@@ -65,7 +62,6 @@ const tabs = [...course.sections, registrationTab];
           <div class="ctabs__panel" id={`course-panel-${registrationTab.id}`}>
             <hgroup class="ctabs__heading">
               <h3 class="t-3">{registrationTab.label}</h3>
-              <p class="hand hand--m">{handCase(registrationTab.sublabel)}</p>
             </hgroup>
             <div class="ctabs__fees">
               <RegistrationInfo course={course} level={4} />
@@ -207,9 +203,6 @@ const tabs = [...course.sections, registrationTab];
   .ctabs__heading {
     margin-bottom: var(--space-m);
   }
-  .ctabs__heading .hand {
-    margin-top: 0.4rem;
-  }
   .ctabs__panel:focus-visible {
     outline-offset: 0.9rem;
     border-radius: 1.4rem;
@@ -307,15 +300,6 @@ const tabs = [...course.sections, registrationTab];
     font-variant-numeric: lining-nums;
   }
   /* The voice face is thin: Greek blue on the paper pebbles, crème on the blue one. */
-  .ctabs__sub {
-    font-size: 1.22rem;
-    line-height: 1.16;
-    color: var(--blue);
-    transition: color var(--dur-1) var(--hover-delay);
-  }
-  .ctabs__tab:is(:hover, [aria-selected='true']) .ctabs__sub {
-    color: inherit;
-  }
 
   /* ---------- Registration panel ---------- */
   .ctabs__fees {

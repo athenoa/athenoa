@@ -13,6 +13,8 @@
 import type { TuitionTier } from '../../data/courses';
 import { getLocale } from '../../lib/locale';
 import { fill, money, percent, upfrontPrice } from './money';
+import { heart } from './marks';
+import { bee } from '../membership/bee';
 
 interface Props {
   tiers: TuitionTier[];
@@ -20,8 +22,9 @@ interface Props {
   level?: 3 | 4;
   payInFull: string;
   payMonthly: string;
-  /** "/ month", "× {n} instalments", "{price} in all" */
+  /** "/ month", "× {n}", "{price} in all", and the "or" between the two ways */
   month: string;
+  or: string;
   payments: string;
   total: string;
   /** The course's upfront discount (0.1), with its mark ("−{pct}") */
@@ -44,7 +47,7 @@ interface Props {
     payments: string;
   };
 }
-const { tiers, level = 3, payInFull, payMonthly, month, payments, total, discount = 0, off, course, member, ways = 'stack' } = Astro.props;
+const { tiers, level = 3, payInFull, payMonthly, month, or, payments, total, discount = 0, off, course, member, ways = 'stack' } = Astro.props;
 const columns = tiers.length + (member ? 1 : 0);
 const locale = getLocale(Astro.url);
 const Name = level === 4 ? 'h4' : 'h3';
@@ -57,7 +60,11 @@ const opens = (tier: TuitionTier, pay: 'full' | 'monthly') =>
   {
     tiers.map((tier) => (
       <li class="tier box on-blue-deep">
-        <Name class="tier__name">{tier.name}</Name>
+        <Name class="tier__name">
+          {tier.name}
+          {/* a heart for the Tuition of Love */}
+          {tier.id === 'love' && <span class="tier__mark" set:html={heart} />}
+        </Name>
         <div class="ways">
           <div class="way way--upfront box on-blue-light">
             <p class="way__amount">
@@ -74,14 +81,18 @@ const opens = (tier: TuitionTier, pay: 'full' | 'monthly') =>
               {payInFull}
             </a>
           </div>
+          {/* the two ways are alternatives: "or" on the divide between them */}
+          <span class="ways__or">{or}</span>
           <div class="way way--monthly">
             <p class="way__amount">
               <span class="way__sum">{money(tier.perMonth, locale)}</span>
               <span class="way__unit">{month}</span>
             </p>
-            <p class="way__line way__rate">{fill(payments, { n: String(tier.payments) })}</p>
-            {/* what the instalments add up to (membership's 12 × 83€ is 996€, not the year's 990€) */}
-            <p class="way__total">{fill(total, { price: money(Math.round(tier.perMonth * tier.payments * 100) / 100, locale) })}</p>
+            {/* the count and what it adds up to, on one line (membership's 12 × 83€ is 996€, not the year's 990€) */}
+            <p class="way__rate">
+              {fill(payments, { n: String(tier.payments) })}{' '}
+              <span class="way__total">· {fill(total, { price: money(Math.round(tier.perMonth * tier.payments * 100) / 100, locale) })}</span>
+            </p>
             <a class="btn btn--ghost way__btn" href={tier.payMonthly} {...opens(tier, 'monthly')}>
               {payMonthly}
             </a>
@@ -96,7 +107,11 @@ const opens = (tier: TuitionTier, pay: 'full' | 'monthly') =>
   {
     member && (
       <li class="tier tier--member box on-blue-light">
-        <Name class="tier__name">{member.title}</Name>
+        <Name class="tier__name">
+          {member.title}
+          {/* the membership page's bee */}
+          <span class="tier__mark tier__bee" set:html={bee} aria-hidden="true" />
+        </Name>
         <p class="tier__small member__text">{member.text}</p>
         <p class="way__amount">
           <span class="way__sum">{member.now}</span>
@@ -107,7 +122,9 @@ const opens = (tier: TuitionTier, pay: 'full' | 'monthly') =>
             <span class="tier__off">{member.off}</span>
           </p>
         )}
-        <p class="tier__small">{member.month}</p>
+        <p class="tier__small member__month">
+          <span class="ways__or ways__or--inline">{or}</span> {member.month}
+        </p>
         <a class="btn way__btn" href={member.href}>
           {member.cta}
         </a>
@@ -160,11 +177,13 @@ const opens = (tier: TuitionTier, pay: 'full' | 'monthly') =>
     gap: 0.75rem;
     padding: clamp(1.25rem, 0.9rem + 1.6vw, 2rem);
   }
+  /* the tier's name a heading step up (Maria, 22 November 2026), so each column reads as its own */
   .tier__name {
     font-family: var(--font-title);
     font-weight: var(--title-weight);
-    font-size: calc(var(--step-1) * (0.55 + 0.45 * var(--title-scale)));
-    line-height: 1.1;
+    font-size: calc(min(var(--step-2), 8.5vw) * (0.55 + 0.45 * var(--title-scale)));
+    line-height: 1.05;
+    text-wrap: balance;
     letter-spacing: var(--title-tracking);
     color: var(--ink-strong);
   }
@@ -281,5 +300,83 @@ const opens = (tier: TuitionTier, pay: 'full' | 'monthly') =>
   }
   .tier__small {
     max-width: 52ch;
+  }
+
+  /* The marks beside a tier's name: the heart, the bee, about the height of its capitals */
+  .tier__mark {
+    display: inline-block;
+    width: 0.95em;
+    height: 0.95em;
+    margin-left: 0.3em;
+    vertical-align: -0.08em;
+    color: currentColor;
+  }
+  .tier__mark :global(svg) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+  .tier__bee {
+    width: 1.3em;
+    rotate: -8deg;
+  }
+  :global(html.motion) .tier__bee :global(.bee__wing) {
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+    animation: tier-flutter 0.42s ease-in-out infinite alternate;
+  }
+  :global(html.motion) .tier__bee :global(.bee__wing--front) {
+    animation-delay: -0.21s;
+  }
+  @keyframes tier-flutter {
+    to {
+      scale: 1 0.82;
+    }
+  }
+
+  /* "or" between the two ways: a small round token on the divide, so they read as alternatives */
+  .ways {
+    position: relative;
+  }
+  .ways__or {
+    position: relative;
+    z-index: 1;
+    justify-self: center;
+    display: grid;
+    place-items: center;
+    width: 2.4rem;
+    height: 2.4rem;
+    margin-block: -1.5rem;
+    border: 1.5px solid currentColor;
+    border-radius: 52% 48% 50% 50% / 48% 52% 48% 52%;
+    background: var(--paper);
+    font-style: italic;
+    font-size: var(--step-0);
+    line-height: 1;
+  }
+  .ways__or--inline {
+    display: inline-grid;
+    width: 1.9rem;
+    height: 1.9rem;
+    margin: 0 0.3rem 0 0;
+    vertical-align: middle;
+    font-size: var(--step--1);
+  }
+  @container (min-width: 36rem) {
+    .tiers--side .ways {
+      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+      align-items: center;
+    }
+    .tiers--side .ways__or {
+      margin: 0 -1.5rem;
+    }
+    .tiers--side .way {
+      align-self: stretch;
+    }
+  }
+  /* membership's sentence runs the full width of its column */
+  .member__text {
+    max-width: none;
   }
 </style>

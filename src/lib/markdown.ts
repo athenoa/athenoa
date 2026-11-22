@@ -236,7 +236,6 @@ const build = (locale: Locale) => {
 
       ...course.sections.flatMap((section) => [
         `## ${inline(section.label)}`,
-        `*${inline(section.sublabel)}*`,
         htmlToMarkdown(section.html),
       ]),
 
@@ -244,7 +243,6 @@ const build = (locale: Locale) => {
       ...(course.status === 'open' && course.available && course.tuition?.length
         ? [
             `## ${inline(registrationTab.label)}`,
-            `*${inline(registrationTab.sublabel)}*`,
             course.registrationOpen && inline(course.registrationOpen),
             // each tuition with its two Stripe Payment Links; paid upfront, less the course's discount
             ...(course.tuition ?? []).flatMap((tier) => [
@@ -366,7 +364,6 @@ const build = (locale: Locale) => {
       ...m.paragraphs.map(inline),
       `${inline(m.more)} [${inline(m.formLink)}](${site.membershipForm})`,
       `## ${inline(reg.label)}`,
-      `*${inline(reg.sublabel)}*`,
       ...reg.tiers.flatMap((tier) => [
         `### ${inline(tier.name)}`,
         d > 0

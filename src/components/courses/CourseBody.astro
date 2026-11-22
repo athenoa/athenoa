@@ -16,7 +16,6 @@ import { getLocale } from '../../lib/locale';
 import { courseImage } from './media';
 import { keepHyphens } from './text';
 import { feeOf, fill } from './money';
-import ZoomText from './ZoomText.astro';
 
 interface Props {
   course: Course;
@@ -36,7 +35,7 @@ const Title = page ? 'h1' : 'h2';
 const Label = page ? 'h2' : 'h3';
 // The facts, as on the card but in full: every date, the format, the language, the fee. The format reads
 // as on the card: what comes before its first comma, and what follows it as a quieter line ("Live on
-// Zoom" over "with recordings"; Maria, 22 November 2026); Zoom is named with its icon (ZoomText).
+// Zoom" over "with recordings"; Maria, 22 November 2026).
 const comma = course.format?.indexOf(', ') ?? -1;
 const format = comma < 0 ? course.format : course.format!.slice(0, comma);
 const formatNote = comma < 0 ? undefined : course.format!.slice(comma + 2);
@@ -166,7 +165,7 @@ const symbolFor = 'description';
                     </>
                   ) : (
                     <>
-                      <ZoomText text={fact.value!} />
+                      {fact.value}
                       {'note' in fact && fact.note && <span class="facts__month">{fact.note}</span>}
                     </>
                   )}
@@ -220,7 +219,6 @@ const symbolFor = 'description';
                 <Label class="sec__title t-2" id={`${section.id}-title`}>
                   {section.label}
                 </Label>
-                <p class="hand hand--m">{handCase(section.sublabel)}</p>
               </hgroup>
               <div class="prose" data-reveal style="--i:1" set:html={section.html} />
               {section.id === symbolFor && <Illustration name="monad" class="sec__mark" draw />}
@@ -238,7 +236,6 @@ const symbolFor = 'description';
           <details class="acc__item" name={`sections-${course.slug}`} open={i === 0}>
             <summary>
               <Label class="acc__label">{section.label}</Label>
-              <span class="acc__sub">{section.sublabel}</span>
               <svg class="acc__mark" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
                 <path d="M4 12.3c5-.9 11-.6 16-.4" />
                 <path class="acc__mark-v" d="M12.2 4c-.6 5-.5 11 0 16" />
@@ -253,7 +250,6 @@ const symbolFor = 'description';
         <details class="acc__item" name={`sections-${course.slug}`} data-registration>
           <summary>
             <Label class="acc__label">{registrationTab.label}</Label>
-            <span class="acc__sub">{registrationTab.sublabel}</span>
             <svg class="acc__mark" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
               <path d="M4 12.3c5-.9 11-.6 16-.4"></path>
               <path class="acc__mark-v" d="M12.2 4c-.6 5-.5 11 0 16"></path>
@@ -499,15 +495,6 @@ const symbolFor = 'description';
     letter-spacing: var(--title-tracking);
     color: var(--ink-strong);
     transition: color var(--dur-1) var(--hover-delay);
-  }
-  /* A small line under each label. The voice face is too light at this size, so it is the reading italic. */
-  .acc__sub {
-    grid-column: 1;
-    margin-top: 0.15rem;
-    font-size: var(--step--1);
-    font-style: italic;
-    line-height: 1.3;
-    color: var(--ink-soft);
   }
   .acc__mark {
     grid-column: 2;

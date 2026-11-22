@@ -1,7 +1,6 @@
 ---
 // One page per course: the same content as the popup, laid out to be read (and crawled) in full.
 // The same file renders /courses/<slug>/, /el/courses/<slug>/ and /grc/courses/<slug>/: the copy follows the address.
-import { handCase } from '../../lib/hand';
 import Base from '../../layouts/Base.astro';
 import Illustration from '../../components/Illustration.astro';
 import CourseBody from '../../components/courses/CourseBody.astro';
@@ -54,7 +53,6 @@ const canEnrol = course.available && Boolean(course.tuition?.length);
                 <h2 class="reg__title t-2" id="registration-title">
                   {registrationTab.label}
                 </h2>
-                <p class="hand hand--m">{handCase(registrationTab.sublabel)}</p>
               </hgroup>
               <div class="reg__body" data-reveal style="--i:1">
                 <RegistrationInfo course={course} />
@@ -103,17 +101,16 @@ const canEnrol = course.available && Boolean(course.tuition?.length);
     align-items: start;
   }
   /* The heading never outgrows its column: its longest word ("Registration") still fits */
+  /* the heading centred in the arch, under the laurel (Maria, 22 November 2026) */
   .reg__head {
     container-type: inline-size;
+    text-align: center;
   }
   .reg__title {
     font-size: min(var(--step-3), 20cqi);
   }
   .reg__title:lang(el) {
     font-size: min(var(--step-3), 14.5cqi);
-  }
-  .reg__head .hand {
-    margin-top: 0.6rem;
   }
   /* The closing quotation, set like every quotation of the course: the voice face, a thin rule on its left */
   .course__closing {

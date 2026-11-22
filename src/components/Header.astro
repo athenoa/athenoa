@@ -62,11 +62,10 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
                     {pages.map((page) => (
                       <li>
                         <a href={page.href} aria-current={isHere(page.href) ? 'page' : undefined} data-here={isHere(page.href) ? '' : undefined}>
-                          <span class="drop__title">
-                            {page.label}
-                            {/* a course not open yet: "Coming soon" */}
-                            {page.soon && <span class="drop__soon">{coursesPage.ui.soon}</span>}
-                          </span>
+                          {/* the highlighter mark sits behind the title alone (not the subtitle, not the row) */}
+                          <span class="drop__title">{page.label}</span>
+                          {/* a course not open yet: "Coming soon", a pill of its own */}
+                          {page.soon && <span class="drop__soon">{coursesPage.ui.soon}</span>}
                           {/* the subtitle under the title, smaller and quieter */}
                           {page.sub && <span class="drop__sub">{page.sub}</span>}
                         </a>
@@ -494,7 +493,29 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
   .header__links .drop__list a {
     white-space: nowrap;
   }
-  .drop__title,
+  /* A course in the list (Maria, 22 November 2026): no highlighter mark, in any state, on the phone or on
+     the slip. The current course is marked by a heavier title with a small dot before it, in the list's own
+     text colour, so it is legible in every theme; a pointer's hover underlines the title. */
+  .header__links .drop__list a::before {
+    content: none;
+  }
+  .drop__title {
+    display: inline;
+  }
+  .drop__list a[aria-current='page'] .drop__title {
+    font-weight: 650;
+  }
+  .drop__list a[aria-current='page'] .drop__title::before {
+    content: '•';
+    margin-right: 0.4em;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .drop__list a:hover .drop__title {
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.2em;
+    }
+  }
   .drop__sub {
     display: block;
   }
@@ -662,10 +683,6 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
       color: var(--creme-light);
       white-space: normal;
     }
-    .header__links .drop__list a:hover,
-    .header__links .drop__list a:focus-visible,
-    .header__links .drop__list a[aria-current='page'] {
-      color: var(--blue-deep);
-    }
+    /* (the course title alone turns dark on its mark: see .drop__title) */
   }
 </style>

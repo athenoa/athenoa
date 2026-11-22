@@ -21,6 +21,7 @@ import { content } from '../../data';
 import type { Course } from '../../data/courses';
 import { getLocale } from '../../lib/locale';
 import { fill, money, percent, upfrontPrice } from './money';
+import { heart } from './marks';
 
 interface Props {
   course: Course;
@@ -37,6 +38,9 @@ const off = discount > 0 ? fill(ui.tuition.off, { pct: percent(discount) }) : ''
 const id = (name: string) => `rg-${course.slug}-${name}`;
 const fmt = (value: number) => money(value, locale);
 const first = tiers[0];
+// the monthly way as on the tiers: "80€ / μήνα × 8 · σύνολο 640€"
+const monthly = (tier: (typeof tiers)[number]) =>
+  `${fmt(tier.perMonth)} ${ui.tuition.month} ${fill(ui.tuition.payments, { n: String(tier.payments) })} · ${fill(ui.tuition.total, { price: fmt(Math.round(tier.perMonth * tier.payments * 100) / 100) })}`;
 ---
 
 {
@@ -73,9 +77,12 @@ const first = tiers[0];
                       data-monthly={tier.payMonthly}
                       data-price={fmt(tier.price)}
                       data-upfront={fmt(upfrontPrice(tier.price, discount))}
-                      data-month={`${tier.payments} × ${fmt(tier.perMonth)}`}
+                      data-month={monthly(tier)}
                     />
-                    <span class="opt__name">{tier.name}</span>
+                    <span class="opt__name">
+                      {tier.name}
+                      {tier.id === 'love' && <span class="opt__heart" set:html={heart} />}
+                    </span>
                     <span class="opt__price">{fmt(tier.price)}</span>
                   </label>
                 ))}
@@ -101,7 +108,7 @@ const first = tiers[0];
                   <input type="radio" name="payment" value="monthly" />
                   <span class="opt__name">{r.payMonthly}</span>
                   <span class="opt__price">
-                    <span data-now="monthly">{`${first.payments} × ${fmt(first.perMonth)}`}</span>
+                    <span data-now="monthly">{monthly(first)}</span>
                   </span>
                 </label>
                 <label class="opt">
@@ -903,5 +910,17 @@ const first = tiers[0];
   }
   [hidden] {
     display: none !important;
+  }
+  .opt__heart {
+    display: inline-block;
+    width: 0.95em;
+    height: 0.95em;
+    margin-left: 0.3em;
+    vertical-align: -0.1em;
+  }
+  .opt__heart :global(svg) {
+    display: block;
+    width: 100%;
+    height: 100%;
   }
 </style>

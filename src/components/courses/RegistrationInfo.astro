@@ -4,7 +4,7 @@
 // items (bank transfer, cancellations, scholarships). Membership is the tiers' last column.
 // Shared by the course page, the course popup and the home page's course detail.
 import TuitionTiers from './TuitionTiers.astro';
-import { feeOf, fill } from './money';
+import { feeOf, fill, money } from './money';
 import { membershipFor } from '../../data/membership';
 import { content } from '../../data';
 import type { Course } from '../../data/courses';
@@ -33,7 +33,7 @@ const member = memberFee && {
   now: memberFee.now,
   was: memberFee.was,
   off: memberFee.pct ? fill(tuition.off, { pct: memberFee.pct }) : '',
-  month: `${memberFee.month} ${tuition.month} ${fill(tuition.payments, { n: memberFee.payments })}`,
+  month: `${memberFee.month} ${tuition.month} ${fill(tuition.payments, { n: memberFee.payments })} · ${fill(tuition.total, { price: money(Math.round(yearly.tiers[0].perMonth * yearly.tiers[0].payments * 100) / 100, locale) })}`,
   payments: memberFee.payments,
 };
 // The closed items under the tuition. The cancellation terms belong to each course (their dates differ).
@@ -55,6 +55,7 @@ const more = [
         payInFull={tuition.payInFull}
         payMonthly={tuition.payMonthly}
         month={tuition.month}
+        or={tuition.or}
         payments={tuition.payments}
         total={tuition.total}
         discount={discount}

@@ -4,7 +4,6 @@
 // same component as a course's (TuitionTiers.astro), each with its Stripe Payment Links.
 // The same file renders /membership/ (Greek), /en/membership/ and /grc/membership/: the copy follows
 // the address. All its words are in src/data/membership.ts and src/data/el/membership.ts.
-import { handCase } from '../lib/hand';
 import Base from '../layouts/Base.astro';
 import Illustration from '../components/Illustration.astro';
 import Media from '../components/Media.astro';
@@ -70,7 +69,6 @@ const bannerAlt = {
         <div class="reg__grid">
           <hgroup class="reg__head" data-reveal>
             <h2 class="reg__title t-2" id="registration-title">{reg.label}</h2>
-            <p class="hand hand--m">{handCase(reg.sublabel)}</p>
           </hgroup>
           <div class="reg__body" data-reveal style="--i:1">
             <TuitionTiers
@@ -81,6 +79,7 @@ const bannerAlt = {
               payInFull={reg.payInFull}
               payMonthly={reg.payMonthly}
               month={tuition.month}
+              or={tuition.or}
               payments={tuition.payments}
               total={tuition.total}
             />
@@ -168,17 +167,16 @@ const bannerAlt = {
     gap: var(--space-m);
     align-items: start;
   }
+  /* the heading centred in the arch, under the laurel (Maria, 22 November 2026) */
   .reg__head {
     container-type: inline-size;
+    text-align: center;
   }
   .reg__title {
     font-size: min(var(--step-3), 20cqi);
   }
   .reg__title:lang(el) {
     font-size: min(var(--step-3), 14.5cqi);
-  }
-  .reg__head .hand {
-    margin-top: 0.6rem;
   }
   .reg__body {
     display: grid;
