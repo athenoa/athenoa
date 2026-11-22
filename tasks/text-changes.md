@@ -400,3 +400,4 @@ The four earlier courses (The Hidden Non-Duality, and the three placeholders) ar
   - Εὖ Ζῆν keeps "Η Αρχαία Τέχνη της Ευδαιμονίας" / "The Ancient Art of Eudaimonia".
 - Each subtitle now shows under the title on the course page, in the popup and in the courses menu.
 - The page title reads "Title: Subtitle | ATHENOA".
+- The courses' end date ("Τελευταίο μάθημα" and "έως …" on the cards) is removed everywhere for now (Maria); the length keeps its "· 8 μήνες / · 8 months".

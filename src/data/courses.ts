@@ -148,7 +148,7 @@ export const courses: Course[] = [
     // calculated (Maria, 22 November 2026): to confirm with the Academy. 24 Thursdays from 26 November,
     // without 24 and 31 December, 25 March, Holy Thursday (29 April) and Bright Thursday (6 May 2027).
     months: 8,
-    lastLesson: { when: 'Thursday 10 June 2027, 19:30', short: '10 June 2027' },
+    // lastLesson: no end date shown for now (Maria, 22 November 2026); set { when, short } to show one
     duration: '24 weekly lessons',
     format: 'Live on Zoom, Thursdays at 19:30 Greek time',
     teaching: 'el',
@@ -247,7 +247,7 @@ export const courses: Course[] = [
     // calculated (Maria, 22 November 2026): to confirm with the Academy. The first and third Tuesday of
     // each month from 1 December 2026: 16 lessons.
     months: 8,
-    lastLesson: { when: 'Tuesday 20 July 2027, 19:30', short: '20 July 2027' },
+    // lastLesson: no end date shown for now (Maria, 22 November 2026); set { when, short } to show one
     duration: '16 lessons, about two a month',
     format: 'Live on Zoom, Tuesdays at 19:30 Greek time',
     teaching: 'el',

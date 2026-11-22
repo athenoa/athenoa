@@ -64,7 +64,7 @@ export const courses: Course[] = [
     ],
     // calculated (Maria, 22 November 2026): to confirm with the Academy (see the English file)
     months: 8,
-    lastLesson: { when: 'Πέμπτη 10 Ιουνίου 2027, 19:30', short: '10 Ιουνίου 2027' },
+    // lastLesson: no end date shown for now (Maria, 22 November 2026); set { when, short } to show one
     duration: '24 εβδομαδιαία μαθήματα',
     format: 'Ζωντανά μέσω Zoom, κάθε Πέμπτη 19:30 (ώρα Ελλάδος)',
     teaching: 'el',
@@ -161,7 +161,7 @@ export const courses: Course[] = [
     ],
     // calculated (Maria, 22 November 2026): to confirm with the Academy (see the English file)
     months: 8,
-    lastLesson: { when: 'Τρίτη 20 Ιουλίου 2027, 19:30', short: '20 Ιουλίου 2027' },
+    // lastLesson: no end date shown for now (Maria, 22 November 2026); set { when, short } to show one
     duration: '16 μαθήματα, περίπου 2 τον μήνα',
     format: 'Ζωντανά μέσω Zoom, Τρίτη 19:30 (ώρα Ελλάδας)',
     teaching: 'el',
