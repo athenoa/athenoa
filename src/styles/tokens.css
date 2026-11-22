@@ -3,7 +3,7 @@
 
 :root {
   /* Ink: three blues of one hue (232deg). All three are used as surfaces and as ink. */
-  --blue-light: #b3c0f3; /* light Aegean: washes, highlights, soft panels */
+  --blue-light: #b4d3f3; /* light Aegean: washes, highlights, soft panels */
   --blue: #0b1c8c; /* Greek blue: the main ink and the main panel colour */
   --blue-deep: #071260; /* darker Greek blue: body text, night panels, foreground shapes */
   --blue-bright: #2238c3; /* interaction tint only (hover, focus) */
@@ -106,7 +106,7 @@
    words by day is a light-blue panel with night-blue words by night. Photographs are untouched. */
 html[data-theme='dark'] {
   --blue-light: #1c2b96;
-  --blue: #b4c1f4;
+  --blue: #b4d3f3;
   --blue-deep: #f2e9d3;
   --blue-bright: #dfe6ff;
   --creme: #080d42;
@@ -132,7 +132,7 @@ html[data-theme='dark'] .on-blue-light:not(.theme-day, .theme-day *) {
 /* .theme-day keeps one part of the page in its daytime colours whatever the theme (a night scene that is
    already dark, a white-ground photograph that is blended into crème paper). */
 .theme-day {
-  --blue-light: #b3c0f3;
+  --blue-light: #b4d3f3;
   --blue: #0b1c8c;
   --blue-deep: #071260;
   --blue-bright: #2238c3;
