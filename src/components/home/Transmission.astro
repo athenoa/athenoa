@@ -3,7 +3,7 @@
 // three tones; the photograph, with a light-blue rim in its own shape, overlaps the cut-out's edge, and a torch
 // (the flame handed on) stands beside the call to enrol.
 import Media from '../Media.astro';
-import Illustration from '../Illustration.astro';
+import waves from '../../assets/illustrations/waves.svg?raw';
 import night from '../../assets/media/night-acropolis.png';
 import { content } from '../../data';
 import { getLocale, mainLocale } from '../../lib/locale';
@@ -19,6 +19,14 @@ const t = {
       'Μια γυναίκα με λευκή μπλούζα και μπλε εσάρπα κάθεται στο σκοτάδι, με τη φωταγωγημένη Ακρόπολη να λάμπει πίσω της',
   },
 }[mainLocale(locale)];
+// The three bands of sea are one drawing (src/assets/illustrations/waves.svg, 50 KB with its moving
+// lines). It is written into the page once, in the middle band, and the other two show that same
+// drawing through <use>: the page is 100 KB lighter and the browser moves one set of lines instead of
+// three. Each band keeps its own colour (currentColor), place and depth, as before.
+const wavesOpen = waves.match(/^<svg[^>]*>/)![0];
+const wavesBody = waves.slice(wavesOpen.length).replace(/<\/svg>\s*$/, '');
+const wavesSource = `${wavesOpen}<g id="trans-waves">${wavesBody}</g></svg>`;
+const wavesCopy = `${wavesOpen}<use href="#trans-waves"></use></svg>`;
 ---
 
 <section class="trans section" aria-labelledby="transmission-title">
@@ -38,9 +46,15 @@ const t = {
 
     <div class="trans__panel panel panel--big on-blue-deep">
       <div class="panel__clip" aria-hidden="true">
-        <Illustration name="waves" class="trans__waves trans__waves--1" data-depth="0.06" />
-        <Illustration name="waves" class="trans__waves trans__waves--2" data-depth="0.14" />
-        <Illustration name="waves" class="trans__waves trans__waves--3" data-depth="0.22" />
+        <span class="illo illo--waves trans__waves trans__waves--1" aria-hidden="true" data-depth="0.06"
+          ><Fragment set:html={wavesCopy} /></span
+        >
+        <span class="illo illo--waves trans__waves trans__waves--2" aria-hidden="true" data-depth="0.14"
+          ><Fragment set:html={wavesSource} /></span
+        >
+        <span class="illo illo--waves trans__waves trans__waves--3" aria-hidden="true" data-depth="0.22"
+          ><Fragment set:html={wavesCopy} /></span
+        >
       </div>
       <div class="trans__text">
         <h2 class="t-2" id="transmission-title" data-split>{transmission.title}</h2>
