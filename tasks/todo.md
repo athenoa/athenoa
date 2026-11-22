@@ -285,7 +285,7 @@ State when work stopped: all background agents were stopped. Hero candidates A/B
 ## Launch (Maria, 22 November 2026)
 
 - [ ] Confirm with the ATHENOA team that a monthly Stripe subscription stops by itself after the last instalment: 12 months for membership (83€ or 95€ a month), 8 for the courses. The payment links say "until you cancel", so today someone may have to stop each one by hand.
-- [ ] Stripe: the Academy is setting the 10% discount for paying Εὖ Ζῆν upfront (576€ / 648€; Εὖ Ζῆν only, not ΟΔΥΣΣΕΙΑ). Check each "pay in full" link then charges exactly the price the site shows; if they make new links, replace the hrefs in src/data/*courses.ts.
+- [ ] Stripe: the Academy is setting the 10% discount for paying upfront: Εὖ Ζῆν (576€ / 648€; not ΟΔΥΣΣΕΙΑ) and the year of membership (891€ / 1026€, Maria 22 November 2026). Check each "pay in full" link then charges exactly the price the site shows; if they make new links, replace the hrefs in src/data/*courses.ts.
 - [ ] FUTURE (Maria, 22 November 2026): the Scholarship Fund (Ταμείο Υποτροφιών, "Ένα Όμορφο Εγχείρημα") becomes a step of the registration flow, as in their Google Form: an optional gift of 5, 10, 20, 50, 100 € or another amount, and the Stripe checkout total adjusts to include it. Payment Links have fixed prices, so this needs Stripe Checkout Sessions made by a small server function (e.g. a Supabase Edge Function in the athenoa project) holding a restricted Stripe secret key from the Academy: line items = the tier and way of paying + the gift; client_reference_id = the registration id; the gift saved on the registration row. Monthly plans: the gift as a one-off amount on the first payment. Until then the course pages invite gifts by email.
 
 ## Open questions
