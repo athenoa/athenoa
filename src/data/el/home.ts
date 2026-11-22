@@ -11,14 +11,15 @@ export const home = {
 
   hero: {
     // The live page sets this as two headings; here it is the page's single h1.
-    titleLines: ['ΣΠΟΥΔΑΣΤΕ ΣΤΗ ΣΥΓΧΡΟΝΗ ΠΛΑΤΩΝΙΚΗ ΑΚΑΔΗΜΙΑ', '& ΘΥΜΗΘΕΙΤΕ ΠΟΙΟΙ ΠΡΑΓΜΑΤΙΚΑ ΕΙΣΤΕ'],
+    // New wording from Maria, 22 November 2026, in the case she wrote it
+    titleLines: ['Μια Σύγχρονη Ακαδημία Αρχαίας Ελληνικής Σοφίας', 'Θυμήσου Ποιος Αληθινά Είσαι'],
     // The first line is the title; the second is its subtitle and is set smaller.
     // These words of the title sit on an organic highlight, which animates in last.
     // Must stay an exact substring of one title line: the page looks it up with indexOf.
-    highlight: 'ΠΛΑΤΩΝΙΚΗ ΑΚΑΔΗΜΙΑ',
-    // The subtitle as it is shown: the same words as the second title line, in lower case, because
-    // the handwritten face is unreadable in capitals.
-    subtitle: '& θυμηθείτε ποιοι πραγματικά είστε',
+    highlight: 'Ελληνικής Σοφίας',
+    // The subtitle as it is shown: the same words as the second title line (not in capitals, which the
+    // handwritten face cannot carry).
+    subtitle: 'Θυμήσου Ποιος Αληθινά Είσαι',
   },
 
   membership: {

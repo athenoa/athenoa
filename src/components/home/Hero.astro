@@ -30,8 +30,9 @@ const highlight = home.hero.highlight;
 const showAthena = false;
 // Beside the picture the title is a tall stack. Words per row, for the words before the highlight
 // (each highlighted word takes a row of its own). English: "STUDY AT / THE MODERN / PLATONIC /
-// ACADEMY" (client direction, 13 October 2026).
-const stack = { en: [2, 2], el: [1, 2], grc: [1, 3] }[locale];
+// ACADEMY" (client direction, 13 October 2026). Greek: "Μια Σύγχρονη / Ακαδημία Αρχαίας / Ελληνικής /
+// Σοφίας" (new title, 22 November 2026).
+const stack = { en: [2, 2], el: [2, 2], grc: [1, 3] }[locale];
 const rowsOf = (text: string) => {
   const words = text.trim().split(/\s+/).filter(Boolean);
   const rows: string[] = [];
