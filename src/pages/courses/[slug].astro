@@ -145,10 +145,9 @@ const canEnrol = course.available && Boolean(course.tuition?.length);
     margin: var(--space-xl) auto 0;
     text-align: center;
   }
-  @media (min-width: 60rem) {
-    .reg__grid {
-      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-      gap: var(--space-l);
-    }
+  /* The heading above, the ways to pay under it across the whole width: the tiers stand as columns */
+  .reg {
+    max-width: none;
+    padding-inline: clamp(1rem, 0.4rem + 2.6vw, 3rem);
   }
 </style>

@@ -1,6 +1,6 @@
 ---
-// The ways to pay, each tier on a dark-blue slip: its name, then its two ways of paying side by side
-// where there is room and one above the other on a phone (Maria, 22 November 2026). Upfront is the first
+// The ways to pay, each tier on a dark-blue slip, the tiers side by side as columns where there is room
+// (Maria, 22 November 2026): its name, then its two ways of paying one above the other. Upfront is the first
 // choice: a light-blue cut-out, the whole amount for the whole cycle (or year), the filled button.
 // Monthly is the quieter one: an outline, the instalment set as a rate ("/ month", "× 8"), what it adds
 // up to, the outlined button. Any notes on the tier follow.
@@ -31,15 +31,29 @@ interface Props {
   off?: string;
   /** The course's slug: the buttons open its registration form */
   course?: string;
+  /** On a course: membership as the alternative, a last column of its own that leads to the membership page */
+  member?: {
+    title: string;
+    text: string;
+    cta: string;
+    href: string;
+    now: string;
+    was: string;
+    off: string;
+    month: string;
+    payments: string;
+  };
 }
-const { tiers, level = 3, per, payInFull, payMonthly, month, payments, total, discount = 0, off, course } = Astro.props;
+const { tiers, level = 3, per, payInFull, payMonthly, month, payments, total, discount = 0, off, course, member } = Astro.props;
+const columns = tiers.length + (member ? 1 : 0);
 const locale = getLocale(Astro.url);
 const Name = level === 4 ? 'h4' : 'h3';
 const opens = (tier: TuitionTier, pay: 'full' | 'monthly') =>
   course ? { 'data-register': course, 'data-tier': tier.id, 'data-pay': pay } : {};
 ---
 
-<ul class="tiers" role="list">
+<div class="tiers-box">
+<ul class:list={['tiers', member && 'tiers--member']} role="list" style={`--cols:${columns}`}>
   {
     tiers.map((tier) => (
       <li class="tier box on-blue-deep">
@@ -80,7 +94,29 @@ const opens = (tier: TuitionTier, pay: 'full' | 'monthly') =>
       </li>
     ))
   }
+  {
+    member && (
+      <li class="tier tier--member box on-blue-light">
+        <Name class="tier__name">{member.title}</Name>
+        <p class="tier__small member__text">{member.text}</p>
+        <p class="way__amount">
+          <span class="way__sum">{member.now}</span>
+        </p>
+        {member.was && (
+          <p class="way__was">
+            <s>{member.was}</s>
+            <span class="tier__off">{member.off}</span>
+          </p>
+        )}
+        <p class="tier__small">{member.month}</p>
+        <a class="btn way__btn" href={member.href}>
+          {member.cta}
+        </a>
+      </li>
+    )
+  }
 </ul>
+</div>
 
 <style>
   .tiers {
@@ -90,9 +126,29 @@ const opens = (tier: TuitionTier, pay: 'full' | 'monthly') =>
     padding: 0;
     list-style: none;
   }
-  .tier {
+  /* The tiers as columns where the space allows; on a narrower one two, membership across under them */
+  .tiers-box {
     container-type: inline-size;
+  }
+  @container (min-width: 36rem) {
+    .tiers {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .tiers--member .tier--member {
+      grid-column: 1 / -1;
+    }
+  }
+  @container (min-width: 56rem) {
+    .tiers {
+      grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+    }
+    .tiers--member .tier--member {
+      grid-column: auto;
+    }
+  }
+  .tier {
     display: grid;
+    align-content: start;
     gap: 0.75rem;
     padding: clamp(1.25rem, 0.9rem + 1.6vw, 2rem);
   }
@@ -105,15 +161,18 @@ const opens = (tier: TuitionTier, pay: 'full' | 'monthly') =>
     color: var(--ink-strong);
   }
 
-  /* The two ways: hand-cut outlines on the slip, the same size, side by side where the slip is wide */
+  /* The two ways: one above the other in the tier's column, upfront first */
   .ways {
     display: grid;
     gap: 0.6rem;
   }
-  @container (min-width: 26rem) {
-    .ways {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
+  /* Membership, the alternative: light-blue paper, its words, its price, the way to its page */
+  .tier--member {
+    align-content: start;
+    justify-items: start;
+  }
+  .tier--member .way__btn {
+    margin-top: 0.6rem;
   }
   /* Room above the amount, so it never crowds the edge (Maria, 22 November 2026) */
   .tiers .way {
@@ -204,6 +263,10 @@ const opens = (tier: TuitionTier, pay: 'full' | 'monthly') =>
   .way__btn {
     margin-top: auto;
     text-align: center;
+  }
+  /* In a column the buttons keep their words on one line where they can */
+  .tiers .way__btn {
+    padding-inline: 1.15em;
   }
   .way > :nth-last-child(2) {
     margin-bottom: 0.7rem;

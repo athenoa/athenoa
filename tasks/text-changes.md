@@ -386,3 +386,8 @@ The four earlier courses (The Hidden Non-Duality, and the three placeholders) ar
 - **Membership, 10% upfront:** the whole year paid upfront is 891€ (instead of 990€) and 1026€ (instead of 1140€). New wording, proposed: "Με την προπληρωμή ολόκληρου του έτους Μέλους κερδίζετε 10% έκπτωση" / "Pay for the whole year of membership upfront and save 10%". The monthly way's total is computed from the instalments: 12 × 83€ = 996€, which is not the 990€ year price (to confirm with the Academy).
 - **Membership page:** it now has a Markdown twin (/membership.md, /en/membership.md).
 - **The "save 10%" sentence over the tiers is dropped** (Maria), for Εὖ Ζῆν ("Με την προπληρωμή ολόκληρου του Κύκλου «Εὖ Ζῆν» κερδίζετε 10% έκπτωση") and for membership ("Με την προπληρωμή ολόκληρου του έτους Μέλους κερδίζετε 10% έκπτωση"), in every language and in the Markdown twins. The −10% mark beside the struck price is enough.
+
+## Courses, round 5 (22 November 2026, night)
+
+- ΟΔΥΣΣΕΙΑ's title is now "Οδύσσεια - το Ταξείδι της Ψυχής προς την Αφύπνιση" (Maria, as she wrote it) / "Odyssey - The Journey of the Soul to Awakening". The subtitle keeps what the title does not say: "μέσα από τον αρχετυπικό χάρτη του Ομήρου" / "through the archetypal map of Homer".
+- Membership is now a third column beside the course tiers, titled "Μέλος της Ακαδημίας" / "Member of the Academy" (proposed English), with the live page's sentence and "Μάθετε Περισσότερα", leading to the membership page. The same sentence is no longer repeated under the tiers.

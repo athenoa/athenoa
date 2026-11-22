@@ -1,9 +1,11 @@
 ---
 // How to register for a course: until when, the ways to pay (TuitionTiers.astro: their buttons open the registration form, RegisterDialog.astro, and from
 // there Stripe), the notes on paying, then the registration form's further ways and terms as closed
-// items (bank transfer, cancellations, scholarships), and the way to membership.
+// items (bank transfer, cancellations, scholarships). Membership is the tiers' last column.
 // Shared by the course page, the course popup and the home page's course detail.
 import TuitionTiers from './TuitionTiers.astro';
+import { feeOf, fill } from './money';
+import { membershipFor } from '../../data/membership';
 import { content } from '../../data';
 import type { Course } from '../../data/courses';
 import { getLocale } from '../../lib/locale';
@@ -14,10 +16,26 @@ interface Props {
   level?: 3 | 4;
 }
 const { course, level = 3 } = Astro.props;
-const { coursesPage, site } = content(getLocale(Astro.url));
+const locale = getLocale(Astro.url);
+const { coursesPage, site } = content(locale);
 const { tuition, membership, registration } = coursesPage.ui;
 const { bank } = registration;
 const discount = course.upfrontDiscount ?? 0;
+// Membership as the alternative, the last column beside the tiers (as on the Academy's old page): its
+// standard price, paid upfront less its discount or by the month, and the way to its page
+const yearly = membershipFor(locale).registration;
+const memberFee = yearly.tiers[0] ? feeOf(yearly.tiers[0], yearly.upfrontDiscount ?? 0, locale) : null;
+const member = memberFee && {
+  title: membership.title,
+  text: membership.text,
+  cta: membership.cta,
+  href: site.routes.membership,
+  now: memberFee.now,
+  was: memberFee.was,
+  off: memberFee.pct ? fill(tuition.off, { pct: memberFee.pct }) : '',
+  month: `${memberFee.month} ${tuition.month} ${fill(tuition.payments, { n: memberFee.payments })}`,
+  payments: memberFee.payments,
+};
 // The closed items under the tuition. The cancellation terms belong to each course (their dates differ).
 const more = [
   { id: 'bank', title: bank.title },
@@ -43,6 +61,7 @@ const more = [
         discount={discount}
         off={tuition.off}
         course={course.slug}
+        member={member ?? undefined}
       />
     )
   }
@@ -109,9 +128,6 @@ const more = [
     }
   </div>
 
-  <p class="reginfo__member">
-    {membership.text} <a href={site.routes.membership}>{membership.cta}</a>
-  </p>
 </div>
 
 <style>
@@ -125,8 +141,7 @@ const more = [
   .bank__register {
     margin-top: var(--space-s);
   }
-  .reginfo__notes,
-  .reginfo__member {
+  .reginfo__notes {
     font-size: var(--step--1);
   }
 

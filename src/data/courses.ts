@@ -128,13 +128,14 @@ const cancellations = (term?: string) => `<p><strong>Important note</strong></p>
 export const courses: Course[] = [
   {
     slug: 'odusseia',
-    title: 'Odyssey',
+    // Title as Athena wrote it in Greek (Maria, 22 November 2026); the subtitle keeps what it does not say
+    title: 'Odyssey - The Journey of the Soul to Awakening',
     status: 'open',
     // The course banner, from the Academy (Maria, 22 November 2026)
     image: 'course-odusseia',
     imageAlt:
       'Course banner: ΟΔΥΣΣΕΙΑ, The Journey of the Soul to Awakening. Odysseus at the prow of his ship looks across a deep blue sea to a sunlit island with a temple, Athena watching from the starry sky',
-    subtitle: 'The Journey of the Soul to Awakening through the archetypal map of Homer',
+    subtitle: 'through the archetypal map of Homer',
     summary:
       'In this Cycle of Studies in Greek Philosophy we will study the Odyssey as a timeless treasure of Wisdom, a symbolic Map of the human Soul and of its Journey to Self-knowledge and Awakening.',
     schedule: 'From 26 November 2026',
@@ -550,6 +551,7 @@ export const coursesPage = {
     },
     // The live page's line under the tuition, leading to the membership page (site.routes.membership).
     membership: {
+      title: 'Member of the Academy',
       text: 'Alternatively, you can become a Member of our Academy and have access to all the Cycles of Studies, with the privileges of Membership!',
       cta: 'Learn more',
     },
