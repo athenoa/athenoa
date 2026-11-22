@@ -1,6 +1,6 @@
 ---
 // Home: "Living Transmission". A darker-blue night cut-out with a sea of waves along its foot, drawn in
-// three tones; the photograph sits on a light-blue pebble that overlaps the cut-out's edge, and a torch
+// three tones; the photograph, with a light-blue rim in its own shape, overlaps the cut-out's edge, and a torch
 // (the flame handed on) stands beside the call to enrol.
 import Media from '../Media.astro';
 import Illustration from '../Illustration.astro';
@@ -23,8 +23,8 @@ const t = {
 
 <section class="trans section" aria-labelledby="transmission-title">
   <div class="wrap trans__grid">
-    <div class="trans__photo">
-      <span class="trans__mat" aria-hidden="true" data-depth="0.1"></span>
+    <div class="trans__photo" data-depth="-0.06">
+      <span class="trans__mat" aria-hidden="true"></span>
       <Media
         src={night}
         alt={t.photoAlt}
@@ -33,7 +33,6 @@ const t = {
         focus="58% 50%"
         widths={[360, 520, 690]}
         sizes="(min-width: 60rem) 32rem, 80vw"
-        data-depth="-0.06"
       />
     </div>
 
@@ -68,10 +67,12 @@ const t = {
     width: min(78%, 32rem);
     margin: 0 clamp(1.5rem, 6%, 3.5rem) -5.5rem 0;
   }
+  /* The rim: the photograph's own shape, a little larger all round (Maria, 22 November 2026: a border,
+     as around the arches, not a second shape); it moves with the photograph */
   .trans__mat {
     position: absolute;
-    inset: -6% -5% -7% -8%;
-    border-radius: var(--r-pebble-3);
+    inset: -0.8rem;
+    border-radius: var(--r-pebble-2);
     background-color: var(--blue-light);
     background-image: var(--grain);
     background-size: 400px 400px;

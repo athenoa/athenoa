@@ -26,8 +26,9 @@
 // with the boat right of centre.
 import { Image } from 'astro:assets';
 import Illustration from '../Illustration.astro';
-import emblemEn from '../../assets/media/emblem-en.png';
-import emblemEl from '../../assets/media/emblem-el.png';
+// The old logo for now, until the new emblem is final (Maria, 22 November 2026); the emblems were
+// emblem-en.png / emblem-el.png, by language
+import logo from '../../assets/media/logo.png';
 import { notfound } from '../../data/notfound';
 import { content } from '../../data';
 
@@ -35,7 +36,7 @@ const locales = ['en', 'el'] as const;
 // How far each word of the note strays from its line (in ems) and how much it leans: an uneven hand
 const jot = (i: number) => ({ y: (Math.sin(i * 1.9 + 0.6) * 0.17).toFixed(2), r: (Math.cos(i * 1.3) * 3.2).toFixed(1) });
 const headings = { en: notfound.en.heading, el: notfound.el.heading };
-const emblems = { en: emblemEn, el: emblemEl };
+const emblems = { en: logo, el: logo };
 ---
 
 <section class="nf">
@@ -90,7 +91,7 @@ const emblems = { en: emblemEn, el: emblemEl };
     {
       locales.map((locale) => (
         <a class="nf__emblem" href={notfound[locale].home.href} aria-label={content(locale).ui.homeLink} data-lang={locale}>
-          <span class="medal"><Image src={emblems[locale]} alt="" width={147} height={187} densities={[1, 2]} loading="eager" /></span>
+          <span class="medal medal--plain"><Image src={emblems[locale]} alt="" width={172} height={168} densities={[1, 2]} loading="eager" /></span>
         </a>
       ))
     }

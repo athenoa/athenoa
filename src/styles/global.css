@@ -917,6 +917,10 @@ html.motion .media--framed::before {
   background-size: 250% 100%;
   background-position: 100% 0;
 }
+/* A logo that is not an oval medal (the old logo, for now): it lifts, without the band of light */
+.medal--plain::after {
+  content: none;
+}
 @media (hover: hover) {
   :is(a:hover, a:focus-visible) .medal,
   .medal:hover {

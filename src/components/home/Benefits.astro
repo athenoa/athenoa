@@ -179,7 +179,8 @@ const looks: { surface: string; mat: string; photo: Photo; second?: Photo }[] = 
   .unit__frame {
     position: relative;
   }
-  /* A cut-out in another blue lies behind each photograph and shows as a rim on one side. */
+  /* A cut-out in another blue lies behind each photograph, in the photograph's own shape, and shows as
+     an even rim all round (Maria, 22 November 2026: a border, as around the arch, not a second shape). */
   .unit__frame::before {
     content: '';
     position: absolute;
@@ -203,9 +204,10 @@ const looks: { surface: string; mat: string; photo: Photo; second?: Photo }[] = 
       transform: scale(0.992, 1.018);
     }
   }
+  /* scale only (no turn), so the rim stays even as it breathes */
   :global(html.motion) .unit--1 .unit__frame::before,
   :global(html.motion) .unit--2 .unit__frame::before {
-    animation: outline-breathe 11s ease-in-out infinite;
+    animation: cutout-breathe 11s ease-in-out infinite;
     will-change: transform;
   }
   :global(html.motion) .unit--2 .unit__frame::before {
@@ -218,12 +220,12 @@ const looks: { surface: string; mat: string; photo: Photo; second?: Photo }[] = 
     will-change: transform;
   }
   .unit--1 .unit__frame::before {
-    inset: -3% 2% -5% -6%;
-    border-radius: var(--r-pebble-3);
+    inset: -0.7rem;
+    border-radius: var(--r-pebble-1);
   }
   .unit--2 .unit__frame::before {
-    inset: -5% -6% -3% 2%;
-    border-radius: var(--r-pebble-1);
+    inset: -0.7rem;
+    border-radius: var(--r-pebble-3);
   }
   .unit--3 .unit__photos .unit__frame::before {
     inset: -0.7rem;

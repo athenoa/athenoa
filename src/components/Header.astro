@@ -1,12 +1,16 @@
 ---
 import { Image } from 'astro:assets';
-import logo from '../assets/media/emblem-mark.png';
+// The old logo for now, until the new emblem is final (Maria, 22 November 2026); the emblem was emblem-mark.png
+import logo from '../assets/media/logo.png';
 import { content } from '../data';
 import { languages } from '../data/ui';
 import { getLocale, pathIn, barePath } from '../lib/locale';
 
 const locale = getLocale(Astro.url);
-const { site, ui } = content(locale);
+const { site, ui, courses, coursePageHref } = content(locale);
+// The pages under a menu item: 'courses' lists every course page, in the courses page's order
+const subMenu = (item: { menu?: string }) =>
+  item.menu === 'courses' ? courses.map((course) => ({ label: course.title, href: coursePageHref(course.slug) })) : undefined;
 const path = barePath(Astro.url.pathname);
 const home = pathIn(locale, '/');
 const current = languages.find((language) => language.locale === locale) ?? languages[0];
@@ -23,27 +27,48 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
 <header class="header" data-header>
   <div class="header__bar">
     <a class="header__brand" href={home} aria-label={ui.homeLink}>
-      <span class="medal"><Image src={logo} alt="" width={48} height={62} densities={[1, 2]} loading="eager" class="header__logo" /></span>
+      <span class="medal medal--plain"><Image src={logo} alt="" width={56} height={55} densities={[1, 2]} loading="eager" class="header__logo" /></span>
       <span class="header__name">{site.name}</span>
     </a>
 
     <nav class="header__nav" aria-label={ui.mainNav}>
       <ul class="header__links" id="site-menu">
         {
-          site.nav.map((item) => (
-            <li>
-              {/* Set in capitals by the stylesheet. Browsers drop the accents of Greek capitals only
-                  for text marked as modern Greek, so the Ancient Greek labels are marked that way here. */}
-              <a
-                href={item.href}
-                aria-current={isCurrent('section' in item && item.section ? item.section : item.href) ? 'page' : undefined}
-                data-here={isHere(item.href) ? '' : undefined}
-                lang={locale === 'grc' ? 'el' : undefined}
-              >
-                {item.label}
-              </a>
-            </li>
-          ))
+          site.nav.map((item) => {
+            const pages = subMenu(item);
+            return (
+              <li class:list={[pages && 'header__drop']}>
+                {/* Set in capitals by the stylesheet. Browsers drop the accents of Greek capitals only
+                    for text marked as modern Greek, so the Ancient Greek labels are marked that way here. */}
+                <a
+                  href={item.href}
+                  aria-current={isCurrent('section' in item && item.section ? item.section : item.href) ? 'page' : undefined}
+                  data-here={isHere(item.href) ? '' : undefined}
+                  lang={locale === 'grc' ? 'el' : undefined}
+                >
+                  {item.label}
+                  {pages && (
+                    <svg class="drop__chevron" viewBox="0 0 12 8" width="10" height="7" aria-hidden="true" focusable="false">
+                      <path d="M1.2 1.6 6 6.3l4.8-4.7" />
+                    </svg>
+                  )}
+                </a>
+                {/* The course pages: a slip of paper that opens under the item on hover or focus; in the
+                    phone menu they are listed beneath it (Maria, 22 November 2026) */}
+                {pages && (
+                  <ul class="drop__list" role="list">
+                    {pages.map((page) => (
+                      <li>
+                        <a href={page.href} aria-current={isHere(page.href) ? 'page' : undefined} data-here={isHere(page.href) ? '' : undefined}>
+                          {page.label}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            );
+          })
         }
         <li class="header__lang">
           <details class="lang" data-lang-menu>
@@ -195,10 +220,11 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
   .header__nav {
     min-width: 0;
   }
-  /* The emblem without its band: Athena on the crème panel in a thin outline (brand/emblem), upright, so it is sized by its height */
+  /* The old logo (for now): the golden statue in its blue light, about square. With the emblem back:
+     height: clamp(3rem, 2.65rem + 1.1vw, 3.9rem); width: auto. */
   .header__logo {
-    height: clamp(3rem, 2.65rem + 1.1vw, 3.9rem);
-    width: auto;
+    width: clamp(2.5rem, 2.2rem + 1vw, 3.25rem);
+    height: auto;
   }
   .header__name {
     font-family: var(--font-title);
@@ -355,7 +381,8 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
     rotate: -1deg;
   }
   /* The slip of paper: an uneven outline with a rough edge */
-  .lang__list::before {
+  .lang__list::before,
+  .drop__list::before {
     content: '';
     position: absolute;
     inset: 0;
@@ -367,7 +394,8 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
     border-radius: 2.1rem 1.5rem 2.4rem 1.7rem / 1.6rem 2.3rem 1.5rem 2.2rem;
     filter: url(#rough-sm);
   }
-  .header__links .lang__list a {
+  .header__links .lang__list a,
+  .header__links .drop__list a {
     position: relative;
     isolation: isolate;
     display: block;
@@ -376,7 +404,8 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
     color: var(--ink);
   }
   /* Hover and the language in use are marked with the same highlighter stroke as the menu */
-  .header__links .lang__list a::before {
+  .header__links .lang__list a::before,
+  .header__links .drop__list a::before {
     content: '';
     position: absolute;
     inset: 4% -0.1rem 0 -0.1rem;
@@ -389,8 +418,73 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
   }
   .header__links .lang__list a:hover::before,
   .header__links .lang__list a:focus-visible::before,
-  .header__links .lang__list a[aria-current='true']::before {
+  .header__links .lang__list a[aria-current='true']::before,
+  .header__links .drop__list a:hover::before,
+  .header__links .drop__list a:focus-visible::before,
+  .header__links .drop__list a[aria-current='page']::before {
     transform: none;
+  }
+  .header__links .drop__list a[data-here] {
+    pointer-events: none;
+  }
+
+  /* The courses item: a chevron after its word, and the list of course pages on a slip of paper
+     that opens under it while the pointer rests on the item or a key lands inside it */
+  .header__drop {
+    position: relative;
+  }
+  .drop__chevron {
+    flex: none;
+    transition: rotate var(--dur-1) var(--ease-out);
+  }
+  .drop__chevron path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .header__drop:is(:hover, :focus-within) .drop__chevron {
+    rotate: 180deg;
+  }
+  .drop__list {
+    position: absolute;
+    left: -1rem;
+    top: calc(100% + 0.55rem);
+    z-index: 5;
+    isolation: isolate;
+    display: grid;
+    gap: 0.15rem;
+    min-width: 13rem;
+    margin: 0;
+    padding: 0.85rem 0.8rem 0.95rem;
+    list-style: none;
+    rotate: -1deg;
+    opacity: 0;
+    visibility: hidden;
+    translate: 0 -0.35rem;
+    transition:
+      opacity var(--dur-2) var(--ease-out),
+      translate var(--dur-2) var(--ease-out),
+      visibility 0s linear var(--dur-2);
+  }
+  /* a bridge over the gap, so the pointer can travel from the word to the list without closing it */
+  .drop__list::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 100%;
+    height: 0.8rem;
+  }
+  .header__drop:is(:hover, :focus-within) .drop__list {
+    opacity: 1;
+    visibility: visible;
+    translate: 0 0;
+    transition-delay: 0s;
+  }
+  .header__links .drop__list a {
+    white-space: nowrap;
   }
   .header__links .lang__list a[aria-current='true'] {
     color: var(--ink-strong);
@@ -511,6 +605,36 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
     .header__links .lang__list a {
       color: var(--blue-deep);
       font-size: var(--step-0);
+    }
+    /* In the phone menu the course pages are always listed, under their item, a step in */
+    .drop__chevron {
+      display: none;
+    }
+    .drop__list {
+      position: static;
+      min-width: 0;
+      margin: 0.1rem 0 0.4rem 0.9rem;
+      padding: 0;
+      rotate: none;
+      opacity: 1;
+      visibility: visible;
+      translate: none;
+      transition: none;
+    }
+    .drop__list::before,
+    .drop__list::after {
+      content: none;
+    }
+    .header__links .drop__list a {
+      padding: 0.3rem 0.35rem;
+      font-size: var(--step-0);
+      color: var(--creme-light);
+      white-space: normal;
+    }
+    .header__links .drop__list a:hover,
+    .header__links .drop__list a:focus-visible,
+    .header__links .drop__list a[aria-current='page'] {
+      color: var(--blue-deep);
     }
   }
 </style>
