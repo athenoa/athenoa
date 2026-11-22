@@ -11,6 +11,10 @@ const names =
 const stems =
   /^(Αθην|Αττικ|Ελλάδ|Πλάτων|Πλατων|Ακαδημ|Αριστοτέλ|Ορφ|Πυθαγ|Δρ$|Ιανουαρ|Φεβρουαρ|Μαρτ|Απριλ|Μα[ΐι]ο|Ιουν|Ιουλ|Αυγο[υύ]στ|Σεπτεμβρ|Οκτωβρ|Νοεμβρ|Δεκεμβρ|Ἀθην|Ἀττικ|Ἑλλ|Ἀκαδ|Ἀριστοτέλ|Ὀρφ)/u;
 
+// Greek stems are listed without accents; a word is also tried with its accents taken off, so that
+// "Ιανουάριο", "Μάρτιο" or "Νοέμβριος" keep their capital like "Ιανουαρίου" does
+const bare = (word: string) => word.normalize('NFD').replace(/\p{M}/gu, '').normalize('NFC');
+
 export function handCase(text: string): string {
   let start = true; // the next word opens a sentence
   return text.replace(/(\p{L}[\p{L}\p{M}’'-]*)|([.!?…]+|;(?=\s|$))/gu, (match, word?: string) => {
@@ -20,7 +24,7 @@ export function handCase(text: string): string {
     }
     const first = start;
     start = false;
-    if (first || names.test(word) || stems.test(word)) return word;
+    if (first || names.test(word) || stems.test(word) || stems.test(bare(word))) return word;
     // a word in capitals throughout (ATHENOA) is a name too
     if (word.length > 1 && word === word.toUpperCase()) return word;
     return word.charAt(0).toLowerCase() + word.slice(1);
