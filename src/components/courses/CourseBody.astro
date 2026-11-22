@@ -119,6 +119,8 @@ const symbolFor = 'description';
       data-split={page ? '' : undefined}
       set:html={keepHyphens(course.title)}
     />
+    {/* The subtitle right under the title: smaller, lighter, in the title's face (Maria, 22 November 2026) */}
+    {course.subtitle && <p class="body__subtitle" set:html={keepHyphens(course.subtitle)} />}
     {!page && <p class="body__by">{ui.taughtBy} {course.instructor}</p>}
 
     <div class="body__lede stack" data-reveal-group={page ? '' : undefined}>
@@ -273,6 +275,15 @@ const symbolFor = 'description';
   .body__media {
     --media-r: var(--r-soft);
   }
+  .body__subtitle {
+    font-family: var(--font-title);
+    font-weight: 300;
+    font-size: calc(var(--step-1) * 1.05);
+    line-height: 1.12;
+    letter-spacing: var(--title-tracking);
+    color: var(--ink-soft);
+    text-wrap: balance;
+  }
   .body__by {
     font-style: italic;
     color: var(--ink-soft);
@@ -408,6 +419,7 @@ const symbolFor = 'description';
       margin-bottom: var(--jot-room);
     }
     .body--dialog .body__title,
+    .body--dialog .body__subtitle,
     .body--dialog .body__by,
     .body--dialog .body__lede {
       grid-column: 2;
@@ -513,8 +525,14 @@ const symbolFor = 'description';
   .body--page .body__head {
     gap: var(--space-m);
   }
-  .body--page .body__title {
+  .body--page .body__title,
+  .body--page .body__subtitle {
     order: 1;
+  }
+  /* between the title and the section headings in size: on the page it sits close under the title */
+  .body--page .body__subtitle {
+    margin-top: calc(var(--space-m) * -0.6);
+    font-size: clamp(1.6rem, 1.05rem + 2.3vw, 3.1rem);
   }
   /* Greek is set in the fallback face, which runs wider than the title face: a step smaller,
      so the long compound in the title stays whole on a phone */

@@ -128,14 +128,14 @@ const cancellations = (term?: string) => `<p><strong>Important note</strong></p>
 export const courses: Course[] = [
   {
     slug: 'odusseia',
-    // Title as Athena wrote it in Greek (Maria, 22 November 2026); the subtitle keeps what it does not say
-    title: 'Odyssey - The Journey of the Soul to Awakening',
+    // Title and subtitle as on the banner (Maria, 22 November 2026)
+    title: 'Odyssey',
     status: 'open',
     // The course banner, from the Academy (Maria, 22 November 2026)
     image: 'course-odusseia',
     imageAlt:
       'Course banner: ΟΔΥΣΣΕΙΑ, The Journey of the Soul to Awakening. Odysseus at the prow of his ship looks across a deep blue sea to a sunlit island with a temple, Athena watching from the starry sky',
-    subtitle: 'through the archetypal map of Homer',
+    subtitle: 'The Journey of the Soul to Awakening',
     summary:
       'In this Cycle of Studies in Greek Philosophy we will study the Odyssey as a timeless treasure of Wisdom, a symbolic Map of the human Soul and of its Journey to Self-knowledge and Awakening.',
     schedule: 'From 26 November 2026',

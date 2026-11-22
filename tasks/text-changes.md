@@ -392,3 +392,11 @@ The four earlier courses (The Hidden Non-Duality, and the three placeholders) ar
 - ΟΔΥΣΣΕΙΑ's title is now "Οδύσσεια - το Ταξείδι της Ψυχής προς την Αφύπνιση" (Maria, as she wrote it) / "Odyssey - The Journey of the Soul to Awakening". The subtitle keeps what the title does not say: "μέσα από τον αρχετυπικό χάρτη του Ομήρου" / "through the archetypal map of Homer".
 - Membership is now a third column beside the course tiers, titled "Μέλος της Ακαδημίας" / "Member of the Academy" (proposed English), with the live page's sentence and "Μάθετε Περισσότερα", leading to the membership page. The same sentence is no longer repeated under the tiers.
 - "The Hidden Non-Duality of Ancient Greek Philosophy" shows no price for now (Maria: not final). The old "€200 & VAT (24%)" is removed from the cards, the page, the popup, the Markdown twins and the structured data.
+
+## Courses, round 6
+
+- Titles and subtitles (Maria):
+  - ΟΔΥΣΣΕΙΑ: "Οδύσσεια" with "Το Ταξείδι της Ψυχής προς την Αφύπνιση" / "Odyssey" with "The Journey of the Soul to Awakening". "μέσα από τον αρχετυπικό χάρτη του Ομήρου" is dropped.
+  - Εὖ Ζῆν keeps "Η Αρχαία Τέχνη της Ευδαιμονίας" / "The Ancient Art of Eudaimonia".
+- Each subtitle now shows under the title on the course page, in the popup and in the courses menu.
+- The page title reads "Title: Subtitle | ATHENOA".

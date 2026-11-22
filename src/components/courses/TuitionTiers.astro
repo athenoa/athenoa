@@ -31,6 +31,8 @@ interface Props {
   off?: string;
   /** The course's slug: the buttons open its registration form */
   course?: string;
+  /** 'side': each tier across the whole width, its two ways side by side (the membership page) */
+  ways?: 'stack' | 'side';
   /** On a course: membership as the alternative, a last column of its own that leads to the membership page */
   member?: {
     title: string;
@@ -44,7 +46,7 @@ interface Props {
     payments: string;
   };
 }
-const { tiers, level = 3, per, payInFull, payMonthly, month, payments, total, discount = 0, off, course, member } = Astro.props;
+const { tiers, level = 3, per, payInFull, payMonthly, month, payments, total, discount = 0, off, course, member, ways = 'stack' } = Astro.props;
 const columns = tiers.length + (member ? 1 : 0);
 const locale = getLocale(Astro.url);
 const Name = level === 4 ? 'h4' : 'h3';
@@ -53,7 +55,7 @@ const opens = (tier: TuitionTier, pay: 'full' | 'monthly') =>
 ---
 
 <div class="tiers-box">
-<ul class:list={['tiers', member && 'tiers--member']} role="list" style={`--cols:${columns}`}>
+<ul class:list={['tiers', member && 'tiers--member', ways === 'side' && 'tiers--side']} role="list" style={`--cols:${columns}`}>
   {
     tiers.map((tier) => (
       <li class="tier box on-blue-deep">
@@ -144,6 +146,15 @@ const opens = (tier: TuitionTier, pay: 'full' | 'monthly') =>
     }
     .tiers--member .tier--member {
       grid-column: auto;
+    }
+  }
+  /* Side by side inside the tier instead: the tiers one under the other, each tier's two ways beside each other */
+  @container (min-width: 36rem) {
+    .tiers--side {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .tiers--side .ways {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
   .tier {

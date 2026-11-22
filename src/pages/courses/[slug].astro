@@ -32,7 +32,7 @@ const canEnrol = course.available && Boolean(course.tuition?.length);
 ---
 
 <Base
-  title={`${course.title} | ${site.name}`}
+  title={`${course.subtitle ? `${course.title}: ${course.subtitle}` : course.title} | ${site.name}`}
   description={course.summary ?? `${course.title}. ${coursesPage.ui.placeholderNote}`}
   image={courseImage(course.image)}
   imageAlt={course.imageAlt}

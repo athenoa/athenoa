@@ -10,7 +10,9 @@ const locale = getLocale(Astro.url);
 const { site, ui, courses, coursePageHref } = content(locale);
 // The pages under a menu item: 'courses' lists every course page, in the courses page's order
 const subMenu = (item: { menu?: string }) =>
-  item.menu === 'courses' ? courses.map((course) => ({ label: course.title, href: coursePageHref(course.slug) })) : undefined;
+  item.menu === 'courses'
+    ? courses.map((course) => ({ label: course.title, sub: course.subtitle, href: coursePageHref(course.slug) }))
+    : undefined;
 const path = barePath(Astro.url.pathname);
 const home = pathIn(locale, '/');
 const current = languages.find((language) => language.locale === locale) ?? languages[0];
@@ -60,7 +62,9 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
                     {pages.map((page) => (
                       <li>
                         <a href={page.href} aria-current={isHere(page.href) ? 'page' : undefined} data-here={isHere(page.href) ? '' : undefined}>
-                          {page.label}
+                          <span class="drop__title">{page.label}</span>
+                          {/* the subtitle under the title, smaller and quieter */}
+                          {page.sub && <span class="drop__sub">{page.sub}</span>}
                         </a>
                       </li>
                     ))}
@@ -485,6 +489,17 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
   }
   .header__links .drop__list a {
     white-space: nowrap;
+  }
+  .drop__title,
+  .drop__sub {
+    display: block;
+  }
+  .drop__sub {
+    margin-top: 0.05rem;
+    font-size: 0.86em;
+    letter-spacing: normal;
+    text-transform: none;
+    opacity: 0.72;
   }
   .header__links .lang__list a[aria-current='true'] {
     color: var(--ink-strong);

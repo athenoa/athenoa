@@ -76,6 +76,7 @@ const bannerAlt = {
             <TuitionTiers
               tiers={reg.tiers}
               discount={discount}
+              ways="side"
               off={tuition.off}
               per={reg.per}
               payInFull={reg.payInFull}
@@ -192,10 +193,6 @@ const bannerAlt = {
     font-size: var(--step--1);
   }
   @media (min-width: 60rem) {
-    .reg__grid {
-      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-      gap: var(--space-l);
-    }
     .mem__questions {
       grid-column: 1;
     }
