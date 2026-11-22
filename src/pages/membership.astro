@@ -138,6 +138,10 @@ const bannerAlt = {
   .mem__go {
     grid-column: 1 / -1;
   }
+  /* the questions run as wide as the title above them (Maria, 22 November 2026) */
+  .mem__questions :global(.lead) {
+    max-width: none;
+  }
   .mem__questions {
     display: grid;
     gap: 0.6rem;
