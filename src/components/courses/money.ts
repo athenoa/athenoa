@@ -16,3 +16,15 @@ export const percent = (discount: number): string => `${Math.round(discount * 10
 /** Fills the {name} slots of a sentence from the data. */
 export const fill = (text: string, values: Record<string, string>): string =>
   text.replace(/\{(\w+)\}/g, (slot, key: string) => values[key] ?? slot);
+
+/**
+ * A course's fee as the cards and course pages show it: the standard tier paid upfront (less any upfront
+ * discount, with the whole price to strike through), then the monthly way.
+ */
+export const feeOf = (tier: { price: number; perMonth: number; payments: number }, discount: number, locale: Locale) => ({
+  now: money(upfrontPrice(tier.price, discount), locale),
+  was: discount > 0 ? money(tier.price, locale) : '',
+  pct: discount > 0 ? percent(discount) : '',
+  month: money(tier.perMonth, locale),
+  payments: String(tier.payments),
+});

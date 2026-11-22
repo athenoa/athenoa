@@ -1,10 +1,13 @@
 ---
-// The ways to pay, each on a dark-blue slip: its name, the price, the monthly instalments, any notes,
-// and two buttons to its Stripe Payment Links (the whole amount at once, or by the month).
+// The ways to pay, each tier on a dark-blue slip: its name, then its two ways of paying side by side
+// where there is room and one above the other on a phone (Maria, 22 November 2026). Upfront is the first
+// choice: a light-blue cut-out, the whole amount for the whole cycle (or year), the filled button.
+// Monthly is the quieter one: an outline, the instalment set as a rate ("/ month", "× 8"), what it adds
+// up to, the outlined button. Any notes on the tier follow.
 // Used by the course registration (RegistrationInfo.astro) and the membership page.
 //
-// A course with an upfront discount shows the price paid upfront, with the whole price struck through
-// beside it and a small "−10%". Given a course (`course`, its slug), the buttons open that course's
+// A course with an upfront discount shows the upfront price with the whole price struck through beside
+// it and a small "−10%". Given a course (`course`, its slug), the buttons open that course's
 // registration form (RegisterDialog.astro) instead of going straight to Stripe; without JavaScript, or
 // where the form is not on the page, they stay plain links to Stripe.
 import type { TuitionTier } from '../../data/courses';
@@ -15,20 +18,21 @@ interface Props {
   tiers: TuitionTier[];
   /** Heading level of each tier's name */
   level?: 3 | 4;
-  /** After the price: "for the whole Cycle", "for the whole year" */
+  /** Under the upfront price: "for the whole Cycle", "for the whole year" */
   per: string;
-  /** Above the buttons: "Register for the Cycle of Studies:" */
-  register: string;
   payInFull: string;
   payMonthly: string;
-  /** The course's upfront discount (0.1), with the words for it */
+  /** "/ month", "× {n} instalments", "{price} in all" */
+  month: string;
+  payments: string;
+  total: string;
+  /** The course's upfront discount (0.1), with its mark ("−{pct}") */
   discount?: number;
-  upfront?: string;
   off?: string;
   /** The course's slug: the buttons open its registration form */
   course?: string;
 }
-const { tiers, level = 3, per, register, payInFull, payMonthly, discount = 0, upfront, off, course } = Astro.props;
+const { tiers, level = 3, per, payInFull, payMonthly, month, payments, total, discount = 0, off, course } = Astro.props;
 const locale = getLocale(Astro.url);
 const Name = level === 4 ? 'h4' : 'h3';
 const opens = (tier: TuitionTier, pay: 'full' | 'monthly') =>
@@ -40,33 +44,39 @@ const opens = (tier: TuitionTier, pay: 'full' | 'monthly') =>
     tiers.map((tier) => (
       <li class="tier box on-blue-deep">
         <Name class="tier__name">{tier.name}</Name>
-        {discount > 0 ? (
-          <>
-            <p class="tier__amount">
-              <span class="tier__sum">{money(upfrontPrice(tier.price, discount), locale)}</span>
-              <s class="tier__was">{money(tier.price, locale)}</s>
-              <span class="tier__off">{fill(off ?? '', { pct: percent(discount) })}</span>
+        <div class="ways">
+          <div class="way way--upfront box on-blue-light">
+            <p class="way__amount">
+              <span class="way__sum">{money(upfrontPrice(tier.price, discount), locale)}</span>
             </p>
-            <p class="tier__per">{upfront}</p>
-          </>
-        ) : (
-          <p class="tier__amount">
-            <span class="tier__sum">{money(tier.price, locale)}</span> <span class="tier__per">{per}</span>
-          </p>
-        )}
-        <p class="tier__small">{tier.instalments}</p>
+            {/* An upfront discount: under the price, the whole price struck through and its mark */}
+            {discount > 0 && (
+              <p class="way__was">
+                <s>{money(tier.price, locale)}</s>
+                <span class="tier__off">{fill(off ?? '', { pct: percent(discount) })}</span>
+              </p>
+            )}
+            <p class="way__line">{per}</p>
+            <a class="btn way__btn" href={tier.payInFull} {...opens(tier, 'full')}>
+              {payInFull}
+            </a>
+          </div>
+          <div class="way way--monthly">
+            <p class="way__amount">
+              <span class="way__sum">{money(tier.perMonth, locale)}</span>
+              <span class="way__unit">{month}</span>
+            </p>
+            <p class="way__line way__rate">{fill(payments, { n: String(tier.payments) })}</p>
+            {/* what the instalments add up to (membership's 12 × 83€ is 996€, not the year's 990€) */}
+            <p class="way__total">{fill(total, { price: money(Math.round(tier.perMonth * tier.payments * 100) / 100, locale) })}</p>
+            <a class="btn btn--ghost way__btn" href={tier.payMonthly} {...opens(tier, 'monthly')}>
+              {payMonthly}
+            </a>
+          </div>
+        </div>
         {tier.notes?.map((note) => (
           <p class="tier__small">{note}</p>
         ))}
-        <p class="tier__register">{register}</p>
-        <p class="tier__pay">
-          <a class="btn" href={tier.payInFull} {...opens(tier, 'full')}>
-            {payInFull}
-          </a>
-          <a class="btn btn--ghost" href={tier.payMonthly} {...opens(tier, 'monthly')}>
-            {payMonthly}
-          </a>
-        </p>
       </li>
     ))
   }
@@ -81,8 +91,9 @@ const opens = (tier: TuitionTier, pay: 'full' | 'monthly') =>
     list-style: none;
   }
   .tier {
+    container-type: inline-size;
     display: grid;
-    gap: 0.5rem;
+    gap: 0.75rem;
     padding: clamp(1.25rem, 0.9rem + 1.6vw, 2rem);
   }
   .tier__name {
@@ -93,13 +104,47 @@ const opens = (tier: TuitionTier, pay: 'full' | 'monthly') =>
     letter-spacing: var(--title-tracking);
     color: var(--ink-strong);
   }
-  .tier__amount {
+
+  /* The two ways: hand-cut outlines on the slip, the same size, side by side where the slip is wide */
+  .ways {
+    display: grid;
+    gap: 0.6rem;
+  }
+  @container (min-width: 26rem) {
+    .ways {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  /* Room above the amount, so it never crowds the edge (Maria, 22 November 2026) */
+  .tiers .way {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+    padding: clamp(1.6rem, 1.1rem + 1.4vw, 2.1rem) clamp(1.1rem, 0.9rem + 0.8vw, 1.5rem) clamp(1.2rem, 1rem + 0.8vw, 1.6rem);
+  }
+  /* Upfront: the first choice, a light-blue cut-out on the slip, with the filled Greek-blue button (the
+     slip's own rule would make it crème, like the monthly one) */
+  .way--upfront {
+    --box-r: 1.3rem 1.6rem 1.4rem 1.7rem / 1.6rem 1.3rem 1.7rem 1.4rem;
+  }
+  .way--upfront .btn {
+    --btn-bg: var(--blue);
+    --btn-bg-hover: var(--blue-bright);
+    --btn-ink: var(--creme-light);
+  }
+  /* Monthly: the quieter one, an outline drawn on the slip */
+  .way--monthly {
+    border: 1.5px solid var(--line);
+    border-radius: 1.6rem 1.3rem 1.7rem 1.4rem / 1.3rem 1.7rem 1.4rem 1.6rem;
+  }
+  .way__amount {
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
-    gap: 0.1em 0.5em;
+    gap: 0.1em 0.45em;
   }
-  .tier__sum {
+  .way__sum {
     font-family: var(--font-title);
     font-weight: var(--title-weight);
     font-size: min(var(--step-2), 9vw);
@@ -108,44 +153,62 @@ const opens = (tier: TuitionTier, pay: 'full' | 'monthly') =>
     font-variant-numeric: lining-nums;
     color: var(--ink-strong);
   }
-  /* The whole price, struck through quietly beside what is paid upfront */
-  .tier__was {
+  .way__unit {
+    font-size: var(--step-0);
+    color: var(--ink-soft);
+  }
+  /* The whole price, struck through quietly under what is paid upfront, with the discount's mark */
+  .way__was {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+  }
+  .way__was s {
     font-family: var(--font-title);
     font-size: var(--step-1);
     font-variant-numeric: lining-nums;
     color: var(--ink-soft);
     text-decoration-thickness: 1.5px;
   }
-  /* The discount, a small mark on a light-blue pebble: noticed, not shouted */
+  /* The monthly amount reads as a rate: its unit set beside it, a size down, and "× 8" under it */
+  .way--monthly .way__sum {
+    font-size: min(var(--step-1), 7.5vw);
+  }
+  .way__rate {
+    font-weight: 560;
+  }
+  /* The discount, a small mark on a Greek-blue pebble: noticed, not shouted (it reads on every ground) */
   .tier__off {
     align-self: center;
     padding: 0.12em 0.6em 0.18em;
     border-radius: 58% 42% 52% 48% / 48% 56% 44% 52%;
-    background: var(--blue-light);
-    color: var(--blue-deep);
+    background: var(--blue);
+    color: var(--creme-light);
     font-size: var(--step--1);
     font-weight: 600;
     font-variant-numeric: lining-nums;
   }
-  .tier__per,
-  .tier__small,
-  .tier__register {
+  .way__line,
+  .way__total,
+  .tier__small {
     font-size: var(--step--1);
     color: var(--ink-soft);
   }
+  .way__line {
+    color: var(--ink);
+  }
+  .way__total {
+    font-variant-numeric: lining-nums;
+  }
+  /* The buttons stand at the foot of each way, level with each other */
+  .way__btn {
+    margin-top: auto;
+    text-align: center;
+  }
+  .way > :nth-last-child(2) {
+    margin-bottom: 0.7rem;
+  }
   .tier__small {
     max-width: 52ch;
-  }
-  .tier__register {
-    margin-top: 0.4rem;
-  }
-  .tier__pay {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.6rem 0.75rem;
-  }
-  /* A long Greek label may run to two lines on a phone */
-  .tier__pay .btn {
-    text-align: center;
   }
 </style>

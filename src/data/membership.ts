@@ -4,8 +4,10 @@
 //
 // The two ways to pay are those of the courses (TuitionTiers.astro), for a year: the amounts and
 // Stripe Payment Links were checked by Maria on 22 November 2026. The old page's own figures (550€,
-// 1140€, eight instalments) were left over from a course, so they are not used. No upfront discount is
-// shown (one is under discussion).
+// 1140€, eight instalments) were left over from a course, so they are not used. Paying the whole year
+// upfront takes 10% off (Maria, 22 November 2026): 891€ and 1026€; the monthly way is unchanged.
+// The Stripe "full" links below still charge 990€ and 1140€ until the Academy updates them there; if it
+// makes new links instead, these hrefs change.
 import type { TuitionTier } from './courses';
 import type { Locale } from '../lib/locale';
 import { membership as greek } from './el/membership';
@@ -27,11 +29,14 @@ export interface Membership {
     label: string;
     sublabel: string;
     per: string;
-    register: string;
+    /** The share taken off when the whole year is paid upfront (0.1 is 10%), and the line that offers it */
+    upfrontDiscount?: number;
+    save: string;
     payInFull: string;
     payMonthly: string;
     tiers: TuitionTier[];
-    note: string;
+    /** Under the two ways of paying: what paying by the month is, and what registration covers */
+    notes: string[];
   };
 }
 
@@ -59,7 +64,9 @@ export const membershipEn: Membership = {
     label: 'Registration & Tuition Fees',
     sublabel: 'Annual membership',
     per: 'for the whole year',
-    register: 'Register as a Member:',
+    // 10% off the whole year paid upfront; change it or switch it off (0) here
+    upfrontDiscount: 0.1,
+    save: 'Pay for the whole year of membership upfront and save {pct}',
     payInFull: 'Pay in full',
     payMonthly: 'Pay monthly',
     tiers: [
@@ -68,7 +75,7 @@ export const membershipEn: Membership = {
         id: 'standard',
         price: 990,
         perMonth: 83,
-        instalments: 'Paying in 12 monthly instalments (€83 a month) is offered solely to make things easier for you.',
+        payments: 12,
         payInFull: 'https://book.stripe.com/28E9AU6Ig3kvgO54ti9sk0f',
         payMonthly: 'https://buy.stripe.com/4gM6oI0jS08jcxP7Fu9sk0i',
       },
@@ -77,13 +84,16 @@ export const membershipEn: Membership = {
         id: 'love',
         price: 1140,
         perMonth: 95,
-        instalments: 'Paying in 12 monthly instalments (€95 a month) is offered solely to make things easier for you.',
+        payments: 12,
         notes: [generosity],
         payInFull: 'https://book.stripe.com/9B6aEYgiQg7hbtLaRG9sk0h',
         payMonthly: 'https://buy.stripe.com/cNifZi6Ig3kvdBT2la9sk0g',
       },
     ],
-    note: 'Registration is for the whole educational Cycle and requires payment of the full amount, whichever way of paying you choose.',
+    notes: [
+      'Paying in 12 monthly instalments is offered solely to make things easier for you.',
+      'Registration is for the whole educational Cycle and requires payment of the full amount, whichever way of paying you choose.',
+    ],
   },
 };
 

@@ -4,8 +4,8 @@
 // "Enroll" in its foot opens the last item, the ways to pay (each a Stripe Payment Link); without
 // JavaScript it is a link to the same place on the course page.
 import CourseBody from './CourseBody.astro';
-import CoursePrice from './CoursePrice.astro';
 import RegisterDialog from './RegisterDialog.astro';
+import { feeOf, fill } from './money';
 import { content } from '../../data';
 import type { Course } from '../../data/courses';
 import { getLocale } from '../../lib/locale';
@@ -14,8 +14,11 @@ interface Props {
   course: Course;
 }
 const { course } = Astro.props;
-const { coursesPage, coursePageHref, registrationTab } = content(getLocale(Astro.url));
+const locale = getLocale(Astro.url);
+const { coursesPage, coursePageHref, registrationTab } = content(locale);
 const { ui } = coursesPage;
+// The fee in the foot, as on the card: the standard tier paid upfront, then by the month
+const fee = course.tuition?.[0] ? feeOf(course.tuition[0], course.upfrontDiscount ?? 0, locale) : null;
 const titleId = `course-title-${course.slug}`;
 // The same test as the card's "Enroll" button
 const canEnrol = course.available && Boolean(course.tuition?.length);
@@ -38,7 +41,22 @@ const canEnrol = course.available && Boolean(course.tuition?.length);
     {
       canEnrol && (
         <div class="cd__foot on-blue-deep" data-course-foot>
-          {course.price && <CoursePrice class="cd__price" price={course.price} />}
+          {
+            fee && (
+              <p class="cd__price">
+                <span class="cd__price-label">{course.price?.label}</span>
+                <span class="cd__price-now">{fee.now}</span>
+                <span class="cd__price-words">{ui.tuition.feeUpfront}</span>
+                {fee.was && (
+                  <span class="cd__price-line">
+                    <s>{fee.was}</s>
+                    <span class="cd__price-off">{fill(ui.tuition.off, { pct: fee.pct })}</span>
+                  </span>
+                )}
+                <span class="cd__price-line">{fill(ui.tuition.feeMonthly, { month: fee.month, n: fee.payments })}</span>
+              </p>
+            )
+          }
           <a class="btn" href={`${coursePageHref(course.slug)}#${registrationTab.id}`} data-enroll-start>
             {ui.enroll}
           </a>
@@ -256,6 +274,42 @@ const canEnrol = course.available && Boolean(course.tuition?.length);
   }
 
   /* The foot: a darker blue cut-out along the bottom of the sheet holding the fee and the way in */
+  .cd__price {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.1em 0.55em;
+  }
+  .cd__price-label,
+  .cd__price-line {
+    flex-basis: 100%;
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  .cd__price-now {
+    font-family: var(--font-title);
+    font-weight: var(--title-weight);
+    font-size: var(--step-2);
+    line-height: 1;
+    letter-spacing: var(--title-tracking);
+    font-variant-numeric: lining-nums;
+    color: var(--ink-strong);
+  }
+  .cd__price-words {
+    font-size: var(--step--1);
+  }
+  .cd__price-line {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+  }
+  .cd__price-off {
+    padding: 0.02em 0.5em 0.08em;
+    border-radius: 58% 42% 52% 48% / 48% 56% 44% 52%;
+    background: var(--creme-light);
+    color: var(--blue-deep);
+    font-weight: 600;
+  }
   .cd__foot {
     position: relative;
     isolation: isolate;

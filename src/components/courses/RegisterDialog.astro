@@ -73,7 +73,7 @@ const first = tiers[0];
                       data-monthly={tier.payMonthly}
                       data-price={fmt(tier.price)}
                       data-upfront={fmt(upfrontPrice(tier.price, discount))}
-                      data-month={`8 × ${fmt(tier.perMonth)}`}
+                      data-month={`${tier.payments} × ${fmt(tier.perMonth)}`}
                     />
                     <span class="opt__name">{tier.name}</span>
                     <span class="opt__price">{fmt(tier.price)}</span>
@@ -91,10 +91,9 @@ const first = tiers[0];
                   <span class="opt__price">
                     <span data-now="full">{fmt(upfrontPrice(first.price, discount))}</span>
                     {discount > 0 && (
-                      <>
-                        {' '}
+                      <span class="opt__was">
                         <s data-was="full">{fmt(first.price)}</s> <span class="opt__off">{off}</span>
-                      </>
+                      </span>
                     )}
                   </span>
                 </label>
@@ -102,7 +101,7 @@ const first = tiers[0];
                   <input type="radio" name="payment" value="monthly" />
                   <span class="opt__name">{r.payMonthly}</span>
                   <span class="opt__price">
-                    <span data-now="monthly">{`8 × ${fmt(first.perMonth)}`}</span>
+                    <span data-now="monthly">{`${first.payments} × ${fmt(first.perMonth)}`}</span>
                   </span>
                 </label>
                 <label class="opt">
@@ -111,10 +110,9 @@ const first = tiers[0];
                   <span class="opt__price">
                     <span data-now="bank">{fmt(upfrontPrice(first.price, discount))}</span>
                     {discount > 0 && (
-                      <>
-                        {' '}
+                      <span class="opt__was">
                         <s data-was="bank">{fmt(first.price)}</s> <span class="opt__off">{off}</span>
-                      </>
+                      </span>
                     )}
                   </span>
                 </label>
@@ -247,7 +245,14 @@ const first = tiers[0];
             <div class="rg__actions">
               <p class="rg__total">
                 {r.total}: <strong data-total>{fmt(upfrontPrice(first.price, discount))}</strong>
-                {discount > 0 && <span class="opt__off" data-total-off>{off}</span>}
+                {/* an upfront discount: under the amount, the whole price struck through and its mark */}
+                {
+                  discount > 0 && (
+                    <span class="opt__was" data-total-off>
+                      <s data-was="total">{fmt(first.price)}</s> <span class="opt__off">{off}</span>
+                    </span>
+                  )
+                }
               </p>
               <button
                 class="btn"
@@ -728,16 +733,18 @@ const first = tiers[0];
     color: var(--ink-soft);
     font-variant-numeric: lining-nums;
   }
-  .opt__price s {
-    margin-left: 0.2em;
+  /* under an upfront price, the whole price struck through and the discount's mark */
+  .opt__was {
+    display: block;
+    margin-top: 0.15rem;
   }
   .opt__off {
     display: inline-block;
-    margin-left: 0.35em;
+    margin-left: 0.3em;
     padding: 0.05em 0.5em 0.1em;
     border-radius: 58% 42% 52% 48% / 48% 56% 44% 52%;
-    background: var(--blue-light);
-    color: var(--blue-deep);
+    background: var(--blue);
+    color: var(--creme-light);
     font-size: var(--step--1);
     font-weight: 600;
   }

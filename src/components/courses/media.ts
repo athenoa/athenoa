@@ -11,13 +11,5 @@ export function courseImage(name: string): ImageMetadata {
   return hit[1].default;
 }
 
-// Every course card shows its photo in the same frame, so a photo is cropped to fit. This is the point
-// of each one that must stay in view (CSS object-position); a photo not listed is centred.
-const focus: Record<string, string> = {};
-
-export const courseFocus = (name: string): string | undefined => focus[name];
-
-// A picture that is a lettered banner, much wider than the card's frame. The card shows it whole
-// instead of cropping through its words.
-const banners = new Set<string>(['course-odusseia']);
-export const courseBanner = (name: string): boolean => banners.has(name);
+// Every course picture is a banner, shown in a rectangle with softly rounded corners (CourseCard.astro,
+// CourseBody.astro): there is no arch and no list of exceptions any more.

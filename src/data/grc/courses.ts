@@ -32,6 +32,7 @@ export const coursesPage = {
     // The four facts as four questions: when, for how long, how, and (Apology 20b) for how much.
     facts: { dates: 'Πότε', duration: 'Πόσον χρόνον', format: 'Πῶς', language: 'Τίνι γλώττῃ', fee: 'Πόσου' },
     languages: { el: 'Ἑλληνιστί', en: 'Ἀγγλιστί' },
+    when: greekPage.ui.when,
     close: 'Κλείσατε',
     enroll: 'Ἐγγράψασθε',
     placeholderNote:

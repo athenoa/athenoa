@@ -368,3 +368,20 @@ The four earlier courses (The Hidden Non-Duality, and the three placeholders) ar
   - the messages for when saving fails;
   - the bank-transfer thank-you;
   - the bank-transfer entry "Register to pay by bank transfer / Εγγραφή με τραπεζική κατάθεση".
+
+## Courses, round 4 (22 November 2026, late)
+
+- **Fee** (cards, course pages, popups), new wording, proposed: "550€ ετήσια προπληρωμή" with "ή 68,75€ τον μήνα × 8" under it / "€550 paid upfront for the year" with "or €68.75 a month × 8". Εὖ Ζῆν: 576€, with 640€ struck through and −10% under it.
+- **Length and last lesson**, calculated by Maria and to confirm with the Academy:
+  - "· 8 μήνες / · 8 months" after the length.
+  - "Τελευταίο μάθημα / Last lesson": Πέμπτη 10 Ιουνίου 2027, 19:30 (ΟΔΥΣΣΕΙΑ) and Τρίτη 20 Ιουλίου 2027, 19:30 (Εὖ Ζῆν).
+  - On the cards: "Από 26 Νοεμβρίου 2026 έως 10 Ιουνίου 2027" / "From 26 November 2026 until 10 June 2027".
+- **Pricing**: each tier shows its two ways of paying side by side.
+  - New wording, proposed: "/ μήνα / / month", "× 8 δόσεις / × 8 instalments", "σύνολο 550€ / €550 in all".
+  - The courses' sentence "Υπάρχει η δυνατότητα εξόφλησης των διδάκτρων σε 8 μηνιαίες δόσεις (…/μήνα)" is no longer shown: the monthly option replaces it, and the payment notes still say what paying monthly means.
+  - Membership's "Η εξόφληση σε 12 μηνιαίες δόσεις παρέχεται αποκλειστικά για τη διευκόλυνσή σας" stays as a note under the options, without the amount.
+  - "Εγγραφή στον Κύκλο Σπουδών:" above the buttons is dropped, since each option has its own button. "Register as a Member:" is dropped likewise.
+- **Secretariat**: every "Γραμματεία" / "Secretariat" is a link that writes to philathenea@athenoa.academy.
+- **Course page**: Athena's name is on a paper chip with her photograph, on the picture.
+- **Membership, 10% upfront:** the whole year paid upfront is 891€ (instead of 990€) and 1026€ (instead of 1140€). New wording, proposed: "Με την προπληρωμή ολόκληρου του έτους Μέλους κερδίζετε 10% έκπτωση" / "Pay for the whole year of membership upfront and save 10%". The monthly way's total is computed from the instalments: 12 × 83€ = 996€, which is not the 990€ year price (to confirm with the Academy).
+- **Membership page:** it now has a Markdown twin (/membership.md, /en/membership.md).

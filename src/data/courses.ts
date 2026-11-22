@@ -28,8 +28,8 @@ export interface TuitionTier {
   price: number;
   /** One monthly instalment, in euros */
   perMonth: number;
-  /** The sentence on paying in eight monthly instalments, with the monthly amount */
-  instalments: string;
+  /** How many monthly instalments: 8 for a course, 12 for the year's membership */
+  payments: number;
   /** What this tuition is and what it includes, where the live page and the form explain it */
   notes?: string[];
   /** Stripe Payment Link: the whole amount at once */
@@ -55,6 +55,11 @@ export interface Course {
   scheduleNote?: string;
   /** The dates in full, on the course page and in the popup */
   dates?: { label: string; when: string }[];
+  /** The last lesson: in full at the end of the dates ("Thursday 10 June 2027, 19:30"), and short on the
+      card ("From 26 November 2026 until 10 June 2027") */
+  lastLesson?: { when: string; short: string };
+  /** How many months the course runs: added to its length ("· 8 months") */
+  months?: number;
   /** How long it runs */
   duration?: string;
   /** How it is taught. What follows the first comma is shown as a quieter line. */
@@ -88,9 +93,14 @@ export interface Course {
   closing?: string;
 }
 
+import { site } from './site';
+
 // English lives under /en/ (Greek is the site's first language, at the root)
 export const courseHref = (slug: string) => `/en/courses/#${slug}`;
 export const coursePageHref = (slug: string) => `/en/courses/${slug}/`;
+
+// The Academy's secretariat, wherever the copy names it: a link that writes to it
+const secretariat = (words: string) => `<a href="mailto:${site.emails[0]}">${words}</a>`;
 
 // Shared by both courses: the live pages carry the same sentence under each tuition.
 const registrationNote =
@@ -113,7 +123,7 @@ const cancellations = (term?: string) => `<p><strong>Important note</strong></p>
 <li><strong>After the lessons have begun:</strong> no deposit or other amount already paid is refunded. A student who leaves within the first four months undertakes to pay for the first four months of study only${term ? ` (${term})` : ''}.</li>
 <li><strong>After the first four months:</strong> the student is to pay the full amount of the chosen tuition.</li>
 </ul>
-<p>In exceptional cases, the student is to write to the Secretariat with any request to change or cancel their participation.</p>`;
+<p>In exceptional cases, the student is to write to the ${secretariat('Secretariat')} with any request to change or cancel their participation.</p>`;
 
 export const courses: Course[] = [
   {
@@ -134,6 +144,10 @@ export const courses: Course[] = [
       { label: 'First lesson', when: 'Thursday 26 November 2026, 19:30' },
       { label: 'Then', when: 'every Thursday at 19:30' },
     ],
+    // calculated (Maria, 22 November 2026): to confirm with the Academy. 24 Thursdays from 26 November,
+    // without 24 and 31 December, 25 March, Holy Thursday (29 April) and Bright Thursday (6 May 2027).
+    months: 8,
+    lastLesson: { when: 'Thursday 10 June 2027, 19:30', short: '10 June 2027' },
     duration: '24 weekly lessons',
     format: 'Live on Zoom, Thursdays at 19:30 Greek time',
     teaching: 'el',
@@ -148,7 +162,7 @@ export const courses: Course[] = [
         id: 'standard',
         price: 550,
         perMonth: 68.75,
-        instalments: 'Tuition can be paid in 8 monthly instalments (€68.75 a month).',
+        payments: 8,
         payInFull: 'https://book.stripe.com/4gM28s5Ecf3dgO5cZO9sk06',
         payMonthly: 'https://buy.stripe.com/3cI7sM5EcbR141jbVK9sk08',
       },
@@ -157,15 +171,15 @@ export const courses: Course[] = [
         id: 'love',
         price: 660,
         perMonth: 82.5,
-        instalments: 'Tuition can be paid in 8 monthly instalments (€82.50 a month).',
+        payments: 8,
         notes: [generosity, oneToOne],
         payInFull: 'https://book.stripe.com/3cI5kEfeM2greFX3pe9sk07',
         payMonthly: 'https://buy.stripe.com/9B6dRaeaI8EPfK1f7W9sk09',
       },
     ],
     registrationNote,
-    registrationOpen:
-      'Registrations are open until 30 December 2026. After that, please contact the Academy’s Secretariat about registering.',
+    // HTML: the secretariat is a link
+    registrationOpen: `Registrations are open until 30 December 2026. After that, please contact the ${secretariat('Academy’s Secretariat')} about registering.`,
     paymentNotes,
     cancellations: cancellations('November 2026 to February 2027'),
     sections: [
@@ -229,6 +243,10 @@ export const courses: Course[] = [
       { label: 'First lesson', when: 'Tuesday 1 December 2026, 19:30' },
       { label: 'Then', when: 'Tuesdays at 19:30, about two lessons a month' },
     ],
+    // calculated (Maria, 22 November 2026): to confirm with the Academy. The first and third Tuesday of
+    // each month from 1 December 2026: 16 lessons.
+    months: 8,
+    lastLesson: { when: 'Tuesday 20 July 2027, 19:30', short: '20 July 2027' },
     duration: '16 lessons, about two a month',
     format: 'Live on Zoom, Tuesdays at 19:30 Greek time',
     teaching: 'el',
@@ -247,7 +265,7 @@ export const courses: Course[] = [
         id: 'standard',
         price: 640,
         perMonth: 80,
-        instalments: 'Tuition can be paid in 8 monthly instalments (€80 a month).',
+        payments: 8,
         payInFull: 'https://book.stripe.com/28EbJ2c2A2gr9lDe3S9sk0b',
         payMonthly: 'https://buy.stripe.com/6oUdRaeaI6wHdBT8Jy9sk0d',
       },
@@ -256,7 +274,7 @@ export const courses: Course[] = [
         id: 'love',
         price: 720,
         perMonth: 90,
-        instalments: 'Tuition can be paid in 8 monthly instalments (€90 a month).',
+        payments: 8,
         notes: [generosity, oneToOne],
         payInFull: 'https://book.stripe.com/6oU14o2s0aMXfK10d29sk0c',
         payMonthly: 'https://buy.stripe.com/5kQ28sd6EcV5apH5xm9sk0e',
@@ -425,6 +443,8 @@ export const coursesPage = {
     viewCourse: 'View course',
     enrollNow: 'Enroll',
     facts: { dates: 'Dates', duration: 'Length', format: 'Format', language: 'Language', fee: 'Fee' },
+    // With Course.lastLesson and Course.months, once they are known
+    when: { last: 'Last lesson', until: 'until {date}', months: '{n} months' },
     // The languages a course is taught in (Course.teaching)
     languages: { el: 'Greek', en: 'English' },
     close: 'Close',
@@ -439,15 +459,21 @@ export const coursesPage = {
     // buttons lead to its Stripe Payment Links.
     tuition: {
       wholeCycle: 'for the whole Cycle',
-      register: 'Register for the Cycle of Studies:',
       payInFull: 'Pay in full',
       payMonthly: 'Pay monthly',
-      // The upfront discount, for a course that has one ({pct} is "10%", {title} the course): the line over the tiers, the price paid upfront, its mark
-      // beside the struck-through full price, and the line under the fee on a course card
+      // The two ways in each tier: "/ month", "× 8 instalments", and what the instalments add up to
+      month: '/ month',
+      payments: '× {n} instalments',
+      total: '{price} in all',
+      // The fee on the cards and course pages: the upfront price, then the monthly way
+      feeUpfront: 'paid upfront for the year',
+      feeMonthly: 'or {month} a month × {n}',
+      // The upfront discount, for a course that has one ({pct} is "10%", {title} the course): the line over
+      // the tiers, the words after the upfront price (in the Markdown twins), and its mark beside the
+      // struck-through full price
       save: 'Pay for the whole of {title} upfront and save {pct}',
       upfront: 'paid upfront, for the whole Cycle',
       off: '−{pct}',
-      cardNote: '{pct} off when paid upfront',
       // In the bank-transfer item: opens the registration form with that way of paying
       bankRegister: 'Register to pay by bank transfer',
     },

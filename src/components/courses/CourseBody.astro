@@ -3,17 +3,19 @@
 //   variant="dialog"  compact header, sections as an accordion (the registration notes are its last item)
 //   variant="page"    h1 header, sections written out under h2 headings
 // On the page the registration is placed by the caller; in the popup it is the accordion's last item.
+import { Image } from 'astro:assets';
 import { handCase } from '../../lib/hand';
 import Media from '../Media.astro';
+import portrait from '../../assets/media/athena-portrait-thumb.jpg';
 import Illustration from '../Illustration.astro';
 import RegistrationInfo from './RegistrationInfo.astro';
 import PaperNote from './PaperNote.astro';
 import { content } from '../../data';
 import type { Course } from '../../data/courses';
 import { getLocale } from '../../lib/locale';
-import { courseBanner, courseImage } from './media';
+import { courseImage } from './media';
 import { keepHyphens } from './text';
-import { fill, percent } from './money';
+import { feeOf, fill } from './money';
 
 interface Props {
   course: Course;
@@ -36,19 +38,21 @@ const Label = page ? 'h2' : 'h3';
 // Thursdays at 19:30"): the day and time are already in the dates (Maria, 22 November 2026).
 const comma = course.dates ? (course.format?.indexOf(', ') ?? -1) : -1;
 const format = comma < 0 ? course.format : course.format!.slice(0, comma);
-// A lettered banner is shown whole in a rectangle with rounded corners, not cut by the arch (Maria,
-// 22 November 2026); photographs keep the arch.
-const banner = courseBanner(course.image);
+// Once known, the last lesson closes the dates and the months join the length
+const dates = course.dates && [
+  ...course.dates,
+  ...(course.lastLesson ? [{ label: ui.when.last, when: course.lastLesson.when }] : []),
+];
+const length =
+  course.duration && course.months ? `${course.duration} · ${fill(ui.when.months, { n: String(course.months) })}` : course.duration;
+// A course with tuition: its standard tier paid upfront, then by the month (as on the card)
+const fee = course.tuition?.[0] ? feeOf(course.tuition[0], course.upfrontDiscount ?? 0, getLocale(Astro.url)) : null;
 const facts = [
-  { label: ui.facts.dates, value: course.dates ? undefined : course.schedule, dates: course.dates },
-  { label: ui.facts.duration, value: course.duration },
+  { label: ui.facts.dates, value: dates ? undefined : course.schedule, dates },
+  { label: ui.facts.duration, value: length },
   { label: ui.facts.format, value: format },
   { label: ui.facts.language, value: course.teaching && ui.languages[course.teaching] },
-  {
-    label: ui.facts.fee,
-    value: course.price?.display,
-    note: course.upfrontDiscount ? fill(ui.tuition.cardNote, { pct: percent(course.upfrontDiscount) }) : undefined,
-  },
+  { label: ui.facts.fee, value: course.price?.display, fee: true },
 ].filter((fact) => fact.value || fact.dates);
 
 // Page only: each section sits on a different ground so the long read has a rhythm.
@@ -64,17 +68,31 @@ const symbolFor = 'description';
       class:list={['body__figure', !isOpen && 'body__figure--jot']}
       style={`--ar:${(image.height / image.width).toFixed(3)}`}
     >
+      {/* The sun behind the picture, centred on it, its rays reaching out past its edges (page only) */}
       {page && <Illustration name="sun-rays" class="body__rays" draw data-depth="0.18" />}
+      {/* Every course picture is a banner, shown whole in a rectangle with softly rounded corners
+          (Maria, 22 November 2026); on the page it runs the full width of the content */}
       <Media
         class="body__media"
         src={image}
         alt={course.imageAlt}
-        shape={banner ? 'soft' : 'arch'}
+        shape="soft"
         ratio={`${image.width} / ${image.height}`}
-        sizes={page ? '(min-width: 60rem) 56vw, 92vw' : '(min-width: 48rem) 26rem, 88vw'}
+        sizes={page ? '(min-width: 86rem) 82rem, calc(100vw - 2rem)' : '(min-width: 48rem) 26rem, 88vw'}
         priority={page}
         reveal={page ? 'unveil' : false}
       />
+      {/* On the page, who teaches it: Athena's photograph and name on a paper chip stuck to the picture */}
+      {
+        page && (
+          <p class="body__chip" data-reveal="grow" style="--delay:450ms">
+            <Image class="body__thumb" src={portrait} alt="" width={112} height={112} densities={[1, 2]} />
+            <span>
+              {ui.taughtBy} {course.instructor}
+            </span>
+          </p>
+        )
+      }
       {/* The season it runs, on a paper label stuck to the picture. While the details are still to come:
           a note in Athena's hand instead, jotted at an angle on the page under the picture. */}
       {
@@ -101,7 +119,7 @@ const symbolFor = 'description';
       data-split={page ? '' : undefined}
       set:html={keepHyphens(course.title)}
     />
-    <p class="body__by" data-reveal={page ? '' : undefined}>{ui.taughtBy} {course.instructor}</p>
+    {!page && <p class="body__by">{ui.taughtBy} {course.instructor}</p>}
 
     <div class="body__lede stack" data-reveal-group={page ? '' : undefined}>
       {
@@ -126,10 +144,23 @@ const symbolFor = 'description';
                         </li>
                       ))}
                     </ul>
+                  ) : 'fee' in fact && fee ? (
+                    <>
+                      <span class="facts__fee">
+                        <strong>{fee.now}</strong> {ui.tuition.feeUpfront}
+                      </span>
+                      {/* an upfront discount: under the price, the whole price struck through and its mark */}
+                      {fee.was && (
+                        <span class="facts__what">
+                          <s>{fee.was}</s>
+                          <span class="facts__off">{fill(ui.tuition.off, { pct: fee.pct })}</span>
+                        </span>
+                      )}
+                      <span class="facts__what">{fill(ui.tuition.feeMonthly, { month: fee.month, n: fee.payments })}</span>
+                    </>
                   ) : (
                     fact.value
                   )}
-                  {'note' in fact && fact.note && <span class="facts__what">{fact.note}</span>}
                 </dd>
               </div>
             ))}
@@ -238,12 +269,8 @@ const symbolFor = 'description';
   .body__figure {
     position: relative;
   }
-  /* A low, wide arch: the course artwork carries lettering, so the curve stays clear of it */
+  /* Every course picture is a banner: a rectangle with softly rounded corners, the whole of it in view */
   .body__media {
-    --media-r: 50% 50% 1.6rem 1.9rem / 62% 62% 1.5rem 1.8rem;
-  }
-  /* A lettered banner: a rectangle with softly rounded corners, the whole banner in view */
-  .body__media.media--soft {
     --media-r: var(--r-soft);
   }
   .body__by {
@@ -322,6 +349,18 @@ const symbolFor = 'description';
   .facts__what {
     display: block;
     color: var(--ink-soft);
+  }
+  .facts__fee strong {
+    font-weight: 600;
+  }
+  .facts__off {
+    display: inline-block;
+    margin-left: 0.35em;
+    padding: 0.02em 0.45em 0.06em;
+    border-radius: 58% 42% 52% 48% / 48% 56% 44% 52%;
+    background: var(--blue);
+    color: var(--creme-light);
+    font-weight: 600;
   }
 
   /* The waitlist beside the contact link, or either alone */
@@ -468,10 +507,12 @@ const symbolFor = 'description';
   }
 
   /* ---------- Page ---------- */
+  /* The wide hero (Maria, 22 November 2026): the title, then the picture across the whole content width
+     with the sun behind it and two paper slips stuck to it (who teaches, and when it starts), then the
+     summary and the facts under it. */
   .body--page .body__head {
-    gap: var(--space-s) var(--space-l);
+    gap: var(--space-m);
   }
-  /* Read order on a small screen: title, teacher, picture, summary */
   .body--page .body__title {
     order: 1;
   }
@@ -480,31 +521,104 @@ const symbolFor = 'description';
   .body--page .body__title:lang(el) {
     font-size: calc(clamp(3.1rem, 1.9rem + 5.8vw, 7.6rem) * 0.86);
   }
-  .body--page .body__by {
-    order: 2;
-    font-size: var(--step-1);
-  }
-  /* On a small screen the rays show as a halo above and below the picture, in space kept clear for them */
+  /* Room above and below for the rays that reach past the picture */
   .body--page .body__figure {
-    order: 3;
-    margin-block: 5rem 5.4rem;
+    order: 2;
+    margin-block: clamp(1.5rem, 0.5rem + 5vw, 5rem) clamp(2.5rem, 1.5rem + 5vw, 6rem);
   }
   .body--page .body__lede {
-    order: 4;
+    order: 3;
   }
-  /* Centred with margins: the parallax script owns `translate` on this layer.
-     Sized from the picture's proportions (--ar, height over width) so a squarer picture still shows a ring. */
+  /* The sun: centred on the picture, a little wider than it and flattened to its shape, so its rays
+     reach out past all four edges. Centred with margins and flattened with scale: the parallax
+     script owns translate on this layer. */
   .body__rays {
-    --rays: calc((0.62 + 0.75 * var(--ar)) * 100%);
+    --rays: 118%;
     position: absolute;
     left: 50%;
     top: 50%;
     z-index: -1;
     width: var(--rays);
     margin: calc(var(--rays) / -2) 0 0 calc(var(--rays) / -2);
+    scale: 1 calc(var(--ar) * 1.15);
     opacity: 0.45;
     pointer-events: none;
   }
+
+  /* Who teaches it: Athena's name on a crème paper chip at the picture's lower left, half over its edge
+     (as the date's label is stuck at its lower right), and her photograph pinned to it like a medallion,
+     larger than the chip and breaking out over its top edge onto the picture (Maria, 22 November 2026).
+     --thumb is the medallion's size; the chip keeps room for it on its left. */
+  .body__chip {
+    --thumb: clamp(4.5rem, 3.4rem + 3.6vw, 7rem);
+    position: absolute;
+    z-index: 3;
+    left: clamp(0.6rem, 3%, 2rem);
+    bottom: calc(clamp(1.3rem, 0.8rem + 1.6vw, 2.1rem) * -1);
+    isolation: isolate;
+    display: flex;
+    align-items: center;
+    min-height: calc(var(--thumb) * 0.62);
+    max-width: min(30rem, 66%);
+    padding: 0.55rem 1.3rem 0.6rem calc(var(--thumb) + 0.55rem);
+    color: var(--blue);
+    font-size: var(--step-0);
+    line-height: 1.25;
+  }
+  .body__chip::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: 2.6rem 2rem 2.4rem 2.8rem / 2.8rem 2.4rem 2rem 2.6rem;
+    background-color: var(--creme-light);
+    background-image: url('/textures/grain-dark.webp');
+    background-size: 400px 400px;
+    filter: url(#rough-sm);
+  }
+  /* The medallion: its foot level with the chip's, its top well above it. A thin ring of day crème in
+     every theme, so it reads against the picture and the chip alike. */
+  .body__chip :global(.body__thumb) {
+    position: absolute;
+    left: -0.35rem;
+    bottom: -0.3rem;
+    width: var(--thumb);
+    height: var(--thumb);
+    border: 3px solid #f9f3e3;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  /* The sound and theme buttons are fixed in the window's lower left corner: on a wide screen the chip
+     starts clear of them (about 7.5rem from the window's edge) */
+  @media (min-width: 48rem) {
+    .body__chip {
+      left: max(clamp(0.6rem, 3%, 2rem), calc(7.5rem - (100vw - 100%) / 2));
+    }
+  }
+  .body--page .body__note {
+    left: auto;
+    right: clamp(0.6rem, 3%, 2rem);
+    bottom: -1.5rem;
+    max-width: 40%;
+  }
+  /* A phone has no room for both slips on the picture: the chip keeps its place on the picture's edge and
+     the date's label sits just under it, on the right, in room the figure keeps below itself */
+  @media (max-width: 40rem) {
+    .body--page .body__figure {
+      margin-bottom: 9rem;
+    }
+    .body--page .body__note {
+      top: calc(100% + 2.6rem);
+      right: 0;
+      bottom: auto;
+      max-width: 80%;
+    }
+    .body__chip {
+      max-width: 88%;
+      font-size: var(--step--1);
+    }
+  }
+
   /* On the page the sun's rays run under the picture, where the note is written. They part around it:
      the note lies on a patch of clean paper with a soft edge, which the picture stays in front of. */
   .body--page .body__jot::before {
@@ -524,38 +638,22 @@ const symbolFor = 'description';
     font-size: var(--step-1);
     line-height: 1.34;
   }
+  /* Wide: the summary on the left, the facts beside it */
   @media (min-width: 60rem) {
-    /* The title runs wide; beneath it the teacher and summary sit beside the picture, about its middle */
-    .body--page .body__head {
-      grid-template-columns: repeat(12, minmax(0, 1fr));
-      grid-template-rows: auto 1fr 1fr;
-    }
-    .body--page .body__title {
-      grid-column: 1 / span 10;
-      grid-row: 1;
-    }
-    .body--page .body__by {
-      grid-column: 1 / span 5;
-      grid-row: 2;
-      align-self: end;
-    }
     .body--page .body__lede {
-      grid-column: 1 / span 5;
-      grid-row: 3;
+      display: grid;
+      grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+      gap: var(--space-s) var(--space-l);
+      align-items: start;
+      max-width: none;
     }
-    .body--page .body__figure {
-      grid-column: 6 / -1;
-      grid-row: 2 / span 2;
-      justify-self: end;
-      width: min(100%, 34rem / var(--ar));
-      margin-block: var(--space-l) var(--space-m);
+    .body--page .body__lede > :global(*) {
+      margin-top: 0;
     }
-    .body--page .body__figure--jot {
-      margin-bottom: var(--jot-room);
-    }
-    .body__rays {
-      --rays: min((0.76 + 0.75 * var(--ar)) * 100%, 52rem);
-      top: 56%;
+    .body--page .facts {
+      grid-column: 2;
+      grid-row: 1 / span 4;
+      margin-top: 0;
     }
   }
 

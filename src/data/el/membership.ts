@@ -27,7 +27,9 @@ export const membership: Membership = {
     label: 'Εγγραφή & Δίδακτρα',
     sublabel: 'Ετήσια συνδρομή Μέλους',
     per: 'για Ολόκληρο το Έτος',
-    register: 'Εγγραφή ως Μέλος:',
+    // 10% έκπτωση με την προπληρωμή του έτους (see the English file); the Stripe "full" links charge 990€/1140€ until updated
+    upfrontDiscount: 0.1,
+    save: 'Με την προπληρωμή ολόκληρου του έτους Μέλους κερδίζετε {pct} έκπτωση',
     payInFull: 'Ετήσια Προπληρωμή',
     payMonthly: 'Μηνιαία καταβολή',
     tiers: [
@@ -36,7 +38,7 @@ export const membership: Membership = {
         id: 'standard',
         price: 990,
         perMonth: 83,
-        instalments: 'Η εξόφληση σε 12 μηνιαίες δόσεις παρέχεται αποκλειστικά για τη διευκόλυνσή σας (83€/μήνα).',
+        payments: 12,
         payInFull: 'https://book.stripe.com/28E9AU6Ig3kvgO54ti9sk0f',
         payMonthly: 'https://buy.stripe.com/4gM6oI0jS08jcxP7Fu9sk0i',
       },
@@ -45,12 +47,15 @@ export const membership: Membership = {
         id: 'love',
         price: 1140,
         perMonth: 95,
-        instalments: 'Η εξόφληση σε 12 μηνιαίες δόσεις παρέχεται αποκλειστικά για τη διευκόλυνσή σας (95€/μήνα).',
+        payments: 12,
         notes: [generosity],
         payInFull: 'https://book.stripe.com/9B6aEYgiQg7hbtLaRG9sk0h',
         payMonthly: 'https://buy.stripe.com/cNifZi6Ig3kvdBT2la9sk0g',
       },
     ],
-    note: 'Η εγγραφή αφορά το σύνολο του εκπαιδευτικού Κύκλου και προϋποθέτει την καταβολή ολόκληρου του ποσού, ανεξάρτητα από την επιλογή του τρόπου πληρωμής.',
+    notes: [
+      'Η εξόφληση σε 12 μηνιαίες δόσεις παρέχεται αποκλειστικά για τη διευκόλυνσή σας.',
+      'Η εγγραφή αφορά το σύνολο του εκπαιδευτικού Κύκλου και προϋποθέτει την καταβολή ολόκληρου του ποσού, ανεξάρτητα από την επιλογή του τρόπου πληρωμής.',
+    ],
   },
 };

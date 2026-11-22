@@ -14,9 +14,9 @@ import Media from '../Media.astro';
 import { content } from '../../data';
 import type { Course } from '../../data/courses';
 import { getLocale } from '../../lib/locale';
-import { courseBanner, courseFocus, courseImage } from './media';
+import { courseImage } from './media';
 import { keepHyphens } from './text';
-import { fill, percent } from './money';
+import { feeOf, fill } from './money';
 
 interface Props {
   course: Course;
@@ -27,7 +27,8 @@ interface Props {
 }
 const { course, level = 2, priority = false } = Astro.props;
 const Title = level === 3 ? 'h3' : 'h2';
-const { courses, coursesPage, coursePageHref, site } = content(getLocale(Astro.url));
+const locale = getLocale(Astro.url);
+const { courses, coursesPage, coursePageHref, site } = content(locale);
 const { ui } = coursesPage;
 const image = courseImage(course.image);
 const href = coursePageHref(course.slug);
@@ -48,20 +49,20 @@ const tone = tones[Math.max(0, place) % tones.length];
 // have a quieter line under it: the introduction under the dates, and under the format what follows its
 // first comma ("Live on Zoom" over "Thursdays at 19:30 Greek time").
 const comma = course.format?.indexOf(', ') ?? -1;
+// Once known: "From 26 November 2026 until 10 June 2027", and "24 weekly lessons · 8 months"
+const dates = course.lastLesson ? `${course.schedule} ${fill(ui.when.until, { date: course.lastLesson.short })}` : course.schedule;
+const length =
+  course.duration && course.months ? `${course.duration} · ${fill(ui.when.months, { n: String(course.months) })}` : course.duration;
+// A course with tuition shows two ways: its standard tier paid upfront, then by the month
+const fee = course.tuition?.[0] ? feeOf(course.tuition[0], course.upfrontDiscount ?? 0, locale) : null;
 const facts = [
-  { label: ui.facts.dates, value: course.schedule, note: course.scheduleNote },
-  { label: ui.facts.duration, value: course.duration },
+  { label: ui.facts.dates, value: dates, note: course.scheduleNote },
+  { label: ui.facts.duration, value: length },
   comma < 0
     ? { label: ui.facts.format, value: course.format }
     : { label: ui.facts.format, value: course.format!.slice(0, comma), note: course.format!.slice(comma + 2) },
   { label: ui.facts.language, value: course.teaching && ui.languages[course.teaching] },
-  // a course's upfront discount, under its fee: "10% off when paid upfront"
-  {
-    label: ui.facts.fee,
-    value: course.price?.display,
-    fee: true,
-    note: course.upfrontDiscount ? fill(ui.tuition.cardNote, { pct: percent(course.upfrontDiscount) }) : undefined,
-  },
+  { label: ui.facts.fee, value: course.price?.display, fee: true },
 ].filter((fact) => fact.value);
 // "€200 & VAT (24%)": the amount stands out, the tax note sits smaller beside it.
 const splitFee = (display: string) => {
@@ -74,8 +75,7 @@ const splitFee = (display: string) => {
   class:list={[
     'card',
     `card--${tone.name}`,
-    courseBanner(course.image) && 'card--banner',
-    'panel panel--arch',
+    'panel',
     tone.surface,
   ]}
   id={course.slug}
@@ -85,9 +85,8 @@ const splitFee = (display: string) => {
       class="card__media"
       src={image}
       alt={course.imageAlt}
-      shape="arch"
-      ratio="10 / 9"
-      focus={courseFocus(course.image)}
+      shape="soft"
+      ratio="16 / 9"
       sizes="(min-width: 48rem) 46vw, 92vw"
       priority={priority}
     />
@@ -107,11 +106,26 @@ const splitFee = (display: string) => {
           <div class="card__fact">
             <dt>{fact.label}</dt>
             {fact.fee ? (
-              <dd class="card__fee">
-                <span class="card__amount">{splitFee(fact.value!)[0]}</span>
-                <span class="card__tax">{splitFee(fact.value!)[1]}</span>
-                {fact.note && <span class="card__aside card__save">{fact.note}</span>}
-              </dd>
+              fee ? (
+                /* "550€ ετήσια προπληρωμή" over "ή 68,75€ τον μήνα × 8"; an upfront discount strikes the whole price */
+                <dd class="card__fee">
+                  <span class="card__amount">{fee.now}</span>
+                  <span class="card__tax">{ui.tuition.feeUpfront}</span>
+                  {/* an upfront discount: under the price, the whole price struck through and its mark */}
+                  {fee.was && (
+                    <span class="card__struck">
+                      <s class="card__was">{fee.was}</s>
+                      <span class="card__off">{fill(ui.tuition.off, { pct: fee.pct })}</span>
+                    </span>
+                  )}
+                  <span class="card__aside card__save">{fill(ui.tuition.feeMonthly, { month: fee.month, n: fee.payments })}</span>
+                </dd>
+              ) : (
+                <dd class="card__fee">
+                  <span class="card__amount">{splitFee(fact.value!)[0]}</span>
+                  <span class="card__tax">{splitFee(fact.value!)[1]}</span>
+                </dd>
+              )
             ) : 'note' in fact && fact.note ? (
               <dd>
                 {fact.value}
@@ -172,10 +186,13 @@ const splitFee = (display: string) => {
 </article>
 
 <style>
-  /* --arch is the outline of the picture; the link laid over it follows the same curve.
+  /* Every course picture is a banner (Maria, 22 November 2026): a rectangle with softly rounded corners,
+     in one frame on every card (16:9, the banners' own shape), on a card of coloured paper whose corners
+     follow it. --frame is the picture's outline; the link laid over it follows the same curve.
      --pad is the margin of coloured paper around the picture and --foot the space under the actions. */
   .card {
-    --arch: var(--r-arch);
+    --frame: var(--r-soft);
+    --panel-r: var(--r-soft);
     --pad: clamp(0.7rem, 0.5rem + 0.8vw, 1rem);
     --foot: clamp(1.6rem, 1.2rem + 1.4vw, 2.4rem);
     position: relative;
@@ -191,29 +208,19 @@ const splitFee = (display: string) => {
     margin-bottom: var(--space-m);
   }
   .card__media {
-    --media-r: var(--arch);
+    --media-r: var(--frame);
   }
   .card__cover {
     position: absolute;
     inset: 0;
     z-index: 2;
-    border-radius: var(--arch);
+    border-radius: var(--frame);
   }
   .card :global(.media__clip img) {
     transition: scale var(--dur-3) var(--ease-out) var(--hover-delay);
   }
   .card__figure:hover :global(.media__clip img) {
     scale: 1.035;
-  }
-  /* A lettered banner, wider than the frame: it is shown whole at the foot of the arch and its night
-     sky is carried on above it, instead of being cropped through its words. */
-  .card--banner :global(.media__clip) {
-    background-color: #1a2334;
-  }
-  .card--banner :global(.media__clip img) {
-    object-fit: contain;
-    object-position: 50% 100%;
-    mask-image: linear-gradient(to bottom, transparent 37%, #000 49%);
   }
   .card__text {
     padding-inline: clamp(0.6rem, 0.3rem + 1.2vw, 1.25rem);
@@ -315,9 +322,28 @@ const splitFee = (display: string) => {
     font-size: var(--step--1);
     color: var(--ink-soft);
   }
-  /* the upfront discount: its own line under the fee */
-  .card__save {
+  /* the struck price and the monthly way: each a line of its own under the fee */
+  .card__save,
+  .card__struck {
     flex-basis: 100%;
+  }
+  .card__struck {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+  }
+  /* an upfront discount: the whole price struck through quietly, and a small mark on a Greek-blue pebble */
+  .card__was {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  .card__off {
+    padding: 0.05em 0.5em 0.1em;
+    border-radius: 58% 42% 52% 48% / 48% 56% 44% 52%;
+    background: var(--blue);
+    color: var(--creme-light);
+    font-size: var(--step--1);
+    font-weight: 600;
   }
 
   /* Side by side, the cards share the height of their row. The picture keeps its frame, the same in every

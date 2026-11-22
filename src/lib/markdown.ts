@@ -5,6 +5,7 @@
 import { content } from '../data';
 import { languages } from '../data/ui';
 import type { Course } from '../data/courses';
+import { membershipFor } from '../data/membership';
 import { fill, money, percent, upfrontPrice } from '../components/courses/money';
 import { locales, pathIn, type MainLocale as Locale } from './locale';
 
@@ -33,6 +34,8 @@ export const inline = (html: string): string =>
       .replace(/\*/g, '\\*') // asterisks in the copy are decoration, not emphasis
       .replace(/<(strong|b)>([\s\S]*?)<\/\1>/g, wrap('**'))
       .replace(/<(em|i)>([\s\S]*?)<\/\1>/g, wrap('*'))
+      // a link to an address outside the page (mail, phone, web) keeps its target
+      .replace(/<a href="((?:mailto:|tel:|https?:)[^"]+)"[^>]*>([\s\S]*?)<\/a>/g, '[$2]($1)')
       .replace(/<[^>]+>/g, ''), // u and span have no Markdown form: keep their words
   )
     .replace(/\s+/g, ' ')
@@ -209,7 +212,10 @@ const build = (locale: Locale) => {
       [
         `${coursesPage.ui.taughtBy} ${course.instructor}`,
         ...(course.dates?.map((date) => `${date.label}: ${date.when}`) ?? [course.schedule]),
-        course.duration,
+        course.lastLesson && `${coursesPage.ui.when.last}: ${course.lastLesson.when}`,
+        course.duration && course.months
+          ? `${course.duration} · ${fill(coursesPage.ui.when.months, { n: String(course.months) })}`
+          : course.duration,
         course.format,
         course.teaching && `${coursesPage.ui.facts.language}: ${coursesPage.ui.languages[course.teaching]}`,
         course.price && `${course.price.label} ${course.price.display}`,
@@ -249,7 +255,7 @@ const build = (locale: Locale) => {
               course.upfrontDiscount
                 ? `**${money(upfrontPrice(tier.price, course.upfrontDiscount), locale)}** ${inline(coursesPage.ui.tuition.upfront)} (~~${money(tier.price, locale)}~~ ${fill(coursesPage.ui.tuition.off, { pct: percent(course.upfrontDiscount) })})`
                 : `**${money(tier.price, locale)}** ${inline(coursesPage.ui.tuition.wholeCycle)}`,
-              inline(tier.instalments),
+              `**${money(tier.perMonth, locale)}** ${coursesPage.ui.tuition.month} ${fill(coursesPage.ui.tuition.payments, { n: String(tier.payments) })} (${fill(coursesPage.ui.tuition.total, { price: money(Math.round(tier.perMonth * tier.payments * 100) / 100, locale) })})`,
               ...(tier.notes ?? []).map(inline),
               list([
                 `[${inline(coursesPage.ui.tuition.payInFull)}](${tier.payInFull})`,
@@ -351,7 +357,36 @@ const build = (locale: Locale) => {
     );
   };
 
+  // The membership page: Athena's questions and text, then the year's two ways to pay with their links
+  const membershipBody = () => {
+    const m = membershipFor(locale);
+    const reg = m.registration;
+    const d = reg.upfrontDiscount ?? 0;
+    return blocks(
+      `# ${inline(m.title)}`,
+      ...m.questions.map(inline),
+      inline(m.lead),
+      ...m.paragraphs.map(inline),
+      `${inline(m.more)} [${inline(m.formLink)}](${site.membershipForm})`,
+      `## ${inline(reg.label)}`,
+      `*${inline(reg.sublabel)}*`,
+      d > 0 && inline(fill(reg.save, { pct: percent(d) })),
+      ...reg.tiers.flatMap((tier) => [
+        `### ${inline(tier.name)}`,
+        d > 0
+          ? `**${money(upfrontPrice(tier.price, d), locale)}** ${inline(reg.per)} (~~${money(tier.price, locale)}~~ ${fill(coursesPage.ui.tuition.off, { pct: percent(d) })})`
+          : `**${money(tier.price, locale)}** ${inline(reg.per)}`,
+        `**${money(tier.perMonth, locale)}** ${coursesPage.ui.tuition.month} ${fill(coursesPage.ui.tuition.payments, { n: String(tier.payments) })} (${fill(coursesPage.ui.tuition.total, { price: money(Math.round(tier.perMonth * tier.payments * 100) / 100, locale) })})`,
+        ...(tier.notes ?? []).map(inline),
+        list([`[${inline(reg.payInFull)}](${tier.payInFull})`, `[${inline(reg.payMonthly)}](${tier.payMonthly})`]),
+      ]),
+      ...reg.notes.map(inline),
+    );
+  };
+
   return {
+    membership: () =>
+      twin({ path: site.routes.membership, title: membershipFor(locale).title, description: membershipFor(locale).description }, membershipBody()),
     home: () => twin({ path: homePath, ...home.meta }, homeBody()),
     about: () => twin({ path: aboutPath, ...about.meta }, aboutBody()),
     courses: () =>
@@ -390,6 +425,7 @@ export const textPages = (locale: Locale) => {
     home: () => text(pages.home(), 'text/markdown', pathIn(locale, '/')),
     about: () => text(pages.about(), 'text/markdown', pathIn(locale, ABOUT)),
     courses: () => text(pages.courses(), 'text/markdown', site.routes.courses),
+    membership: () => text(pages.membership(), 'text/markdown', site.routes.membership),
     course: (slug: string) => text(pages.course(slug), 'text/markdown', coursePageHref(slug)),
     llms: () => text(pages.llms(), 'text/plain'),
     llmsFull: () => text(pages.llmsFull(), 'text/plain'),

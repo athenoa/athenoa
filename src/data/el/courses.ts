@@ -9,12 +9,16 @@
 // Same exports, keys and array lengths as the English file, so a component can use either one.
 // Slugs, ids, image names, the price figures and the Stripe Payment Links are the same in both.
 import type { Course } from '../courses';
+import { site } from './site';
 
 export type { Course, CourseSection } from '../courses';
 
 // Greek is the site's first language, at the root
 export const courseHref = (slug: string) => `/courses/#${slug}`;
 export const coursePageHref = (slug: string) => `/courses/${slug}/`;
+
+// Η Γραμματεία της Ακαδημίας, όπου την αναφέρει το κείμενο: σύνδεσμος που της γράφει
+const secretariat = (words: string) => `<a href="mailto:${site.emails[0]}">${words}</a>`;
 
 // Shared by both courses: the live pages carry the same sentence under each tuition.
 const registrationNote =
@@ -37,7 +41,7 @@ const cancellations = (term?: string) => `<p><strong>ΣΗΜΑΝΤΙΚΗ ΣΗΜΕ
 <li><strong>Μετά την έναρξη των μαθημάτων:</strong> Δεν προβλέπεται επιστροφή προκαταβολής ή άλλου ποσού που έχει ήδη καταβληθεί. Σε περίπτωση αποχώρησης εντός του πρώτου τετραμήνου, ο σπουδαστής αναλαμβάνει την υποχρέωση εξόφλησης μόνο του πρώτου τετραμήνου σπουδών${term ? ` (${term})` : ''}.</li>
 <li><strong>Μετά την ολοκλήρωση του πρώτου τετραμήνου:</strong> Ο σπουδαστής οφείλει να καταβάλει ολόκληρο το ποσό των επιλεγμένων διδάκτρων.</li>
 </ul>
-<p>Σε έκτακτες περιπτώσεις, ο σπουδαστής οφείλει να επικοινωνήσει εγγράφως με την Γραμματεία για οποιοδήποτε αίτημα αλλαγής ή ακύρωσης της συμμετοχής του.</p>`;
+<p>Σε έκτακτες περιπτώσεις, ο σπουδαστής οφείλει να επικοινωνήσει εγγράφως με την ${secretariat('Γραμματεία')} για οποιοδήποτε αίτημα αλλαγής ή ακύρωσης της συμμετοχής του.</p>`;
 
 export const courses: Course[] = [
   {
@@ -58,6 +62,9 @@ export const courses: Course[] = [
       { label: 'Πρώτο μάθημα', when: 'Πέμπτη 26 Νοεμβρίου 2026, 19:30' },
       { label: 'Στη συνέχεια', when: 'κάθε Πέμπτη στις 19:30' },
     ],
+    // calculated (Maria, 22 November 2026): to confirm with the Academy (see the English file)
+    months: 8,
+    lastLesson: { when: 'Πέμπτη 10 Ιουνίου 2027, 19:30', short: '10 Ιουνίου 2027' },
     duration: '24 εβδομαδιαία μαθήματα',
     format: 'Ζωντανά μέσω Zoom, κάθε Πέμπτη 19:30 (ώρα Ελλάδος)',
     teaching: 'el',
@@ -72,7 +79,7 @@ export const courses: Course[] = [
         id: 'standard',
         price: 550,
         perMonth: 68.75,
-        instalments: 'Υπάρχει η δυνατότητα εξόφλησης των διδάκτρων σε 8 μηνιαίες δόσεις (68,75€/μήνα).',
+        payments: 8,
         payInFull: 'https://book.stripe.com/4gM28s5Ecf3dgO5cZO9sk06',
         payMonthly: 'https://buy.stripe.com/3cI7sM5EcbR141jbVK9sk08',
       },
@@ -81,15 +88,14 @@ export const courses: Course[] = [
         id: 'love',
         price: 660,
         perMonth: 82.5,
-        instalments: 'Υπάρχει η δυνατότητα εξόφλησης των διδάκτρων σε 8 μηνιαίες δόσεις (82,50€/μήνα).',
+        payments: 8,
         notes: [generosity, oneToOne],
         payInFull: 'https://book.stripe.com/3cI5kEfeM2greFX3pe9sk07',
         payMonthly: 'https://buy.stripe.com/9B6dRaeaI8EPfK1f7W9sk09',
       },
     ],
     registrationNote,
-    registrationOpen:
-      'Οι εγγραφές είναι ανοιχτές έως τις 30 Δεκεμβρίου 2026. Μετά από αυτή την ημερομηνία, για την εγγραφή σας επικοινωνήστε με τη Γραμματεία της Ακαδημίας.',
+    registrationOpen: `Οι εγγραφές είναι ανοιχτές έως τις 30 Δεκεμβρίου 2026. Μετά από αυτή την ημερομηνία, για την εγγραφή σας επικοινωνήστε με τη ${secretariat('Γραμματεία της Ακαδημίας')}.`,
     paymentNotes,
     cancellations: cancellations('Νοέμβριος 2026 – Φεβρουάριος 2027'),
     sections: [
@@ -153,6 +159,9 @@ export const courses: Course[] = [
       { label: 'Πρώτο μάθημα', when: 'Τρίτη 1 Δεκεμβρίου 2026, 19:30' },
       { label: 'Στη συνέχεια', when: 'Τρίτη στις 19:30, περίπου 2 μαθήματα τον μήνα' },
     ],
+    // calculated (Maria, 22 November 2026): to confirm with the Academy (see the English file)
+    months: 8,
+    lastLesson: { when: 'Τρίτη 20 Ιουλίου 2027, 19:30', short: '20 Ιουλίου 2027' },
     duration: '16 μαθήματα, περίπου 2 τον μήνα',
     format: 'Ζωντανά μέσω Zoom, Τρίτη 19:30 (ώρα Ελλάδας)',
     teaching: 'el',
@@ -168,7 +177,7 @@ export const courses: Course[] = [
         id: 'standard',
         price: 640,
         perMonth: 80,
-        instalments: 'Υπάρχει η δυνατότητα εξόφλησης των διδάκτρων σε 8 μηνιαίες δόσεις (80€/μήνα).',
+        payments: 8,
         payInFull: 'https://book.stripe.com/28EbJ2c2A2gr9lDe3S9sk0b',
         payMonthly: 'https://buy.stripe.com/6oUdRaeaI6wHdBT8Jy9sk0d',
       },
@@ -177,7 +186,7 @@ export const courses: Course[] = [
         id: 'love',
         price: 720,
         perMonth: 90,
-        instalments: 'Υπάρχει η δυνατότητα εξόφλησης των διδάκτρων σε 8 μηνιαίες δόσεις (90€/μήνα).',
+        payments: 8,
         notes: [generosity, oneToOne],
         payInFull: 'https://book.stripe.com/6oU14o2s0aMXfK10d29sk0c',
         payMonthly: 'https://buy.stripe.com/5kQ28sd6EcV5apH5xm9sk0e',
@@ -342,6 +351,7 @@ export const coursesPage = {
     viewCourse: 'Δείτε τον κύκλο μαθημάτων',
     enrollNow: 'Εγγραφή',
     facts: { dates: 'Ημερομηνίες', duration: 'Διάρκεια', format: 'Τρόπος', language: 'Γλώσσα', fee: 'Κόστος' },
+    when: { last: 'Τελευταίο μάθημα', until: 'έως {date}', months: '{n} μήνες' },
     languages: { el: 'Ελληνικά', en: 'Αγγλικά' },
     close: 'Κλείσιμο',
     enroll: 'Εγγραφή',
@@ -356,14 +366,17 @@ export const coursesPage = {
     // The tuition, in the live page's own words (see the English file)
     tuition: {
       wholeCycle: 'για Ολόκληρο τον Κύκλο',
-      register: 'Εγγραφή στον Κύκλο Σπουδών:',
       payInFull: 'Ετήσια Προπληρωμή',
       payMonthly: 'Μηνιαία καταβολή',
+      month: '/ μήνα',
+      payments: '× {n} δόσεις',
+      total: 'σύνολο {price}',
+      feeUpfront: 'ετήσια προπληρωμή',
+      feeMonthly: 'ή {month} τον μήνα × {n}',
       // The upfront discount (see the English file)
       save: 'Με την προπληρωμή ολόκληρου του Κύκλου «{title}» κερδίζετε {pct} έκπτωση',
       upfront: 'με Ετήσια Προπληρωμή, για Ολόκληρο τον Κύκλο',
       off: '−{pct}',
-      cardNote: '−{pct} με προπληρωμή',
       bankRegister: 'Εγγραφή με τραπεζική κατάθεση',
     },
     // The registration form, in the Google Form's own words (see the English file)

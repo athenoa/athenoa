@@ -29,7 +29,8 @@ const more = [
 ---
 
 <div class="reginfo">
-  {course.registrationOpen && <p class="reginfo__open">{course.registrationOpen}</p>}
+  {/* HTML: it may link the Academy's secretariat */}
+  {course.registrationOpen && <p class="reginfo__open" set:html={course.registrationOpen} />}
   {/* This course's own offer for paying the whole cycle upfront */}
   {discount > 0 && <p class="reginfo__save">{fill(tuition.save, { title: course.title, pct: percent(discount) })}</p>}
   {
@@ -38,11 +39,12 @@ const more = [
         tiers={course.tuition}
         level={level}
         per={tuition.wholeCycle}
-        register={tuition.register}
         payInFull={tuition.payInFull}
         payMonthly={tuition.payMonthly}
+        month={tuition.month}
+        payments={tuition.payments}
+        total={tuition.total}
         discount={discount}
-        upfront={tuition.upfront}
         off={tuition.off}
         course={course.slug}
       />
