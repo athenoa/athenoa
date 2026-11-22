@@ -315,6 +315,10 @@ b {
   overflow: hidden;
   border-radius: inherit;
   pointer-events: none;
+  /* Safari stops clipping to the rounded outline once a child moves (parallax, transforms): the fresco of
+     "Let's get started" showed as a rectangle there. A mask forces the clip (Maria, 22 November 2026). */
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
+  isolation: isolate;
 }
 
 /* .box: a smaller organic container for text */
@@ -781,6 +785,7 @@ html.motion :is(.lemma-inline, .lemma__word)::after {
 .media__clip {
   position: relative;
   overflow: hidden;
+  -webkit-mask-image: -webkit-radial-gradient(white, black); /* the same Safari clip fix for moving photos */
   border-radius: var(--media-r, var(--r-soft));
   aspect-ratio: var(--ratio, auto);
   background: var(--creme-deep);
