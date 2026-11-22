@@ -310,7 +310,8 @@ const looks: { surface: string; mat: string; photo: Photo; second?: Photo }[] = 
 
   @media (min-width: 60rem) {
     .benefits__grid {
-      row-gap: var(--space-xl);
+      /* title to first piece: closer (Maria, 22 November 2026; was --space-xl) */
+      row-gap: var(--space-m);
     }
     /* Photograph and box share one row, centred on each other, and overlap by two columns; the box keeps
        that much of its width clear for the photograph. Odd pieces carry the photograph on the left,
