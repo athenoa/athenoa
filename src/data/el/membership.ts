@@ -29,7 +29,6 @@ export const membership: Membership = {
     per: 'για Ολόκληρο το Έτος',
     // 10% έκπτωση με την προπληρωμή του έτους (see the English file); the Stripe "full" links charge 990€/1140€ until updated
     upfrontDiscount: 0.1,
-    save: 'Με την προπληρωμή ολόκληρου του έτους Μέλους κερδίζετε {pct} έκπτωση',
     payInFull: 'Ετήσια Προπληρωμή',
     payMonthly: 'Μηνιαία καταβολή',
     tiers: [

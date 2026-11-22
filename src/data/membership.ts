@@ -29,9 +29,8 @@ export interface Membership {
     label: string;
     sublabel: string;
     per: string;
-    /** The share taken off when the whole year is paid upfront (0.1 is 10%), and the line that offers it */
+    /** The share taken off when the whole year is paid upfront (0.1 is 10%) */
     upfrontDiscount?: number;
-    save: string;
     payInFull: string;
     payMonthly: string;
     tiers: TuitionTier[];
@@ -66,7 +65,6 @@ export const membershipEn: Membership = {
     per: 'for the whole year',
     // 10% off the whole year paid upfront; change it or switch it off (0) here
     upfrontDiscount: 0.1,
-    save: 'Pay for the whole year of membership upfront and save {pct}',
     payInFull: 'Pay in full',
     payMonthly: 'Pay monthly',
     tiers: [

@@ -374,7 +374,6 @@ export const coursesPage = {
       feeUpfront: 'ετήσια προπληρωμή',
       feeMonthly: 'ή {month} τον μήνα × {n}',
       // The upfront discount (see the English file)
-      save: 'Με την προπληρωμή ολόκληρου του Κύκλου «{title}» κερδίζετε {pct} έκπτωση',
       upfront: 'με Ετήσια Προπληρωμή, για Ολόκληρο τον Κύκλο',
       off: '−{pct}',
       bankRegister: 'Εγγραφή με τραπεζική κατάθεση',

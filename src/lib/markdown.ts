@@ -246,9 +246,6 @@ const build = (locale: Locale) => {
             `## ${inline(registrationTab.label)}`,
             `*${inline(registrationTab.sublabel)}*`,
             course.registrationOpen && inline(course.registrationOpen),
-            // the course's own upfront offer, if it has one
-            course.upfrontDiscount &&
-              inline(fill(coursesPage.ui.tuition.save, { title: course.title, pct: percent(course.upfrontDiscount) })),
             // each tuition with its two Stripe Payment Links; paid upfront, less the course's discount
             ...(course.tuition ?? []).flatMap((tier) => [
               `### ${inline(tier.name)}`,
@@ -370,7 +367,6 @@ const build = (locale: Locale) => {
       `${inline(m.more)} [${inline(m.formLink)}](${site.membershipForm})`,
       `## ${inline(reg.label)}`,
       `*${inline(reg.sublabel)}*`,
-      d > 0 && inline(fill(reg.save, { pct: percent(d) })),
       ...reg.tiers.flatMap((tier) => [
         `### ${inline(tier.name)}`,
         d > 0

@@ -468,10 +468,8 @@ export const coursesPage = {
       // The fee on the cards and course pages: the upfront price, then the monthly way
       feeUpfront: 'paid upfront for the year',
       feeMonthly: 'or {month} a month × {n}',
-      // The upfront discount, for a course that has one ({pct} is "10%", {title} the course): the line over
-      // the tiers, the words after the upfront price (in the Markdown twins), and its mark beside the
-      // struck-through full price
-      save: 'Pay for the whole of {title} upfront and save {pct}',
+      // The upfront discount, for a course that has one ({pct} is "10%"): the words after the upfront price
+      // (in the Markdown twins), and its mark beside the struck-through full price
       upfront: 'paid upfront, for the whole Cycle',
       off: '−{pct}',
       // In the bank-transfer item: opens the registration form with that way of paying
