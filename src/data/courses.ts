@@ -238,9 +238,9 @@ export const courses: Course[] = [
     subtitle: 'The Ancient Art of Eudaimonia',
     summary: '16 experiential lessons of Greek Philosophy in Practice. From Self-knowledge to Eudaimonia.',
     schedule: 'From 1 December 2026',
-    scheduleNote: 'Introduction on Monday 23 November at 19:30',
+    scheduleNote: 'Introductory lesson - Presentation of the Cycle: Monday 23 November, 19:30',
     dates: [
-      { label: 'Introduction & presentation of the course', when: 'Monday 23 November 2026, 19:30 Greek time' },
+      { label: 'Introductory lesson - Presentation of the Cycle', when: 'Monday 23 November 2026, 19:30 Greek time' },
       { label: 'First lesson', when: 'Tuesday 1 December 2026, 19:30' },
       { label: 'Then', when: 'Tuesdays at 19:30, about two lessons a month' },
     ],
