@@ -172,9 +172,14 @@ html:is([lang='el'], [lang='grc']) {
   --body-scale: 1;
 }
 
-/* Greek pages try NF-Lolotte for the voice face (see fonts.css) */
+/* Greek pages: no handwriting (Maria, 22 November 2026: none of the Greek hands felt serious enough). The
+   voice lines are set in the site's own classical serif, a light italic of Noto Serif Display, thinner
+   than the reading face, so they read as the personal voice by their formatting alone. */
 html[lang='el'] {
-  --font-hand: 'ATH Lolotte', 'ATH Hand', 'Noto Serif Display Variable', 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
+  --font-hand: 'Noto Serif Display Variable', 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
+}
+html[lang='el'] :is(.hand, .t-sub, .prose blockquote) {
+  font-weight: 300;
 }
 
 /* Ancient Greek carries breathings and accents the handwriting faces do not have: its voice lines are

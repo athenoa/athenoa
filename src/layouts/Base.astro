@@ -12,7 +12,6 @@ import ContactDialog from '../components/ContactDialog.astro';
 import CookieNotice from '../components/CookieNotice.astro';
 import LemmaNotes from '../components/LemmaNotes.astro';
 import CustomCursor from '../components/CustomCursor.astro';
-import HandPicker from '../components/HandPicker.astro';
 import PreviewGate from '../components/PreviewGate.astro';
 import NostosEntry from '../components/nostos/NostosEntry.astro';
 import { content } from '../data';
@@ -166,8 +165,6 @@ const gated = import.meta.env.PUBLIC_PREVIEW_GATE === 'on';
     <CookieNotice />
     <LemmaNotes />
     <CustomCursor />
-    {/* trial switch for the Greek handwriting: preview and dev server only (HandPicker.astro) */}
-    <HandPicker />
     <script>
       import '../scripts/motion.ts';
       import '../scripts/fields.ts';
