@@ -669,7 +669,9 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
       padding: 0;
       rotate: none;
       opacity: 1;
-      visibility: visible;
+      /* inherit, never 'visible': a visible child of the closed (hidden) menu stays clickable while
+         unseen, and its course links caught clicks meant for the page underneath */
+      visibility: inherit;
       translate: none;
       transition: none;
     }
