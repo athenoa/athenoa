@@ -13,7 +13,7 @@ export const site = {
     'Guided by the Archetype of Goddess Athena, we illuminate the way from intellectual learning to embodied knowing, from philosophy to inner awakening—restoring our relationship with Nature, with Soul, and with the World.',
   founder: 'Dr. Athena Despoina Potari',
   phone: { display: '(0030) 690-606-8444', href: 'tel:00306906068444' },
-  emails: ['philathenea@athenoa.academy', 'philathenea@gmail.com'],
+  emails: ['philathenea@athenoa.academy'],
   membershipForm: 'https://docs.google.com/forms/d/10wWFfEJswGyhoiPyGHOc5QjUimHitGUBsbFaHlYpnvY/viewform',
   social: [
     { id: 'facebook', name: 'Facebook', url: 'https://www.facebook.com/athenapotari/' },
@@ -21,25 +21,26 @@ export const site = {
     { id: 'youtube', name: 'YouTube', url: 'https://www.youtube.com/@athenoa' },
   ],
   // Home, by name. The logo links here, so the header menu does not repeat it.
-  home: { label: 'Home', href: '/' },
+  home: { label: 'Home', href: '/en/' },
   nav: [
-    { label: 'About Dr. Athena', href: '/about-athena/' },
-    { label: 'Live Courses', href: '/courses/' },
+    { label: 'About Dr. Athena', href: '/en/about-athena/' },
+    { label: 'Live Courses', href: '/en/courses/' },
     // Nostos is hidden from the menu for the launch (Maria, 22 November 2026). To bring it back:
-    // { label: nostosUi.en.entry.nav, href: '/nostos/play/', section: '/nostos/' }, with nostosUi imported from data/nostos/ui
+    // { label: nostosUi.en.entry.nav, href: '/en/nostos/play/', section: '/en/nostos/' }, with nostosUi imported from data/nostos/ui
   ],
   footer: {
     linksTitle: 'Internal Links',
     links: [
-      { label: 'Home', href: '/' },
-      { label: 'Learn more', href: '/about-athena/#contact' },
+      { label: 'Home', href: '/en/' },
+      { label: 'Learn more', href: '/en/about-athena/#contact' },
     ],
     connectTitle: 'Connect with us',
     contactFormLabel: 'Contact form',
     followTitle: 'Follow us',
   },
   routes: {
-    contact: '/about-athena/#contact',
-    courses: '/courses/',
+    contact: '/en/about-athena/#contact',
+    courses: '/en/courses/',
+    membership: '/en/membership/',
   },
 } as const;

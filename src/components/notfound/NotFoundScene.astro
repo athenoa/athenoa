@@ -18,8 +18,8 @@
 //
 // Two languages in one page. A static site serves the same not-found page for every missing
 // address, so the language cannot be known when the page is built: the words of both languages
-// are in the markup, each marked with its language, and the small script below shows the Greek
-// ones on addresses that begin with /el/. English shows otherwise, and without JavaScript.
+// are in the markup, each marked with its language, and the small script below shows the English
+// ones on addresses that begin with /en/. Greek, the site's default, shows otherwise, and without JavaScript.
 //
 // Motion is CSS only. The loops run under html.motion (set by Base when motion is allowed) and
 // prefers-reduced-motion: no-preference; otherwise the same layers stand still as one picture,
@@ -40,9 +40,10 @@ const emblems = { en: emblemEn, el: emblemEl };
 
 <section class="nf">
   <script is:inline data-astro-rerun define:vars={{ headings }}>
-    if (/(^|\/)(el|grc)(\/|$)/.test(location.pathname)) {
-      document.documentElement.setAttribute('data-nf-lang', 'el');
-      document.title = document.title.replace(headings.en, headings.el);
+    if (/(^|\/)en(\/|$)/.test(location.pathname)) {
+      document.documentElement.setAttribute('data-nf-lang', 'en');
+      document.documentElement.lang = 'en';
+      document.title = document.title.replace(headings.el, headings.en);
     }
   </script>
 
@@ -262,8 +263,8 @@ const emblems = { en: emblemEn, el: emblemEl };
     max-width: none;
   }
   /* Both languages are in the page; the address decides which one shows (see the script). */
-  :global(html:not([data-nf-lang='el'])) .nf [data-lang='el'],
-  :global(html[data-nf-lang='el']) .nf [data-lang='en'] {
+  :global(html:not([data-nf-lang='en'])) .nf [data-lang='en'],
+  :global(html[data-nf-lang='en']) .nf [data-lang='el'] {
     display: none;
   }
   /* Editorial New has no Greek and the Tekst trial lacks accented Greek: the Greek words are set

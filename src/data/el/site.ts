@@ -14,7 +14,7 @@ export const site = {
     'Με οδηγό το Αρχέτυπο της Θεάς Αθηνάς, φωτίζουμε τον δρόμο από τη διανοητική μάθηση στην ενσώματη γνώση, από τη φιλοσοφία στην εσωτερική αφύπνιση — αποκαθιστώντας τη σχέση μας με τη Φύση, με την Ψυχή και με τον Κόσμο.',
   founder: 'Δρ. Αθηνά Δέσποινα Ποτάρη',
   phone: { display: '(0030) 690-606-8444', href: 'tel:00306906068444' },
-  emails: ['philathenea@athenoa.academy', 'philathenea@gmail.com'],
+  emails: ['philathenea@athenoa.academy'],
   membershipForm: 'https://docs.google.com/forms/d/10wWFfEJswGyhoiPyGHOc5QjUimHitGUBsbFaHlYpnvY/viewform',
   social: [
     { id: 'facebook', name: 'Facebook', url: 'https://www.facebook.com/athenapotari/' },
@@ -22,25 +22,26 @@ export const site = {
     { id: 'youtube', name: 'YouTube', url: 'https://www.youtube.com/@athenoa' },
   ],
   // Home, by name. The logo links here, so the header menu does not repeat it.
-  home: { label: 'Αρχική', href: '/el/' },
+  home: { label: 'Αρχική', href: '/' },
   nav: [
-    { label: 'Σχετικά με τη Δρ. Αθηνά', href: '/el/about-athena/' },
-    { label: 'Ζωντανά μαθήματα', href: '/el/courses/' },
+    { label: 'Σχετικά με τη Δρ. Αθηνά', href: '/about-athena/' },
+    { label: 'Ζωντανά μαθήματα', href: '/courses/' },
     // Nostos is hidden from the menu for the launch (Maria, 22 November 2026). To bring it back:
-    // { label: nostosUi.el.entry.nav, href: '/el/nostos/play/', section: '/el/nostos/' }, with nostosUi imported from data/nostos/ui
+    // { label: nostosUi.el.entry.nav, href: '/nostos/play/', section: '/nostos/' }, with nostosUi imported from data/nostos/ui
   ],
   footer: {
     linksTitle: 'Εσωτερικοί Σύνδεσμοι',
     links: [
-      { label: 'Αρχική', href: '/el/' },
-      { label: 'Μάθετε περισσότερα', href: '/el/about-athena/#contact' },
+      { label: 'Αρχική', href: '/' },
+      { label: 'Μάθετε περισσότερα', href: '/about-athena/#contact' },
     ],
     connectTitle: 'Επικοινωνήστε μαζί μας',
     contactFormLabel: 'Φόρμα επικοινωνίας',
     followTitle: 'Ακολουθήστε μας',
   },
   routes: {
-    contact: '/el/about-athena/#contact',
-    courses: '/el/courses/',
+    contact: '/about-athena/#contact',
+    courses: '/courses/',
+    membership: '/membership/',
   },
 } as const;

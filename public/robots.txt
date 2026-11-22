@@ -1,17 +1,17 @@
 # ATHENOA, the modern Platonic Academy of Dr. Athena Despoina Potari
-# https://www.athenoa.academy (English) and https://www.athenoa.academy/el/ (Greek)
+# https://www.athenoa.academy (Greek) and https://www.athenoa.academy/en/ (English)
 #
 # Everyone is welcome here: search engines, AI crawlers and AI agents acting for a reader.
-# Only the design scratch pages under /lab/ and /el/lab/ are off limits.
+# Only the design scratch pages under /lab/ and /en/lab/ are off limits.
 #
 # For AI agents: https://www.athenoa.academy/llms.txt lists the pages with Markdown copies of each,
-# and https://www.athenoa.academy/llms-full.txt has the whole site in one file.
-# The same two files in Greek: https://www.athenoa.academy/el/llms.txt and https://www.athenoa.academy/el/llms-full.txt
+# and https://www.athenoa.academy/llms-full.txt has the whole site in one file (both in Greek).
+# The same two files in English: https://www.athenoa.academy/en/llms.txt and https://www.athenoa.academy/en/llms-full.txt
 
 User-agent: *
 Allow: /
 Disallow: /lab/
-Disallow: /el/lab/
+Disallow: /en/lab/
 
 # Search engines
 User-agent: Googlebot
@@ -20,7 +20,7 @@ User-agent: Applebot
 User-agent: DuckDuckBot
 Allow: /
 Disallow: /lab/
-Disallow: /el/lab/
+Disallow: /en/lab/
 
 # AI search, AI assistants browsing for a reader, and AI training crawlers
 User-agent: OAI-SearchBot
@@ -40,6 +40,6 @@ User-agent: Amazonbot
 User-agent: CCBot
 Allow: /
 Disallow: /lab/
-Disallow: /el/lab/
+Disallow: /en/lab/
 
 Sitemap: https://www.athenoa.academy/sitemap-index.xml

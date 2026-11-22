@@ -33,7 +33,7 @@ interface Props {
 
 const locale = getLocale(Astro.url);
 const { site } = content(locale);
-const path = Astro.url.pathname.replace(/^\/el(?=\/)/, '');
+const path = barePath(Astro.url.pathname);
 // Nostos is also read in Ancient Greek (/grc/nostos/), so its pages are found with either prefix taken off
 const nostos = /^\/nostos(\/|$)/.test(barePath(Astro.url.pathname));
 const byPage: Scene = nostos

@@ -16,7 +16,7 @@ export const site = {
   // The first word must stay a substring of about.title, which AboutHero splits at it.
   founder: 'Ἀθηνᾶ Δέσποινα Ποτάρη',
   phone: { display: '(0030) 690-606-8444', href: 'tel:00306906068444' },
-  emails: ['philathenea@athenoa.academy', 'philathenea@gmail.com'],
+  emails: ['philathenea@athenoa.academy'],
   membershipForm: 'https://docs.google.com/forms/d/10wWFfEJswGyhoiPyGHOc5QjUimHitGUBsbFaHlYpnvY/viewform',
   social: [
     { id: 'facebook', name: 'Facebook', url: 'https://www.facebook.com/athenapotari/' },
@@ -44,5 +44,6 @@ export const site = {
   routes: {
     contact: '/grc/about-athena/#contact',
     courses: '/grc/courses/',
+    membership: '/grc/membership/',
   },
 } as const;

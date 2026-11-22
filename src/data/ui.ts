@@ -40,7 +40,7 @@ export const ui = {
 
 // The languages offered in the header. Ancient Greek is a draft, there for the pleasure of it.
 export const languages: { locale: Locale; label: string; short: string }[] = [
-  { locale: 'en', label: 'English', short: 'EN' },
   { locale: 'el', label: 'Ελληνικά', short: 'ΕΛ' },
+  { locale: 'en', label: 'English', short: 'EN' },
   { locale: 'grc', label: 'Ἀρχαία Ἑλληνική', short: 'ΑΡΧ' },
 ];

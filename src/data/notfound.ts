@@ -12,13 +12,13 @@ export const notfound = {
     // Read by screen readers and used for the page title; not shown.
     heading: 'Page not found',
     wander: 'Not everybody who wanders is lost',
-    home: { label: 'Back to Ithaka', href: '/' },
+    home: { label: 'Back to Ithaka', href: '/en/' },
     journey: 'but let the journey be long and filled with adventures',
   },
   el: {
     heading: 'Η σελίδα δεν βρέθηκε',
     wander: 'Δεν είναι χαμένοι όλοι όσοι περιπλανιούνται',
-    home: { label: 'Πίσω στην Ιθάκη', href: '/el/' },
+    home: { label: 'Πίσω στην Ιθάκη', href: '/' },
     journey: 'να εύχεσαι νάναι μακρύς ο δρόμος, γεμάτος περιπέτειες',
     // Cavafy, «Ιθάκη» (1911). The credit is not shown on the page (client direction).
   },
