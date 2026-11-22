@@ -173,13 +173,13 @@ html:is([lang='el'], [lang='grc']) {
 }
 
 /* Greek pages: no handwriting (Maria, 22 November 2026: none of the Greek hands felt serious enough). The
-   voice lines are set in the site's own classical serif, a light italic of Noto Serif Display, thinner
-   than the reading face, so they read as the personal voice by their formatting alone. */
+   voice lines are set in the site's own classical serif, an italic of Noto Serif Display, finer than
+   the reading face, so they read as the personal voice by their formatting alone. */
 html[lang='el'] {
   --font-hand: 'Noto Serif Display Variable', 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
 }
 html[lang='el'] :is(.hand, .t-sub, .prose blockquote) {
-  font-weight: 300;
+  font-weight: 380; /* a touch heavier than the light 300 (Maria, 22 November 2026) */
 }
 
 /* Ancient Greek carries breathings and accents the handwriting faces do not have: its voice lines are
