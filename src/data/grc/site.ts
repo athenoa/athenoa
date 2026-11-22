@@ -22,6 +22,7 @@ export const site = {
     { id: 'facebook', name: 'Facebook', url: 'https://www.facebook.com/athenapotari/' },
     { id: 'instagram', name: 'Instagram', url: 'https://www.instagram.com/athena_potari/' },
     { id: 'youtube', name: 'YouTube', url: 'https://www.youtube.com/@athenoa' },
+    { id: 'whatsapp', name: 'WhatsApp', url: 'https://wa.me/306906068444' },
   ],
   // Home, by name. The logo links here, so the header menu does not repeat it.
   home: { label: 'Οἴκαδε', href: '/grc/' },
