@@ -402,3 +402,4 @@ The four earlier courses (The Hidden Non-Duality, and the three placeholders) ar
 - The page title reads "Title: Subtitle | ATHENOA".
 - The courses' end date ("Τελευταίο μάθημα" and "έως …" on the cards) is removed everywhere for now (Maria); the length keeps its "· 8 μήνες / · 8 months".
 - Εὖ Ζῆν's dates in Maria's words: "Εισαγωγικό μάθημα - Παρουσίαση Κύκλου: Δευτέρα 23 Νοεμβρίου 2026, 19:30 (ώρα Ελλάδος)" and "Πρώτο Μάθημα: Τρίτη 1 Δεκεμβρίου 2026, 19:30". The English is "Introductory lesson - Presentation of the Cycle" (proposed). The card's line under the dates uses the same words. ΟΔΥΣΣΕΙΑ keeps "Εισαγωγή & Παρουσίαση Μαθήματος" / "Πρώτο μάθημα" for now.
+- ΟΔΥΣΣΕΙΑ takes Εὖ Ζῆν's wording for consistency: "Εισαγωγικό μάθημα - Παρουσίαση Κύκλου" and "Πρώτο Μάθημα" (its card line too); English "Introductory lesson - Presentation of the Cycle".

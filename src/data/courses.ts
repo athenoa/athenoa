@@ -139,9 +139,9 @@ export const courses: Course[] = [
     summary:
       'In this Cycle of Studies in Greek Philosophy we will study the Odyssey as a timeless treasure of Wisdom, a symbolic Map of the human Soul and of its Journey to Self-knowledge and Awakening.',
     schedule: 'From 26 November 2026',
-    scheduleNote: 'Introduction on Monday 23 November at 19:30',
+    scheduleNote: 'Introductory lesson - Presentation of the Cycle: Monday 23 November, 19:30',
     dates: [
-      { label: 'Introduction & presentation of the course', when: 'Monday 23 November 2026, 19:30 Greek time' },
+      { label: 'Introductory lesson - Presentation of the Cycle', when: 'Monday 23 November 2026, 19:30 Greek time' },
       { label: 'First lesson', when: 'Thursday 26 November 2026, 19:30' },
       { label: 'Then', when: 'every Thursday at 19:30' },
     ],
@@ -440,7 +440,7 @@ export const coursesPage = {
     enrollNow: 'Enroll',
     facts: { dates: 'Dates', duration: 'Length', format: 'Format', language: 'Language', fee: 'Fee' },
     // With Course.lastLesson and Course.months, once they are known
-    when: { last: 'Last lesson', until: 'until {date}', months: '{n} months' },
+    when: { last: 'Last lesson', until: 'until {date}', months: '{n} months' },
     // The languages a course is taught in (Course.teaching)
     languages: { el: 'Greek', en: 'English' },
     close: 'Close',
