@@ -13,6 +13,7 @@ import { getLocale } from '../../lib/locale';
 const locale = getLocale(Astro.url);
 const { home, courses, site } = content(locale);
 const { greeting, text, newsletter, signature } = home.announcement;
+const showNewsletter = false;
 // The announced courses, as their full course entries, so they are drawn as course cards.
 const announced = home.announcement.courses
   .map((item) => courses.find((course) => course.slug === item.slug))
@@ -45,12 +46,16 @@ const announced = home.announcement.courses
         </figure>
       </div>
 
-      <div class="slip box on-blue-deep" data-reveal data-depth="-0.04" style="--i:3">
-        <Illustration name="dove-scroll" class="slip__dove" />
-        <h3 class="slip__title t-3">{newsletter.title}</h3>
-        <p class="slip__text">{newsletter.text}</p>
-        <p><a class="btn" href={newsletter.cta.href}>{newsletter.cta.label}</a></p>
-      </div>
+      {/* The newsletter slip is hidden until sign-up is connected (Maria, 22 November 2026; tasks/todo.md).
+          To bring it back, set showNewsletter to true. */}
+      {showNewsletter && (
+        <div class="slip box on-blue-deep" data-reveal data-depth="-0.04" style="--i:3">
+          <Illustration name="dove-scroll" class="slip__dove" />
+          <h3 class="slip__title t-3">{newsletter.title}</h3>
+          <p class="slip__text">{newsletter.text}</p>
+          <p><a class="btn" href={newsletter.cta.href}>{newsletter.cta.label}</a></p>
+        </div>
+      )}
     </div>
 
     <ul class="courses-row" role="list" data-reveal-group>
@@ -256,9 +261,10 @@ const announced = home.announcement.courses
   }
 
   /* ---------- The announced courses ---------- */
+  /* the cards a little wider: half the usual gap between them (Maria, 22 November 2026) */
   .courses-row {
     display: grid;
-    gap: var(--space-xl) var(--space-l);
+    gap: var(--space-xl) calc(var(--space-l) / 2);
     margin: var(--space-xl) 0 0;
     padding: 0;
     list-style: none;

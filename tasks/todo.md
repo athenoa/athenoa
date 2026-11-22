@@ -288,6 +288,8 @@ State when work stopped: all background agents were stopped. Hero candidates A/B
 - [ ] Stripe: the Academy is setting the 10% discount for paying upfront: Εὖ Ζῆν (576€ / 648€; not ΟΔΥΣΣΕΙΑ) and the year of membership (891€ / 1026€, Maria 22 November 2026). Check each "pay in full" link then charges exactly the price the site shows; if they make new links, replace the hrefs in src/data/*courses.ts.
 - [ ] FUTURE (Maria, 22 November 2026): the Scholarship Fund (Ταμείο Υποτροφιών, "Ένα Όμορφο Εγχείρημα") becomes a step of the registration flow, as in their Google Form: an optional gift of 5, 10, 20, 50, 100 € or another amount, and the Stripe checkout total adjusts to include it. Payment Links have fixed prices, so this needs Stripe Checkout Sessions made by a small server function (e.g. a Supabase Edge Function in the athenoa project) holding a restricted Stripe secret key from the Academy: line items = the tier and way of paying + the gift; client_reference_id = the registration id; the gift saved on the registration row. Monthly plans: the gift as a one-off amount on the first payment. Until then the course pages invite gifts by email.
 
+- [ ] Newsletter (Maria, 22 November 2026): the sign-up slip on the home page is hidden (showNewsletter in src/components/home/Announcement.astro) because sign-up is not connected. Bring it back once there is somewhere to keep the list: a 'newsletter' table in the athenoa Supabase project (as the waitlist) or the newsletter tool the Academy chooses; then wire NewsletterDialog.astro and set showNewsletter to true.
+
 ## Open questions
 
 See the chat message of 2026-10-10.
