@@ -280,21 +280,25 @@ const img = (src: { src: string }) => src.src;
      peeled off it (1.2s), and the plates settle in order: the ground, the temple and the statue, the
      bushes last. Then quiet life: the clouds drift, the light breathes, the flame flickers.
      Transforms and opacity only. */
+  /* The fresh print: a sheet of the print's own paper lies over the plate and slides off downward, its
+     top edge soft, so the ink appears from the top of the plate to its foot. Transform only: an animated
+     mask left the picture hidden in Safari (Maria, 22 November 2026). */
   @keyframes eng-print {
     from {
-      mask-position: 0 100%;
-    }
-    99% {
-      mask-position: 0 0;
+      transform: translate3d(0, 0, 0);
     }
     to {
-      mask-image: none;
+      transform: translate3d(0, 101%, 0);
+      visibility: hidden;
     }
   }
-  :global(html.motion) .eng__plate {
-    mask-image: linear-gradient(to bottom, #000 40%, transparent 60%);
-    mask-size: 100% 250%;
-    mask-repeat: no-repeat;
+  :global(html.motion) .eng__plate::after {
+    content: '';
+    position: absolute;
+    inset: -30% 0 0;
+    z-index: 20;
+    pointer-events: none;
+    background: linear-gradient(to bottom, rgb(247 241 223 / 0), rgb(247 241 223) 22%);
     animation: eng-print 1.2s cubic-bezier(0.45, 0, 0.25, 1) 0.15s both;
   }
   @keyframes eng-settle {
