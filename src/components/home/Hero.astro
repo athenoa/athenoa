@@ -260,7 +260,7 @@ const showAthena = false;
     --hero-gap: clamp(0.75rem, 3svh, 2rem);
     /* The picture fills the first screen to its foot (client direction, 22 November 2026): the ground
        line runs this far above it, and the sky colour carries on under the line. */
-    --hero-ground: clamp(2.5rem, 8svh, 5.5rem);
+    --hero-ground: clamp(2rem, 6svh, 4rem);
     /* The temple takes the height left under the title: its roof (acroteria included) stands 0.66 of
        the frame above the ground line. On a narrow screen the width stops it first, leaving room on
        the left for the statue. */
@@ -536,6 +536,21 @@ const showAthena = false;
     width: calc(var(--u) * 3200);
     height: calc(var(--u) * 140);
     translate: -50% 0;
+  }
+
+  /* Under the ground line the ground is engraved: fine level lines in the line colour, so the foot of
+     the first screen is part of the picture, never a blank band (client direction, 22 November
+     2026). The line is 46 units down the drawing's 140. Still: nothing here moves but the layer. */
+  .hero__layer--ground :global(.illo)::after {
+    content: '';
+    position: absolute;
+    inset: calc(100% * 46 / 140 + 0.3rem) 0 auto;
+    height: 40svh;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0 0.3rem,
+      color-mix(in srgb, var(--hero-line) 24%, transparent) 0.3rem calc(0.3rem + 1px)
+    );
   }
 
   /* Paper grain over the flat washes, still while they move underneath. */
