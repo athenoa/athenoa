@@ -37,7 +37,7 @@ const off = discount > 0 ? fill(ui.tuition.off, { pct: percent(discount) }) : ''
 const id = (name: string) => `rg-${course.slug}-${name}`;
 const fmt = (value: number) => money(value, locale);
 const first = tiers[0];
-// the monthly way as on the tiers: "80€ / μήνα × 8 · σύνολο 640€"
+// the monthly way as on the tiers: "€80 / μήνα × 8 · σύνολο €640"
 const monthly = (tier: (typeof tiers)[number]) =>
   `${fmt(tier.perMonth)} ${ui.tuition.month} ${fill(ui.tuition.payments, { n: String(tier.payments) })} · ${fill(ui.tuition.total, { price: fmt(Math.round(tier.perMonth * tier.payments * 100) / 100) })}`;
 ---

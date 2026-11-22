@@ -86,7 +86,7 @@ const opens = (tier: TuitionTier, pay: 'full' | 'monthly') =>
               <span class="way__sum">{money(tier.perMonth, locale)}</span>
               <span class="way__unit">{month}</span>
             </p>
-            {/* the count and what it adds up to, on one line (membership's 12 × 83€ is 996€, not the year's 990€) */}
+            {/* the count and what it adds up to, on one line (membership's 12 × €83 is €996, not the year's €990) */}
             <p class="way__rate">
               {fill(payments, { n: String(tier.payments) })}{' '}
               <span class="way__total">· {fill(total, { price: money(Math.round(tier.perMonth * tier.payments * 100) / 100, locale) })}</span>

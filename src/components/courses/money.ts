@@ -1,10 +1,10 @@
 // Amounts as the pages write them, and the price of paying a whole cycle upfront.
 import type { Locale } from '../../lib/locale';
 
-/** An amount in euros: "€550", "€68.75" in English; "550€", "68,75€" in Greek. */
+/** An amount in euros, the sign first in every language (Maria): "€550", "€68.75"; Greek "€550", "€68,75". */
 export const money = (value: number, locale: Locale): string => {
   const figure = Number.isInteger(value) ? String(value) : value.toFixed(2);
-  return locale === 'en' ? `€${figure}` : `${figure.replace('.', ',')}€`;
+  return locale === 'en' ? `€${figure}` : `€${figure.replace('.', ',')}`;
 };
 
 /** The whole price less a course's upfront discount (Course.upfrontDiscount), in whole euros. */

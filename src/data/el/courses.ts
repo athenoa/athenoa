@@ -70,7 +70,7 @@ export const courses: Course[] = [
     teaching: 'el',
     available: true,
     instructor: 'Δρ. Αθηνά Δέσποινα Ποτάρη',
-    price: { amount: 550, currency: 'EUR', display: '550€ ή 8 × 68,75€', label: 'Δίδακτρα:' },
+    price: { amount: 550, currency: 'EUR', display: '€550 ή 8 × €68,75', label: 'Δίδακτρα:' },
     // No discount for paying upfront (Εὖ Ζῆν only)
     // The live page rounds the instalments to 69€ and 83€; Stripe charges 68,75€ and 82,50€.
     tuition: [
@@ -165,7 +165,7 @@ export const courses: Course[] = [
     available: true,
     instructor: 'Δρ. Αθηνά Δέσποινα Ποτάρη',
     // Their page says 660€ and 550€; Stripe charges 640€ and 720€, confirmed by Maria on 22 November 2026.
-    price: { amount: 640, currency: 'EUR', display: '640€ ή 8 × 80€', label: 'Δίδακτρα:' },
+    price: { amount: 640, currency: 'EUR', display: '€640 ή 8 × €80', label: 'Δίδακτρα:' },
     // 10% off paid upfront (see the English file); the Stripe "full" links charge the old amounts until updated
     upfrontDiscount: 0.1,
     tuition: [

@@ -441,3 +441,4 @@ The four earlier courses (The Hidden Non-Duality, and the three placeholders) ar
 
 - Course card papers in order (Maria): ΟΔΥΣΣΕΙΑ on the beige paper, Εὖ Ζῆν light blue, The Hidden Non-Duality Greek blue. The summary on each card runs the card's full width.
 - Course cards (Maria, round 11): one button, "Δείτε το μάθημα" / "See course" (was "Δείτε τον κύκλο μαθημάτων" / "View course", on the round "+"), leading to the course page; "Εγγραφή" / "Enroll" and "Λίστα αναμονής" are no longer on the cards. The title links to the page too.
+- The euro sign goes before the amount everywhere, in Greek too (Maria): "€891", "€83 / μήνα", "× 12 · σύνολο €996", "€68,75" (Greek decimal comma kept).

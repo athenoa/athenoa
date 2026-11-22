@@ -107,7 +107,7 @@ const splitFee = (display: string) => {
             <dt>{fact.label}</dt>
             {fact.fee ? (
               fee ? (
-                /* "550€ ετήσια προπληρωμή" over "ή 68,75€ τον μήνα × 8"; an upfront discount strikes the whole price */
+                /* "€550 ετήσια προπληρωμή" over "ή €68,75 τον μήνα × 8"; an upfront discount strikes the whole price */
                 <dd class="card__fee">
                   <span class="card__amount">{fee.now}</span>
                   <span class="card__tax">{ui.tuition.feeUpfront}</span>
