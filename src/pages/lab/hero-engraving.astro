@@ -1,0 +1,269 @@
+---
+// Lab page: the home hero as a blue copperplate engraving (client request, 22 November 2026), to set
+// beside the drawn hero (src/components/home/Hero.astro). The picture is one image,
+// src/assets/media/hero-engraving.jpg: cream paper, blue ink, the temple in the middle, the statue of
+// Athena at the left, open sky in the top third. The title, its subtitle and the pen underline stand
+// in that sky. The hero keeps its day look in both themes. Not part of the published site.
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import engraving from '../../assets/media/hero-engraving.jpg';
+import { content } from '../../data';
+import { getLocale } from '../../lib/locale';
+
+const locale = getLocale(Astro.url);
+const { home } = content(locale);
+const { highlight } = home.hero;
+const title = home.hero.titleLines[0];
+const at = title.indexOf(highlight);
+---
+
+<Base title="Hero engraving | ATHENOA lab" description="Home hero: the temple as a blue copperplate engraving" noindex>
+  <section class:list={['eng', `eng--${locale}`]} data-pointer-scene>
+    <div class="eng__panel theme-day">
+      <div class="eng__stage" aria-hidden="true">
+        <div class="eng__print" data-depth="0.12">
+          <Image src={engraving} alt="" widths={[750, 1346]} sizes="(max-aspect-ratio: 1/1) 150vw, 100vw" loading="eager" class="eng__img" />
+        </div>
+      </div>
+      <h1 class="eng__title t-hero" data-split>
+        <span class="eng__line">
+          {title.slice(0, at)}
+          <span class="hl">
+            {highlight.split(' ').map((word, n) => (
+              <>
+                {n > 0 && ' '}
+                <span class="hl__w">{word}</span>
+              </>
+            ))}
+          </span>
+          {title.slice(at + highlight.length)}
+        </span>{' '}
+        <span class="eng__line t-sub">{home.hero.subtitle}</span>
+        <span class="eng__pens" aria-hidden="true"></span>
+      </h1>
+    </div>
+  </section>
+  <div class="wrap filler" aria-hidden="true"></div>
+</Base>
+
+<script>
+  // One pen stroke under each line the highlighted words stand on (as on the home hero).
+  const PENS = [
+    'M3 14.6C40 12.2 92 10.9 152 10.6C216 10.3 288 11.2 344 9.8C370 9.1 387 7.9 396.6 6.3C398.6 6 399.4 7.6 397.8 8.3C386 11.6 365 13.4 341 14.1C285 15.6 214 14.9 152 15.4C94 15.9 43 16.8 4.4 16.5C2.2 16.4 1.6 14.9 3 14.6Z',
+    'M2.6 11.4C30 10.2 78 11.6 140 12.2C204 12.8 268 11.4 330 11.8C360 12 384 12.8 397 14.4C399 14.7 399 16.3 397 16.4C383 16.6 358 15.9 329 16C268 16.2 205 17.2 140 16.7C79 16.2 31 14.6 3.4 13.7C1.4 13.6 1 11.5 2.6 11.4Z',
+  ];
+  function drawPens() {
+    const title = document.querySelector<HTMLElement>('.eng__title');
+    const host = title?.querySelector<HTMLElement>('.eng__pens');
+    if (!title || !host) return;
+    const box = title.getBoundingClientRect();
+    const size = parseFloat(getComputedStyle(title).fontSize);
+    const lines: { left: number; right: number; top: number }[] = [];
+    title.querySelectorAll<HTMLElement>('.hl__w').forEach((word) => {
+      const r = word.getBoundingClientRect();
+      const line = lines.find((l) => Math.abs(l.top - r.top) < size * 0.3);
+      if (line) {
+        line.left = Math.min(line.left, r.left);
+        line.right = Math.max(line.right, r.right);
+      } else lines.push({ left: r.left, right: r.right, top: r.top });
+    });
+    host.innerHTML = lines
+      .map(
+        (l, n) =>
+          `<svg class="eng__pen" viewBox="0 0 400 24" preserveAspectRatio="none" focusable="false" style="left:${(l.left - box.left - size * 0.06).toFixed(1)}px;top:${(l.top - box.top).toFixed(1)}px;width:${(l.right - l.left + size * 0.14).toFixed(1)}px"><path d="${PENS[n % 2]}"/></svg>`,
+      )
+      .join('');
+  }
+  let frame = 0;
+  window.addEventListener('resize', () => {
+    cancelAnimationFrame(frame);
+    frame = requestAnimationFrame(drawPens);
+  });
+  document.addEventListener('astro:page-load', () => {
+    drawPens();
+    document.fonts?.ready.then(drawPens);
+  });
+</script>
+
+<style>
+  .eng {
+    --panel-h: max(100svh, 32rem);
+    --hero-open: calc(var(--panel-h) - var(--header-h));
+    --paper-print: #faf3e1;
+    /* the title: two lines on wide screens, as large as the width and the sky allow */
+    --eng-fit: 10.6;
+    --eng-fs: min(calc((100vw - 2 * var(--edge)) / var(--eng-fit)), calc(var(--hero-open) * 0.085), 6.5rem);
+    /* The picture runs under the sticky header, to the top of the window (by day: at night the
+       header is set for a dark ground, so the print starts under it). */
+    margin-top: calc(var(--header-h) * -1);
+  }
+  :global(html[data-theme='dark']) .eng {
+    margin-top: 0;
+  }
+  .eng--el {
+    --eng-fit: 11.6;
+  }
+  .eng--grc {
+    --eng-fit: 13.4;
+  }
+  .eng__panel {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: var(--panel-h);
+    padding: calc(var(--header-h) + clamp(1rem, 4svh, 3rem)) var(--edge) 0;
+    background: var(--paper-print);
+  }
+  :global(html[data-theme='dark']) .eng__panel {
+    min-height: var(--hero-open);
+    padding-top: clamp(1rem, 4svh, 3rem);
+  }
+
+  /* ---------- the print ---------- */
+  .eng__stage {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .eng__print {
+    position: absolute;
+    inset: 0;
+  }
+  /* Cover, anchored at the foot: the temple stays in the middle and the ground at the bottom; the
+     sky is what gets cut. (Scaled a touch, so the frame line at the right edge of the plate never
+     shows.) */
+  .eng__img {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+    object-position: 50% 100%;
+    scale: 1.03;
+    transform-origin: 50% 100%;
+  }
+  /* Upright screens: cover would leave only the temple's middle. The plate is set at one and a half
+     widths of the screen instead, at the foot, so the statue still shows at the left; above it the
+     sky is the paper itself, the plate's top edge fading into it. */
+  @media (max-aspect-ratio: 1/1) {
+    .eng__img {
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      width: 145vw;
+      height: auto;
+      translate: -50% 0;
+      scale: 1;
+      mask-image: linear-gradient(to bottom, transparent, #000 22%);
+    }
+  }
+
+  /* Arrival: a fresh print. The ink comes up from the top of the plate to its foot, as a sheet is
+     peeled off it; then all is still. Only once, only with motion on. */
+  @keyframes eng-print {
+    from {
+      mask-position: 0 100%;
+    }
+    99% {
+      mask-position: 0 0;
+    }
+    to {
+      mask-image: none;
+    }
+  }
+  :global(html.motion) .eng__print {
+    mask-image: linear-gradient(to bottom, #000 40%, transparent 60%);
+    mask-size: 100% 250%;
+    mask-repeat: no-repeat;
+    animation: eng-print 1.2s cubic-bezier(0.45, 0, 0.25, 1) 0.15s both;
+  }
+
+  /* ---------- the title ---------- */
+  .eng__title {
+    position: relative;
+    isolation: isolate;
+    width: min(100%, calc(var(--eng-fit) * var(--type-wide, 1) * 1em));
+    font-size: var(--eng-fs);
+    line-height: calc(var(--title-leading) + 0.05);
+    color: var(--blue);
+    text-align: center;
+    text-wrap: balance;
+    --ink-strong: var(--blue);
+    --highlight-ink: var(--blue);
+    --hl-delay: 1.5s;
+  }
+  .eng__line {
+    display: block;
+  }
+  .eng__title .hl__w {
+    font-weight: 500;
+  }
+  /* no swash here: the pen underline instead */
+  .eng__title .hl__w::before {
+    display: none;
+  }
+  .eng__title .t-sub {
+    margin-top: 0.42em;
+    font-size: max(0.36em, 1.3rem);
+    color: var(--blue);
+  }
+  .eng__pens {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .eng__pens :global(.eng__pen) {
+    position: absolute;
+    margin-top: var(--pen-top, 0.84em);
+    height: 0.2em;
+    max-width: none;
+    overflow: visible;
+    fill: var(--blue);
+  }
+  .eng--el .eng__pens,
+  .eng--grc .eng__pens {
+    --pen-top: 0.98em;
+  }
+  :global(html.motion) .eng__pens :global(.eng__pen) {
+    clip-path: inset(-50% 100% -50% 0);
+    transition: clip-path 0.8s cubic-bezier(0.5, 0, 0.3, 1) var(--hl-delay);
+  }
+  :global(html.motion) .eng__pens :global(.eng__pen + .eng__pen) {
+    transition-delay: calc(var(--hl-delay) + 0.6s);
+  }
+  :global(html.motion) .eng__title.is-in .eng__pens :global(.eng__pen) {
+    clip-path: inset(-50% 0 -50% 0);
+  }
+
+  /* phones and upright screens: three or four lines */
+  @media (max-width: 37.99rem), (max-aspect-ratio: 1/1) {
+    .eng {
+      --eng-fit: 6.9;
+      --eng-fs: min(calc((100vw - 2 * var(--edge)) / var(--eng-fit)), 7.5svh, 7rem);
+    }
+    .eng--el,
+    .eng--grc {
+      --eng-fit: 8.75;
+    }
+    .eng__title .t-sub {
+      margin-top: 0.6em;
+      font-size: max(0.48em, 1.3rem);
+    }
+    /* the title stands in the middle of the paper sky over the roof (the roof is 0.56 of the
+       plate's height above its foot, and the plate is 145vw * 744 / 1346 tall) */
+    .eng__panel {
+      justify-content: center;
+      padding-bottom: calc(145vw * 744 / 1346 * 0.6);
+    }
+  }
+
+  .filler {
+    height: 85vh;
+    margin-block: var(--space-l);
+    border: 1.5px dashed var(--line);
+    border-radius: var(--r-soft);
+  }
+</style>
