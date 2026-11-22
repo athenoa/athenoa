@@ -7,6 +7,9 @@
 import { handCase } from '../lib/hand';
 import Base from '../layouts/Base.astro';
 import Illustration from '../components/Illustration.astro';
+import Media from '../components/Media.astro';
+import bannerDay from '../assets/media/membership-banner-day.jpg';
+import bannerNight from '../assets/media/membership-banner-night.jpg';
 import TuitionTiers from '../components/courses/TuitionTiers.astro';
 import { content } from '../data';
 import { membershipFor } from '../data/membership';
@@ -16,6 +19,13 @@ const locale = getLocale(Astro.url);
 const { site } = content(locale);
 const m = membershipFor(locale);
 const reg = m.registration;
+// The Academy's membership banner (Maria, 22 November 2026): crème by day, navy by night; only the one
+// for the current theme is shown, and a hidden lazy picture is never fetched.
+const bannerAlt = {
+  en: 'Banner: “Φιλόσοφος γίνου” (Become a philosopher). Become an annual Member of the Academy',
+  el: 'Αφίσα: «Φιλόσοφος γίνου». Γίνε ετήσιο Μέλος της Ακαδημίας',
+  grc: 'Αφίσα: «Φιλόσοφος γίνου». Γίνε ετήσιο Μέλος της Ακαδημίας',
+}[locale];
 ---
 
 <Base title={`${m.title} | ${site.name}`} description={m.description}>
@@ -34,6 +44,11 @@ const reg = m.registration;
           <a class="btn" href="#registration">{m.cta}</a>
         </p>
       </header>
+
+      <div class="mem__banner">
+        <Media class="mem__banner--day" src={bannerDay} alt={bannerAlt} shape="soft" ratio="16 / 9" widths={[560, 900, 1300, 1920]} sizes="(min-width: 80rem) 72rem, 94vw" />
+        <Media class="mem__banner--night" src={bannerNight} alt={bannerAlt} shape="soft" ratio="16 / 9" widths={[560, 900, 1300, 1920]} sizes="(min-width: 80rem) 72rem, 94vw" />
+      </div>
 
       <div class="mem__text box box--offset on-blue-light" data-reveal>
         <div class="prose">
@@ -69,6 +84,13 @@ const reg = m.registration;
 </Base>
 
 <style>
+  .mem__banner {
+    margin-bottom: var(--space-l);
+  }
+  :global(html[data-theme='dark']) .mem__banner :global(.mem__banner--day),
+  :global(html:not([data-theme='dark'])) .mem__banner :global(.mem__banner--night) {
+    display: none;
+  }
   .mem {
     padding-block: calc(var(--space-l) + 0.5rem) var(--space-xl);
     overflow-x: clip;

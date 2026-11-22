@@ -120,9 +120,10 @@ export const courses: Course[] = [
     slug: 'odusseia',
     title: 'Odyssey',
     status: 'open',
-    // stand-in until the course banner is added (the live page's artwork is not in the project yet)
-    image: 'reading-by-the-sea',
-    imageAlt: 'Dr. Athena Potari smiling over an open book on a terrace above the sea, a white island village behind',
+    // The course banner, from the Academy (Maria, 22 November 2026)
+    image: 'course-odusseia',
+    imageAlt:
+      'Course banner: ΟΔΥΣΣΕΙΑ, The Journey of the Soul to Awakening. Odysseus at the prow of his ship looks across a deep blue sea to a sunlit island with a temple, Athena watching from the starry sky',
     subtitle: 'The Journey of the Soul to Awakening through the archetypal map of Homer',
     summary:
       'In this Cycle of Studies in Greek Philosophy we will study the Odyssey as a timeless treasure of Wisdom, a symbolic Map of the human Soul and of its Journey to Self-knowledge and Awakening.',
