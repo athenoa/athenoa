@@ -252,12 +252,13 @@ const showAthena = false;
     --hero-fitw: calc(var(--hero-fit) * var(--type-wide, 1));
     --hero-rows: 2;
     /* air between the header and the title */
-    --hero-top: clamp(1rem, 4svh, 3rem);
+    /* more room under the header, the title closer to the picture (Maria, 22 November 2026) */
+    --hero-top: clamp(2rem, 9svh, 6rem);
     --hero-fs: min(calc(var(--hero-col) / var(--hero-fitw)), calc(var(--hero-open) * 0.105), 7.5rem);
     /* the title and its subtitle (whose size has a floor) */
     --hero-block: calc(var(--hero-fs) * (var(--hero-rows) * 1.01 + 0.42) + max(var(--hero-fs) * 0.36, 1.3rem) * 1.3);
     /* air between the subtitle and the roof */
-    --hero-gap: clamp(0.75rem, 3svh, 2rem);
+    --hero-gap: clamp(0.4rem, 1.2svh, 1rem);
     /* The picture fills the first screen to its foot (client direction, 22 November 2026): the ground
        line runs this far above it, and the sky colour carries on under the line. */
     --hero-ground: clamp(2rem, 6svh, 4rem);
@@ -981,7 +982,7 @@ const showAthena = false;
       --hero-fit: 6.9;
       --hero-rows: 4;
       --hero-fs: min(calc(var(--hero-col) / var(--hero-fitw)), 7.5svh, 7rem);
-      --hero-top: clamp(1.1rem, 3.5svh, 2.6rem);
+      --hero-top: clamp(1.6rem, 6svh, 4rem);
       --hero-ground: max(5.5rem, 10svh);
       --scene-h: max(
         12rem,
