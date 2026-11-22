@@ -35,12 +35,13 @@ const href = coursePageHref(course.slug);
 const titleId = `card-title-${course.slug}`;
 const actionId = `card-action-${course.slug}`;
 const mainId = `card-main-${course.slug}`;
-// The papers, in the order of the course list and then round again: Greek blue, light blue,
-// darker paper, darker blue. The surface class turns the inks to suit.
+// The papers, in the order of the course list and then round again: beige paper, light blue,
+// Greek blue, darker blue. The surface class turns the inks to suit.
+// (Maria, 22 November 2026: the first card, ΟΔΥΣΣΕΙΑ, on the beige paper; then light blue, Greek blue.)
 const tones = [
-  { name: 'blue', surface: 'on-blue' },
-  { name: 'light', surface: 'on-blue-light' },
   { name: 'paper', surface: '' },
+  { name: 'light', surface: 'on-blue-light' },
+  { name: 'blue', surface: 'on-blue' },
   { name: 'deep', surface: 'on-blue-deep' },
 ];
 const place = courses.findIndex((item) => item.slug === course.slug);
@@ -277,8 +278,9 @@ const splitFee = (display: string) => {
     line-height: 1.15;
     color: var(--ink-soft);
   }
+  /* the summary runs the full width of the card's text */
   .card__summary {
-    max-width: 44ch;
+    max-width: none;
     font-size: var(--step--1);
     color: var(--ink-soft);
   }

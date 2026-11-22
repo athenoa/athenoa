@@ -436,3 +436,7 @@ The four earlier courses (The Hidden Non-Duality, and the three placeholders) ar
 - **The two ways of each tier are marked as alternatives** by a small round "ή" / "or" between them (new wording, proposed). The membership column's monthly line starts with the same "ή".
 - **Marks beside titles:** a heart beside "Δίδακτρα Αγάπης" / "Tuition of Love" (pricing and the registration form), and the membership page's bee beside "Μέλος της Ακαδημίας" / "Member of the Academy".
 - **Courses menu:** the current course is shown with a heavier title and a dot before it, with no highlighter mark (Maria).
+
+## Courses, round 10
+
+- Course card papers in order (Maria): ΟΔΥΣΣΕΙΑ on the beige paper, Εὖ Ζῆν light blue, The Hidden Non-Duality Greek blue. The summary on each card runs the card's full width.
