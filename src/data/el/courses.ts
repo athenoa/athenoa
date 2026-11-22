@@ -335,8 +335,7 @@ export const coursesPage = {
   // The live Courses page uses this line as its description. Same wording as the home hero title.
   description: 'Σπουδάστε στη Σύγχρονη Πλατωνική Ακαδημία & Θυμηθείτε Ποιοι Πραγματικά Είστε',
   ui: {
-    viewCourse: 'Δείτε τον κύκλο μαθημάτων',
-    enrollNow: 'Εγγραφή',
+    viewCourse: 'Δείτε το μάθημα',
     facts: { dates: 'Ημερομηνίες', duration: 'Διάρκεια', format: 'Τρόπος', language: 'Γλώσσα', fee: 'Κόστος' },
     when: { last: 'Τελευταίο μάθημα', until: 'έως {date}', months: '{n} μήνες' },
     languages: { el: 'Ελληνικά', en: 'Αγγλικά' },

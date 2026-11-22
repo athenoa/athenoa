@@ -244,7 +244,7 @@ const symbolFor = 'description';
             <div class="acc__content prose" set:html={section.html} />
           </details>
         ))}
-        {/* The ways to pay; "Enroll" in the popup's foot opens this item (CourseDialog.astro). Not for a
+        {/* The ways to pay (the dialog variant is no longer shown anywhere: the card popups are gone). Not for a
             course that cannot be enrolled in yet. */}
         {course.available && course.tuition?.length ? (
         <details class="acc__item" name={`sections-${course.slug}`} data-registration>

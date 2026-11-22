@@ -431,8 +431,7 @@ export const coursesPage = {
   // The live Courses page uses this line as its description.
   description: 'Study at the Modern Platonic Academy & Remember Who You Really Are',
   ui: {
-    viewCourse: 'View course',
-    enrollNow: 'Enroll',
+    viewCourse: 'See course',
     facts: { dates: 'Dates', duration: 'Length', format: 'Format', language: 'Language', fee: 'Fee' },
     // With Course.lastLesson and Course.months, once they are known
     when: { last: 'Last lesson', until: 'until {date}', months: '{n} months' },

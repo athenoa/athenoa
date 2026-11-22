@@ -7,9 +7,7 @@
 // apart is the colour of the paper. A course keeps its colour wherever it appears (its place in the
 // course list decides it), so the colour works like a small brand of its own.
 //
-// The actions are real links to the course page; CourseDialog upgrades them to open the popup, and
-// "Enroll" opens it at the ways to pay. A course that cannot be enrolled in yet has "Join waitlist"
-// in that place (WaitlistDialog opens that popup).
+// Its one button, its picture and its title all lead to the course's own page (Maria, 22 November 2026).
 import Media from '../Media.astro';
 import { content } from '../../data';
 import type { Course } from '../../data/courses';
@@ -28,12 +26,11 @@ interface Props {
 const { course, level = 2, priority = false } = Astro.props;
 const Title = level === 3 ? 'h3' : 'h2';
 const locale = getLocale(Astro.url);
-const { courses, coursesPage, coursePageHref, site } = content(locale);
+const { courses, coursesPage, coursePageHref } = content(locale);
 const { ui } = coursesPage;
 const image = courseImage(course.image);
 const href = coursePageHref(course.slug);
 const titleId = `card-title-${course.slug}`;
-const actionId = `card-action-${course.slug}`;
 const mainId = `card-main-${course.slug}`;
 // The papers, in the order of the course list and then round again: beige paper, light blue,
 // Greek blue, darker blue. The surface class turns the inks to suit.
@@ -92,12 +89,14 @@ const splitFee = (display: string) => {
       priority={priority}
     />
     {/* The picture is a second way in for a pointer; keyboard and screen readers use the named links below. */}
-    <a class="card__cover" href={href} data-course-open={course.slug} tabindex="-1" aria-hidden="true"></a>
+    <a class="card__cover" href={href} tabindex="-1" aria-hidden="true"></a>
   </div>
 
   <div class="card__text" data-reveal-group>
     <div class="card__head">
-      <Title class="card__title t-3" id={titleId} set:html={keepHyphens(course.title)} />
+      <Title class="card__title t-3" id={titleId}>
+        <a class="card__titlelink" href={href} set:html={keepHyphens(course.title)} />
+      </Title>
       {course.subtitle && <p class="card__subtitle" set:html={keepHyphens(course.subtitle)} />}
     </div>
     {course.summary && <p class="card__summary">{course.summary}</p>}
@@ -139,48 +138,10 @@ const splitFee = (display: string) => {
         ))
       }
     </dl>
+    {/* One way on: the course's own page, for every course (Maria, 22 November 2026) */}
     <p class="card__go">
-      {
-        course.available ? (
-          <a
-            class="btn"
-            href={href}
-            id={mainId}
-            aria-labelledby={`${mainId} ${titleId}`}
-            aria-haspopup="dialog"
-            data-course-open={course.slug}
-            data-course-enroll
-          >
-            {ui.enrollNow}
-          </a>
-        ) : (
-          <a
-            class="btn"
-            href={site.routes.contact}
-            id={mainId}
-            aria-labelledby={`${mainId} ${titleId}`}
-            aria-haspopup="dialog"
-            data-waitlist-open
-            data-waitlist-course={course.title}
-            data-waitlist-slug={course.slug}
-          >
-            {ui.joinWaitlist}
-          </a>
-        )
-      }
-      {/* "View course" is a small round plus (client direction, 12 October 2026); the words stay for screen readers */}
-      <a
-        class="card__more"
-        href={href}
-        id={actionId}
-        aria-labelledby={`${actionId} ${titleId}`}
-        title={ui.viewCourse}
-        data-course-open={course.slug}
-      >
-        <span class="visually-hidden">{ui.viewCourse}</span>
-        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
-          <path d="M12 5.2c.2 4.4.1 9-.1 13.600M5.200 12.100c4.500-.3 9-.2 13.600.1" />
-        </svg>
+      <a class="btn" href={href} id={mainId} aria-labelledby={`${mainId} ${titleId}`}>
+        {ui.viewCourse}
       </a>
     </p>
   </div>
@@ -237,30 +198,14 @@ const splitFee = (display: string) => {
     gap: 0.5rem 0.9rem;
     padding-top: 0.35rem;
   }
-  .card__more {
-    display: grid;
-    place-items: center;
-    flex: none;
-    width: 3.1rem;
-    height: 3.1rem;
-    border: 1.5px solid currentColor;
-    border-radius: 54% 46% 52% 48% / 48% 54% 46% 52%;
-    color: var(--ink-strong);
-    transition:
-      background-color var(--dur-1) var(--hover-delay),
-      color var(--dur-1) var(--hover-delay),
-      rotate var(--dur-2) var(--ease-out) var(--hover-delay);
+  .card__titlelink {
+    color: inherit;
+    text-decoration: none;
   }
-  .card__more path {
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 1.9;
-    stroke-linecap: round;
-  }
-  .card__more:hover {
-    background-color: var(--ink-strong);
-    color: var(--paper);
-    rotate: 90deg;
+  .card__titlelink:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 0.12em;
   }
   /* A long label (Greek) may run to two lines in a narrow card */
   .card__go .btn {

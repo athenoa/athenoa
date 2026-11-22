@@ -7,7 +7,6 @@ import Media from '../Media.astro';
 import portrait from '../../assets/media/library-portrait.jpg';
 import Illustration from '../Illustration.astro';
 import CourseCard from '../courses/CourseCard.astro';
-import CourseDialog from '../courses/CourseDialog.astro';
 import { content } from '../../data';
 import { getLocale } from '../../lib/locale';
 
@@ -66,8 +65,6 @@ const announced = home.announcement.courses
   </div>
 </section>
 
-{/* The same popups as on the Courses page, so "Enroll" and the plus open in place here too */}
-{announced.map((course) => <CourseDialog course={course} />)}
 
 <script>
   import { ambienceMuted, playSound } from '../../scripts/sound';

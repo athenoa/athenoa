@@ -27,7 +27,6 @@ export const coursesPage = {
   description: 'Φοιτᾶτε εἰς τὴν νῦν Πλατωνικὴν Ἀκαδήμειαν καὶ ἀναμνήσθητε οἵτινες ὄντως ἐστέ',
   ui: {
     viewCourse: 'Ἴδετε τὸ μάθημα',
-    enrollNow: 'Ἐγγράψασθε',
     // The four facts as four questions: when, for how long, how, and (Apology 20b) for how much.
     facts: { dates: 'Πότε', duration: 'Πόσον χρόνον', format: 'Πῶς', language: 'Τίνι γλώττῃ', fee: 'Πόσου' },
     languages: { el: 'Ἑλληνιστί', en: 'Ἀγγλιστί' },
