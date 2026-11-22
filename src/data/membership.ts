@@ -43,7 +43,7 @@ const generosity =
   'The Tuition of Love and Generosity includes the standard tuition plus a sponsorship for our fellow students who need it. Your Generosity will help us offer reduced tuition to the students who need it, and will support the work of our School!';
 
 export const membershipEn: Membership = {
-  title: 'Academy Membership',
+  title: 'Become a Member of the Academy',
   description:
     'Become an annual Member of the ATHENOA Academy: all the Cycles of Studies and Seminars, the Library of Lessons and other privileges.',
   questions: [

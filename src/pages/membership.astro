@@ -8,6 +8,7 @@ import { handCase } from '../lib/hand';
 import Base from '../layouts/Base.astro';
 import Illustration from '../components/Illustration.astro';
 import Media from '../components/Media.astro';
+import Bees from '../components/membership/Bees.astro';
 import bannerDay from '../assets/media/membership-banner-day.jpg';
 import bannerNight from '../assets/media/membership-banner-night.jpg';
 import TuitionTiers from '../components/courses/TuitionTiers.astro';
@@ -36,8 +37,9 @@ const bannerAlt = {
     <div class="wrap">
       <header class="mem__head">
         <h1 class="t-hero" data-split>{m.title}</h1>
-        {/* The tetractys, the Pythagorean figure of the ten, on a light blue pebble (as on the courses page) */}
-        <Illustration name="tetractys" class="mem__mark" draw />
+        {/* Bees over a light blue pebble, in place of the tetractys (Maria, 22 November 2026); now and then
+            one crosses the window or settles on the page for a while (Bees.astro) */}
+        <Bees class="mem__mark" />
         {/* Athena's questions, as the lead of the home page's membership section (in the reading face:
             they name Socrates and Plato, whom the handwriting's sentence case would lower) */}
         <div class="mem__questions" data-reveal-group>
