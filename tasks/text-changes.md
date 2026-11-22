@@ -346,3 +346,25 @@ The four earlier courses (The Hidden Non-Duality, and the three placeholders) ar
   - The orphan fragment "καλύπτουν τα βασικά έξοδα συμμετοχής." is dropped.
   - "Γίνε Μέλος / Become a member" links to the membership form (Google Forms).
   - The questions are set in the reading face, not the handwriting.
+
+## Courses, round 3 (22 November 2026, night)
+
+- **Introduction time:** the introduction and presentation on Monday 23 November is at 19:30 (it was 20:30), for both courses.
+- **Upfront discount, Εὖ Ζῆν only:** 10% off when the whole Cycle is paid upfront: 576€ instead of 640€, 648€ instead of 720€. New wording, proposed:
+  - over the tiers: "Pay for the whole of Εὖ Ζῆν upfront and save 10%" / "Με την προπληρωμή ολόκληρου του Κύκλου «Εὖ Ζῆν» κερδίζετε 10% έκπτωση";
+  - under the upfront price: "paid upfront, for the whole Cycle" / "με Ετήσια Προπληρωμή, για Ολόκληρο τον Κύκλο";
+  - the mark "−10%";
+  - under the fee on the card: "10% off when paid upfront" / "−10% με προπληρωμή".
+
+  ΟΔΥΣΣΕΙΑ has no discount.
+- **Waitlist:** the "not connected yet" note is gone (the waitlist now keeps addresses).
+- **Registration form** (rebuilds the Academy's Google Form). The field labels are the form's own words: Όνομα, Επώνυμο, Email, Τηλέφωνο, Διεύθυνση, Πόλη, "Ονοματεπώνυμο που επιθυμείτε να αναγράφεται στη Βεβαίωση Παρακολούθησης Σπουδών", and "Διάβασα και Δέχομαι τους Όρους συμμετοχής και τις Προϋποθέσεις". The English is a draft translation. New wording, proposed (en / el):
+  - "Register for the Cycle of Studies / Εγγραφή στον Κύκλο Σπουδών"; "Tuition / Δίδακτρα"; "Way of paying / Τρόπος πληρωμής";
+  - the three ways to pay: "By card, in full / Με κάρτα, Ετήσια Προπληρωμή", "By card, in 8 monthly instalments / Με κάρτα, Μηνιαία καταβολή σε 8 δόσεις", "By bank transfer, in full / Με κατάθεση σε Τραπεζικό Λογαριασμό, εφάπαξ";
+  - "Your details / Τα στοιχεία σας"; "Terms of participation / Όροι συμμετοχής"; "To pay / Ποσό";
+  - the buttons "Continue to payment / Συνέχεια στην πληρωμή" and "Complete registration / Ολοκλήρωση εγγραφής";
+  - the privacy line;
+  - the field messages;
+  - the messages for when saving fails;
+  - the bank-transfer thank-you;
+  - the bank-transfer entry "Register to pay by bank transfer / Εγγραφή με τραπεζική κατάθεση".

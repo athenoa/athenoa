@@ -7,15 +7,11 @@
 // It works like the newsletter popup (NewsletterDialog.astro) and looks nothing like it: one sheet
 // of paper, an ear of wheat (what is sown now ripens in its season), a heading, the course, one field.
 //
-// The waitlist is NOT connected to anything yet: WAITLIST_ENDPOINT below is empty.
+// The address is kept in the site's own store (src/lib/forms.ts, table "waitlist": email, course,
+// locale), and the popup thanks the visitor; if it cannot be kept, it says so and the form stays.
 import Illustration from './Illustration.astro';
 import { content } from '../data';
 import { getLocale } from '../lib/locale';
-
-// WAITLIST SERVICE: the one address the waitlist sends to (a form service or an endpoint of our own).
-// The form posts `email` and `course` (the course's title) as form data, asking for JSON back; any 2xx
-// answer counts as received. While it is empty nothing is sent and the popup says so honestly.
-const WAITLIST_ENDPOINT = '';
 
 const { coursesPage, site } = content(getLocale(Astro.url));
 const { ui } = coursesPage;
@@ -41,7 +37,7 @@ const t = ui.waitlist;
     </div>
 
     <div class="wl__action">
-      <form class="wl__form" data-waitlist-form method="post" action={WAITLIST_ENDPOINT || undefined}>
+      <form class="wl__form" data-waitlist-form>
         <div class="field">
           <label for="waitlist-email">{ui.email}</label>
           <input id="waitlist-email" name="email" type="email" required autocomplete="email" inputmode="email" />
@@ -52,10 +48,9 @@ const t = ui.waitlist;
         <p class="wl__error" role="alert" data-waitlist-error hidden>{t.failed}</p>
       </form>
 
-      <!-- Shown in place of the form after a valid address is entered: the thanks once the waitlist is
-           connected; until then, that it is not connected yet. -->
+      <!-- Shown in place of the form once the address is kept -->
       <div class="wl__note" tabindex="-1" data-waitlist-note>
-        <p>{WAITLIST_ENDPOINT ? t.thanks : t.pending}</p>
+        <p>{t.thanks}</p>
       </div>
     </div>
 
@@ -68,6 +63,8 @@ const t = ui.waitlist;
 </dialog>
 
 <script>
+  import { addRow } from '../lib/forms';
+
   const motionOn = () => document.documentElement.classList.contains('motion');
   const find = () => document.querySelector<HTMLDialogElement>('dialog#waitlist[data-ready]');
   // What was pressed to open the popup: focus goes back there when it closes.
@@ -79,7 +76,9 @@ const t = ui.waitlist;
     dialog.classList.remove('is-closing');
     // Which course the waitlist is for: the button that opened the popup carries its title.
     dialog.querySelector('[data-waitlist-for]')!.textContent = from.dataset.waitlistCourse ?? '';
-    dialog.querySelector<HTMLInputElement>('[data-waitlist-course-field]')!.value = from.dataset.waitlistCourse ?? '';
+    // kept with the address: the course's slug (the same in every language), else its title
+    dialog.querySelector<HTMLInputElement>('[data-waitlist-course-field]')!.value =
+      from.dataset.waitlistSlug ?? from.dataset.waitlistCourse ?? '';
     // With a mouse and keyboard the field is ready to type in. On a touch screen that would raise
     // the keyboard over the popup at once, so focus stays on the first control instead.
     dialog.querySelector('input')!.autofocus = matchMedia('(hover: hover) and (pointer: fine)').matches;
@@ -130,24 +129,20 @@ const t = ui.waitlist;
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
       error.hidden = true;
-      // Sent only when WAITLIST_ENDPOINT is set (it is the form's action); otherwise the note says
-      // that nothing was sent.
-      const endpoint = form.getAttribute('action');
-      if (endpoint) {
-        button.disabled = true;
-        try {
-          const response = await fetch(endpoint, {
-            method: 'POST',
-            body: new FormData(form),
-            headers: { Accept: 'application/json' },
-          });
-          if (!response.ok) throw new Error(String(response.status));
-        } catch {
-          error.hidden = false;
-          return;
-        } finally {
-          button.disabled = false;
-        }
+      const data = new FormData(form);
+      const lang = document.documentElement.lang;
+      button.disabled = true;
+      try {
+        await addRow('waitlist', {
+          email: String(data.get('email') ?? '').trim(),
+          course: String(data.get('course') ?? '').slice(0, 120),
+          locale: lang === 'en' || lang === 'grc' ? lang : 'el',
+        });
+      } catch {
+        error.hidden = false;
+        return;
+      } finally {
+        button.disabled = false;
       }
       dialog.setAttribute('data-sent', '');
       note.focus();

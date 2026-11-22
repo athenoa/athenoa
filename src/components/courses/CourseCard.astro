@@ -16,6 +16,7 @@ import type { Course } from '../../data/courses';
 import { getLocale } from '../../lib/locale';
 import { courseBanner, courseFocus, courseImage } from './media';
 import { keepHyphens } from './text';
+import { fill, percent } from './money';
 
 interface Props {
   course: Course;
@@ -54,7 +55,13 @@ const facts = [
     ? { label: ui.facts.format, value: course.format }
     : { label: ui.facts.format, value: course.format!.slice(0, comma), note: course.format!.slice(comma + 2) },
   { label: ui.facts.language, value: course.teaching && ui.languages[course.teaching] },
-  { label: ui.facts.fee, value: course.price?.display, fee: true },
+  // a course's upfront discount, under its fee: "10% off when paid upfront"
+  {
+    label: ui.facts.fee,
+    value: course.price?.display,
+    fee: true,
+    note: course.upfrontDiscount ? fill(ui.tuition.cardNote, { pct: percent(course.upfrontDiscount) }) : undefined,
+  },
 ].filter((fact) => fact.value);
 // "€200 & VAT (24%)": the amount stands out, the tax note sits smaller beside it.
 const splitFee = (display: string) => {
@@ -103,6 +110,7 @@ const splitFee = (display: string) => {
               <dd class="card__fee">
                 <span class="card__amount">{splitFee(fact.value!)[0]}</span>
                 <span class="card__tax">{splitFee(fact.value!)[1]}</span>
+                {fact.note && <span class="card__aside card__save">{fact.note}</span>}
               </dd>
             ) : 'note' in fact && fact.note ? (
               <dd>
@@ -139,6 +147,7 @@ const splitFee = (display: string) => {
             aria-haspopup="dialog"
             data-waitlist-open
             data-waitlist-course={course.title}
+            data-waitlist-slug={course.slug}
           >
             {ui.joinWaitlist}
           </a>
@@ -305,6 +314,10 @@ const splitFee = (display: string) => {
   .card__tax {
     font-size: var(--step--1);
     color: var(--ink-soft);
+  }
+  /* the upfront discount: its own line under the fee */
+  .card__save {
+    flex-basis: 100%;
   }
 
   /* Side by side, the cards share the height of their row. The picture keeps its frame, the same in every

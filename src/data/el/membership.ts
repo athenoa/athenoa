@@ -33,14 +33,18 @@ export const membership: Membership = {
     tiers: [
       {
         name: 'Κανονικά Δίδακτρα',
-        amount: '990€',
+        id: 'standard',
+        price: 990,
+        perMonth: 83,
         instalments: 'Η εξόφληση σε 12 μηνιαίες δόσεις παρέχεται αποκλειστικά για τη διευκόλυνσή σας (83€/μήνα).',
         payInFull: 'https://book.stripe.com/28E9AU6Ig3kvgO54ti9sk0f',
         payMonthly: 'https://buy.stripe.com/4gM6oI0jS08jcxP7Fu9sk0i',
       },
       {
         name: 'Δίδακτρα Αγάπης',
-        amount: '1140€',
+        id: 'love',
+        price: 1140,
+        perMonth: 95,
         instalments: 'Η εξόφληση σε 12 μηνιαίες δόσεις παρέχεται αποκλειστικά για τη διευκόλυνσή σας (95€/μήνα).',
         notes: [generosity],
         payInFull: 'https://book.stripe.com/9B6aEYgiQg7hbtLaRG9sk0h',

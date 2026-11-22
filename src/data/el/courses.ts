@@ -52,9 +52,9 @@ export const courses: Course[] = [
     summary:
       'Σε αυτόν τον Κύκλο Σπουδών Ελληνικής Φιλοσοφίας θα διδαχθούμε την Οδύσσεια ως διαχρονικό θησαυρό Σοφίας, συμβολικό Χάρτη της ανθρώπινης Ψυχής και του Ταξειδιού της προς την Αυτογνωσία και την Αφύπνιση.',
     schedule: 'Από 26 Νοεμβρίου 2026',
-    scheduleNote: 'Εισαγωγή τη Δευτέρα 23 Νοεμβρίου στις 20:30',
+    scheduleNote: 'Εισαγωγή τη Δευτέρα 23 Νοεμβρίου στις 19:30',
     dates: [
-      { label: 'Εισαγωγή & Παρουσίαση Μαθήματος', when: 'Δευτέρα 23 Νοεμβρίου 2026, 20:30 (ώρα Ελλάδος)' },
+      { label: 'Εισαγωγή & Παρουσίαση Μαθήματος', when: 'Δευτέρα 23 Νοεμβρίου 2026, 19:30 (ώρα Ελλάδος)' },
       { label: 'Πρώτο μάθημα', when: 'Πέμπτη 26 Νοεμβρίου 2026, 19:30' },
       { label: 'Στη συνέχεια', when: 'κάθε Πέμπτη στις 19:30' },
     ],
@@ -64,18 +64,23 @@ export const courses: Course[] = [
     available: true,
     instructor: 'Δρ. Αθηνά Δέσποινα Ποτάρη',
     price: { amount: 550, currency: 'EUR', display: '550€ ή 8 × 68,75€', label: 'Δίδακτρα:' },
+    // No discount for paying upfront (Εὖ Ζῆν only)
     // The live page rounds the instalments to 69€ and 83€; Stripe charges 68,75€ and 82,50€.
     tuition: [
       {
         name: 'Κανονικά Δίδακτρα',
-        amount: '550€',
+        id: 'standard',
+        price: 550,
+        perMonth: 68.75,
         instalments: 'Υπάρχει η δυνατότητα εξόφλησης των διδάκτρων σε 8 μηνιαίες δόσεις (68,75€/μήνα).',
         payInFull: 'https://book.stripe.com/4gM28s5Ecf3dgO5cZO9sk06',
         payMonthly: 'https://buy.stripe.com/3cI7sM5EcbR141jbVK9sk08',
       },
       {
         name: 'Δίδακτρα Αγάπης',
-        amount: '660€',
+        id: 'love',
+        price: 660,
+        perMonth: 82.5,
         instalments: 'Υπάρχει η δυνατότητα εξόφλησης των διδάκτρων σε 8 μηνιαίες δόσεις (82,50€/μήνα).',
         notes: [generosity, oneToOne],
         payInFull: 'https://book.stripe.com/3cI5kEfeM2greFX3pe9sk07',
@@ -142,9 +147,9 @@ export const courses: Course[] = [
     subtitle: 'Η Αρχαία Τέχνη της Ευδαιμονίας',
     summary: '16 Βιωματικά Μαθήματα Ελληνικής Φιλοσοφίας στην Πράξη. Από την Αυτογνωσία στην Ευδαιμονία.',
     schedule: 'Από 1 Δεκεμβρίου 2026',
-    scheduleNote: 'Εισαγωγή τη Δευτέρα 23 Νοεμβρίου στις 20:30',
+    scheduleNote: 'Εισαγωγή τη Δευτέρα 23 Νοεμβρίου στις 19:30',
     dates: [
-      { label: 'Εισαγωγή & Παρουσίαση Μαθήματος', when: 'Δευτέρα 23 Νοεμβρίου 2026, 20:30 (ώρα Ελλάδος)' },
+      { label: 'Εισαγωγή & Παρουσίαση Μαθήματος', when: 'Δευτέρα 23 Νοεμβρίου 2026, 19:30 (ώρα Ελλάδος)' },
       { label: 'Πρώτο μάθημα', when: 'Τρίτη 1 Δεκεμβρίου 2026, 19:30' },
       { label: 'Στη συνέχεια', when: 'Τρίτη στις 19:30, περίπου 2 μαθήματα τον μήνα' },
     ],
@@ -155,17 +160,23 @@ export const courses: Course[] = [
     instructor: 'Δρ. Αθηνά Δέσποινα Ποτάρη',
     // Their page says 660€ and 550€; Stripe charges 640€ and 720€, confirmed by Maria on 22 November 2026.
     price: { amount: 640, currency: 'EUR', display: '640€ ή 8 × 80€', label: 'Δίδακτρα:' },
+    // 10% off paid upfront (see the English file); the Stripe "full" links charge the old amounts until updated
+    upfrontDiscount: 0.1,
     tuition: [
       {
         name: 'Κανονικά Δίδακτρα',
-        amount: '640€',
+        id: 'standard',
+        price: 640,
+        perMonth: 80,
         instalments: 'Υπάρχει η δυνατότητα εξόφλησης των διδάκτρων σε 8 μηνιαίες δόσεις (80€/μήνα).',
         payInFull: 'https://book.stripe.com/28EbJ2c2A2gr9lDe3S9sk0b',
         payMonthly: 'https://buy.stripe.com/6oUdRaeaI6wHdBT8Jy9sk0d',
       },
       {
         name: 'Δίδακτρα Αγάπης',
-        amount: '720€',
+        id: 'love',
+        price: 720,
+        perMonth: 90,
         instalments: 'Υπάρχει η δυνατότητα εξόφλησης των διδάκτρων σε 8 μηνιαίες δόσεις (90€/μήνα).',
         notes: [generosity, oneToOne],
         payInFull: 'https://book.stripe.com/6oU14o2s0aMXfK10d29sk0c',
@@ -348,6 +359,57 @@ export const coursesPage = {
       register: 'Εγγραφή στον Κύκλο Σπουδών:',
       payInFull: 'Ετήσια Προπληρωμή',
       payMonthly: 'Μηνιαία καταβολή',
+      // The upfront discount (see the English file)
+      save: 'Με την προπληρωμή ολόκληρου του Κύκλου «{title}» κερδίζετε {pct} έκπτωση',
+      upfront: 'με Ετήσια Προπληρωμή, για Ολόκληρο τον Κύκλο',
+      off: '−{pct}',
+      cardNote: '−{pct} με προπληρωμή',
+      bankRegister: 'Εγγραφή με τραπεζική κατάθεση',
+    },
+    // The registration form, in the Google Form's own words (see the English file)
+    register: {
+      kicker: 'Εγγραφή στον Κύκλο Σπουδών',
+      tierLegend: 'Δίδακτρα',
+      payLegend: 'Τρόπος πληρωμής',
+      payFull: 'Με κάρτα, Ετήσια Προπληρωμή',
+      payMonthly: 'Με κάρτα, Μηνιαία καταβολή σε 8 δόσεις',
+      payBank: 'Με κατάθεση σε Τραπεζικό Λογαριασμό, εφάπαξ',
+      instead: 'αντί {price}',
+      detailsLegend: 'Τα στοιχεία σας',
+      firstName: 'Όνομα',
+      lastName: 'Επώνυμο',
+      email: 'Email',
+      phone: 'Τηλέφωνο',
+      address: 'Διεύθυνση, Πόλη',
+      optional: 'προαιρετικό',
+      certificate: 'Ονοματεπώνυμο που επιθυμείτε να αναγράφεται στη Βεβαίωση Παρακολούθησης Σπουδών',
+      termsBefore: 'Διάβασα και Δέχομαι τους ',
+      termsLink: 'Όρους συμμετοχής και τις Προϋποθέσεις',
+      termsTitle: 'Όροι συμμετοχής',
+      total: 'Ποσό',
+      submitCard: 'Συνέχεια στην πληρωμή',
+      submitBank: 'Ολοκλήρωση εγγραφής',
+      sending: 'Μια στιγμή…',
+      privacy:
+        'Τα στοιχεία σας χρησιμοποιούνται μόνο για την εγγραφή σας και τη Βεβαίωση Παρακολούθησης, και δεν κοινοποιούνται ποτέ.',
+      errors: {
+        firstName: 'Συμπληρώστε το όνομά σας.',
+        lastName: 'Συμπληρώστε το επώνυμό σας.',
+        email: 'Συμπληρώστε τη διεύθυνση email σας.',
+        emailInvalid: 'Συμπληρώστε μια έγκυρη διεύθυνση email.',
+        phone: 'Συμπληρώστε ένα τηλέφωνο επικοινωνίας.',
+        phoneInvalid: 'Ελέγξτε τον αριθμό τηλεφώνου.',
+        certificate: 'Συμπληρώστε το ονοματεπώνυμο για τη Βεβαίωση.',
+        terms: 'Για να συνεχίσετε, διαβάστε και αποδεχτείτε τους Όρους.',
+      },
+      failed:
+        'Η εγγραφή σας δεν αποθηκεύτηκε αυτή τη στιγμή. Μπορείτε να συνεχίσετε στην πληρωμή και να μας γράψετε στο philathenea@athenoa.academy με τα στοιχεία σας.',
+      failedBank:
+        'Η εγγραφή σας δεν αποθηκεύτηκε αυτή τη στιγμή. Γράψτε μας στο philathenea@athenoa.academy με τα στοιχεία σας· ο λογαριασμός για την κατάθεση είναι παρακάτω.',
+      continue: 'Συνέχεια στην πληρωμή',
+      doneTitle: 'Ευχαριστούμε: η εγγραφή σας καταχωρήθηκε',
+      doneBank:
+        'Για να ολοκληρωθεί, καταθέστε το ποσό στον παρακάτω λογαριασμό και στείλτε το αποδεικτικό κατάθεσης στο philathenea@athenoa.academy.',
     },
     // The registration form's own words (see the English file)
     registration: {
@@ -388,7 +450,6 @@ export const coursesPage = {
       notify: 'Θα σας ειδοποιήσουμε μόλις ανοίξουν οι εγγραφές.',
       // The quiet line under the button, followed by a link that opens an email to the Academy
       question: 'Έχετε κάποια ερώτηση;',
-      pending: 'Η λίστα αναμονής δεν είναι ακόμη διαθέσιμη. Η διεύθυνσή σας δεν στάλθηκε πουθενά.',
       thanks: 'Ευχαριστούμε. Θα σας γράψουμε μόλις ανοίξουν οι εγγραφές.',
       failed: 'Η διεύθυνσή σας δεν στάλθηκε. Δοκιμάστε ξανά ή γράψτε μας.',
     },

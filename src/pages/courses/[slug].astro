@@ -6,6 +6,7 @@ import Base from '../../layouts/Base.astro';
 import Illustration from '../../components/Illustration.astro';
 import CourseBody from '../../components/courses/CourseBody.astro';
 import RegistrationInfo from '../../components/courses/RegistrationInfo.astro';
+import RegisterDialog from '../../components/courses/RegisterDialog.astro';
 import { courseImage } from '../../components/courses/media';
 import { trail } from '../../components/courses/trail';
 import { content } from '../../data';
@@ -73,6 +74,8 @@ const canEnrol = course.available && Boolean(course.tuition?.length);
           </section>
         )
       }
+      {/* The registration form the tier buttons open */}
+      {canEnrol && <RegisterDialog course={course} />}
       {/* A last line in Athena's voice (the live ΟΔΥΣΣΕΙΑ page ends on Cavafy's Ithaca) */}
       {course.closing && <p class="course__closing hand hand--l" data-reveal>{course.closing}</p>}
       {/* The way into Nostos (NostosInvite) is hidden for the launch (Maria, 22 November 2026) */}

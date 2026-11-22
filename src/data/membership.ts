@@ -65,14 +65,18 @@ export const membershipEn: Membership = {
     tiers: [
       {
         name: 'Standard Tuition',
-        amount: '€990',
+        id: 'standard',
+        price: 990,
+        perMonth: 83,
         instalments: 'Paying in 12 monthly instalments (€83 a month) is offered solely to make things easier for you.',
         payInFull: 'https://book.stripe.com/28E9AU6Ig3kvgO54ti9sk0f',
         payMonthly: 'https://buy.stripe.com/4gM6oI0jS08jcxP7Fu9sk0i',
       },
       {
         name: 'Tuition of Love',
-        amount: '€1140',
+        id: 'love',
+        price: 1140,
+        perMonth: 95,
         instalments: 'Paying in 12 monthly instalments (€95 a month) is offered solely to make things easier for you.',
         notes: [generosity],
         payInFull: 'https://book.stripe.com/9B6aEYgiQg7hbtLaRG9sk0h',

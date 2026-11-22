@@ -5,6 +5,7 @@
 import { content } from '../data';
 import { languages } from '../data/ui';
 import type { Course } from '../data/courses';
+import { fill, money, percent, upfrontPrice } from '../components/courses/money';
 import { locales, pathIn, type MainLocale as Locale } from './locale';
 
 // ---------- HTML fragments to Markdown ----------
@@ -239,10 +240,15 @@ const build = (locale: Locale) => {
             `## ${inline(registrationTab.label)}`,
             `*${inline(registrationTab.sublabel)}*`,
             course.registrationOpen && inline(course.registrationOpen),
-            // each tuition with its two Stripe Payment Links
+            // the course's own upfront offer, if it has one
+            course.upfrontDiscount &&
+              inline(fill(coursesPage.ui.tuition.save, { title: course.title, pct: percent(course.upfrontDiscount) })),
+            // each tuition with its two Stripe Payment Links; paid upfront, less the course's discount
             ...(course.tuition ?? []).flatMap((tier) => [
               `### ${inline(tier.name)}`,
-              `**${inline(tier.amount)}** ${inline(coursesPage.ui.tuition.wholeCycle)}`,
+              course.upfrontDiscount
+                ? `**${money(upfrontPrice(tier.price, course.upfrontDiscount), locale)}** ${inline(coursesPage.ui.tuition.upfront)} (~~${money(tier.price, locale)}~~ ${fill(coursesPage.ui.tuition.off, { pct: percent(course.upfrontDiscount) })})`
+                : `**${money(tier.price, locale)}** ${inline(coursesPage.ui.tuition.wholeCycle)}`,
               inline(tier.instalments),
               ...(tier.notes ?? []).map(inline),
               list([

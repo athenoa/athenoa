@@ -13,6 +13,7 @@ import type { Course } from '../../data/courses';
 import { getLocale } from '../../lib/locale';
 import { courseImage } from './media';
 import { keepHyphens } from './text';
+import { fill, percent } from './money';
 
 interface Props {
   course: Course;
@@ -36,7 +37,11 @@ const facts = [
   { label: ui.facts.duration, value: course.duration },
   { label: ui.facts.format, value: course.format },
   { label: ui.facts.language, value: course.teaching && ui.languages[course.teaching] },
-  { label: ui.facts.fee, value: course.price?.display },
+  {
+    label: ui.facts.fee,
+    value: course.price?.display,
+    note: course.upfrontDiscount ? fill(ui.tuition.cardNote, { pct: percent(course.upfrontDiscount) }) : undefined,
+  },
 ].filter((fact) => fact.value || fact.dates);
 
 // Page only: each section sits on a different ground so the long read has a rhythm.
@@ -117,6 +122,7 @@ const symbolFor = 'description';
                   ) : (
                     fact.value
                   )}
+                  {'note' in fact && fact.note && <span class="facts__what">{fact.note}</span>}
                 </dd>
               </div>
             ))}
@@ -133,6 +139,7 @@ const symbolFor = 'description';
                 aria-haspopup="dialog"
                 data-waitlist-open
                 data-waitlist-course={course.title}
+                data-waitlist-slug={course.slug}
               >
                 {ui.joinWaitlist}
               </a>

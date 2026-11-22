@@ -12,6 +12,7 @@
 import type { ImageMetadata } from 'astro';
 import { content } from './index';
 import type { Course } from './courses';
+import { upfrontPrice } from '../components/courses/money';
 import { plain } from '../lib/markdown';
 // Inside this file Locale means English or Greek: Ancient Greek pages carry no structured data of
 // their own, and a call made from one is answered in Greek.
@@ -292,10 +293,11 @@ const courseInstance = (course: Course, locale: Locale): Json => ({
       : { '@type': 'Person', name: course.instructor },
 });
 
-const courseOffer = (price: NonNullable<Course['price']>, url: string): Json => ({
+// Paying in full: the whole price, less the course's upfront discount where it has one.
+const courseOffer = (price: NonNullable<Course['price']>, url: string, discount = 0): Json => ({
   '@type': 'Offer',
   category: 'Paid',
-  price: price.amount,
+  price: upfrontPrice(price.amount, discount),
   priceCurrency: price.currency,
   url,
   // The standard tuition for the whole cycle, then the same in eight monthly instalments: "€550 or 8 × €68.75".
@@ -323,7 +325,7 @@ export const courseSchema = (course: Course, asked?: unknown): Json => {
     provider: organizationRef(locale),
     inLanguage: course.teaching ?? 'el',
     hasCourseInstance: courseInstance(course, locale),
-    offers: courseOffer(course.price, url),
+    offers: courseOffer(course.price, url, course.upfrontDiscount),
     mainEntityOfPage: onPage,
   };
 };

@@ -5,6 +5,7 @@
 // JavaScript it is a link to the same place on the course page.
 import CourseBody from './CourseBody.astro';
 import CoursePrice from './CoursePrice.astro';
+import RegisterDialog from './RegisterDialog.astro';
 import { content } from '../../data';
 import type { Course } from '../../data/courses';
 import { getLocale } from '../../lib/locale';
@@ -46,6 +47,8 @@ const canEnrol = course.available && Boolean(course.tuition?.length);
     }
   </div>
 </dialog>
+{/* Its registration form, beside it (a tier button opens it over the popup) */}
+{canEnrol && <RegisterDialog course={course} />}
 
 <script>
   const motionOn = () => document.documentElement.classList.contains('motion');

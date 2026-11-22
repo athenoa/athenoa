@@ -45,6 +45,7 @@ export const coursesPage = {
     taughtBy: 'Διδάσκει',
     tuition: greekPage.ui.tuition,
     registration: greekPage.ui.registration,
+    register: greekPage.ui.register,
     membership: greekPage.ui.membership,
     // The waitlist (see the English file). ἀπογράφεσθαι, to have one's name put down on a list, keeps
     // it apart from ἐγγράφεσθαι, which is enrolment; the list is "the list of those who wait".
@@ -57,7 +58,6 @@ export const coursesPage = {
       notify: 'Ἀγγελοῦμεν ὑμῖν ὅταν αἱ ἐγγραφαὶ ἀνοιχθῶσιν.',
       // The quiet line under the button, followed by a link that opens an email to the Academy
       question: 'Ἀπορεῖτέ τι;',
-      pending: 'Ὁ κατάλογος οὔπω συνῆπται. Οὐδὲν τῶν ὑμετέρων οὐδαμοῖ πέπεμπται.',
       thanks: greekPage.ui.waitlist.thanks,
       failed: greekPage.ui.waitlist.failed,
     },

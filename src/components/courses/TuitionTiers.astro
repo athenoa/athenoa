@@ -1,23 +1,38 @@
 ---
-// The ways to pay, each on a dark-blue slip: its name, the whole amount, the monthly instalments, any
-// notes, and two buttons to its Stripe Payment Links (the whole amount at once, or by the month).
-// The links are the live site's own; payment happens on Stripe's page.
+// The ways to pay, each on a dark-blue slip: its name, the price, the monthly instalments, any notes,
+// and two buttons to its Stripe Payment Links (the whole amount at once, or by the month).
 // Used by the course registration (RegistrationInfo.astro) and the membership page.
+//
+// A course with an upfront discount shows the price paid upfront, with the whole price struck through
+// beside it and a small "−10%". Given a course (`course`, its slug), the buttons open that course's
+// registration form (RegisterDialog.astro) instead of going straight to Stripe; without JavaScript, or
+// where the form is not on the page, they stay plain links to Stripe.
 import type { TuitionTier } from '../../data/courses';
+import { getLocale } from '../../lib/locale';
+import { fill, money, percent, upfrontPrice } from './money';
 
 interface Props {
   tiers: TuitionTier[];
   /** Heading level of each tier's name */
   level?: 3 | 4;
-  /** After the amount: "for the whole Cycle", "for the whole year" */
+  /** After the price: "for the whole Cycle", "for the whole year" */
   per: string;
   /** Above the buttons: "Register for the Cycle of Studies:" */
   register: string;
   payInFull: string;
   payMonthly: string;
+  /** The course's upfront discount (0.1), with the words for it */
+  discount?: number;
+  upfront?: string;
+  off?: string;
+  /** The course's slug: the buttons open its registration form */
+  course?: string;
 }
-const { tiers, level = 3, per, register, payInFull, payMonthly } = Astro.props;
+const { tiers, level = 3, per, register, payInFull, payMonthly, discount = 0, upfront, off, course } = Astro.props;
+const locale = getLocale(Astro.url);
 const Name = level === 4 ? 'h4' : 'h3';
+const opens = (tier: TuitionTier, pay: 'full' | 'monthly') =>
+  course ? { 'data-register': course, 'data-tier': tier.id, 'data-pay': pay } : {};
 ---
 
 <ul class="tiers" role="list">
@@ -25,19 +40,30 @@ const Name = level === 4 ? 'h4' : 'h3';
     tiers.map((tier) => (
       <li class="tier box on-blue-deep">
         <Name class="tier__name">{tier.name}</Name>
-        <p class="tier__amount">
-          <span class="tier__sum">{tier.amount}</span> <span class="tier__per">{per}</span>
-        </p>
+        {discount > 0 ? (
+          <>
+            <p class="tier__amount">
+              <span class="tier__sum">{money(upfrontPrice(tier.price, discount), locale)}</span>
+              <s class="tier__was">{money(tier.price, locale)}</s>
+              <span class="tier__off">{fill(off ?? '', { pct: percent(discount) })}</span>
+            </p>
+            <p class="tier__per">{upfront}</p>
+          </>
+        ) : (
+          <p class="tier__amount">
+            <span class="tier__sum">{money(tier.price, locale)}</span> <span class="tier__per">{per}</span>
+          </p>
+        )}
         <p class="tier__small">{tier.instalments}</p>
         {tier.notes?.map((note) => (
           <p class="tier__small">{note}</p>
         ))}
         <p class="tier__register">{register}</p>
         <p class="tier__pay">
-          <a class="btn" href={tier.payInFull}>
+          <a class="btn" href={tier.payInFull} {...opens(tier, 'full')}>
             {payInFull}
           </a>
-          <a class="btn btn--ghost" href={tier.payMonthly}>
+          <a class="btn btn--ghost" href={tier.payMonthly} {...opens(tier, 'monthly')}>
             {payMonthly}
           </a>
         </p>
@@ -81,6 +107,25 @@ const Name = level === 4 ? 'h4' : 'h3';
     letter-spacing: var(--title-tracking);
     font-variant-numeric: lining-nums;
     color: var(--ink-strong);
+  }
+  /* The whole price, struck through quietly beside what is paid upfront */
+  .tier__was {
+    font-family: var(--font-title);
+    font-size: var(--step-1);
+    font-variant-numeric: lining-nums;
+    color: var(--ink-soft);
+    text-decoration-thickness: 1.5px;
+  }
+  /* The discount, a small mark on a light-blue pebble: noticed, not shouted */
+  .tier__off {
+    align-self: center;
+    padding: 0.12em 0.6em 0.18em;
+    border-radius: 58% 42% 52% 48% / 48% 56% 44% 52%;
+    background: var(--blue-light);
+    color: var(--blue-deep);
+    font-size: var(--step--1);
+    font-weight: 600;
+    font-variant-numeric: lining-nums;
   }
   .tier__per,
   .tier__small,

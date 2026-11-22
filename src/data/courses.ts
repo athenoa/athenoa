@@ -20,10 +20,14 @@ export interface CourseSection {
 
 /** One way to pay for a course, as the live page offers it: in full, or in eight monthly instalments. */
 export interface TuitionTier {
+  /** A short key, kept with each registration: 'standard', 'love' */
+  id: string;
   /** "Κανονικά Δίδακτρα", "Δίδακτρα Αγάπης" */
   name: string;
-  /** The whole cycle, as shown: "€550" */
-  amount: string;
+  /** The whole cycle (or year) in euros, the sum of the instalments; less upfrontDiscount when paid upfront */
+  price: number;
+  /** One monthly instalment, in euros */
+  perMonth: number;
   /** The sentence on paying in eight monthly instalments, with the monthly amount */
   instalments: string;
   /** What this tuition is and what it includes, where the live page and the form explain it */
@@ -70,6 +74,8 @@ export interface Course {
   };
   /** The ways to pay, each with its Stripe Payment Links */
   tuition?: TuitionTier[];
+  /** The share taken off when the whole cycle is paid upfront (card in full, or bank transfer): 0.1 is 10% */
+  upfrontDiscount?: number;
   registrationNote?: string;
   /** Until when one can register, and what to do after */
   registrationOpen?: string;
@@ -121,9 +127,9 @@ export const courses: Course[] = [
     summary:
       'In this Cycle of Studies in Greek Philosophy we will study the Odyssey as a timeless treasure of Wisdom, a symbolic Map of the human Soul and of its Journey to Self-knowledge and Awakening.',
     schedule: 'From 26 November 2026',
-    scheduleNote: 'Introduction on Monday 23 November at 20:30',
+    scheduleNote: 'Introduction on Monday 23 November at 19:30',
     dates: [
-      { label: 'Introduction & presentation of the course', when: 'Monday 23 November 2026, 20:30 Greek time' },
+      { label: 'Introduction & presentation of the course', when: 'Monday 23 November 2026, 19:30 Greek time' },
       { label: 'First lesson', when: 'Thursday 26 November 2026, 19:30' },
       { label: 'Then', when: 'every Thursday at 19:30' },
     ],
@@ -133,18 +139,23 @@ export const courses: Course[] = [
     available: true,
     instructor: 'Dr. Athena Despoina Potari',
     price: { amount: 550, currency: 'EUR', display: '€550 or 8 × €68.75', label: 'Tuition:' },
+    // No discount for paying upfront (Maria, 22 November 2026: Εὖ Ζῆν only)
     // The live page rounds the instalments to €69 and €83; Stripe charges €68.75 and €82.50.
     tuition: [
       {
         name: 'Standard Tuition',
-        amount: '€550',
+        id: 'standard',
+        price: 550,
+        perMonth: 68.75,
         instalments: 'Tuition can be paid in 8 monthly instalments (€68.75 a month).',
         payInFull: 'https://book.stripe.com/4gM28s5Ecf3dgO5cZO9sk06',
         payMonthly: 'https://buy.stripe.com/3cI7sM5EcbR141jbVK9sk08',
       },
       {
         name: 'Tuition of Love',
-        amount: '€660',
+        id: 'love',
+        price: 660,
+        perMonth: 82.5,
         instalments: 'Tuition can be paid in 8 monthly instalments (€82.50 a month).',
         notes: [generosity, oneToOne],
         payInFull: 'https://book.stripe.com/3cI5kEfeM2greFX3pe9sk07',
@@ -211,9 +222,9 @@ export const courses: Course[] = [
     subtitle: 'The Ancient Art of Eudaimonia',
     summary: '16 experiential lessons of Greek Philosophy in Practice. From Self-knowledge to Eudaimonia.',
     schedule: 'From 1 December 2026',
-    scheduleNote: 'Introduction on Monday 23 November at 20:30',
+    scheduleNote: 'Introduction on Monday 23 November at 19:30',
     dates: [
-      { label: 'Introduction & presentation of the course', when: 'Monday 23 November 2026, 20:30 Greek time' },
+      { label: 'Introduction & presentation of the course', when: 'Monday 23 November 2026, 19:30 Greek time' },
       { label: 'First lesson', when: 'Tuesday 1 December 2026, 19:30' },
       { label: 'Then', when: 'Tuesdays at 19:30, about two lessons a month' },
     ],
@@ -224,17 +235,26 @@ export const courses: Course[] = [
     instructor: 'Dr. Athena Despoina Potari',
     // Their page says 660€ and 550€; Stripe charges 640€ and 720€, confirmed by Maria on 22 November 2026.
     price: { amount: 640, currency: 'EUR', display: '€640 or 8 × €80', label: 'Tuition:' },
+    // Εὖ Ζῆν only: 10% off when the whole Cycle is paid upfront (card in full, or bank transfer); Maria,
+    // 22 November 2026.
+    // Change it or switch it off (0) here. The Stripe "full" links below charge the old full amounts until
+    // the Academy updates its prices there; if it makes new links instead, these hrefs change.
+    upfrontDiscount: 0.1,
     tuition: [
       {
         name: 'Standard Tuition',
-        amount: '€640',
+        id: 'standard',
+        price: 640,
+        perMonth: 80,
         instalments: 'Tuition can be paid in 8 monthly instalments (€80 a month).',
         payInFull: 'https://book.stripe.com/28EbJ2c2A2gr9lDe3S9sk0b',
         payMonthly: 'https://buy.stripe.com/6oUdRaeaI6wHdBT8Jy9sk0d',
       },
       {
         name: 'Tuition of Love',
-        amount: '€720',
+        id: 'love',
+        price: 720,
+        perMonth: 90,
         instalments: 'Tuition can be paid in 8 monthly instalments (€90 a month).',
         notes: [generosity, oneToOne],
         payInFull: 'https://book.stripe.com/6oU14o2s0aMXfK10d29sk0c',
@@ -421,6 +441,60 @@ export const coursesPage = {
       register: 'Register for the Cycle of Studies:',
       payInFull: 'Pay in full',
       payMonthly: 'Pay monthly',
+      // The upfront discount, for a course that has one ({pct} is "10%", {title} the course): the line over the tiers, the price paid upfront, its mark
+      // beside the struck-through full price, and the line under the fee on a course card
+      save: 'Pay for the whole of {title} upfront and save {pct}',
+      upfront: 'paid upfront, for the whole Cycle',
+      off: '−{pct}',
+      cardNote: '{pct} off when paid upfront',
+      // In the bank-transfer item: opens the registration form with that way of paying
+      bankRegister: 'Register to pay by bank transfer',
+    },
+    // The registration form (RegisterDialog.astro), rebuilt from the Academy's Google Form. Before paying
+    // by card the details are kept (src/lib/forms.ts), then Stripe opens; by bank transfer, the account
+    // is shown. Its field labels are the form's own words, translated.
+    register: {
+      kicker: 'Register for the Cycle of Studies',
+      tierLegend: 'Tuition',
+      payLegend: 'Way of paying',
+      payFull: 'By card, in full',
+      payMonthly: 'By card, in 8 monthly instalments',
+      payBank: 'By bank transfer, in full',
+      instead: 'instead of {price}',
+      detailsLegend: 'Your details',
+      firstName: 'First name',
+      lastName: 'Last name',
+      email: 'Email',
+      phone: 'Phone',
+      address: 'Address, City',
+      optional: 'optional',
+      certificate: 'Full name as it should appear on your Certificate of Attendance',
+      termsBefore: 'I have read and accept the ',
+      termsLink: 'Terms of participation and the Conditions',
+      termsTitle: 'Terms of participation',
+      total: 'To pay',
+      submitCard: 'Continue to payment',
+      submitBank: 'Complete registration',
+      sending: 'One moment…',
+      privacy: 'Your details are used only for your registration and your certificate, and are never shared.',
+      errors: {
+        firstName: 'Please enter your first name.',
+        lastName: 'Please enter your last name.',
+        email: 'Please enter your email address.',
+        emailInvalid: 'Please enter a valid email address.',
+        phone: 'Please enter a phone number we can reach you on.',
+        phoneInvalid: 'Please check the phone number.',
+        certificate: 'Please enter the name for your certificate.',
+        terms: 'Please read and accept the terms to continue.',
+      },
+      failed:
+        'Your registration could not be saved just now. You can still continue to payment, and write to us at philathenea@athenoa.academy with your details.',
+      failedBank:
+        'Your registration could not be saved just now. Please write to us at philathenea@athenoa.academy with your details; the account for the transfer is below.',
+      continue: 'Continue to payment',
+      doneTitle: 'Thank you: your registration is in',
+      doneBank:
+        'To complete it, transfer the amount to the account below and send the proof of payment to philathenea@athenoa.academy.',
     },
     // The registration form's further ways and terms, each a closed item under the tuition. The bank
     // account is copied from the form exactly. No donation link yet (Maria will add the Scholarship Fund
@@ -468,8 +542,7 @@ export const coursesPage = {
       // The quiet line under the button, followed by a link that opens an email to the Academy
       question: 'Got a question?',
       // Shown in place of the form after a valid address is entered: the waitlist is not connected yet.
-      pending: 'The waitlist is not connected yet. Your address has not been sent anywhere.',
-      // Once the waitlist is connected (WAITLIST_ENDPOINT in WaitlistDialog.astro)
+      // After the address is kept (src/lib/forms.ts), or when it could not be
       thanks: 'Thank you. We will write to you as soon as enrolment opens.',
       failed: 'Your address could not be sent. Please try again, or write to us.',
     },
