@@ -74,7 +74,6 @@ const bannerAlt = {
             <TuitionTiers
               tiers={reg.tiers}
               discount={discount}
-              ways="side"
               off={tuition.off}
               payInFull={reg.payInFull}
               payMonthly={reg.payMonthly}
@@ -157,8 +156,10 @@ const bannerAlt = {
   }
 
   /* The ways to pay: a blue arch, the laurel in its crown (as on a course page) */
+  /* the arch as wide as the content, so the two tiers stand side by side as on a course page */
   .reg {
-    max-width: 66rem;
+    max-width: none;
+    padding-inline: clamp(1rem, 0.4rem + 2.6vw, 3rem);
     margin: var(--space-xl) auto 0;
     padding-top: var(--space-l);
   }
