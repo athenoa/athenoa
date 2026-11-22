@@ -173,7 +173,9 @@ const { ui } = content(getLocale(Astro.url));
 
     // The invite: shown a moment after arrival if the browser is still holding sound back, gone with
     // the first press (which starts everything). The page stays usable throughout: it is only a note.
-    const invite = root.querySelector<HTMLElement>('[data-sound-invite]');
+    // The 'tap for sound' note is hidden for now (Maria, 23 November 2026); set SHOW_INVITE to true to bring it back
+    const SHOW_INVITE = false;
+    const invite = SHOW_INVITE ? root.querySelector<HTMLElement>('[data-sound-invite]') : null;
     if (invite) {
       // With a mouse or trackpad the note rides beside the pointer, its arrow pointing at it (client
       // direction, 21 November 2026). Touch screens have no pointer to follow: there it stays beside
