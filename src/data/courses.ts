@@ -1,13 +1,14 @@
 // Course catalogue: the two courses open on the live site on 22 November 2026, ΟΔΥΣΣΕΙΑ
-// (athenoa.academy/odusseia) and Εὖ Ζῆν (athenoa.academy/eu-zen). Their pages exist only in Greek:
-// ./el/courses.ts carries Athena's own words. This English text is a DRAFT TRANSLATION of them, made
-// for the English site, to be reviewed by Athena (logged in tasks/text-changes.md as proposed).
+// (athenoa.academy/odusseia) and Εὖ Ζῆν (athenoa.academy/eu-zen), then "The Hidden Non-Duality of
+// Ancient Greek Philosophy", which starts in January 2027 and takes names for its waitlist until then.
+// The first two pages exist only in Greek: ./el/courses.ts carries Athena's own words. This English text
+// is a DRAFT TRANSLATION of them, made for the English site, to be reviewed by Athena (logged in
+// tasks/text-changes.md as proposed). The dates, the payment notes, the bank account, the cancellation
+// terms and the scholarships come from the Academy's registration form (Google Forms), November 2026.
 //
 // Payment: each tuition tier links to the Stripe Payment Links of the live site, one to pay in full and
 // one to pay in eight monthly instalments. The amounts below are the ones Stripe charges (checked
-// 22 November 2026). Nothing else connects to Stripe: no key, no server.
-//
-// The start dates are not on the live pages: `schedule` says so. Replace it with the date when it is known.
+// 22 November 2026, and confirmed by Maria). Nothing else connects to Stripe: no key, no server.
 
 export interface CourseSection {
   id: string;
@@ -25,8 +26,8 @@ export interface TuitionTier {
   amount: string;
   /** The sentence on paying in eight monthly instalments, with the monthly amount */
   instalments: string;
-  /** What this tuition is, where the live page explains it */
-  note?: string;
+  /** What this tuition is and what it includes, where the live page and the form explain it */
+  notes?: string[];
   /** Stripe Payment Link: the whole amount at once */
   payInFull: string;
   /** Stripe Payment Link: the monthly instalments */
@@ -44,12 +45,18 @@ export interface Course {
   subtitle?: string;
   /** One or two sentences for the course card */
   summary?: string;
-  /** When it runs. "TBC" when the dates are not set. */
+  /** When it starts, short: on the course card and on the label stuck to the picture */
   schedule?: string;
+  /** A quieter line under it on the card (the introduction) */
+  scheduleNote?: string;
+  /** The dates in full, on the course page and in the popup */
+  dates?: { label: string; when: string }[];
   /** How long it runs */
   duration?: string;
-  /** How it is taught */
+  /** How it is taught. What follows the first comma is shown as a quieter line. */
   format?: string;
+  /** The language it is taught in (its name is coursesPage.ui.languages[teaching]) */
+  teaching?: 'el' | 'en';
   /** True when visitors can enrol now: the card's button reads "Enroll" */
   available: boolean;
   instructor: string;
@@ -64,19 +71,43 @@ export interface Course {
   /** The ways to pay, each with its Stripe Payment Links */
   tuition?: TuitionTier[];
   registrationNote?: string;
+  /** Until when one can register, and what to do after */
+  registrationOpen?: string;
+  /** The notes on paying, under the tuition */
+  paymentNotes?: string[];
+  /** The cancellation terms (HTML), a closed item under the tuition */
+  cancellations?: string;
   sections: CourseSection[];
   /** A last line in Athena's voice, after the registration */
   closing?: string;
 }
 
-export const courseHref = (slug: string) => `/courses/#${slug}`;
-export const coursePageHref = (slug: string) => `/courses/${slug}/`;
+// English lives under /en/ (Greek is the site's first language, at the root)
+export const courseHref = (slug: string) => `/en/courses/#${slug}`;
+export const coursePageHref = (slug: string) => `/en/courses/${slug}/`;
 
 // Shared by both courses: the live pages carry the same sentence under each tuition.
 const registrationNote =
   'Registration is for the whole Cycle of Studies and requires payment of the full amount, whichever way of paying you choose.';
 const generosity =
   'The Tuition of Love and Generosity includes the standard tuition plus a sponsorship for our fellow students who need it. Your Generosity will help us offer reduced tuition to the students who need it, and will support the work of our School!';
+// From the registration form
+const oneToOne =
+  'The Tuition of Love includes an optional one-to-one session with Athena, for queries, questions and answers, and any other clarifications about the Teaching.';
+const paymentNotes = [
+  'Paying in 8 monthly instalments is offered solely to make things easier for students. It does not mean that the lessons are attended month by month: the Cycle is one whole, whichever way you pay.',
+  'To register for the course, the first instalment must be paid as a deposit before the lessons begin.',
+];
+// The cancellation terms. The first four months of ΟΔΥΣΣΕΙΑ are named on its form; Εὖ Ζῆν's form does not
+// name them (it starts in December), so they are left out there.
+const cancellations = (term?: string) => `<p><strong>Important note</strong></p>
+<p>The monthly instalments are offered to make paying the tuition easier; they are not a separate monthly subscription. By registering for a Cycle of Studies, the student accepts the obligation to pay the full amount of the agreed tuition, by the chosen way of paying (all at once or monthly).</p>
+<p>For any cancellation of participation, the following terms apply:</p>
+<ul>
+<li><strong>After the lessons have begun:</strong> no deposit or other amount already paid is refunded. A student who leaves within the first four months undertakes to pay for the first four months of study only${term ? ` (${term})` : ''}.</li>
+<li><strong>After the first four months:</strong> the student is to pay the full amount of the chosen tuition.</li>
+</ul>
+<p>In exceptional cases, the student is to write to the Secretariat with any request to change or cancel their participation.</p>`;
 
 export const courses: Course[] = [
   {
@@ -89,10 +120,16 @@ export const courses: Course[] = [
     subtitle: 'The Journey of the Soul to Awakening through the archetypal map of Homer',
     summary:
       'In this Cycle of Studies in Greek Philosophy we will study the Odyssey as a timeless treasure of Wisdom, a symbolic Map of the human Soul and of its Journey to Self-knowledge and Awakening.',
-    schedule: 'Start date to be announced',
+    schedule: 'From 26 November 2026',
+    scheduleNote: 'Introduction on Monday 23 November at 20:30',
+    dates: [
+      { label: 'Introduction & presentation of the course', when: 'Monday 23 November 2026, 20:30 Greek time' },
+      { label: 'First lesson', when: 'Thursday 26 November 2026, 19:30' },
+      { label: 'Then', when: 'every Thursday at 19:30' },
+    ],
     duration: '24 weekly lessons',
-    // "in Greek": the course is taught in Greek. What follows the first comma is shown as a quieter line.
-    format: 'Live on Zoom in Greek, Thursdays at 19:30 Greek time',
+    format: 'Live on Zoom, Thursdays at 19:30 Greek time',
+    teaching: 'el',
     available: true,
     instructor: 'Dr. Athena Despoina Potari',
     price: { amount: 550, currency: 'EUR', display: '€550 or 8 × €68.75', label: 'Tuition:' },
@@ -109,12 +146,16 @@ export const courses: Course[] = [
         name: 'Tuition of Love',
         amount: '€660',
         instalments: 'Tuition can be paid in 8 monthly instalments (€82.50 a month).',
-        note: generosity,
+        notes: [generosity, oneToOne],
         payInFull: 'https://book.stripe.com/3cI5kEfeM2greFX3pe9sk07',
         payMonthly: 'https://buy.stripe.com/9B6dRaeaI8EPfK1f7W9sk09',
       },
     ],
     registrationNote,
+    registrationOpen:
+      'Registrations are open until 30 December 2026. After that, please contact the Academy’s Secretariat about registering.',
+    paymentNotes,
+    cancellations: cancellations('November 2026 to February 2027'),
     sections: [
       {
         id: 'description',
@@ -169,13 +210,19 @@ export const courses: Course[] = [
       'A group sitting in a circle under pine trees on a hillside at dusk, the Acropolis and the Parthenon beyond',
     subtitle: 'The Ancient Art of Eudaimonia',
     summary: '16 experiential lessons of Greek Philosophy in Practice. From Self-knowledge to Eudaimonia.',
-    schedule: 'Start date to be announced',
+    schedule: 'From 1 December 2026',
+    scheduleNote: 'Introduction on Monday 23 November at 20:30',
+    dates: [
+      { label: 'Introduction & presentation of the course', when: 'Monday 23 November 2026, 20:30 Greek time' },
+      { label: 'First lesson', when: 'Tuesday 1 December 2026, 19:30' },
+      { label: 'Then', when: 'Tuesdays at 19:30, about two lessons a month' },
+    ],
     duration: '16 lessons, about two a month',
-    format: 'Live on Zoom in Greek, Tuesdays at 19:30 Greek time',
+    format: 'Live on Zoom, Tuesdays at 19:30 Greek time',
+    teaching: 'el',
     available: true,
     instructor: 'Dr. Athena Despoina Potari',
-    // TO CONFIRM with Athena: their page says 660€ (8 × 80€) and, for the Tuition of Love, 550€ (8 × 90€).
-    // Stripe charges 640€ (8 × 80€) and 720€ (8 × 90€), which agree with the instalments, so these are shown.
+    // Their page says 660€ and 550€; Stripe charges 640€ and 720€, confirmed by Maria on 22 November 2026.
     price: { amount: 640, currency: 'EUR', display: '€640 or 8 × €80', label: 'Tuition:' },
     tuition: [
       {
@@ -189,12 +236,15 @@ export const courses: Course[] = [
         name: 'Tuition of Love',
         amount: '€720',
         instalments: 'Tuition can be paid in 8 monthly instalments (€90 a month).',
-        note: generosity,
+        notes: [generosity, oneToOne],
         payInFull: 'https://book.stripe.com/6oU14o2s0aMXfK10d29sk0c',
         payMonthly: 'https://buy.stripe.com/5kQ28sd6EcV5apH5xm9sk0e',
       },
     ],
     registrationNote,
+    paymentNotes,
+    // TO CONFIRM: the four months that bind a student who leaves early (the form names none for Εὖ Ζῆν)
+    cancellations: cancellations(),
     sections: [
       {
         id: 'description',
@@ -252,6 +302,90 @@ export const courses: Course[] = [
       },
     ],
   },
+  {
+    slug: 'the-hidden-non-duality-of-ancient-greek-philosophy',
+    // Title and subtitle as lettered on the course banner. Copy as on the live home page (October 2026),
+    // without its old registration text.
+    title: 'The Hidden Non-Duality of Ancient Greek Philosophy',
+    status: 'open',
+    image: 'course-non-duality',
+    imageAlt:
+      'Course banner: The Hidden Non-Duality of Ancient Greek Philosophy, with marble figures of Pythagoras, Plato and Aristotle against a night sky of constellations',
+    // As lettered on the course banner
+    subtitle: 'Hellenic Wisdom as a Path of Self-Realization',
+    summary:
+      'Each week we will delve into the non-dual teaching expressed by the following great Philosophers ~ Ancient Sages: Plotinus, Plato, Pythagoras, The Pre-Socratics',
+    schedule: 'From January 2027',
+    // From the course description: "this four-week course", live on Zoom, recordings kept 120 days
+    duration: 'Four weekly meetings',
+    format: 'Live on Zoom, with recordings',
+    // Its texts are read in English translation (see "meetings")
+    teaching: 'en',
+    // Not open yet: its button is "Join waitlist" (WaitlistDialog.astro). No tuition, so no registration shows.
+    available: false,
+    instructor: 'Dr. Athena Despoina Potari',
+    price: {
+      amount: 200,
+      currency: 'EUR',
+      display: '€200 & VAT (24%)',
+      label: 'Participation cost:',
+    },
+    sections: [
+      {
+        id: 'description',
+        label: 'Course Description',
+        sublabel: 'Introduction',
+        html: `<p>This four-week course undertakes <strong>a lived, philosophical and spiritual inquiry into a dimension of Ancient Greek Philosophy</strong> that has been systematically obscured within modern Western intellectual history.</p>
+<p>The Greek philosophical tradition did not originate from division; it did not begin with an ontological rupture between being and mind, spirit and matter, knower and known, inner and outer. These dualisms are later developments — products of historical bifurcations, theological polemics, and the gradual exteriorization of metaphysics into abstraction.</p>
+<p><strong>At its source, the Hellenic View recognizes the Unity of Being.</strong> Being is not split; the human is not external to the cosmos; Nous (awareness) and Reality are inherently interweaved.</p>
+<p>This holistic View finds a graceful, aesthetically and poetically inspired way of expression through all aspects of Hellenic Civilization: through Mathematics – seen as the living Theology of Nature, Philosophy ~ the language of human Awareness, as well as Poetry, Drama, Ethics, Ontology, Metaphysics; indeed all notions, and terms, which are invented during the same historical time, in the cradle of western civilization, a land blessed by nature, Apollonian luminosity and filled with an abundance of energetic portals.</p>
+<p><strong>In this short intensive course, we return to the foundations of the West to discover an ancient, yet perennial, spiritual Treasure: the original meaning of Philosophy as Love (“philo”) for Wisdom (“sophia”), as a spiritual path to Awakening</strong>; and particularly its <strong>non-dual view</strong> that formed both its founding view and its luminous culmination.</p>`,
+      },
+      {
+        id: 'meetings',
+        label: 'In our meetings, we will explore',
+        sublabel: 'Re-member',
+        html: `<p><strong>In our meetings, we will explore</strong> an aspect of Hellenism often obscured by its colonized appropriation by later western approaches and materialist-reductionist metaphysics: we will re-member <strong>the hidden non-dual teachings at the heart of Greek Philosophy</strong></p>
+<blockquote><i>(Re-member ~ for “all knowledge is Remembrance”, says Socrates)</i></blockquote>
+<p>To approach the unity at the foundations of Hellenism is to reconsider the foundation upon which Western thought was built.</p>
+<p><strong><u>In our four meetings</u></strong> we will learn about the Greek spiritual tradition not through abstraction but through a <strong>close, intimate and contemplative encounter with the tradition.</strong></p>
+<ul>
+<li>We will <strong>study</strong> <strong>excerpts from key ancient texts</strong> (presented by Athena in a way that makes them relatable – of course, in English translation) in a dialectical way, contemplating their meaning and essence together</li>
+<li><strong>Decode</strong> their initiatory <strong>spiritual etymology</strong> (in the universe of the Greek language, the etymology is a code of meaning and essence); and of course,</li>
+<li>Weave our investigation with <strong>meditations, contemplation, embodied practices and dialogue</strong></li>
+<li><strong>QnA</strong> ~ live dialogue with Athena and our course community</li>
+</ul>`,
+      },
+      {
+        id: 'structure',
+        label: 'Course Structure & Content',
+        sublabel: 'Each week we will explore',
+        html: `<p><u>Each week</u> we will explore the non-dual teachings in the work of the following great Philosophers ~ Ancient Sages:</p>
+<ul>
+<li><strong><u>Plotinus</u>: Nous and Logos; the One and/ (as) the Self * <em>“It is not a View, it is a Union”</em></strong></li>
+<li><strong><u>Plato:</u> The Hidden non-duality behind the - apparent - Platonic duality * <em>One, Eros &amp; Beauty, and Socrates’ secret Female Master</em></strong></li>
+<li><strong><u>Pythagoras</u>: The Initiate of the Egyptian Pyramids who invented the term “<em>Philosopher</em>” * “<em>You will realize you were never a mortal</em>”</strong></li>
+<li><strong><u>The Presocratics: Heraclitus – Parmenides</u>: At the start of the Journey: <em>En</em> and <em>Polla</em> ~ <em>The One and the Many</em></strong></li>
+</ul>
+<p>The discussion will also involve <strong>allusions to mythology</strong>, theology and even poetry and the Arts, as expressions of meaning and teachings pertaining to the holistic non-dual View of Hellenism.</p>`,
+      },
+      {
+        id: 'access',
+        label: 'Access',
+        sublabel: 'Live sessions & recorded lessons',
+        html: `<p>Participants can attend the live sessions of the classes and/or watch the recorded lessons at their own time. <strong>All participants will receive audio and video links to stream the recordings of each class, and these will remain active for 120 days.</strong></p>
+<p>All you need to participate is a computer or a mobile device, such as a tablet or smartphone, with a built-in speaker and access to the internet. The platform we use for the sessions is Zoom. The sign-in process is very simple, and you will receive emails with the invitation to join ahead of the weekend.</p>
+<p>To optimise your course experience, we recommend a wired connection if possible. If you do use a Wi-Fi connection, close all or most other devices using the signal. For mobile devices, a 3G or higher connection is needed.</p>`,
+      },
+      {
+        id: 'orientation',
+        label: 'Orientation of the Course',
+        sublabel: 'Our journey together',
+        html: `<p>Our journey together at the roots of the West, is a calling of the Heart. It is not an attempt to superimpose foreign metaphysical categories upon Greece, but to re-member the Wisdom that shaped our history, our consciousness, our education ~ and which still remains active, alive, shining the way Home – to our true being.</p>
+<p>Greek Philosophy will be approached according to its original meaning; not merely an intellectual endeavor, but a path of Love and Wisdom with the ultimate goal of realizing one’s true nature and living a life of wholeness, inspiration, creativity aligned with this realization. What the Ancients called, “EF ZEN”~ the Good life. (<span lang="grc">Εὖ Ζῆν</span>)</p>`,
+      },
+    ],
+  },
 ];
 
 export const registrationTab = {
@@ -269,7 +403,9 @@ export const coursesPage = {
   ui: {
     viewCourse: 'View course',
     enrollNow: 'Enroll',
-    facts: { dates: 'Dates', duration: 'Length', format: 'Format', fee: 'Fee' },
+    facts: { dates: 'Dates', duration: 'Length', format: 'Format', language: 'Language', fee: 'Fee' },
+    // The languages a course is taught in (Course.teaching)
+    languages: { el: 'Greek', en: 'English' },
     close: 'Close',
     enroll: 'Enroll',
     placeholderNote: 'Course details are on their way. Leave your name and we will write to you when enrolment opens.',
@@ -286,8 +422,34 @@ export const coursesPage = {
       payInFull: 'Pay in full',
       payMonthly: 'Pay monthly',
     },
-    // The live page's line under the tuition. There is no membership page on this site yet, so "Learn more"
-    // leads to the membership form the home page uses (site.membershipForm).
+    // The registration form's further ways and terms, each a closed item under the tuition. The bank
+    // account is copied from the form exactly. No donation link yet (Maria will add the Scholarship Fund
+    // to Stripe): the fund's appeal ends with the address to write to.
+    registration: {
+      bank: {
+        title: 'Pay by bank transfer',
+        bankLabel: 'Bank',
+        bank: 'Alpha Bank',
+        holderLabel: 'Account holder',
+        holder: 'ΑΘΕΝΟΑ ΑΣΤΙΚΗ ΜΗ ΚΕΡΔΟΣΚΟΠΙΚΗ ΕΤΑΙΡΕΙΑ / ATHENOA NON-PROFIT LAW COMPANY',
+        iban: 'GR43 0140 2690 2690 0200 2011 840',
+        notes: [
+          'When transferring the tuition, please do not let the bank’s service charges come out of the tuition for the Cycle of Studies. If you bank with another bank, choose for the transfer charges to be paid by <strong>the sender</strong> and not the recipient.',
+          'So that your payment can be matched to you, after each payment please send the proof of deposit to <a href="mailto:philathenea@athenoa.academy">philathenea@athenoa.academy</a>.',
+          'Every file we receive from you is for our own use only and is not shared in any way, out of respect for personal data and under Greek Law 4624/2019 on the protection of personal data.',
+        ],
+      },
+      cancellations: 'Cancellations',
+      scholarships: {
+        title: 'Scholarships',
+        html: `<p><strong>The possibility of a scholarship</strong></p>
+<p>It is a Principle of our Lessons that no student who wishes to take part in them should be excluded for financial reasons. That is why every year we offer a number of study scholarships. If you would like to apply for a scholarship, you can contact us at <a href="mailto:philathenea@athenoa.academy">philathenea@athenoa.academy</a> or by phone on <a href="tel:+306906068444">+30 690 606 8444</a>. We will be glad to help!</p>
+<p><strong>A Beautiful Undertaking</strong></p>
+<p>Our Academy has created a Scholarship Fund, giving dozens of students every year, who could not otherwise attend our programmes, the chance to take part. Would you, too, like to contribute to the Scholarship Fund with a donation, in support of the students of the ATHENOA Academy? Every gift of yours will allow a student who needs it to take part!</p>
+<p>To make a donation, write to us at <a href="mailto:philathenea@athenoa.academy">philathenea@athenoa.academy</a>.</p>`,
+      },
+    },
+    // The live page's line under the tuition, leading to the membership page (site.routes.membership).
     membership: {
       text: 'Alternatively, you can become a Member of our Academy and have access to all the Cycles of Studies, with the privileges of Membership!',
       cta: 'Learn more',
@@ -307,6 +469,9 @@ export const coursesPage = {
       question: 'Got a question?',
       // Shown in place of the form after a valid address is entered: the waitlist is not connected yet.
       pending: 'The waitlist is not connected yet. Your address has not been sent anywhere.',
+      // Once the waitlist is connected (WAITLIST_ENDPOINT in WaitlistDialog.astro)
+      thanks: 'Thank you. We will write to you as soon as enrolment opens.',
+      failed: 'Your address could not be sent. Please try again, or write to us.',
     },
   },
 } as const;

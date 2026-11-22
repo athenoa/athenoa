@@ -1,8 +1,9 @@
 ---
-// How to register: each tuition on a dark-blue slip, with its two Stripe Payment Links (the whole amount
-// at once, or eight monthly instalments), then the note on registration and the way to membership.
-// The links are the live site's own; payment happens on Stripe's page. Shared by the course page,
-// the course popup and the home page's course detail.
+// How to register for a course: until when, the ways to pay (TuitionTiers.astro, each with its Stripe
+// Payment Links), the notes on paying, then the registration form's further ways and terms as closed
+// items (bank transfer, cancellations, scholarships), and the way to membership.
+// Shared by the course page, the course popup and the home page's course detail.
+import TuitionTiers from './TuitionTiers.astro';
 import { content } from '../../data';
 import type { Course } from '../../data/courses';
 import { getLocale } from '../../lib/locale';
@@ -14,42 +15,82 @@ interface Props {
 }
 const { course, level = 3 } = Astro.props;
 const { coursesPage, site } = content(getLocale(Astro.url));
-const { tuition, membership } = coursesPage.ui;
-const Name = level === 4 ? 'h4' : 'h3';
+const { tuition, membership, registration } = coursesPage.ui;
+const { bank } = registration;
+// The closed items under the tuition. The cancellation terms belong to each course (their dates differ).
+const more = [
+  { id: 'bank', title: bank.title },
+  course.cancellations ? { id: 'cancellations', title: registration.cancellations, html: course.cancellations } : null,
+  { id: 'scholarships', title: registration.scholarships.title, html: registration.scholarships.html },
+].filter((item) => item !== null);
 ---
 
 <div class="reginfo">
+  {course.registrationOpen && <p class="reginfo__open">{course.registrationOpen}</p>}
   {
     course.tuition && (
-      <ul class="tiers" role="list">
-        {course.tuition.map((tier) => (
-          <li class="tier box on-blue-deep">
-            <Name class="tier__name">{tier.name}</Name>
-            <p class="tier__amount">
-              <span class="tier__sum">{tier.amount}</span> <span class="tier__per">{tuition.wholeCycle}</span>
-            </p>
-            <p class="tier__small">{tier.instalments}</p>
-            {tier.note && <p class="tier__small">{tier.note}</p>}
-            <p class="tier__register">{tuition.register}</p>
-            <p class="tier__pay">
-              <a class="btn" href={tier.payInFull}>
-                {tuition.payInFull}
-              </a>
-              <a class="btn btn--ghost" href={tier.payMonthly}>
-                {tuition.payMonthly}
-              </a>
-            </p>
-          </li>
-        ))}
-      </ul>
+      <TuitionTiers
+        tiers={course.tuition}
+        level={level}
+        per={tuition.wholeCycle}
+        register={tuition.register}
+        payInFull={tuition.payInFull}
+        payMonthly={tuition.payMonthly}
+      />
     )
   }
   <div class="prose reginfo__notes">
     {course.registrationNote && <p>{course.registrationNote}</p>}
-    <p>
-      {membership.text} <a href={site.membershipForm}>{membership.cta}</a>
-    </p>
+    {course.paymentNotes?.map((note) => <p>{note}</p>)}
   </div>
+
+  <div class="more">
+    {
+      more.map((item) => (
+        <details class="more__item" id={`${course.slug}-${item.id}`}>
+          <summary>
+            <span class="more__title">{item.title}</span>
+            <svg class="more__mark" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+              <path d="M4 12.3c5-.9 11-.6 16-.4" />
+              <path class="more__mark-v" d="M12.2 4c-.6 5-.5 11 0 16" />
+            </svg>
+          </summary>
+          {item.id === 'bank' ? (
+            <div class="more__body">
+              <dl class="bank">
+                <div>
+                  <dt>{bank.bankLabel}</dt>
+                  <dd>{bank.bank}</dd>
+                </div>
+                <div>
+                  <dt>{bank.holderLabel}</dt>
+                  <dd>{bank.holder}</dd>
+                </div>
+                <div>
+                  <dt>IBAN</dt>
+                  {/* One click selects the whole number, to copy it exactly */}
+                  <dd class="bank__iban" translate="no">
+                    {bank.iban}
+                  </dd>
+                </div>
+              </dl>
+              <ul class="prose bank__notes">
+                {bank.notes.map((note) => (
+                  <li set:html={note} />
+                ))}
+              </ul>
+            </div>
+          ) : (
+            <div class="more__body prose" set:html={item.html} />
+          )}
+        </details>
+      ))
+    }
+  </div>
+
+  <p class="reginfo__member">
+    {membership.text} <a href={site.routes.membership}>{membership.cta}</a>
+  </p>
 </div>
 
 <style>
@@ -57,63 +98,82 @@ const Name = level === 4 ? 'h4' : 'h3';
     display: grid;
     gap: var(--space-m);
   }
-  .tiers {
-    display: grid;
-    gap: var(--space-s);
-    margin: 0;
-    padding: 0;
-    list-style: none;
+  .reginfo__open {
+    font-weight: 560;
   }
-  .tier {
+  .reginfo__notes,
+  .reginfo__member {
+    font-size: var(--step--1);
+  }
+
+  /* The further ways and terms: closed items with a hand-drawn plus, like the popup's sections */
+  .more {
     display: grid;
     gap: 0.5rem;
-    padding: clamp(1.25rem, 0.9rem + 1.6vw, 2rem);
   }
-  .tier__name {
-    font-family: var(--font-title);
-    font-weight: var(--title-weight);
-    font-size: calc(var(--step-1) * (0.55 + 0.45 * var(--title-scale)));
-    line-height: 1.1;
-    letter-spacing: var(--title-tracking);
-    color: var(--ink-strong);
+  .more__item {
+    border: 1.5px solid var(--line);
+    border-radius: 1.4rem 1.7rem 1.5rem 1.8rem / 1.7rem 1.4rem 1.8rem 1.5rem;
   }
-  .tier__amount {
+  .more__item summary {
     display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 0.1em 0.5em;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.8rem 1rem 0.85rem 1.25rem;
+    list-style: none;
+    cursor: pointer;
+    border-radius: inherit;
   }
-  .tier__sum {
-    font-family: var(--font-title);
-    font-weight: var(--title-weight);
-    font-size: min(var(--step-2), 9vw);
-    line-height: 1;
-    letter-spacing: var(--title-tracking);
-    font-variant-numeric: lining-nums;
-    color: var(--ink-strong);
+  .more__item summary::-webkit-details-marker {
+    display: none;
   }
-  .tier__per,
-  .tier__small,
-  .tier__register {
+  .more__title {
+    font-weight: 560;
+  }
+  .more__mark {
+    flex: none;
+  }
+  .more__mark path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    transform-origin: 12px 12px;
+    transition:
+      transform var(--dur-2) var(--ease-out),
+      opacity var(--dur-1);
+  }
+  .more__item[open] .more__mark-v {
+    transform: rotate(90deg);
+    opacity: 0;
+  }
+  .more__body {
+    padding: 0 1.25rem 1.25rem;
     font-size: var(--step--1);
+  }
+
+  /* Each label over its value, so the account number has the whole width */
+  .bank {
+    display: grid;
+    gap: 0.55rem;
+    margin: 0 0 var(--space-s);
+  }
+  .bank dt {
     color: var(--ink-soft);
   }
-  .tier__small {
-    max-width: 52ch;
+  .bank dd {
+    margin: 0;
   }
-  .tier__register {
-    margin-top: 0.4rem;
-  }
-  .tier__pay {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.6rem 0.75rem;
-  }
-  /* A long Greek label may run to two lines on a phone */
-  .tier__pay .btn {
-    text-align: center;
-  }
-  .reginfo__notes {
-    font-size: var(--step--1);
+  /* The account number: never hyphenated or broken inside a group, and selected whole in one click */
+  .bank__iban {
+    font-size: var(--step-0);
+    font-variant-numeric: lining-nums tabular-nums;
+    letter-spacing: 0.03em;
+    hyphens: none;
+    overflow-wrap: normal;
+    word-break: keep-all;
+    -webkit-user-select: all;
+    user-select: all;
   }
 </style>

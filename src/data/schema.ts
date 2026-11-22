@@ -305,7 +305,7 @@ const courseOffer = (price: NonNullable<Course['price']>, url: string): Json => 
 /**
  * A course that is open, with its description, run and price: everything Google asks of a Course.
  * A placeholder has none of those yet, so it is described as the page it is and not as a Course.
- * The page's language is the record's; the courses themselves are taught in Greek (inLanguage).
+ * The page's language is the record's; inLanguage is the one the course is taught in.
  */
 export const courseSchema = (course: Course, asked?: unknown): Json => {
   const locale = localeOf(course, asked);
@@ -321,7 +321,7 @@ export const courseSchema = (course: Course, asked?: unknown): Json => {
     url,
     image: photo(course.image),
     provider: organizationRef(locale),
-    inLanguage: 'el',
+    inLanguage: course.teaching ?? 'el',
     hasCourseInstance: courseInstance(course, locale),
     offers: courseOffer(course.price, url),
     mainEntityOfPage: onPage,

@@ -1,0 +1,106 @@
+---
+// The ways to pay, each on a dark-blue slip: its name, the whole amount, the monthly instalments, any
+// notes, and two buttons to its Stripe Payment Links (the whole amount at once, or by the month).
+// The links are the live site's own; payment happens on Stripe's page.
+// Used by the course registration (RegistrationInfo.astro) and the membership page.
+import type { TuitionTier } from '../../data/courses';
+
+interface Props {
+  tiers: TuitionTier[];
+  /** Heading level of each tier's name */
+  level?: 3 | 4;
+  /** After the amount: "for the whole Cycle", "for the whole year" */
+  per: string;
+  /** Above the buttons: "Register for the Cycle of Studies:" */
+  register: string;
+  payInFull: string;
+  payMonthly: string;
+}
+const { tiers, level = 3, per, register, payInFull, payMonthly } = Astro.props;
+const Name = level === 4 ? 'h4' : 'h3';
+---
+
+<ul class="tiers" role="list">
+  {
+    tiers.map((tier) => (
+      <li class="tier box on-blue-deep">
+        <Name class="tier__name">{tier.name}</Name>
+        <p class="tier__amount">
+          <span class="tier__sum">{tier.amount}</span> <span class="tier__per">{per}</span>
+        </p>
+        <p class="tier__small">{tier.instalments}</p>
+        {tier.notes?.map((note) => (
+          <p class="tier__small">{note}</p>
+        ))}
+        <p class="tier__register">{register}</p>
+        <p class="tier__pay">
+          <a class="btn" href={tier.payInFull}>
+            {payInFull}
+          </a>
+          <a class="btn btn--ghost" href={tier.payMonthly}>
+            {payMonthly}
+          </a>
+        </p>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .tiers {
+    display: grid;
+    gap: var(--space-s);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .tier {
+    display: grid;
+    gap: 0.5rem;
+    padding: clamp(1.25rem, 0.9rem + 1.6vw, 2rem);
+  }
+  .tier__name {
+    font-family: var(--font-title);
+    font-weight: var(--title-weight);
+    font-size: calc(var(--step-1) * (0.55 + 0.45 * var(--title-scale)));
+    line-height: 1.1;
+    letter-spacing: var(--title-tracking);
+    color: var(--ink-strong);
+  }
+  .tier__amount {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.1em 0.5em;
+  }
+  .tier__sum {
+    font-family: var(--font-title);
+    font-weight: var(--title-weight);
+    font-size: min(var(--step-2), 9vw);
+    line-height: 1;
+    letter-spacing: var(--title-tracking);
+    font-variant-numeric: lining-nums;
+    color: var(--ink-strong);
+  }
+  .tier__per,
+  .tier__small,
+  .tier__register {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  .tier__small {
+    max-width: 52ch;
+  }
+  .tier__register {
+    margin-top: 0.4rem;
+  }
+  .tier__pay {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem 0.75rem;
+  }
+  /* A long Greek label may run to two lines on a phone */
+  .tier__pay .btn {
+    text-align: center;
+  }
+</style>

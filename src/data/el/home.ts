@@ -39,7 +39,7 @@ export const home = {
         text: 'Θα συμβάλετε στην Αναγέννηση του Ελληνικού Πνεύματος',
       },
     ],
-    cta: { label: 'Ανακαλύψτε όλες τις παροχές', href: site.membershipForm },
+    cta: { label: 'Ανακαλύψτε όλες τις παροχές', href: site.routes.membership },
   },
 
   announcement: {
@@ -54,9 +54,9 @@ export const home = {
       text: 'Ενημερωθείτε πρώτοι για τα νέα, τα άρθρα και τις προσεχείς δραστηριότητές μας',
       cta: { label: 'Εγγραφή', href: '#newsletter' },
     },
-    // The courses announced here (the two open on the live site, 22 November 2026). Each is drawn as a
-    // course card, the same as on the courses page.
-    courses: [{ slug: 'odusseia' }, { slug: 'eu-zen' }],
+    // The courses announced here: the two open on the live site (22 November 2026) and the one from
+    // January 2027. Each is drawn as a course card, the same as on the courses page.
+    courses: [{ slug: 'odusseia' }, { slug: 'eu-zen' }, { slug: 'the-hidden-non-duality-of-ancient-greek-philosophy' }],
   },
 
   seminar: {

@@ -1,0 +1,171 @@
+---
+// Membership of the Academy: the old athenoa.academy/melos (whose address leads here). Athena's
+// questions, what membership offers, then the two ways to pay for a year on a blue arch, drawn by the
+// same component as a course's (TuitionTiers.astro), each with its Stripe Payment Links.
+// The same file renders /membership/ (Greek), /en/membership/ and /grc/membership/: the copy follows
+// the address. All its words are in src/data/membership.ts and src/data/el/membership.ts.
+import { handCase } from '../lib/hand';
+import Base from '../layouts/Base.astro';
+import Illustration from '../components/Illustration.astro';
+import TuitionTiers from '../components/courses/TuitionTiers.astro';
+import { content } from '../data';
+import { membershipFor } from '../data/membership';
+import { getLocale } from '../lib/locale';
+
+const locale = getLocale(Astro.url);
+const { site } = content(locale);
+const m = membershipFor(locale);
+const reg = m.registration;
+---
+
+<Base title={`${m.title} | ${site.name}`} description={m.description}>
+  <section class="mem section">
+    <div class="wrap">
+      <header class="mem__head">
+        <h1 class="t-hero" data-split>{m.title}</h1>
+        {/* The tetractys, the Pythagorean figure of the ten, on a light blue pebble (as on the courses page) */}
+        <Illustration name="tetractys" class="mem__mark" draw />
+        {/* Athena's questions, as the lead of the home page's membership section (in the reading face:
+            they name Socrates and Plato, whom the handwriting's sentence case would lower) */}
+        <div class="mem__questions" data-reveal-group>
+          {m.questions.map((question) => <p class="lead">{question}</p>)}
+        </div>
+        <p class="mem__go" data-reveal style="--delay:400ms">
+          <a class="btn" href="#registration">{m.cta}</a>
+        </p>
+      </header>
+
+      <div class="mem__text box box--offset on-blue-light" data-reveal>
+        <div class="prose">
+          <p class="mem__lead">{m.lead}</p>
+          {m.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+          <p>
+            {m.more} <a href={site.membershipForm}>{m.formLink}</a>
+          </p>
+        </div>
+      </div>
+
+      <section class="reg panel panel--arch on-blue" id="registration" aria-labelledby="registration-title">
+        <Illustration name="laurel" class="reg__laurel" draw />
+        <div class="reg__grid">
+          <hgroup class="reg__head" data-reveal>
+            <h2 class="reg__title t-2" id="registration-title">{reg.label}</h2>
+            <p class="hand hand--m">{handCase(reg.sublabel)}</p>
+          </hgroup>
+          <div class="reg__body" data-reveal style="--i:1">
+            <TuitionTiers
+              tiers={reg.tiers}
+              per={reg.per}
+              register={reg.register}
+              payInFull={reg.payInFull}
+              payMonthly={reg.payMonthly}
+            />
+            <p class="reg__note">{reg.note}</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .mem {
+    padding-block: calc(var(--space-l) + 0.5rem) var(--space-xl);
+    overflow-x: clip;
+  }
+  /* Title and symbol side by side, Athena's questions under them (the courses page's header) */
+  .mem__head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--space-s) clamp(0.75rem, 3vw, 1.75rem);
+    margin-bottom: var(--space-l);
+  }
+  .mem__head h1:lang(el) {
+    font-size: calc(clamp(3.4rem, 1.4rem + 9.6vw, 11.5rem) * 0.86);
+  }
+  .mem__mark {
+    --mark: clamp(3.5rem, 1rem + 12vw, 10rem);
+    position: relative;
+    isolation: isolate;
+    grid-column: 2;
+    grid-row: 1;
+    width: var(--mark);
+    margin: calc(var(--mark) * 0.24);
+  }
+  .mem__mark::before {
+    content: '';
+    position: absolute;
+    inset: -24%;
+    z-index: -1;
+    border-radius: var(--r-pebble-1);
+    background-color: var(--blue-light);
+    background-image: var(--grain);
+    background-size: 400px 400px;
+    filter: url(#rough-sm);
+  }
+  .mem__questions,
+  .mem__go {
+    grid-column: 1 / -1;
+  }
+  .mem__questions {
+    display: grid;
+    gap: 0.6rem;
+    max-width: 46ch;
+  }
+  .mem__text {
+    max-width: 50rem;
+    margin-inline: auto;
+  }
+  .mem__lead {
+    font-size: var(--step-1);
+    line-height: 1.3;
+  }
+
+  /* The ways to pay: a blue arch, the laurel in its crown (as on a course page) */
+  .reg {
+    max-width: 66rem;
+    margin: var(--space-xl) auto 0;
+    padding-top: var(--space-l);
+  }
+  .reg__laurel {
+    width: clamp(6rem, 16vw, 9.5rem);
+    margin: 0 auto var(--space-l);
+  }
+  .reg__grid {
+    display: grid;
+    gap: var(--space-m);
+    align-items: start;
+  }
+  .reg__head {
+    container-type: inline-size;
+  }
+  .reg__title {
+    font-size: min(var(--step-3), 20cqi);
+  }
+  .reg__title:lang(el) {
+    font-size: min(var(--step-3), 14.5cqi);
+  }
+  .reg__head .hand {
+    margin-top: 0.6rem;
+  }
+  .reg__body {
+    display: grid;
+    gap: var(--space-m);
+  }
+  .reg__note {
+    font-size: var(--step--1);
+  }
+  @media (min-width: 60rem) {
+    .reg__grid {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: var(--space-l);
+    }
+    .mem__questions {
+      grid-column: 1;
+    }
+    .mem__mark {
+      grid-row: 1 / span 2;
+    }
+  }
+</style>

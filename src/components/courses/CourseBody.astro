@@ -30,6 +30,14 @@ const isOpen = course.status === 'open';
 const waitlist = !course.available;
 const Title = page ? 'h1' : 'h2';
 const Label = page ? 'h2' : 'h3';
+// The facts, as on the card but in full: every date, the format, the language, the fee.
+const facts = [
+  { label: ui.facts.dates, value: course.dates ? undefined : course.schedule, dates: course.dates },
+  { label: ui.facts.duration, value: course.duration },
+  { label: ui.facts.format, value: course.format },
+  { label: ui.facts.language, value: course.teaching && ui.languages[course.teaching] },
+  { label: ui.facts.fee, value: course.price?.display },
+].filter((fact) => fact.value || fact.dates);
 
 // Page only: each section sits on a different ground so the long read has a rhythm.
 // The three blues all appear down the page: light blue here, darker blue here, Greek blue for registration.
@@ -89,6 +97,30 @@ const symbolFor = 'description';
           course.summary && <p class="body__summary">{course.summary}</p>
         ) : (
           <p>{ui.placeholderNote}</p>
+        )
+      }
+      {
+        isOpen && facts.length > 0 && (
+          <dl class="facts">
+            {facts.map((fact) => (
+              <div class="facts__row">
+                <dt>{fact.label}</dt>
+                <dd>
+                  {fact.dates ? (
+                    <ul class="facts__dates" role="list">
+                      {fact.dates.map((date) => (
+                        <li>
+                          <span class="facts__what">{date.label}</span> {date.when}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    fact.value
+                  )}
+                </dd>
+              </div>
+            ))}
+          </dl>
         )
       }
       {
@@ -161,7 +193,9 @@ const symbolFor = 'description';
             <div class="acc__content prose" set:html={section.html} />
           </details>
         ))}
-        {/* The ways to pay; "Enroll" in the popup's foot opens this item (CourseDialog.astro) */}
+        {/* The ways to pay; "Enroll" in the popup's foot opens this item (CourseDialog.astro). Not for a
+            course that cannot be enrolled in yet. */}
+        {course.available && course.tuition?.length ? (
         <details class="acc__item" name={`sections-${course.slug}`} data-registration>
           <summary>
             <Label class="acc__label">{registrationTab.label}</Label>
@@ -175,6 +209,7 @@ const symbolFor = 'description';
             <RegistrationInfo course={course} level={4} />
           </div>
         </details>
+        ) : null}
       </div>
     )
   }
@@ -200,9 +235,13 @@ const symbolFor = 'description';
   .body__lede {
     max-width: var(--measure);
   }
+  /* A longer label (a date, in the Greek hand) may take two lines on a phone rather than run off the picture */
   .body__note {
     left: 7%;
     bottom: -1.5rem;
+    max-width: 88%;
+    white-space: normal;
+    text-wrap: balance;
   }
   /* "Details to follow", as Athena might jot it on the page: under the picture, at an angle, with a
      quick stroke of the pen beneath. It hangs in space the figure keeps free for it (--jot-room). */
@@ -233,6 +272,40 @@ const symbolFor = 'description';
     stroke-linejoin: round;
     vector-effect: non-scaling-stroke;
   }
+  /* The facts: a small ruled table, as on the card */
+  .facts {
+    display: grid;
+    margin: var(--space-s) 0 0;
+    border-top: 1.5px solid var(--line);
+    font-size: var(--step--1);
+  }
+  .facts__row {
+    display: grid;
+    grid-template-columns: 6.4rem minmax(0, 1fr);
+    gap: 0.75rem;
+    align-items: baseline;
+    padding: 0.45rem 0 0.5rem;
+    border-bottom: 1.5px solid var(--line);
+  }
+  .facts dt {
+    color: var(--ink-soft);
+  }
+  .facts dd {
+    margin: 0;
+    font-variant-numeric: lining-nums;
+  }
+  .facts__dates {
+    display: grid;
+    gap: 0.2rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .facts__what {
+    display: block;
+    color: var(--ink-soft);
+  }
+
   /* The waitlist beside the contact link, or either alone */
   .body__actions {
     display: flex;

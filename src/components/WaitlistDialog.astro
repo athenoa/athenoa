@@ -7,10 +7,15 @@
 // It works like the newsletter popup (NewsletterDialog.astro) and looks nothing like it: one sheet
 // of paper, an ear of wheat (what is sown now ripens in its season), a heading, the course, one field.
 //
-// The waitlist is NOT connected to anything yet. Look for "WAITLIST SERVICE" below.
+// The waitlist is NOT connected to anything yet: WAITLIST_ENDPOINT below is empty.
 import Illustration from './Illustration.astro';
 import { content } from '../data';
 import { getLocale } from '../lib/locale';
+
+// WAITLIST SERVICE: the one address the waitlist sends to (a form service or an endpoint of our own).
+// The form posts `email` and `course` (the course's title) as form data, asking for JSON back; any 2xx
+// answer counts as received. While it is empty nothing is sent and the popup says so honestly.
+const WAITLIST_ENDPOINT = '';
 
 const { coursesPage, site } = content(getLocale(Astro.url));
 const { ui } = coursesPage;
@@ -36,23 +41,21 @@ const t = ui.waitlist;
     </div>
 
     <div class="wl__action">
-      <!-- WAITLIST SERVICE, part 1 of 2. When a mailing service or an endpoint of our own is
-           connected, this form gets its address as action (method="post") and the input gets the
-           field name the service expects (name="email"). Until then the input has no name, so even
-           a native submission would carry nothing. -->
-      <form class="wl__form" data-waitlist-form>
+      <form class="wl__form" data-waitlist-form method="post" action={WAITLIST_ENDPOINT || undefined}>
         <div class="field">
           <label for="waitlist-email">{ui.email}</label>
-          <input id="waitlist-email" type="email" required autocomplete="email" inputmode="email" />
+          <input id="waitlist-email" name="email" type="email" required autocomplete="email" inputmode="email" />
         </div>
+        <input type="hidden" name="course" data-waitlist-course-field />
         <button class="btn" type="submit">{t.submit}</button>
         <p class="wl__notify">{t.notify}</p>
+        <p class="wl__error" role="alert" data-waitlist-error hidden>{t.failed}</p>
       </form>
 
-      <!-- Shown in place of the form after a valid address is entered: the waitlist is not
-           connected yet, and the popup says so. -->
+      <!-- Shown in place of the form after a valid address is entered: the thanks once the waitlist is
+           connected; until then, that it is not connected yet. -->
       <div class="wl__note" tabindex="-1" data-waitlist-note>
-        <p>{t.pending}</p>
+        <p>{WAITLIST_ENDPOINT ? t.thanks : t.pending}</p>
       </div>
     </div>
 
@@ -76,6 +79,7 @@ const t = ui.waitlist;
     dialog.classList.remove('is-closing');
     // Which course the waitlist is for: the button that opened the popup carries its title.
     dialog.querySelector('[data-waitlist-for]')!.textContent = from.dataset.waitlistCourse ?? '';
+    dialog.querySelector<HTMLInputElement>('[data-waitlist-course-field]')!.value = from.dataset.waitlistCourse ?? '';
     // With a mouse and keyboard the field is ready to type in. On a touch screen that would raise
     // the keyboard over the popup at once, so focus stays on the first control instead.
     dialog.querySelector('input')!.autofocus = matchMedia('(hover: hover) and (pointer: fine)').matches;
@@ -121,15 +125,30 @@ const t = ui.waitlist;
 
     // The browser only fires "submit" once the address has passed its own validation
     // (required, type="email"); an empty or malformed one gets the native message instead.
-    form.addEventListener('submit', (event) => {
+    const error = dialog.querySelector<HTMLElement>('[data-waitlist-error]')!;
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+    form.addEventListener('submit', async (event) => {
       event.preventDefault();
-      // WAITLIST SERVICE, part 2 of 2. Nothing is sent or kept anywhere yet. To connect the
-      // waitlist, replace the two lines below with
-      //   await fetch(form.action, { method: 'POST', body: new FormData(form) })
-      // sending the course along with the address (its title is in opener.dataset.waitlistCourse;
-      // give the buttons a data attribute with the slug if the service wants a fixed key), and
-      // show a confirmation or an error instead of the "not connected yet" note
-      // (coursesPage.ui.waitlist.pending in the three src/data courses files, which can then go).
+      error.hidden = true;
+      // Sent only when WAITLIST_ENDPOINT is set (it is the form's action); otherwise the note says
+      // that nothing was sent.
+      const endpoint = form.getAttribute('action');
+      if (endpoint) {
+        button.disabled = true;
+        try {
+          const response = await fetch(endpoint, {
+            method: 'POST',
+            body: new FormData(form),
+            headers: { Accept: 'application/json' },
+          });
+          if (!response.ok) throw new Error(String(response.status));
+        } catch {
+          error.hidden = false;
+          return;
+        } finally {
+          button.disabled = false;
+        }
+      }
       dialog.setAttribute('data-sent', '');
       note.focus();
     });
@@ -139,6 +158,7 @@ const t = ui.waitlist;
     dialog.addEventListener('close', () => {
       dialog.classList.remove('is-closing');
       dialog.removeAttribute('data-sent');
+      error.hidden = true;
       form.reset();
       // Safari does not hand focus back to a clicked link by itself.
       if (opener?.isConnected) opener.focus({ preventScroll: true });
@@ -302,6 +322,10 @@ const t = ui.waitlist;
     margin-top: -0.2rem;
     font-size: var(--step--1);
     color: var(--ink-soft);
+  }
+  .wl__error {
+    font-size: var(--step--1);
+    font-weight: 560;
   }
   .wl__note {
     align-self: center;

@@ -207,9 +207,10 @@ const build = (locale: Locale) => {
     list(
       [
         `${coursesPage.ui.taughtBy} ${course.instructor}`,
-        course.schedule,
+        ...(course.dates?.map((date) => `${date.label}: ${date.when}`) ?? [course.schedule]),
         course.duration,
         course.format,
+        course.teaching && `${coursesPage.ui.facts.language}: ${coursesPage.ui.languages[course.teaching]}`,
         course.price && `${course.price.label} ${course.price.display}`,
       ]
         .filter((fact) => fact !== undefined)
@@ -232,23 +233,37 @@ const build = (locale: Locale) => {
         htmlToMarkdown(section.html),
       ]),
 
-      ...(course.status === 'open'
+      // the ways to pay, for a course that can be enrolled in now
+      ...(course.status === 'open' && course.available && course.tuition?.length
         ? [
             `## ${inline(registrationTab.label)}`,
             `*${inline(registrationTab.sublabel)}*`,
+            course.registrationOpen && inline(course.registrationOpen),
             // each tuition with its two Stripe Payment Links
             ...(course.tuition ?? []).flatMap((tier) => [
               `### ${inline(tier.name)}`,
               `**${inline(tier.amount)}** ${inline(coursesPage.ui.tuition.wholeCycle)}`,
               inline(tier.instalments),
-              tier.note && inline(tier.note),
+              ...(tier.notes ?? []).map(inline),
               list([
                 `[${inline(coursesPage.ui.tuition.payInFull)}](${tier.payInFull})`,
                 `[${inline(coursesPage.ui.tuition.payMonthly)}](${tier.payMonthly})`,
               ]),
             ]),
             course.registrationNote && inline(course.registrationNote),
-            `${inline(coursesPage.ui.membership.text)} [${inline(coursesPage.ui.membership.cta)}](${site.membershipForm})`,
+            ...(course.paymentNotes ?? []).map(inline),
+            `### ${inline(coursesPage.ui.registration.bank.title)}`,
+            list([
+              `${coursesPage.ui.registration.bank.bankLabel}: ${coursesPage.ui.registration.bank.bank}`,
+              `${coursesPage.ui.registration.bank.holderLabel}: ${coursesPage.ui.registration.bank.holder}`,
+              `IBAN: ${coursesPage.ui.registration.bank.iban}`,
+            ]),
+            list(coursesPage.ui.registration.bank.notes.map((note) => htmlToMarkdown(note))),
+            course.cancellations && `### ${inline(coursesPage.ui.registration.cancellations)}`,
+            course.cancellations && htmlToMarkdown(course.cancellations),
+            `### ${inline(coursesPage.ui.registration.scholarships.title)}`,
+            htmlToMarkdown(coursesPage.ui.registration.scholarships.html),
+            `${inline(coursesPage.ui.membership.text)} ${webLink(coursesPage.ui.membership.cta, site.routes.membership)}`,
           ]
         : []),
       course.closing && `*${inline(course.closing)}*`,

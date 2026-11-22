@@ -306,3 +306,43 @@ The four earlier courses (The Hidden Non-Duality, and the three placeholders) ar
   - the buttons "Pay in full / Pay monthly" (the live page's Ετήσια Προπληρωμή / Μηνιαία καταβολή);
   - the card's fee line "€550 or 8 × €68.75".
 - **Membership.** The live page's line about becoming a Member links to the membership form the home page already uses (site.membershipForm), since this site has no membership page.
+
+## Courses and membership, round 2 (22 November 2026, evening)
+
+- **Dates** (from Maria and the registration form):
+  - ΟΔΥΣΣΕΙΑ: Introduction & presentation Monday 23 November 2026 at 20:30 (the form says 19:30; Maria says 20:30). First lesson Thursday 26 November 2026 at 19:30, then every Thursday. Registrations open until 30 December 2026.
+  - Εὖ Ζῆν: Introduction Monday 23 November 2026 at 20:30. First lesson Tuesday 1 December 2026 at 19:30, then Tuesdays, about two a month.
+  - Card wording, proposed: "From 26 November 2026" / "Από 26 Νοεμβρίου 2026", with "Introduction on Monday 23 November at 20:30" / "Εισαγωγή τη Δευτέρα 23 Νοεμβρίου στις 20:30" under it.
+  - Page and popup labels, proposed: "First lesson / Πρώτο μάθημα", "Then / Στη συνέχεια".
+  - The registration-deadline sentence is our wording, proposed.
+- **Language** is a new fact, proposed: "Language / Γλώσσα", "Greek / Ελληνικά", "English / Αγγλικά". The format no longer says "in Greek".
+- **From the registration form**, Greek verbatim, English a draft translation:
+  - the optional one-to-one session in the Δίδακτρα Αγάπης;
+  - the two notes on paying;
+  - the bank transfer: Alpha Bank, account holder and IBAN exactly as on the form;
+  - the cancellation terms;
+  - the scholarships and the Scholarship Fund appeal.
+- **Changes of form only:**
+  - the footnote asterisks and brackets are dropped;
+  - "* τον αποστολέα *", "* ΣΗΜΑΝΤΙΚΗ ΣΗΜΕΙΩΣΗ *" and "* Ένα Όμορφο Εγχείρημα ~ *" are set in bold;
+  - "διευκρινήσεις" → "διευκρινίσεις"; "προγράμματα μας" → "προγράμματά μας".
+- **New wording, proposed:**
+  - the labels "Δικαιούχος / Account holder", "Τράπεζα / Bank";
+  - the item title "Pay by bank transfer";
+  - the line ending the fund appeal, "Για να κάνετε μια δωρεά, γράψτε μας στο …" / "To make a donation, write to us at …". There is no donation link yet.
+- **Cancellations:** ΟΔΥΣΣΕΙΑ keeps "(Νοέμβριος 2026 – Φεβρουάριος 2027)". Εὖ Ζῆν has no dates there yet (to confirm).
+- **"The Hidden Non-Duality of Ancient Greek Philosophy" is back as a third course**, from January 2027 ("From January 2027" / "Από τον Ιανουάριο 2027", proposed).
+  - Its button is "Join waitlist".
+  - Its old registration text ("Add to Cart", Autumn 2026) is gone.
+  - Its price stays as on the old home page.
+  - Its language is English: its texts are read in English translation.
+- **Waitlist, once connected**, new wording, proposed:
+  - "Thank you. We will write to you as soon as enrolment opens." / "Ευχαριστούμε. Θα σας γράψουμε μόλις ανοίξουν οι εγγραφές."
+  - "Your address could not be sent. Please try again, or write to us." / "Η διεύθυνσή σας δεν στάλθηκε. Δοκιμάστε ξανά ή γράψτε μας."
+- **Membership page** (/membership/, /en/membership/; the old /melos):
+  - Athena's text from /melos in Greek; the English is a draft translation.
+  - New wording, proposed: the title "Μέλος της Ακαδημίας / Academy Membership", the page description, "Ετήσια συνδρομή Μέλους / Annual membership", "Εγγραφή ως Μέλος: / Register as a Member:", "για Ολόκληρο το Έτος / for the whole year".
+  - The old page's figures were left over from a course (550€, 8 instalments of 83€/69€). The page now shows Stripe's: 990€ or 12 × 83€, and 1140€ or 12 × 95€, with the old sentence saying "12" instead of "8".
+  - The orphan fragment "καλύπτουν τα βασικά έξοδα συμμετοχής." is dropped.
+  - "Γίνε Μέλος / Become a member" links to the membership form (Google Forms).
+  - The questions are set in the reading face, not the handwriting.

@@ -1,7 +1,7 @@
 // Ancient Greek (/grc/, not launched). The two courses are shown in Athena's Modern Greek (./el/courses.ts):
 // no Ancient Greek version of them is written. The interface wording around them stays the playful
 // DRAFT in Attic prose made earlier, to be reviewed by Athena before anything is published; the
-// tuition and membership lines are the Modern Greek ones, like the courses they belong to.
+// tuition, membership and registration lines are the Modern Greek ones, like the courses they belong to.
 //
 // Same exports and keys as the English file, so a component can use any language.
 import { courses as greekCourses, coursesPage as greekPage } from '../el/courses';
@@ -30,7 +30,8 @@ export const coursesPage = {
     viewCourse: 'Ἴδετε τὸ μάθημα',
     enrollNow: 'Ἐγγράψασθε',
     // The four facts as four questions: when, for how long, how, and (Apology 20b) for how much.
-    facts: { dates: 'Πότε', duration: 'Πόσον χρόνον', format: 'Πῶς', fee: 'Πόσου' },
+    facts: { dates: 'Πότε', duration: 'Πόσον χρόνον', format: 'Πῶς', language: 'Τίνι γλώττῃ', fee: 'Πόσου' },
+    languages: { el: 'Ἑλληνιστί', en: 'Ἀγγλιστί' },
     close: 'Κλείσατε',
     enroll: 'Ἐγγράψασθε',
     placeholderNote:
@@ -43,6 +44,7 @@ export const coursesPage = {
     // A verb, read together with the instructor's name: "Διδάσκει Δρ. Αθηνά Δέσποινα Ποτάρη".
     taughtBy: 'Διδάσκει',
     tuition: greekPage.ui.tuition,
+    registration: greekPage.ui.registration,
     membership: greekPage.ui.membership,
     // The waitlist (see the English file). ἀπογράφεσθαι, to have one's name put down on a list, keeps
     // it apart from ἐγγράφεσθαι, which is enrolment; the list is "the list of those who wait".
@@ -56,6 +58,8 @@ export const coursesPage = {
       // The quiet line under the button, followed by a link that opens an email to the Academy
       question: 'Ἀπορεῖτέ τι;',
       pending: 'Ὁ κατάλογος οὔπω συνῆπται. Οὐδὲν τῶν ὑμετέρων οὐδαμοῖ πέπεμπται.',
+      thanks: greekPage.ui.waitlist.thanks,
+      failed: greekPage.ui.waitlist.failed,
     },
   },
 } as const;

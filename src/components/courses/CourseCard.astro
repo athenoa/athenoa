@@ -43,11 +43,17 @@ const tones = [
 ];
 const place = courses.findIndex((item) => item.slug === course.slug);
 const tone = tones[Math.max(0, place) % tones.length];
-// The same four facts on every card, in the same order, so cards can be compared at a glance.
+// The same facts on every card, in the same order, so cards can be compared at a glance. A fact may
+// have a quieter line under it: the introduction under the dates, and under the format what follows its
+// first comma ("Live on Zoom" over "Thursdays at 19:30 Greek time").
+const comma = course.format?.indexOf(', ') ?? -1;
 const facts = [
-  { label: ui.facts.dates, value: course.schedule },
+  { label: ui.facts.dates, value: course.schedule, note: course.scheduleNote },
   { label: ui.facts.duration, value: course.duration },
-  { label: ui.facts.format, value: course.format, aside: true },
+  comma < 0
+    ? { label: ui.facts.format, value: course.format }
+    : { label: ui.facts.format, value: course.format!.slice(0, comma), note: course.format!.slice(comma + 2) },
+  { label: ui.facts.language, value: course.teaching && ui.languages[course.teaching] },
   { label: ui.facts.fee, value: course.price?.display, fee: true },
 ].filter((fact) => fact.value);
 // "€200 & VAT (24%)": the amount stands out, the tax note sits smaller beside it.
@@ -98,11 +104,10 @@ const splitFee = (display: string) => {
                 <span class="card__amount">{splitFee(fact.value!)[0]}</span>
                 <span class="card__tax">{splitFee(fact.value!)[1]}</span>
               </dd>
-            ) : fact.aside && fact.value!.includes(', ') ? (
-              /* "Live on Zoom, with recordings": what follows the comma is a quieter line of its own */
+            ) : 'note' in fact && fact.note ? (
               <dd>
-                {fact.value!.slice(0, fact.value!.indexOf(', '))}
-                <span class="card__aside">{fact.value!.slice(fact.value!.indexOf(', ') + 2)}</span>
+                {fact.value}
+                <span class="card__aside">{fact.note}</span>
               </dd>
             ) : (
               <dd>{fact.value}</dd>

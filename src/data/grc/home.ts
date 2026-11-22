@@ -37,7 +37,7 @@ export const home = {
         text: 'Συμβαλεῖσθε εἰς τὴν τοῦ Ἑλληνικοῦ φρονήματος παλιγγενεσίαν',
       },
     ],
-    cta: { label: 'Μάθετε πάνθ’ ὅσα τοῖς ἑταίροις ὑπάρχει', href: site.membershipForm },
+    cta: { label: 'Μάθετε πάνθ’ ὅσα τοῖς ἑταίροις ὑπάρχει', href: site.routes.membership },
   },
 
   announcement: {
@@ -53,9 +53,9 @@ export const home = {
       text: 'Πρῶτοι πυνθάνεσθε τὰ παρ’ ἡμῶν ἀγγελλόμενα καὶ τὰ συγγράμματα καὶ ὅσα μέλλομεν πράξειν',
       cta: { label: 'Ἐγγράψασθε', href: '#newsletter' },
     },
-    // The courses announced here (the two open on the live site, 22 November 2026). Each is drawn as a
-    // course card, the same as on the courses page.
-    courses: [{ slug: 'odusseia' }, { slug: 'eu-zen' }],
+    // The courses announced here: the two open on the live site (22 November 2026) and the one from
+    // January 2027. Each is drawn as a course card, the same as on the courses page.
+    courses: [{ slug: 'odusseia' }, { slug: 'eu-zen' }, { slug: 'the-hidden-non-duality-of-ancient-greek-philosophy' }],
   },
 
   seminar: {
