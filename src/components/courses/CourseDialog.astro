@@ -77,8 +77,22 @@ const canEnrol = course.available && Boolean(course.tuition?.length);
   const setHash = (slug: string) =>
     history.replaceState(history.state, '', slug ? `#${slug}` : location.pathname + location.search);
 
+  // On a phone every section of the popup is open, one after another under a plain heading: nothing
+  // to unfold, nothing hidden (Athena's wish, for older readers)
+  const phone = () => matchMedia('(max-width: 47.99rem)').matches;
+  function unfold(dialog: HTMLDialogElement) {
+    const items = dialog.querySelectorAll<HTMLDetailsElement>('details.acc__item');
+    dialog.classList.toggle('cd--plain', phone());
+    if (!phone()) return;
+    items.forEach((item) => {
+      item.removeAttribute('name');
+      item.open = true;
+    });
+  }
+
   function open(dialog: HTMLDialogElement) {
     if (dialog.open) return;
+    unfold(dialog);
     dialog.classList.remove('is-closing');
     dialog.showModal();
     setHash(dialog.dataset.courseDialog!);
@@ -374,5 +388,34 @@ const canEnrol = course.available && Boolean(course.tuition?.length);
     .cd__sheet {
       border-radius: 1.7rem 2.1rem 1.8rem 2.2rem / 2.1rem 1.7rem 2.2rem 1.8rem;
     }
+  }
+
+  /* On a phone the sections are plain: each under its own heading, all open, nothing to tap open */
+  .cd--plain :global(.acc__item) {
+    border: 0;
+    background: none;
+  }
+  .cd--plain :global(.acc__item + .acc__item) {
+    margin-top: var(--space-s);
+    padding-top: var(--space-s);
+    border-top: 1.5px solid var(--line);
+    border-radius: 0;
+  }
+  .cd--plain :global(.acc__item summary) {
+    padding: 0.6rem 0 0.4rem;
+    pointer-events: none;
+    cursor: default;
+  }
+  .cd--plain :global(.acc__mark) {
+    display: none;
+  }
+  .cd--plain :global(.acc__label) {
+    font-size: var(--step-2);
+  }
+  .cd--plain :global(.acc__sub) {
+    font-size: var(--step-0);
+  }
+  .cd--plain :global(.acc__content) {
+    padding: 0.4rem 0 0.6rem;
   }
 </style>

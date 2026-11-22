@@ -81,7 +81,8 @@ const tabs = [...course.sections, registrationTab];
 <script is:inline data-astro-rerun>
   (function () {
     var root = document.getElementById('course-details');
-    if (!root) return;
+    // On a phone there are no tabs: every panel, one after another (Athena, 22 November 2026)
+    if (!root || !matchMedia('(min-width: 48rem)').matches) return;
     root.classList.add('is-tabbed');
     root.querySelector('[role="tablist"]').hidden = false;
   })();
@@ -89,6 +90,9 @@ const tabs = [...course.sections, registrationTab];
 
 <script>
   function initTabs(root: HTMLElement) {
+    // On a phone the panels stay one after another under their headings, all open: no tabs, nothing
+    // hidden and no strip to scroll sideways (Athena's wish, for older readers)
+    if (!matchMedia('(min-width: 48rem)').matches) return;
     const list = root.querySelector<HTMLElement>('[role="tablist"]');
     if (!list) return;
     const tabs = Array.from(list.querySelectorAll<HTMLButtonElement>('[role="tab"]'));

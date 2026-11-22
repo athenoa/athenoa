@@ -412,6 +412,11 @@ const symbolFor = 'description';
   }
 
   /* ---------- Popup ---------- */
+  /* In the popup the picture is small: the date's label is set smaller, so it does not cover it */
+  .body--dialog .body__note {
+    max-width: 72%;
+    font-size: clamp(1.05rem, 0.8rem + 1vw, 1.35rem);
+  }
   .body--dialog .body__head {
     gap: 0.6rem var(--space-l);
   }
