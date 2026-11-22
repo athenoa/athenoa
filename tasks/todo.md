@@ -285,6 +285,7 @@ State when work stopped: all background agents were stopped. Hero candidates A/B
 ## Launch (Maria, 22 November 2026)
 
 - [ ] Confirm with the ATHENOA team that a monthly Stripe subscription stops by itself after the last instalment: 12 months for membership (83€ or 95€ a month), 8 for the courses. The payment links say "until you cancel", so today someone may have to stop each one by hand.
+- [ ] Stripe: the Academy is setting the 10% discount for paying a course upfront (ΟΔΥΣΣΕΙΑ 495€ / 594€, Εὖ Ζῆν 576€ / 648€). Check each "pay in full" link then charges exactly the price the site shows; if they make new links, replace the hrefs in src/data/*courses.ts.
 - [ ] Add the Scholarship Fund (Ταμείο Υποτροφιών) to the Stripe checkout: an optional donation (their form offers 5, 10, 20, 50, 100 € or another amount). For now the course pages invite donations by email.
 
 ## Open questions
