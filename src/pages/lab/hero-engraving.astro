@@ -1,12 +1,31 @@
 ---
 // Lab page: the home hero as a blue copperplate engraving (client request, 22 November 2026), to set
-// beside the drawn hero (src/components/home/Hero.astro). The picture is one image,
-// src/assets/media/hero-engraving.jpg: cream paper, blue ink, the temple in the middle, the statue of
-// Athena at the left, open sky in the top third. The title, its subtitle and the pen underline stand
-// in that sky. The hero keeps its day look in both themes. Not part of the published site.
-import { Image } from 'astro:assets';
+// beside the drawn hero (src/components/home/Hero.astro). Cream paper, blue ink, the temple in the
+// middle, the statue of Athena at the left, open sky in the top third, where the title, its subtitle
+// and the pen underline stand. The hero keeps its day look in both themes. Not part of the
+// published site.
+//
+// ANIMATED (client direction, 22 November 2026). The print (src/assets/media/hero-engraving.jpg) is
+// taken apart into plates, all in its frame of 1346 by 744, laid one over another:
+//   base     the sky without clouds, the mountain and the ground (generated from the print, then
+//            stretched so its ground line meets the print's at y 693)
+//   clouds   the two clouds of each side, cut from the print by their outline
+//   rays     the light around the temple, drawn here as fine lines (three sets that breathe in turn)
+//   temple   the temple and the statue on her plinth, cut from the print
+//   flame    a small drawn flame laid over the print's own, which flickers
+//   shrubs   the olive bushes and the cypresses in front
+// Every plate covers the hero the same way (object-fit: cover, anchored at the middle of its foot;
+// the SVGs: xMidYMax slice), so they stay in register at any size. Phones and upright screens get a
+// tall print of their own (hero-engraving-portrait.webp), which only prints in.
+// The plates were cut from the print with hand-set polygons (the clouds by their own outline) and
+// saved as WebP; the base and the tall print were generated with Nano Banana Pro at 1k from the print.
 import Base from '../../layouts/Base.astro';
-import engraving from '../../assets/media/hero-engraving.jpg';
+import base from '../../assets/media/hero-engraving-base.webp';
+import cloudsL from '../../assets/media/hero-engraving-clouds-l.webp';
+import cloudsR from '../../assets/media/hero-engraving-clouds-r.webp';
+import temple from '../../assets/media/hero-engraving-temple.webp';
+import shrubs from '../../assets/media/hero-engraving-shrubs.webp';
+import portrait from '../../assets/media/hero-engraving-portrait.webp';
 import { content } from '../../data';
 import { getLocale } from '../../lib/locale';
 
@@ -15,14 +34,67 @@ const { home } = content(locale);
 const { highlight } = home.hero;
 const title = home.hero.titleLines[0];
 const at = title.indexOf(highlight);
+
+// The rays: fine lines fanning up and out from behind the doorway (frame point 673, 600), their inner
+// ends hidden behind the temple. Lengths vary a little, as a burin's would. Three sets, every third ray.
+const rays: string[][] = [[], [], []];
+for (let i = 0, a = 198; a <= 342; a += 1.7, i++) {
+  const t = (a * Math.PI) / 180;
+  const r0 = 230;
+  const r1 = 315 + ((i * 37) % 23) * 3 + (i % 4) * 9;
+  const p = (r: number) => `${(673 + r * Math.cos(t)).toFixed(1)} ${(600 + r * Math.sin(t)).toFixed(1)}`;
+  rays[i % 3].push(`M${p(r0)}L${p(r1)}`);
+}
+const img = (src: { src: string }) => src.src;
 ---
 
 <Base title="Hero engraving | ATHENOA lab" description="Home hero: the temple as a blue copperplate engraving" noindex>
   <section class:list={['eng', `eng--${locale}`]} data-pointer-scene>
     <div class="eng__panel theme-day">
       <div class="eng__stage" aria-hidden="true">
-        <div class="eng__print" data-depth="0.12">
-          <Image src={engraving} alt="" widths={[750, 1346]} sizes="(max-aspect-ratio: 1/1) 150vw, 100vw" loading="eager" class="eng__img" />
+        <div class="eng__plate">
+          <div class="eng__layer eng__layer--base" data-depth="0.12" data-pointer="-3">
+            <img class="eng__img" src={img(base)} alt="" width="1346" height="744" decoding="async" />
+          </div>
+          <div class="eng__layer eng__layer--clouds" data-depth="0.3" data-pointer="-8">
+            <img class="eng__img eng__cloud eng__cloud--l" src={img(cloudsL)} alt="" width="1346" height="744" decoding="async" />
+            <img class="eng__img eng__cloud eng__cloud--r" src={img(cloudsR)} alt="" width="1346" height="744" decoding="async" />
+          </div>
+          <div class="eng__layer eng__layer--rays" data-depth="0.12" data-pointer="-3">
+            {
+              rays.map((set, n) => (
+                <svg class="eng__rays" style={`--n:${n}`} viewBox="0 0 1346 744" preserveAspectRatio="xMidYMax slice">
+                  {/* the lines fade out towards their tips */}
+                  <radialGradient id={`eng-ray-${n}`} gradientUnits="userSpaceOnUse" cx="673" cy="600" r="400">
+                    <stop offset="0.55" stop-color="rgb(38 56 128)" stop-opacity="0.5" />
+                    <stop offset="1" stop-color="rgb(38 56 128)" stop-opacity="0" />
+                  </radialGradient>
+                  <path d={set.join('')} stroke={`url(#eng-ray-${n})`} />
+                </svg>
+              ))
+            }
+          </div>
+          <div class="eng__layer eng__layer--temple" data-depth="0.12" data-pointer="-3">
+            <img class="eng__img" src={img(temple)} alt="" width="1346" height="744" decoding="async" />
+            {/* the print's own flame, covered, and a drawn one over it that flickers */}
+            <svg class="eng__flame eng__flame--cover" viewBox="652 536 42 66">
+              <path d="M660 600C652 588 653 570 664 556C668 549 669 542 668 537L686 545C694 556 697 572 692 588C690 594 688 598 686 600Z" />
+            </svg>
+            <svg class="eng__flame eng__flame--fire" viewBox="652 536 42 66">
+              <path class="eng__flame-out" d="M664 599C656 588 657 572 666 560C669 555 670 548 669 541C676 547 680 553 681 561C683 556 684 552 683 547C690 556 694 570 690 584C688 591 685 596 682 599Z" />
+              <path d="M670 598C666 590 667 580 673 571C675 577 678 582 678 588C680 584 681 581 681 578C685 586 684 594 680 598Z" />
+              <path d="M667 590C664 582 665 574 669 566M686 590C689 582 688 574 685 566M672 563C674 556 674 550 671 545M676 594C674 588 675 582 677 578" />
+            </svg>
+          </div>
+          <div class="eng__layer eng__layer--shrubs" data-depth="-0.15" data-pointer="10">
+            <img class="eng__img" src={img(shrubs)} alt="" width="1346" height="744" decoding="async" />
+          </div>
+        </div>
+        {/* phones and upright screens: one tall print */}
+        <div class="eng__plate eng__plate--tall">
+          <div class="eng__layer" data-depth="0.12">
+            <img class="eng__img" src={img(portrait)} alt="" width="768" height="1376" loading="lazy" decoding="async" />
+          </div>
         </div>
       </div>
       <h1 class="eng__title t-hero" data-split>
@@ -87,18 +159,15 @@ const at = title.indexOf(highlight);
 
 <style>
   .eng {
-    --panel-h: max(100svh, 32rem);
+    /* the first screen, whole: from the top of the window to its foot */
+    --panel-h: max(100svh, 30rem);
     --hero-open: calc(var(--panel-h) - var(--header-h));
     --paper-print: #faf3e1;
     /* the title: two lines on wide screens, as large as the width and the sky allow */
     --eng-fit: 10.6;
     --eng-fs: min(calc((100vw - 2 * var(--edge)) / var(--eng-fit)), calc(var(--hero-open) * 0.085), 6.5rem);
-    /* The picture runs under the sticky header, to the top of the window (by day: at night the
-       header is set for a dark ground, so the print starts under it). */
+    /* The picture runs under the translucent header, to the top of the window, in both themes. */
     margin-top: calc(var(--header-h) * -1);
-  }
-  :global(html[data-theme='dark']) .eng {
-    margin-top: 0;
   }
   .eng--el {
     --eng-fit: 11.6;
@@ -112,13 +181,16 @@ const at = title.indexOf(highlight);
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: var(--panel-h);
+    height: var(--panel-h);
     padding: calc(var(--header-h) + clamp(1rem, 4svh, 3rem)) var(--edge) 0;
     background: var(--paper-print);
   }
-  :global(html[data-theme='dark']) .eng__panel {
-    min-height: var(--hero-open);
-    padding-top: clamp(1rem, 4svh, 3rem);
+
+  /* By night the header's letters are light, and over the paper print they would vanish: there its
+     pill (shown elsewhere once the page scrolls) stands from the start. */
+  :global(html[data-theme='dark'] body:has(.eng)) :global(.header .header__bar::before) {
+    opacity: 1;
+    scale: 1;
   }
 
   /* ---------- the print ---------- */
@@ -129,40 +201,85 @@ const at = title.indexOf(highlight);
     overflow: hidden;
     pointer-events: none;
   }
-  .eng__print {
+  /* The plate reaches a little below the foot of the screen: under the print's ground line there is
+     only a band of plain paper, which is cut (no blank bar at the foot, client direction). */
+  .eng__plate {
+    --plate-h: calc(var(--panel-h) * 1.06);
+    /* one unit of the print's frame on screen (cover: the larger of the two scales) */
+    --unit: max(calc(100vw / 1346), calc(var(--plate-h) / 744));
+    position: absolute;
+    inset: 0 0 auto;
+    height: var(--plate-h);
+  }
+  .eng__layer {
     position: absolute;
     inset: 0;
   }
-  /* Cover, anchored at the foot: the temple stays in the middle and the ground at the bottom; the
-     sky is what gets cut. (Scaled a touch, so the frame line at the right edge of the plate never
-     shows.) */
-  .eng__img {
+  /* Cover, anchored at the middle of the foot: the temple stays in the middle and the ground at the
+     bottom; on a short wide screen it is the sky that is cut. */
+  .eng__img,
+  .eng__rays {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     max-width: none;
     object-fit: cover;
     object-position: 50% 100%;
-    scale: 1.03;
-    transform-origin: 50% 100%;
   }
-  /* Upright screens: cover would leave only the temple's middle. The plate is set at one and a half
-     widths of the screen instead, at the foot, so the statue still shows at the left; above it the
-     sky is the paper itself, the plate's top edge fading into it. */
-  @media (max-aspect-ratio: 1/1) {
-    .eng__img {
-      position: absolute;
-      left: 50%;
-      bottom: 0;
-      width: 145vw;
-      height: auto;
-      translate: -50% 0;
-      scale: 1;
-      mask-image: linear-gradient(to bottom, transparent, #000 22%);
+  .eng__rays {
+    overflow: hidden;
+    fill: none;
+    stroke-width: 0.9;
+    stroke-linecap: round;
+  }
+  /* The flame over the doorway, placed in the print's own units: its box is 652 to 694 across and
+     536 to 602 down the frame, whose foot is the foot of the plate. */
+  .eng__flame {
+    position: absolute;
+    left: calc(50% + (652 - 673) * var(--unit));
+    bottom: calc((744 - 602) * var(--unit));
+    width: calc(42 * var(--unit));
+    height: calc(66 * var(--unit));
+    overflow: visible;
+  }
+  .eng__flame--cover path {
+    fill: var(--paper-print);
+  }
+  .eng__flame--fire {
+    fill: none;
+    stroke: rgb(38 56 128 / 0.8);
+    stroke-width: 0.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transform-origin: 54% 97%;
+  }
+  .eng__flame-out {
+    fill: var(--paper-print);
+  }
+
+  /* Phones and upright screens: the tall print alone. */
+  .eng__plate--tall {
+    display: none;
+  }
+  @media (max-aspect-ratio: 4/5) {
+    .eng__plate {
+      display: none;
+    }
+    .eng__plate--tall {
+      display: block;
+    }
+    /* a little left of the middle, so the statue keeps her place on a narrow phone */
+    .eng__plate--tall .eng__img {
+      object-position: 33% 100%;
     }
   }
 
-  /* Arrival: a fresh print. The ink comes up from the top of the plate to its foot, as a sheet is
-     peeled off it; then all is still. Only once, only with motion on. */
+  /* ---------- motion (only with motion on; otherwise the print stands still) ----------
+     Arrival: a fresh print. The ink comes up from the top of the plate to its foot, as a sheet is
+     peeled off it (1.2s), and the plates settle in order: the ground, the temple and the statue, the
+     bushes last. Then quiet life: the clouds drift, the light breathes, the flame flickers.
+     Transforms and opacity only. */
   @keyframes eng-print {
     from {
       mask-position: 0 100%;
@@ -174,11 +291,82 @@ const at = title.indexOf(highlight);
       mask-image: none;
     }
   }
-  :global(html.motion) .eng__print {
+  :global(html.motion) .eng__plate {
     mask-image: linear-gradient(to bottom, #000 40%, transparent 60%);
     mask-size: 100% 250%;
     mask-repeat: no-repeat;
     animation: eng-print 1.2s cubic-bezier(0.45, 0, 0.25, 1) 0.15s both;
+  }
+  @keyframes eng-settle {
+    from {
+      opacity: 0;
+      transform: translate3d(0, var(--rise, 0.6rem), 0);
+    }
+  }
+  :global(html.motion) .eng__layer--temple .eng__img,
+  :global(html.motion) .eng__layer--shrubs .eng__img {
+    animation: eng-settle 1s var(--ease-out) var(--at, 0.5s) both;
+  }
+  :global(html.motion) .eng__layer--shrubs .eng__img {
+    --at: 0.85s;
+    --rise: 1.4rem;
+  }
+  /* The clouds drift outwards and back, so their cut edge (the edge of the print) never comes in. */
+  @keyframes eng-drift-l {
+    to {
+      transform: translate3d(-7vw, 0, 0);
+    }
+  }
+  @keyframes eng-drift-r {
+    to {
+      transform: translate3d(6vw, 0, 0);
+    }
+  }
+  :global(html.motion) .eng__cloud {
+    will-change: transform;
+  }
+  :global(html.motion) .eng__cloud--l {
+    animation: eng-drift-l 95s ease-in-out -20s infinite alternate;
+  }
+  :global(html.motion) .eng__cloud--r {
+    animation: eng-drift-r 120s ease-in-out -50s infinite alternate;
+  }
+  /* The light: three sets of rays brighten and fade in turn, never together. */
+  @keyframes eng-breathe {
+    from {
+      opacity: 0.45;
+      transform: scale(0.985);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1.015);
+    }
+  }
+  .eng__rays {
+    transform-origin: 50% calc(100% - 144 * var(--unit));
+  }
+  :global(html.motion) .eng__rays {
+    animation: eng-breathe calc(6s + var(--n) * 2.2s) ease-in-out calc(var(--n) * -2.7s) infinite alternate;
+    will-change: transform, opacity;
+  }
+  @keyframes eng-flicker {
+    0%,
+    100% {
+      transform: scale(1, 1) skewX(0deg);
+    }
+    22% {
+      transform: scale(0.95, 1.06) skewX(-2.5deg);
+    }
+    47% {
+      transform: scale(1.03, 0.96) skewX(1.5deg);
+    }
+    71% {
+      transform: scale(0.96, 1.08) skewX(2.5deg);
+    }
+  }
+  :global(html.motion) .eng__flame--fire {
+    animation: eng-flicker 2.4s ease-in-out infinite;
+    will-change: transform;
   }
 
   /* ---------- the title ---------- */
@@ -251,12 +439,6 @@ const at = title.indexOf(highlight);
     .eng__title .t-sub {
       margin-top: 0.6em;
       font-size: max(0.48em, 1.3rem);
-    }
-    /* the title stands in the middle of the paper sky over the roof (the roof is 0.56 of the
-       plate's height above its foot, and the plate is 145vw * 744 / 1346 tall) */
-    .eng__panel {
-      justify-content: center;
-      padding-bottom: calc(145vw * 744 / 1346 * 0.6);
     }
   }
 
