@@ -221,7 +221,8 @@ const opens = (tier: TuitionTier, pay: 'full' | 'monthly') =>
   }
   .way__sum {
     font-family: var(--font-title);
-    font-weight: var(--title-weight);
+    /* prices in bold, wherever they appear (Maria, 23 November 2026) */
+    font-weight: 600;
     font-size: min(var(--step-2), 9vw);
     line-height: 1;
     letter-spacing: var(--title-tracking);
@@ -278,7 +279,9 @@ const opens = (tier: TuitionTier, pay: 'full' | 'monthly') =>
   /* The buttons stand at the foot of each way, level with each other */
   .way__btn {
     margin-top: auto;
-    text-align: center;
+    /* the button's words start on the left edge, like the prices above them (Maria, 23 November 2026) */
+    justify-content: flex-start;
+    text-align: left;
   }
   /* In a column the buttons keep their words on one line where they can */
   .tiers .way__btn {
