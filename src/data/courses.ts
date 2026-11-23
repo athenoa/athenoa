@@ -48,6 +48,8 @@ export interface Course {
   imageAlt: string;
   /** How the banner sits at the top of its page, when not shown whole: its frame and the part kept in view */
   banner?: { ratio: string; focus: string };
+  /** A portrait version of the banner for phones, filling the screen (src/assets/media/<name>) */
+  bannerPortrait?: string;
   /** A second line under the title */
   subtitle?: string;
   /** One or two sentences for the course card */
@@ -146,6 +148,8 @@ const allCourses: Course[] = [
     image: 'course-odusseia',
     // taller than the poster and cropped from the right, so its left side (Athena, Odysseus on his ship, the
     // foreground at the lower left) shows larger (Athena, 23 November 2026)
+    // on phones the portrait version, full screen (Maria, 24 November 2026)
+    bannerPortrait: 'course-odusseia-portrait',
     banner: { ratio: '1.56', focus: '0% 100%' },
     imageAlt:
       'Course banner: ΟΔΥΣΣΕΙΑ, The Journey of the Soul to Awakening. Odysseus at the prow of his ship looks across a deep blue sea to a sunlit island with a temple, Athena watching from the starry sky',

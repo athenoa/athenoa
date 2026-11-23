@@ -52,6 +52,8 @@ const allCourses: Course[] = [
     // Η αφίσα του Κύκλου, από την Ακαδημία (Maria, 22 November 2026)
     image: 'course-odusseia',
     // ψηλότερο και κομμένο από δεξιά, ώστε να φαίνεται μεγαλύτερο το αριστερό μέρος (Athena, 23 November 2026)
+    // on phones the portrait version, full screen (Maria, 24 November 2026)
+    bannerPortrait: 'course-odusseia-portrait',
     banner: { ratio: '1.56', focus: '0% 100%' },
     imageAlt:
       'Αφίσα του Κύκλου: ΟΔΥΣΣΕΙΑ, Το Ταξείδι της Ψυχής προς την Αφύπνιση. Ο Οδυσσέας στην πλώρη του καραβιού του κοιτάζει πέρα από τη βαθιά γαλάζια θάλασσα ένα ηλιόλουστο νησί με ναό, και η Αθηνά τον προσέχει από τον έναστρο ουρανό',

@@ -3,7 +3,7 @@
 //   variant="dialog"  compact header, sections as an accordion (the registration notes are its last item)
 //   variant="page"    h1 header, sections written out under h2 headings
 // On the page the registration is placed by the caller; in the popup it is the accordion's last item.
-import { Image } from 'astro:assets';
+import { Image, Picture } from 'astro:assets';
 import { handCase } from '../../lib/hand';
 import Media from '../Media.astro';
 import portrait from '../../assets/media/athena-portrait-thumb.jpg';
@@ -28,6 +28,7 @@ const { coursesPage, registrationTab, site } = content(getLocale(Astro.url));
 const { ui } = coursesPage;
 const image = courseImage(course.image);
 const page = variant === 'page';
+const portraitBanner = page && course.bannerPortrait ? courseImage(course.bannerPortrait) : null;
 const isOpen = course.status === 'open';
 // A course that cannot be enrolled in yet takes names for its waitlist instead (the same test as the card).
 const waitlist = !course.available;
@@ -77,8 +78,21 @@ const symbolFor = 'description';
           and the flyer itself larger) */}
       {/* Every course picture is a banner, shown whole in a rectangle with softly rounded corners
           (Maria, 22 November 2026); on the page it runs the full width of the content */}
+      {/* phones: the portrait banner, the full screen (Maria, 24 November 2026); the wide one from tablets up */}
+      {portraitBanner && (
+        <Picture
+          class="body__portrait"
+          src={portraitBanner}
+          alt={course.imageAlt}
+          widths={[390, 600, 714]}
+          sizes="100vw"
+          formats={['avif', 'webp']}
+          loading="eager"
+          fetchpriority="high"
+        />
+      )}
       <Media
-        class="body__media"
+        class:list={['body__media', portraitBanner && 'body__media--wide']}
         src={image}
         alt={course.imageAlt}
         shape="soft"
@@ -299,6 +313,31 @@ const symbolFor = 'description';
 </div>
 
 <style>
+  /* the portrait banner on phones only: the whole screen's width and height, under the header */
+  .body__figure :global(.body__portrait) {
+    display: none;
+  }
+  @media (max-width: 40rem) {
+    .body--page .body__figure:has(:global(.body__portrait)) :global(.body__portrait) {
+      display: block;
+      width: 100%;
+      height: 100svh;
+      object-fit: cover;
+      object-position: 50% 50%;
+    }
+    .body--page .body__figure:has(:global(.body__portrait)) :global(.body__media--wide),
+    .body--page .body__figure:has(:global(.body__portrait)) .body__chip,
+    .body--page .body__figure:has(:global(.body__portrait)) .body__print {
+      display: none;
+    }
+    /* the picture starts at the very top, under the header */
+    .body--page .body__figure:has(:global(.body__portrait)) {
+      margin-top: calc(var(--header-h) * -1 - var(--space-m));
+    }
+    .body--page .body__figure:has(:global(.body__portrait)) .body__note {
+      top: calc(100% + 1.4rem);
+    }
+  }
   /* ---------- Header, shared ---------- */
   .body__head {
     display: grid;
