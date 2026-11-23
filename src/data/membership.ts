@@ -22,6 +22,8 @@ export interface Membership {
   cta: string;
   lead: string;
   paragraphs: string[];
+  /** what membership gives, each with one of the site's drawings */
+  benefits: { icon: string; text: string }[];
   /** "If you are interested, read more at the link below:" and the link to the membership form */
   more: string;
   formLink: string;
@@ -54,8 +56,14 @@ export const membershipEn: Membership = {
   cta: 'Register',
   lead: 'For the third year, our School offers an annual subscription as a Member of the Academy of Hellenic Wisdom!',
   paragraphs: [
-    'Beyond the individual Cycles of Studies, this year too, for the third year running, you can study as a Member of the Academy. Membership is for all who are inspired to receive a deeper, organised and complete Education in the Theory & Practice of Philosophy, and to go deeper, initiatically, on the path of Awakening, climbing the steps of Knowledge, and of the Practices and Initiations that belong to each stage of going deeper into the boundless riches of the Greek Spirit.',
-    'As a Member you have access to all the Cycles of Studies & Seminars of our Academy, as well as to a Library of Lessons & other privileges.',
+    'Beyond the individual Cycles of Studies, this year too, for the third year running, you can study as a Member of the Academy. As a Member you:',
+  ],
+  benefits: [
+    { icon: 'laurel', text: 'Have access to all the Cycles of Studies & Seminars of our Academy' },
+    { icon: 'tetractys', text: 'Receive a deeper, organised and complete Education in the Theory & Practice of Philosophy' },
+    { icon: 'torch', text: 'Go deeper on the path of Awakening, through the steps of Knowledge, Practices and Initiations' },
+    { icon: 'dove-scroll', text: 'Have access to the Library of Lessons' },
+    { icon: 'olive-branch', text: 'And other privileges of Membership' },
   ],
   more: 'If you are interested, read more at the link below:',
   formLink: 'Become a member',

@@ -8,15 +8,20 @@ import { content } from '../../data';
 import { getLocale, mainLocale } from '../../lib/locale';
 
 const locale = getLocale(Astro.url);
-const { start } = content(locale).home;
+const { home, site } = content(locale);
+const { start } = home;
 const t = {
   en: {
     frescoAlt:
       'Raphael’s fresco The School of Athens: the philosophers of antiquity gathered beneath a great vaulted hall',
+    courses: 'Explore the courses',
+    member: 'Become a Member',
   },
   el: {
     frescoAlt:
       'Η τοιχογραφία του Ραφαήλ «Η Σχολή των Αθηνών»: οι φιλόσοφοι της αρχαιότητας συγκεντρωμένοι κάτω από μια μεγάλη θολωτή αίθουσα',
+    courses: 'Δείτε τα μαθήματα',
+    member: 'Γίνε Μέλος',
   },
 }[mainLocale(locale)];
 ---
@@ -46,8 +51,13 @@ const t = {
         <h2 class="t-1" id="start-title" data-split>{start.title}</h2>
         <!-- Athena's two lines read as one sentence: one block (client direction, 11 October 2026) -->
         <div class="start__lines">
-          <p class="hand hand--l" data-reveal style="--i:4">{handCase(start.lines.join(' '))}</p>
+          <p class="hand hand--l" data-reveal style="--i:4">“{locale === 'en' ? handCase(start.lines.join(' ')) : start.lines.join(' ')}”</p>
         </div>
+        {/* the two ways in, at the foot of the home page (Maria, 23 November 2026) */}
+        <p class="start__go" data-reveal style="--i:5">
+          <a class="btn" href={site.routes.courses}>{t.courses}</a>
+          <a class="btn" href={site.routes.membership}>{t.member}</a>
+        </p>
       </div>
     </div>
   </div>
@@ -119,6 +129,12 @@ const t = {
   .start__text {
     position: relative;
     max-width: min(100%, 48rem);
+  }
+  .start__go {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem 1.1rem;
+    margin-top: var(--space-m);
   }
   .start__lines {
     margin-top: var(--space-m);

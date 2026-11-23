@@ -59,13 +59,21 @@ const bannerAlt = {
         <div class="prose">
           <p class="mem__lead">{m.lead}</p>
           {m.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+          <ul class="mem__benefits" role="list">
+            {m.benefits.map((benefit) => (
+              <li>
+                <Illustration name={benefit.icon} class="mem__icon" note={false} />
+                <span>{benefit.text}</span>
+              </li>
+            ))}
+          </ul>
         </div>
         {/* Athena herself after the words (on the right, and at the foot on phones), in an organic frame, with her own line from the home page
             (Maria, 23 November 2026: warmer and more personal) */}
         <figure class="mem__athena">
           <Media src={portrait} alt={athena.alt} shape="pebble-1" ratio="1 / 1" focus="50% 30%" widths={[320, 480, 640]} sizes="(min-width: 60rem) 18rem, 60vw" />
           <blockquote class="mem__quote">
-            <p>{athena.quote}</p>
+            <p>“{athena.quote}”</p>
             <cite>{athena.name}</cite>
           </blockquote>
         </figure>
@@ -210,6 +218,36 @@ const bannerAlt = {
   }
   .mem__athena :global(.media) {
     width: min(100%, 15rem);
+  }
+  /* what membership gives: a list, each line with a small drawing on a light pebble */
+  .mem__benefits {
+    display: grid;
+    gap: 0.85rem;
+    margin: var(--space-s) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .mem__benefits li {
+    display: grid;
+    grid-template-columns: 2.6rem minmax(0, 1fr);
+    align-items: center;
+    gap: 0.9rem;
+    margin: 0;
+  }
+  .mem__benefits li::before {
+    content: none;
+  }
+  .mem__benefits :global(.mem__icon) {
+    width: 2.6rem;
+    height: 2.6rem;
+    padding: 0.4rem;
+    border-radius: var(--r-pebble-1);
+    background: var(--creme-light);
+    color: var(--ink-strong);
+  }
+  .mem__benefits :global(.mem__icon svg) {
+    width: 100%;
+    height: 100%;
   }
   .mem__quote {
     margin: 0;

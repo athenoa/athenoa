@@ -31,6 +31,11 @@ const { coursesPage, site } = content(locale);
 const { ui } = coursesPage;
 const r = ui.register;
 const bank = ui.registration.bank;
+// short words for the account under the bank option
+const t = {
+  en: { bankShow: 'See the account details', bankRef: 'As reference, write your full name and the course. Afterwards, send the proof of payment to philathenea@athenoa.academy.' },
+  el: { bankShow: 'Δείτε τα στοιχεία του λογαριασμού', bankRef: 'Ως αιτιολογία γράψτε το ονοματεπώνυμό σας και τον Κύκλο. Μετά στείλτε το αποδεικτικό στο philathenea@athenoa.academy.' },
+}[locale === 'en' ? 'en' : 'el'];
 const tiers = course.tuition ?? [];
 const discount = course.upfrontDiscount ?? 0;
 const off = discount > 0 ? fill(ui.tuition.off, { pct: percent(discount) }) : '';
@@ -122,6 +127,17 @@ const monthly = (tier: (typeof tiers)[number]) =>
                     )}
                   </span>
                 </label>
+                {/* the account at a glance, under the bank option (Maria, 23 November 2026) */}
+                <details class="opt__bank">
+                  <summary>{t.bankShow}</summary>
+                  <p>
+                    {bank.bank} · {bank.holder}
+                    <br />
+                    IBAN <span class="opt__iban" translate="no">{bank.iban}</span>
+                    <br />
+                    {t.bankRef}
+                  </p>
+                </details>
               </div>
             </fieldset>
 
@@ -732,6 +748,32 @@ const monthly = (tier: (typeof tiers)[number]) =>
   }
   .opt__name {
     font-weight: 560;
+  }
+  .opt__bank {
+    margin: -0.2rem 0 0.4rem 2.4rem;
+    font-size: var(--step--1);
+  }
+  .opt__bank summary {
+    width: fit-content;
+    color: var(--ink-strong);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    cursor: pointer;
+    list-style: none;
+  }
+  .opt__bank summary::-webkit-details-marker {
+    display: none;
+  }
+  .opt__bank p {
+    margin: 0.4rem 0 0;
+    line-height: 1.5;
+    color: var(--ink-soft);
+  }
+  .opt__iban {
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    user-select: all;
+    color: var(--ink-strong);
   }
   .opt__price {
     grid-column: 2;
