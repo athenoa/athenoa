@@ -69,6 +69,8 @@ export const about = {
 
   contact: {
     title: 'Contact us',
+    // under the title, before the Academy's address (a mailto link)
+    emailUs: 'Or email us at',
     intro: 'Contact us regarding our work, upcoming courses, retreats, articles and more.',
     fields: [
       { name: 'name', label: 'Full Name', type: 'text', required: true, placeholder: 'Full name', autocomplete: 'name' },

@@ -122,11 +122,14 @@ const [lead, ...paragraphs] = about.intro;
     position: absolute;
     inset: -30%;
   }
+  /* A rim the photograph's own shape, a little larger all round, not an offset second shape
+     (Maria, 23 November 2026) */
   .hero__plate {
+    --rim: 0.7rem;
     position: absolute;
-    inset: 0;
-    translate: -0.9rem 1rem;
-    border-radius: var(--r-arch);
+    inset: calc(var(--rim) * -1);
+    border-radius: calc(var(--fig) / 2 + var(--rim)) calc(var(--fig) / 2 + var(--rim)) 3.1rem 3.6rem /
+      calc(var(--fig) / 2 + var(--rim)) calc(var(--fig) / 2 + var(--rim)) 2.9rem 3.3rem;
     background-color: var(--blue);
     background-image: url('/textures/grain-light.webp');
     background-size: 400px 400px;
@@ -176,9 +179,6 @@ const [lead, ...paragraphs] = about.intro;
       margin-top: calc(var(--fig) * 0.3 + 0.75rem - var(--space-l));
       margin-right: 0;
     }
-    .hero__plate {
-      translate: -1.2rem 1.3rem;
-    }
     .hero__lead {
       grid-area: lead;
       margin-top: 0;
@@ -202,9 +202,6 @@ const [lead, ...paragraphs] = about.intro;
     }
     .hero__head {
       margin-bottom: var(--space-s);
-    }
-    .hero__plate {
-      translate: -1.5rem 1.6rem;
     }
   }
 </style>

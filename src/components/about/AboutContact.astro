@@ -7,7 +7,8 @@ import { content } from '../../data';
 import { getLocale } from '../../lib/locale';
 
 // Every word here comes from the data; the component adds none of its own.
-const { about } = content(getLocale(Astro.url));
+const { about, site } = content(getLocale(Astro.url));
+const [email] = site.emails;
 const { contact } = about;
 // A short title stays on one line; a longer one (the Greek) is sized so that its longest word fits the column.
 const fit =
@@ -24,6 +25,7 @@ const fit =
       <div class="contact__grid">
         <div class="contact__lead">
           <h2 id="contact-title" class="t-1 contact__title" data-split style={`--fit:${fit}`}>{contact.title}</h2>
+          <p class="contact__email">{contact.emailUs} <a href={`mailto:${email}`}>{email}</a></p>
           {/* The line under the title ("Contact us regarding our work…") was removed at the client's wish, 12 October 2026 */}
           <Illustration name="tripod" class="contact__tripod" draw />
         </div>
@@ -72,6 +74,15 @@ const fit =
   }
   /* Sized against its own column (0.45em is a generous average letter), so no word of the title can
      reach under the form, in either language */
+  .contact__email {
+    font-size: var(--step-1);
+  }
+  .contact__email a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    overflow-wrap: anywhere;
+  }
   .contact__title {
     font-size: min(var(--step-4), calc(100cqi / (var(--fit) * 0.45)));
   }
@@ -84,7 +95,16 @@ const fit =
       align-items: center;
       column-gap: var(--space-m);
     }
-    .contact__title {
+    .contact__email {
+    font-size: var(--step-1);
+  }
+  .contact__email a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    overflow-wrap: anywhere;
+  }
+  .contact__title {
       font-size: min(var(--step-4), calc((100cqi - 12rem) / (var(--fit) * 0.45)));
     }
     .contact__tripod {

@@ -453,3 +453,4 @@ The four earlier courses (The Hidden Non-Duality, and the three placeholders) ar
 ## 23 November 2026: Tuition of Love notes shortened (Maria; approved by her, Athena to review)
 - el: "Περιλαμβάνουν τα βασικά δίδακτρα και μια χορηγία για συμμαθητές που τη χρειάζονται, στηρίζοντας το έργο της Σχολής μας." / "Και μια προαιρετική ατομική συνεδρία με την Αθηνά για τις απορίες σας."
 - en: "It includes the standard tuition and a sponsorship for fellow students who need it, supporting the work of our School." / "And an optional one-to-one session with Athena for your questions."
+- About contact: 'Ή στείλτε μας email στο' / 'Or email us at' + philathenea@athenoa.academy under the title (proposed, 23 Nov 2026)
