@@ -718,11 +718,11 @@ const symbolFor = 'description';
     font-size: var(--step-1);
     line-height: 1.34;
   }
-  /* Wide: the summary on the left, the facts beside it */
+  /* Wide: the summary on the left, the facts beside it, half and half (Maria, 23 November 2026) */
   @media (min-width: 60rem) {
     .body--page .body__lede {
       display: grid;
-      grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: var(--space-s) var(--space-l);
       align-items: start;
       max-width: none;
