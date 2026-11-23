@@ -85,9 +85,10 @@ const symbolFor = 'description';
       />
       {/* On the page the picture "prints in": a sheet of paper slides off it, downward (the arrival below) */}
       {page && <span class="body__print" aria-hidden="true"><span /></span>}
-      {/* On the page, who teaches it: Athena's photograph and name on a paper chip stuck to the picture */}
+      {/* On the page, who teaches it: Athena's photograph and name on a paper chip stuck to the picture.
+          Not on Εὖ Ζῆν, whose banner already shows her portrait and name (Maria, 23 November 2026). */}
       {
-        page && (
+        page && course.slug !== 'eu-zen' && (
           <p class="body__chip">
             <Image class="body__thumb" src={portrait} alt="" width={112} height={112} densities={[1, 2]} />
             <span>
