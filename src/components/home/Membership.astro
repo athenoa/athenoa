@@ -10,7 +10,7 @@ import { content } from '../../data';
 import { getLocale, mainLocale } from '../../lib/locale';
 
 const locale = getLocale(Astro.url);
-const { home } = content(locale);
+const { home, site } = content(locale);
 const { title, question, points } = home.membership;
 
 // Words this component adds itself.
@@ -18,10 +18,12 @@ const t = {
   en: {
     apolloAlt: 'Gilded statue of Apollo holding a lyre, standing on top of an Ionic column',
     friezeAlt: 'Painted frieze of a procession of women in white robes carrying flowers and offerings',
+    go: 'Become a Member',
   },
   el: {
     apolloAlt: 'Επίχρυσο άγαλμα του Απόλλωνα με λύρα, στημένο πάνω σε ιωνικό κίονα',
     friezeAlt: 'Ζωγραφιστή ζωφόρος με πομπή γυναικών σε λευκούς χιτώνες, που κρατούν άνθη και προσφορές',
+    go: 'Γίνε Μέλος',
   },
 }[mainLocale(locale)];
 
@@ -40,6 +42,10 @@ const looks = [
     <header class="membership__head">
       <h2 class="t-2" id="membership-title" data-split>{title}</h2>
       <p class="lead" data-reveal style="--delay:250ms">{question}</p>
+      {/* the way to the membership page (Maria, 23 November 2026) */}
+      <p class="membership__go" data-reveal style="--delay:400ms">
+        <a class="btn" href={site.routes.membership}>{t.go}</a>
+      </p>
     </header>
 
     <div class="niche theme-day">
@@ -107,6 +113,9 @@ const looks = [
   .membership__head {
     position: relative;
     z-index: 2;
+  }
+  .membership__go {
+    margin-top: var(--space-m);
   }
   .membership__head .lead {
     margin-top: var(--space-m);
