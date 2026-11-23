@@ -513,6 +513,10 @@ const monthly = (tier: (typeof tiers)[number]) =>
         } else showDone(false, true);
         return;
       }
+      // the page Stripe sends them back to opens in the language they registered in (PaymentStatus.astro)
+      try {
+        localStorage.setItem('ath-pay-lang', pageLocale() === 'en' ? 'en' : 'el');
+      } catch {}
       if (link) window.location.assign(withReference(link, reference));
       else {
         busy(false);

@@ -122,3 +122,22 @@ const w = words[kind];
     color: inherit;
   }
 </style>
+
+<script>
+  // Stripe sends everyone back to the Greek page; whoever registered on the English pages sees it in English
+  // (the form notes the language just before leaving for Stripe: RegisterDialog.astro)
+  document.addEventListener('astro:page-load', () => {
+    let lang = '';
+    try {
+      lang = localStorage.getItem('ath-pay-lang') ?? '';
+    } catch {}
+    const onEnglish = location.pathname.startsWith('/en/');
+    if (lang === 'en' && !onEnglish) location.replace('/en' + location.pathname);
+    // choosing the other language here is kept, so the page does not send them back
+    document.querySelector('.pay__other a')?.addEventListener('click', () => {
+      try {
+        localStorage.setItem('ath-pay-lang', onEnglish ? 'el' : 'en');
+      } catch {}
+    });
+  });
+</script>
