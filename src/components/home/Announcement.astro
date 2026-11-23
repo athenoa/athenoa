@@ -312,6 +312,15 @@ const announced = home.announcement.courses
     .announcement__top:not(:has(.slip)) .letter {
       align-items: center;
       row-gap: 0;
+      /* the two sentences together, centred beside the photograph (Maria, 23 November 2026) */
+      grid-template-rows: auto auto;
+      align-content: center;
+    }
+    .announcement__top:not(:has(.slip)) .letter > h2 {
+      align-self: end;
+    }
+    .announcement__top:not(:has(.slip)) .letter > .letter__text {
+      align-self: start;
     }
     .announcement__top:not(:has(.slip)) .letter > :is(h2, .letter__text) {
       grid-column: 1;
