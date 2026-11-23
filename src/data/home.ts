@@ -80,7 +80,7 @@ export const home = {
   },
 
   transmission: {
-    title: 'Living Transmission of Ancient Thought for a Sustainable Future',
+    title: 'Ancient Thought for a Sustainable Future',
     text: 'Join us in restoring Philosophy to its rightful place in promoting a new evolution in consciousness and a future of harmonious coexistence!',
     cta: { label: 'See all courses', href: site.routes.courses },
   },

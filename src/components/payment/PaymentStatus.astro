@@ -30,7 +30,6 @@ const words = {
     ask: 'Για οτιδήποτε, γράψτε μας στο',
     home: 'Αρχική σελίδα',
     courses: 'Δείτε τα μαθήματα',
-    other: { label: 'English', href: `/en/payment/${kind}/` },
   },
   en: {
     success: {
@@ -46,7 +45,6 @@ const words = {
     ask: 'For anything at all, write to us at',
     home: 'Home page',
     courses: 'See the courses',
-    other: { label: 'Ελληνικά', href: `/payment/${kind}/` },
   },
 }[mainLocale(locale)];
 const w = words[kind];
@@ -64,20 +62,77 @@ const w = words[kind];
       {kind === 'failed' && <a class="btn" href={site.routes.courses}>{words.courses}</a>}
       <a class="btn btn--ghost" href={site.home.href}>{words.home}</a>
     </p>
-    <p class="pay__other"><a href={words.other.href} lang={locale === 'en' ? 'el' : 'en'}>{words.other.label}</a></p>
   </div>
 </section>
+{/* No footer on these pages: the olive grove instead, its trees over the foot of the box (Maria, 23 November 2026) */}
+<div class="pay__ground"><div class="pay__scene" aria-hidden="true">
+  <div class="pay__layer pay__layer--far"><Illustration name="footer-grove-far" /></div>
+  <div class="pay__layer pay__layer--mid"><Illustration name="footer-grove-mid" /></div>
+  <div class="pay__layer pay__layer--near"><Illustration name="footer-grove-near" /></div>
+</div></div>
 
 <style>
   .pay {
+    position: relative;
+    z-index: 1;
     display: grid;
     place-items: center;
-    min-height: 70vh;
-    padding-block: calc(var(--header-h) + var(--space-l)) var(--space-xl);
+    padding-block: calc(var(--header-h) + var(--space-l)) 0;
+  }
+  /* the grove: as wide as the window (never narrower than 64rem, so a phone sees its middle), rising over the
+     last part of the box */
+  /* the grove is wider than a phone: clip it there, so the page never widens */
+  .pay__ground {
+    position: relative;
+    z-index: 2;
+    overflow-x: clip;
+    margin-top: calc(max(100vw, 64rem) * -0.17);
+  }
+  .pay__scene {
+    position: relative;
+    z-index: 2;
+    left: 50%;
+    width: max(100%, 64rem);
+    translate: -50% 0;
+    aspect-ratio: 1600 / 525;
+    pointer-events: none;
+  }
+  .pay__layer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    color: var(--blue);
+  }
+  .pay__layer :global(svg) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .pay__layer--far {
+    bottom: 16%;
+  }
+  .pay__layer--mid {
+    bottom: 2.7%;
+  }
+  .pay__layer--near {
+    bottom: -1px;
+  }
+  .pay__scene :global(.sky-day path),
+  .pay__scene :global(.sky-moon path) {
+    fill: var(--gold);
+  }
+  /* no sun, moon or stars here: they would fall on the box */
+  .pay__scene :global(.sky-night),
+  .pay__scene :global(.sky-day) {
+    display: none;
+  }
+  :global(html[data-theme='dark']) .pay__layer--near :global(path[fill='currentColor']) {
+    fill: #03072a;
   }
   .pay__sheet {
     max-width: 42rem;
-    padding: clamp(2rem, 1.2rem + 4vw, 4rem);
+    padding: clamp(2rem, 1.2rem + 4vw, 4rem) clamp(2rem, 1.2rem + 4vw, 4rem) clamp(6rem, 4rem + 8vw, 10rem);
     text-align: center;
     --leaf: var(--gold);
   }
@@ -114,13 +169,6 @@ const w = words[kind];
     gap: 0.8rem;
     margin-top: var(--space-m);
   }
-  .pay__other {
-    margin-top: var(--space-m);
-    font-size: var(--step--1);
-  }
-  .pay__other a {
-    color: inherit;
-  }
 </style>
 
 <script>
@@ -133,11 +181,5 @@ const w = words[kind];
     } catch {}
     const onEnglish = location.pathname.startsWith('/en/');
     if (lang === 'en' && !onEnglish) location.replace('/en' + location.pathname);
-    // choosing the other language here is kept, so the page does not send them back
-    document.querySelector('.pay__other a')?.addEventListener('click', () => {
-      try {
-        localStorage.setItem('ath-pay-lang', onEnglish ? 'el' : 'en');
-      } catch {}
-    });
   });
 </script>
