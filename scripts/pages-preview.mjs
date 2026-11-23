@@ -38,6 +38,8 @@ for (const file of files) {
     const before = text;
     // attributes that hold one address
     text = text.replace(/\b(href|src|action|poster|data-[\w-]*(?:src|href|link))=(["'])(\/[^"']*)\2/g, (m, attr, q, url) => `${attr}=${q}${fix(url)}${q}`);
+    // the redirect pages for the old addresses (/odusseia and the like): their refresh target
+    text = text.replace(/(content=(["'])\d+;\s*url=)(\/[^"']*)\2/gi, (m, head, q, url) => `${head}${fix(url)}${q}`);
     // srcset holds several
     text = text.replace(/\bsrcset=(["'])([^"']*)\1/g, (m, q, set) => `srcset=${q}${set.split(',').map((part) => part.replace(/^(\s*)(\/\S*)/, (x, sp, url) => sp + fix(url))).join(',')}${q}`);
     // addresses inside style attributes and <style> blocks
