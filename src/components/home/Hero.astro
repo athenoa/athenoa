@@ -301,6 +301,9 @@ const showAthena = false;
     --pb-stone: var(--creme-light);
     --pb-light: var(--creme-light);
     --ink-strong: var(--blue);
+    /* the highlighted words in gold, like the gilded statue of the goddess: deep by day, warm by night
+       (Maria, 23 November 2026: a colour of their own in both themes) */
+    --hero-gold: #8a5a10;
     --highlight: var(--creme-light);
     --highlight-ink: var(--blue);
     --sub-ink: var(--blue);
@@ -328,6 +331,7 @@ const showAthena = false;
     --pb-stone: var(--blue);
     --pb-light: var(--blue-light);
     --ink-strong: var(--creme-light);
+    --hero-gold: #e9bf6a;
     --highlight: var(--blue-light);
     --highlight-ink: var(--blue-deep);
     --sub-ink: var(--blue-light);
@@ -397,7 +401,7 @@ const showAthena = false;
      2026): the delayed colour change of split headings (motion.css) does not apply here */
   :global(html) .hero .hero__title .hl__w,
   :global(html.motion) .hero .hero__title[data-split] .hl__w {
-    color: var(--ink-strong);
+    color: var(--hero-gold);
     transition: none;
   }
   /* The pen strokes, in the title's ink: one under each line of highlighted words, placed by the
@@ -416,7 +420,7 @@ const showAthena = false;
     height: 0.2em;
     max-width: none;
     overflow: visible;
-    fill: var(--ink-strong);
+    fill: var(--hero-gold);
     pointer-events: none;
   }
   /* Greek: EB Garamond sits lower on the line, and its letters have tails below it */

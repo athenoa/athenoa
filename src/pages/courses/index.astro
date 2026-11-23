@@ -75,7 +75,9 @@ const others = courses.filter((course) => course !== lead);
     /* Room for the pebble, whose edge then lines up with the cards below */
     margin: calc(var(--mark) * 0.24);
   }
+  /* the light-blue pebble behind the symbol taken away (Maria for Athena, 23 November 2026: no large light-blue fills, dark blue is the accent) */
   .courses__mark::before {
+    display: none;
     content: '';
     position: absolute;
     inset: -24%;

@@ -53,6 +53,8 @@ interface Props {
     discount?: number;
   };
 }
+// Membership's card on crème paper, the courses' tiers dark blue, their upfront boxes crème (Maria for Athena,
+// 23 November 2026: no large light-blue fills, dark blue is the accent).
 const { tiers, level = 3, payInFull, payMonthly, month, per = '', or, payments, total, discount = 0, off, course, member } = Astro.props;
 const columns = tiers.length + (member?.tier ? 1 : 0);
 const locale = getLocale(Astro.url);
@@ -71,7 +73,7 @@ const cards = [
 <ul class:list={['tiers', member && 'tiers--member']} role="list" style={`--cols:${columns}`}>
   {
     cards.map(({ tier, discount, member: isMember, per: perLine }) => (
-      <li class:list={['tier box', isMember ? 'on-blue-light tier--member' : 'on-blue-deep']}>
+      <li class:list={['tier box', isMember ? 'on-creme tier--member' : 'on-blue-deep']}>
         <Name class="tier__name">
           {tier.name}
           {/* a heart for the Tuition of Love, the membership page's bee for membership */}
@@ -80,7 +82,7 @@ const cards = [
         </Name>
         <div class="ways">
           {/* membership keeps its own colours (Maria, 23 November 2026): light-blue card, crème price box */}
-          <div class:list={['way way--upfront box', !isMember && 'on-blue-light']}>
+          <div class:list={['way way--upfront box', !isMember && 'on-creme']}>
             <p class="way__amount">
               <span class="way__sum">{money(upfrontPrice(tier.price, discount), locale)}</span>
               {perLine && <span class="way__unit">{perLine}</span>}
@@ -159,7 +161,9 @@ const cards = [
       grid-column: 1 / -1;
     }
   }
-  @container (min-width: 56rem) {
+  /* three columns only on a very wide row: below that two, membership across under them, so each card
+     has room for its two ways side by side (23 November 2026) */
+  @container (min-width: 80rem) {
     .tiers {
       grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
     }
@@ -337,8 +341,8 @@ const cards = [
   }
   /* its price box on crème paper, its buttons in the light card's inks (the arch around it is dark blue) */
   .tier--member .way--upfront {
-    --paper: var(--creme-light);
-    --box-bg: var(--creme-light);
+    --paper: var(--creme);
+    --box-bg: var(--creme);
   }
   .tier--member .btn {
     --btn-bg: var(--blue);

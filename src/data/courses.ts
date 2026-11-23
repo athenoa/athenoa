@@ -46,6 +46,8 @@ export interface Course {
   /** File name (without extension) in src/assets/media */
   image: string;
   imageAlt: string;
+  /** How the banner sits at the top of its page, when not shown whole: its frame and the part kept in view */
+  banner?: { ratio: string; focus: string };
   /** A second line under the title */
   subtitle?: string;
   /** One or two sentences for the course card */
@@ -139,6 +141,9 @@ const allCourses: Course[] = [
     status: 'open',
     // The course banner, from the Academy (Maria, 22 November 2026)
     image: 'course-odusseia',
+    // taller than the poster and cropped from the right, so its left side (Athena, Odysseus on his ship, the
+    // foreground at the lower left) shows larger (Athena, 23 November 2026)
+    banner: { ratio: '1.56', focus: '0% 100%' },
     imageAlt:
       'Course banner: ΟΔΥΣΣΕΙΑ, The Journey of the Soul to Awakening. Odysseus at the prow of his ship looks across a deep blue sea to a sunlit island with a temple, Athena watching from the starry sky',
     subtitle: 'The Journey of the Soul to Awakening',
@@ -239,7 +244,7 @@ const allCourses: Course[] = [
     imageAlt:
       'Course banner: Εὖ Ζῆν, The Ancient Art of Eudaimonia. Dr. Athena Potari in front of bookshelves, between an Ionic column with olive leaves and a marble bust of Athena with her owl; 16 experiential lessons of Greek Philosophy in practice, from Self-knowledge to Eudaimonia',
     subtitle: 'The Ancient Art of Eudaimonia',
-    summary: '16 experiential lessons of Greek Philosophy in Practice. From Self-knowledge to Eudaimonia.',
+    summary: 'Philosophy as the Art of Living: an experiential path to becoming, each day, who we truly are.',
     schedule: 'From 1 December 2026',
     scheduleNote: 'Introductory lesson - Presentation of the Cycle: Monday 23 November, 19:30',
     dates: [

@@ -82,7 +82,8 @@ const symbolFor = 'description';
         src={image}
         alt={course.imageAlt}
         shape="soft"
-        ratio={`${image.width} / ${image.height}`}
+        ratio={page && course.banner ? course.banner.ratio : `${image.width} / ${image.height}`}
+        focus={page && course.banner ? course.banner.focus : undefined}
         sizes={page ? '(min-width: 86rem) 82rem, calc(100vw - 2rem)' : '(min-width: 48rem) 26rem, 88vw'}
         priority={page}
         reveal={false}
@@ -275,7 +276,7 @@ const symbolFor = 'description';
   {/* A course not open yet: at the foot of its page, a calm word and the way onto its waitlist (Maria) */}
   {
     page && waitlist && (
-      <section class="body__wait box on-blue-light" aria-label={ui.joinWaitlist}>
+      <section class="body__wait box on-blue" aria-label={ui.joinWaitlist}>
         <p class="body__wait-line">{ui.waitlist.invite}</p>
         <p>
           <a
@@ -658,6 +659,8 @@ const symbolFor = 'description';
     position: absolute;
     inset: 0;
     z-index: -1;
+    /* a little see-through over the picture (Maria, 23 November 2026) */
+    opacity: 0.82;
     border-radius: 2.6rem 2rem 2.4rem 2.8rem / 2.8rem 2.4rem 2rem 2.6rem;
     background-color: var(--creme-light);
     background-image: url('/textures/grain-dark.webp');

@@ -282,6 +282,21 @@ html[lang='grc'] {
   color: var(--ink);
 }
 
+/* Crème paper, dark blue ink: for a light box set on a dark blue ground (23 November 2026) */
+.on-creme {
+  --paper: var(--creme-light);
+  --box-bg: var(--creme-light);
+  --ink: var(--blue-deep);
+  --ink-strong: var(--blue);
+  --ink-soft: color-mix(in srgb, var(--blue-deep) 72%, var(--creme-light));
+  --line: color-mix(in srgb, var(--blue) 30%, transparent);
+  --grain: url('/textures/grain-dark.webp');
+  --highlight: var(--blue-light);
+  --highlight-ink: var(--blue-deep);
+  --sub-ink: var(--blue);
+  color: var(--ink);
+}
+
 /* Light blue paper, dark blue ink */
 .on-blue-light {
   --paper: var(--blue-light);

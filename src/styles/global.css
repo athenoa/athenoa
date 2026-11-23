@@ -434,7 +434,7 @@ b {
 }
 /* A dark-blue button's ledge is nearly black, almost lost on blue grounds (Maria, 23 November 2026):
    it is the near-black of the ink, and the button keeps a fine crème edge so its shape always shows */
-:is(.way--upfront, .on-blue-light, .tier--member) .btn:not(.btn--ghost),
+:is(.way--upfront, .on-blue-light, .on-creme, .tier--member) .btn:not(.btn--ghost),
 .btn:not(.btn--ghost):not(:is(.on-blue, .on-blue-deep) .btn) {
   --btn-ledge: #020627;
   --btn-drop: 0.4rem;

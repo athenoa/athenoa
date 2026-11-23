@@ -31,7 +31,8 @@ const t = {
 // a light-blue pebble, darker paper. Shape and emblem differ; the depths stay close together.
 const looks = [
   { emblem: 'icon-spirit', box: 'box box--offset', depth: '0.02' },
-  { emblem: 'icon-community', box: 'box on-blue-light', depth: '-0.03' },
+  // dark blue, not light blue (Maria for Athena, 23 November 2026: no large light-blue fills, dark blue is the accent)
+  { emblem: 'icon-community', box: 'box on-blue', depth: '-0.03' },
   // The ear of wheat shown at Eleusis: what is given comes back as new life
   { emblem: 'wheat', box: 'box box--deep', depth: '0.02' },
 ];
@@ -216,7 +217,8 @@ const looks = [
   }
   .points .point--1::after {
     border: 0;
-    background: var(--blue-light);
+    /* dark blue, not light blue (Maria for Athena, 23 November 2026: no large light-blue fills, dark blue is the accent) */
+    background: var(--blue);
     filter: url(#rough-sm);
   }
   /* 2: a light-blue pebble. The shape overshoots its text so the curve never crowds a word. */

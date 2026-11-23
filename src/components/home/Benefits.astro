@@ -41,8 +41,9 @@ const t = {
 type Photo = Pick<ComponentProps<typeof Media>, 'src' | 'alt' | 'shape' | 'ratio' | 'focus' | 'widths' | 'sizes'>;
 const looks: { surface: string; mat: string; photo: Photo; second?: Photo }[] = [
   {
-    surface: 'on-blue-light',
-    mat: 'on-blue',
+    // dark blue, not light blue (Maria for Athena, 23 November 2026: no large light-blue fills, dark blue is the accent)
+    surface: 'on-blue-deep',
+    mat: 'on-blue-light',
     photo: {
       src: gathering,
       alt: t.gatheringAlt,
