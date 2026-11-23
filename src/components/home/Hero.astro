@@ -301,9 +301,10 @@ const showAthena = false;
     --pb-stone: var(--creme-light);
     --pb-light: var(--creme-light);
     --ink-strong: var(--blue);
-    /* the highlighted words in gold, like the gilded statue of the goddess: deep by day, warm by night
-       (Maria, 23 November 2026: a colour of their own in both themes) */
-    --hero-gold: #8a5a10;
+    /* the highlighted words in a colour of their own (Maria, 23 November 2026): light crème by day, on the
+       light sky with a soft dark-blue edge so they stay legible; warm gold by night, where the title itself
+       is crème */
+    --hero-gold: var(--creme-light);
     --highlight: var(--creme-light);
     --highlight-ink: var(--blue);
     --sub-ink: var(--blue);
@@ -402,6 +403,7 @@ const showAthena = false;
   :global(html) .hero .hero__title .hl__w,
   :global(html.motion) .hero .hero__title[data-split] .hl__w {
     color: var(--hero-gold);
+    text-shadow: 0 0 0.06em color-mix(in srgb, var(--blue-deep) 55%, transparent), 0 0.04em 0.14em color-mix(in srgb, var(--blue-deep) 35%, transparent);
     transition: none;
   }
   /* The pen strokes, in the title's ink: one under each line of highlighted words, placed by the
