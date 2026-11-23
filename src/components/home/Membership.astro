@@ -18,12 +18,12 @@ const t = {
   en: {
     apolloAlt: 'Gilded statue of Apollo holding a lyre, standing on top of an Ionic column',
     friezeAlt: 'Painted frieze of a procession of women in white robes carrying flowers and offerings',
-    go: 'Become a Member',
+    go: 'Become a Member of the Academy',
   },
   el: {
     apolloAlt: 'Επίχρυσο άγαλμα του Απόλλωνα με λύρα, στημένο πάνω σε ιωνικό κίονα',
     friezeAlt: 'Ζωγραφιστή ζωφόρος με πομπή γυναικών σε λευκούς χιτώνες, που κρατούν άνθη και προσφορές',
-    go: 'Γίνε Μέλος',
+    go: 'Γίνε Μέλος της Ακαδημίας',
   },
 }[mainLocale(locale)];
 
@@ -42,10 +42,6 @@ const looks = [
     <header class="membership__head">
       <h2 class="t-2" id="membership-title" data-split>{title}</h2>
       <p class="lead" data-reveal style="--delay:250ms">{question}</p>
-      {/* the way to the membership page (Maria, 23 November 2026) */}
-      <p class="membership__go" data-reveal style="--delay:400ms">
-        <a class="btn" href={site.routes.membership}>{t.go}</a>
-      </p>
     </header>
 
     <div class="niche theme-day">
@@ -96,6 +92,11 @@ const looks = [
       sizes="(min-width: 62rem) 76vw, 120vw"
       data-depth="0.06"
     />
+
+    {/* the way to the membership page, at the foot of the section, just above Athena's letter (Maria, 23 November 2026) */}
+    <p class="membership__go" data-reveal>
+      <a class="btn" href={site.routes.membership}>{t.go}</a>
+    </p>
   </div>
 </section>
 
@@ -115,7 +116,7 @@ const looks = [
     z-index: 2;
   }
   .membership__go {
-    margin-top: var(--space-m);
+    margin-top: var(--space-l);
   }
   .membership__head .lead {
     margin-top: var(--space-m);
@@ -337,6 +338,10 @@ const looks = [
       margin: -115% 0 0 -115%;
     }
     /* The procession passes behind the niche: its far end is hidden by the arch */
+    .membership__go {
+      grid-column: 1 / -1;
+      grid-row: 5;
+    }
     .membership__grid :global(.membership__frieze) {
       grid-column: 1 / span 10;
       grid-row: 4;

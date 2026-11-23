@@ -24,11 +24,11 @@ export const site = {
   // Home, by name. The logo links here, so the header menu does not repeat it.
   home: { label: 'Home', href: '/en/' },
   nav: [
-    { label: 'About Dr. Athena', href: '/en/about-athena/' },
     // menu: 'courses' opens a list of the course pages under it (Header.astro). Membership added to the
     // menu (Maria, 22 November 2026); its label is NEW WORDING, proposed.
     { label: 'Live Courses', href: '/en/courses/', menu: 'courses' },
     { label: 'Membership', href: '/en/membership/' },
+    { label: 'About Dr. Athena', href: '/en/about-athena/' }, // last in the menu (Maria, 23 November 2026)
     // Nostos is hidden from the menu for the launch (Maria, 22 November 2026). To bring it back:
     // { label: nostosUi.en.entry.nav, href: '/en/nostos/play/', section: '/en/nostos/' }, with nostosUi imported from data/nostos/ui
   ],
