@@ -30,12 +30,21 @@ const swarm = [
   { x: 80, y: 76, r: -10, s: 0.84, d: -1.5 },
   { x: 100, y: 54, r: 30, s: 0.74, d: -2.2 },
 ];
+// On arrival each bee flies in from its own side, from a few rem away, in turn (Maria, 23 November 2026)
+const arrive = (i: number) => {
+  const angle = (i * 137.5 * Math.PI) / 180;
+  return { x: +(Math.cos(angle) * 9).toFixed(1), y: +(Math.sin(angle) * 6 - 3).toFixed(1) };
+};
 ---
 
 <div class:list={['bees', className]} aria-hidden="true" data-bees {...rest}>
   {
-    swarm.map((b) => (
-      <span class="bee bee--swarm" style={`--x:${b.x}%;--y:${b.y}%;--r:${b.r}deg;--s:${b.s};--d:${b.d}s`} set:html={bee} />
+    swarm.map((b, i) => (
+      <span
+        class="bee bee--swarm"
+        style={`--x:${b.x}%;--y:${b.y}%;--r:${b.r}deg;--s:${b.s};--d:${b.d}s;--fx:${arrive(i).x}rem;--fy:${arrive(i).y}rem;--at:${(0.35 + i * 0.12).toFixed(2)}s`}
+        set:html={bee}
+      />
     ))
   }
   <template data-bee-template><span class="bee bee--visitor" set:html={bee} /></template>
@@ -250,6 +259,26 @@ const swarm = [
     96% {
       transform: scaleY(0.55);
     }
+  }
+  /* arrival: from outside the pebble, a slight swerve, then hovering in place */
+  @keyframes bee-arrive {
+    0% {
+      opacity: 0;
+      transform: translate(var(--fx), var(--fy)) rotate(-12deg);
+    }
+    20% {
+      opacity: 1;
+    }
+    60% {
+      transform: translate(calc(var(--fx) * 0.25 + 0.6rem), calc(var(--fy) * 0.2 - 0.5rem)) rotate(6deg);
+    }
+    100% {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  :global(html.motion) .bee--swarm {
+    animation: bee-arrive 1.5s cubic-bezier(0.3, 0.7, 0.3, 1) var(--at) both;
   }
   :global(html.motion) .bee--swarm :global(.bee__svg) {
     animation: bee-hover 3.2s ease-in-out var(--d) infinite;

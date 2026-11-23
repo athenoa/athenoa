@@ -41,13 +41,13 @@ const bannerAlt = {
         <Bees class="mem__mark" />
         {/* Athena's questions, as the lead of the home page's membership section (in the reading face:
             they name Socrates and Plato, whom the handwriting's sentence case would lower) */}
-        <div class="mem__questions" data-reveal-group>
+        <div class="mem__questions" data-reveal-group style="--delay:450ms">
           {m.questions.map((question) => <p class="lead">{question}</p>)}
         </div>
         {/* the 'Εγγραφή' button under the questions was removed (Maria, 23 November 2026) */}
       </header>
 
-      <div class="mem__banner">
+      <div class="mem__banner" data-reveal="fade" style="--delay:900ms">
         <Media class="mem__banner--day" src={bannerDay} alt={bannerAlt} shape="soft" ratio="16 / 9" widths={[560, 900, 1300, 1920]} sizes="(min-width: 80rem) 72rem, 94vw" />
         <Media class="mem__banner--night" src={bannerNight} alt={bannerAlt} shape="soft" ratio="16 / 9" widths={[560, 900, 1300, 1920]} sizes="(min-width: 80rem) 72rem, 94vw" />
       </div>
@@ -130,6 +130,16 @@ const bannerAlt = {
     background-image: var(--grain);
     background-size: 400px 400px;
     filter: url(#rough-sm);
+  }
+  /* on arrival the pebble swells into place, then the bees fly in to it (Bees.astro) */
+  @keyframes mem-pebble {
+    from {
+      opacity: 0;
+      transform: scale(0.6) rotate(-8deg);
+    }
+  }
+  :global(html.motion) .mem__mark::before {
+    animation: mem-pebble 0.9s cubic-bezier(0.3, 0.7, 0.3, 1) 0.15s both;
   }
   .mem__questions,
   .mem__go {
