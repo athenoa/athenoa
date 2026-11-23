@@ -353,9 +353,9 @@ export const coursesPage = {
     taughtBy: 'Με τη',
     // The tuition, in the live page's own words (see the English file)
     tuition: {
-      wholeCycle: 'για Ολόκληρο τον Κύκλο',
-      payInFull: 'Ετήσια Προπληρωμή',
-      payMonthly: 'Μηνιαία καταβολή',
+      wholeCycle: 'για ολόκληρο τον Κύκλο',
+      payInFull: 'Συνέχεια',
+      payMonthly: 'Συνέχεια',
       month: '/ μήνα',
       or: 'ή',
       payments: '× {n}',

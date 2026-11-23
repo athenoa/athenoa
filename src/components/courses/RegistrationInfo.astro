@@ -41,6 +41,7 @@ const member = memberFee && {
   payments: memberFee.payments,
   // the standard yearly tier itself, drawn like the courses' tiers (Maria, 23 November 2026)
   tier: yearly.tiers[0],
+  per: yearly.per,
   discount: yearly.upfrontDiscount ?? 0,
 };
 const escape = (text: string) => text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -68,6 +69,7 @@ const more = [
         payInFull={tuition.payInFull}
         payMonthly={tuition.payMonthly}
         month={tuition.month}
+        per={tuition.wholeCycle}
         or={tuition.or}
         payments={tuition.payments}
         total={tuition.total}

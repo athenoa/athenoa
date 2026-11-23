@@ -63,8 +63,8 @@ export const membershipEn: Membership = {
     per: 'for the whole year',
     // 10% off the whole year paid upfront; change it or switch it off (0) here
     upfrontDiscount: 0.1,
-    payInFull: 'Pay in full',
-    payMonthly: 'Pay monthly',
+    payInFull: 'Proceed',
+    payMonthly: 'Proceed',
     tiers: [
       {
         name: 'Standard Tuition',

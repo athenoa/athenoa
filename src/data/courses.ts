@@ -452,8 +452,9 @@ export const coursesPage = {
     // buttons lead to its Stripe Payment Links.
     tuition: {
       wholeCycle: 'for the whole Cycle',
-      payInFull: 'Pay in full',
-      payMonthly: 'Pay monthly',
+      // both buttons say the same word; the box says which way it is (Maria, 23 November 2026)
+      payInFull: 'Proceed',
+      payMonthly: 'Proceed',
       // The two ways in each tier: "/ month", "× 8 instalments", and what the instalments add up to
       month: '/ month',
       // between the two ways of a tier: they are alternatives

@@ -25,11 +25,11 @@ export const membership: Membership = {
   formLink: 'Γίνε Μέλος',
   registration: {
     label: 'Εγγραφή & Δίδακτρα',
-    per: 'για Ολόκληρο το Έτος',
+    per: 'για ολόκληρο το έτος',
     // 10% έκπτωση με την προπληρωμή του έτους (see the English file); the Stripe "full" links charge 990€/1140€ until updated
     upfrontDiscount: 0.1,
-    payInFull: 'Ετήσια Προπληρωμή',
-    payMonthly: 'Μηνιαία καταβολή',
+    payInFull: 'Συνέχεια',
+    payMonthly: 'Συνέχεια',
     tiers: [
       {
         name: 'Κανονικά Δίδακτρα',

@@ -24,6 +24,8 @@ interface Props {
   payMonthly: string;
   /** "/ month", "× {n}", "{price} in all", and the "or" between the two ways */
   month: string;
+  /** beside the upfront price, like "/ month": "for the whole Cycle", "for the whole year" */
+  per?: string;
   or: string;
   payments: string;
   total: string;
@@ -44,13 +46,14 @@ interface Props {
     month: string;
     payments: string;
     perMonth?: string;
+    per?: string;
     rate?: string;
     sum?: string;
     tier?: TuitionTier;
     discount?: number;
   };
 }
-const { tiers, level = 3, payInFull, payMonthly, month, or, payments, total, discount = 0, off, course, member } = Astro.props;
+const { tiers, level = 3, payInFull, payMonthly, month, per = '', or, payments, total, discount = 0, off, course, member } = Astro.props;
 const columns = tiers.length + (member?.tier ? 1 : 0);
 const locale = getLocale(Astro.url);
 const Name = level === 4 ? 'h4' : 'h3';
@@ -59,15 +62,15 @@ const opens = (tier: TuitionTier, pay: 'full' | 'monthly') =>
 // The cards: the tiers, then membership drawn with the same pieces (Maria, 23 November 2026): its price
 // box and monthly box pay straight through its own Stripe links, as on the membership page
 const cards = [
-  ...tiers.map((tier) => ({ tier, discount, member: false })),
-  ...(member?.tier ? [{ tier: { ...member.tier, name: member.title }, discount: member.discount ?? 0, member: true }] : []),
+  ...tiers.map((tier) => ({ tier, discount, member: false, per })),
+  ...(member?.tier ? [{ tier: { ...member.tier, name: member.title }, discount: member.discount ?? 0, member: true, per: member.per ?? per }] : []),
 ];
 ---
 
 <div class="tiers-box">
 <ul class:list={['tiers', member && 'tiers--member']} role="list" style={`--cols:${columns}`}>
   {
-    cards.map(({ tier, discount, member: isMember }) => (
+    cards.map(({ tier, discount, member: isMember, per: perLine }) => (
       <li class:list={['tier box', isMember ? 'on-blue-light tier--member' : 'on-blue-deep']}>
         <Name class="tier__name">
           {tier.name}
@@ -80,6 +83,7 @@ const cards = [
           <div class:list={['way way--upfront box', !isMember && 'on-blue-light']}>
             <p class="way__amount">
               <span class="way__sum">{money(upfrontPrice(tier.price, discount), locale)}</span>
+              {perLine && <span class="way__unit">{perLine}</span>}
             </p>
             {/* An upfront discount: under the price, the whole price struck through and its mark */}
             {discount > 0 && (
@@ -104,7 +108,7 @@ const cards = [
               {fill(payments, { n: String(tier.payments) })}{' '}
               <span class="way__total">· {fill(total, { price: money(Math.round(tier.perMonth * tier.payments * 100) / 100, locale) })}</span>
             </p>
-            <a class="btn btn--ghost way__btn" href={tier.payMonthly} {...(isMember ? {} : opens(tier, 'monthly'))}>
+            <a class="btn way__btn" href={tier.payMonthly} {...(isMember ? {} : opens(tier, 'monthly'))}>
               {payMonthly}
             </a>
           </div>
