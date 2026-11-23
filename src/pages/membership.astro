@@ -42,7 +42,7 @@ const bannerAlt = {
         {/* the banner's motto as an eyebrow over the title; the banner itself is gone from the page
             (it repeated the page), and is kept only as the link preview (Maria, 23 November 2026) */}
         <p class="mem__eyebrow" lang="el">“Φιλόσοφος γίνου”</p>
-        <h1 class="t-hero" data-split>{m.title}</h1>
+        <h1 class="t-1" data-split>{m.title}</h1>
         {/* Bees over a light blue pebble, in place of the tetractys (Maria, 22 November 2026); now and then
             one crosses the window or settles on the page for a while (Bees.astro) */}
         <Bees class="mem__mark" />
@@ -152,9 +152,7 @@ const bannerAlt = {
   .mem__head .mem__mark {
     grid-row: 1 / span 2;
   }
-  .mem__head h1:lang(el) {
-    font-size: calc(clamp(3.4rem, 1.4rem + 9.6vw, 11.5rem) * 0.86);
-  }
+  /* (the title at the course pages' size, t-1: Maria, 23 November 2026) */
   .mem__mark {
     --mark: clamp(3.5rem, 1rem + 12vw, 10rem);
     position: relative;
@@ -237,12 +235,10 @@ const bannerAlt = {
   .mem__benefits li::before {
     content: none;
   }
+  /* the symbol alone, no pebble behind it (Maria, 23 November 2026) */
   .mem__benefits :global(.mem__icon) {
     width: 2.6rem;
     height: 2.6rem;
-    padding: 0.4rem;
-    border-radius: var(--r-pebble-1);
-    background: var(--creme-light);
     color: var(--ink-strong);
   }
   .mem__benefits :global(.mem__icon svg) {
