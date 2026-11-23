@@ -8,7 +8,6 @@ import Base from '../layouts/Base.astro';
 import Illustration from '../components/Illustration.astro';
 import Signature from '../components/Signature.astro';
 import Media from '../components/Media.astro';
-import Bees from '../components/membership/Bees.astro';
 import portrait from '../assets/media/portrait-sea.jpg';
 import bannerDay from '../assets/media/membership-banner-day.jpg';
 import TuitionTiers from '../components/courses/TuitionTiers.astro';
@@ -44,9 +43,9 @@ const bannerAlt = {
             (it repeated the page), and is kept only as the link preview (Maria, 23 November 2026) */}
         <p class="mem__eyebrow" lang="el">“Φιλόσοφος γίνου”</p>
         <h1 class="t-1" data-split>{m.title}</h1>
-        {/* Bees over a light blue pebble, in place of the tetractys (Maria, 22 November 2026); now and then
-            one crosses the window or settles on the page for a while (Bees.astro) */}
-        <Bees class="mem__mark" />
+        {/* The goddess on her plinth, the statue from the home page's hero, in place of the bees
+            (Athena, 23 November 2026: "a symbol like the temple or the goddess"). No pebble behind her. */}
+        <div class="mem__mark" data-reveal="fade"><Illustration name="portal-b-statue" draw /></div>
         {/* Athena's questions, as the lead of the home page's membership section (in the reading face:
             they name Socrates and Plato, whom the handwriting's sentence case would lower) */}
         <div class="mem__questions" data-reveal-group style="--delay:450ms">
@@ -157,34 +156,18 @@ const bannerAlt = {
   }
   /* (the title at the course pages' size, t-1: Maria, 23 November 2026) */
   .mem__mark {
-    --mark: clamp(3.5rem, 1rem + 12vw, 10rem);
+    --mark: clamp(4rem, 2rem + 9vw, 9rem);
     position: relative;
-    isolation: isolate;
     grid-column: 2;
     grid-row: 1;
+    align-self: end;
     width: var(--mark);
-    margin: calc(var(--mark) * 0.24);
+    color: var(--blue);
   }
-  .mem__mark::before {
-    content: '';
-    position: absolute;
-    inset: -24%;
-    z-index: -1;
-    border-radius: var(--r-pebble-1);
-    background-color: var(--blue-light);
-    background-image: var(--grain);
-    background-size: 400px 400px;
-    filter: url(#rough-sm);
-  }
-  /* on arrival the pebble swells into place, then the bees fly in to it (Bees.astro) */
-  @keyframes mem-pebble {
-    from {
-      opacity: 0;
-      transform: scale(0.6) rotate(-8deg);
-    }
-  }
-  :global(html.motion) .mem__mark::before {
-    animation: mem-pebble 0.9s cubic-bezier(0.3, 0.7, 0.3, 1) 0.15s both;
+  .mem__mark :global(svg) {
+    display: block;
+    width: 100%;
+    height: auto;
   }
   .mem__questions,
   .mem__go {

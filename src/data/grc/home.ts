@@ -55,7 +55,7 @@ export const home = {
     },
     // The courses announced here: the two open on the live site (22 November 2026) and the one from
     // January 2027. Each is drawn as a course card, the same as on the courses page.
-    courses: [{ slug: 'odusseia' }, { slug: 'eu-zen' }, { slug: 'the-hidden-non-duality-of-ancient-greek-philosophy' }],
+    courses: [{ slug: 'odusseia' }, { slug: 'eu-zen' }], // the non-duality course returns later (Athena, 23 November 2026)
   },
 
   seminar: {

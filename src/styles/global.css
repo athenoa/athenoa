@@ -237,16 +237,18 @@ b {
 .prose li + li {
   margin-top: 0.55em;
 }
+/* Each point marked with the star of Athena's own signature (Athena, 23 November 2026: a star bullet,
+   with meraki), in the ink of its ground */
 .prose li::before {
   content: '';
   position: absolute;
-  left: 0.2em;
-  top: 0.56em;
-  width: 0.62em;
-  height: 0.4em;
+  left: 0.05em;
+  top: 0.3em;
+  width: 0.95em;
+  height: 0.95em;
   background: var(--ink-strong);
-  border-radius: 80% 20% 80% 20% / 80% 20% 80% 20%;
-  rotate: -18deg;
+  -webkit-mask: url('/marks/athena-star.svg') center / contain no-repeat;
+  mask: url('/marks/athena-star.svg') center / contain no-repeat;
 }
 .prose blockquote {
   font-family: var(--font-hand);
@@ -359,8 +361,10 @@ b {
   background: none;
   border: 1.5px solid var(--line);
 }
-/* A second, slightly offset outline, like a misregistered print plate */
+/* A second, slightly offset outline, like a misregistered print plate. Switched off (Athena, 23 November
+   2026: solid forms, nothing sketchy). */
 .box--offset::after {
+  display: none;
   content: '';
   position: absolute;
   inset: -0.55rem 0.5rem 0.55rem -0.5rem;

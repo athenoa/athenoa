@@ -454,4 +454,29 @@ const cards = [
     font-size: var(--step--1);
   }
   /* membership's sentence runs the full width of its column */
+
+  /* The two ways side by side, upfront on the left, whenever the card has room, phones included
+     (Athena, 23 November 2026); "or" sits on the divide between them */
+  .tier {
+    container-type: inline-size;
+  }
+  @container (min-width: 17rem) {
+    .ways {
+      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+      align-items: stretch;
+    }
+    .ways__or {
+      align-self: center;
+      margin-block: 0;
+      margin-inline: -1.45rem;
+    }
+    .tiers .way {
+      padding-inline: clamp(0.8rem, 0.5rem + 0.8vw, 1.5rem);
+    }
+    .tiers .way .btn {
+      margin-top: auto;
+      align-self: stretch;
+      padding-inline: 0.8em;
+    }
+  }
 </style>

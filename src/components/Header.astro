@@ -63,11 +63,13 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
                       <li>
                         <a href={page.href} aria-current={isHere(page.href) ? 'page' : undefined} data-here={isHere(page.href) ? '' : undefined}>
                           {/* the highlighter mark sits behind the title alone (not the subtitle, not the row) */}
-                          <span class="drop__title">{page.label}</span>
+                          {/* every course alike (Athena, 23 November 2026): the signature's star, the title in bold, then its
+                              subtitle after a colon */}
+                          <span class="drop__title">{page.label}{page.sub && ':'}</span>
                           {/* a course not open yet: "Coming soon", a pill of its own */}
                           {page.soon && <span class="drop__soon">{coursesPage.ui.soon}</span>}
                           {/* the subtitle under the title, smaller and quieter */}
-                          {page.sub && <span class="drop__sub">{page.sub}</span>}
+                          {page.sub && <span class="drop__sub"> {page.sub}</span>}
                         </a>
                       </li>
                     ))}
@@ -277,8 +279,10 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
     position: absolute;
     inset: 2% -0.95rem -4% -0.85rem;
     z-index: -1;
-    background: var(--marker) center / 100% 100% no-repeat;
-    rotate: -1.4deg;
+    /* a solid line under the word, not the light-blue brush (Athena, 23 November 2026) */
+    inset: auto 0 0.2rem;
+    height: 2px;
+    background: currentColor;
     transform: scaleX(0);
     transform-origin: 0 50%;
     transition: transform var(--dur-2) var(--ease-out) var(--hover-delay);
@@ -504,12 +508,29 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
   .drop__title {
     display: inline;
   }
-  .drop__list a[aria-current='page'] .drop__title {
+  .header__links .drop__list a {
+    position: relative;
+    padding-left: 1.4em;
+  }
+  .drop__title {
     font-weight: 650;
   }
-  .drop__list a[aria-current='page'] .drop__title::before {
-    content: '•';
-    margin-right: 0.4em;
+  /* the star of Athena's signature before every course (the page you are on is underlined) */
+  .header__links .drop__list a::after {
+    content: '';
+    position: absolute;
+    left: 0.1em;
+    top: 0.55em;
+    width: 0.9em;
+    height: 0.9em;
+    background: currentColor;
+    -webkit-mask: url('/marks/athena-star.svg') center / contain no-repeat;
+    mask: url('/marks/athena-star.svg') center / contain no-repeat;
+  }
+  .drop__list a[aria-current='page'] .drop__title {
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 0.22em;
   }
   @media (hover: hover) and (pointer: fine) {
     .drop__list a:hover .drop__title {
@@ -630,14 +651,15 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
         translate var(--dur-2) var(--ease-out) var(--hover-delay),
         color var(--dur-1) var(--hover-delay);
     }
+    /* on the phone, a solid crème line under the word, which stays crème (Athena, 23 November 2026: no
+       light-blue brush behind it) */
     .header__links > li:not(.header__lang) > a::before {
-      inset: 4% -0.9rem -2% -0.6rem;
-      rotate: -0.8deg;
+      inset: auto 0.6rem 0 0.35rem;
     }
     .header__links > li:not(.header__lang) > a:hover,
     .header__links > li:not(.header__lang) > a:focus-visible,
     .header__links > li:not(.header__lang) > a[aria-current='page'] {
-      color: var(--blue-deep);
+      color: var(--creme-light);
       translate: 0.4rem 0;
     }
     .header__links > li:not(.header__lang) > a:hover::before,
@@ -682,7 +704,7 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
       content: none;
     }
     .header__links .drop__list a {
-      padding: 0.3rem 0.35rem;
+      padding: 0.3rem 0.35rem 0.3rem 1.5em;
       font-size: var(--step-0);
       color: var(--creme-light);
       white-space: normal;

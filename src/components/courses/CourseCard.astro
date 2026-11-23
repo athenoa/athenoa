@@ -22,8 +22,10 @@ interface Props {
   level?: 2 | 3;
   /** Load the picture at once (a card at the top of a page) */
   priority?: boolean;
+  /** The home page's card: the flyer, the title and the start date only, no prices (Athena, 23 November 2026) */
+  brief?: boolean;
 }
-const { course, level = 2, priority = false } = Astro.props;
+const { course, level = 2, priority = false, brief = false } = Astro.props;
 const Title = level === 3 ? 'h3' : 'h2';
 const locale = getLocale(Astro.url);
 const { courses, coursesPage, coursePageHref } = content(locale);
@@ -37,7 +39,7 @@ const mainId = `card-main-${course.slug}`;
 // (Maria, 22 November 2026: the first card, ΟΔΥΣΣΕΙΑ, on the beige paper; then light blue, Greek blue.)
 const tones = [
   { name: 'paper', surface: '' },
-  { name: 'light', surface: 'on-blue-light' },
+  // the light blue left out (Athena, 23 November 2026: "not lilac")
   { name: 'blue', surface: 'on-blue' },
   { name: 'deep', surface: 'on-blue-deep' },
 ];
@@ -61,7 +63,7 @@ const facts = [
     : { label: ui.facts.format, value: course.format!.slice(0, comma), note: course.format!.slice(comma + 2) },
   { label: ui.facts.language, value: course.teaching && ui.languages[course.teaching] },
   { label: ui.facts.fee, value: course.price?.display, fee: true },
-].filter((fact) => fact.value);
+].filter((fact) => fact.value && (!brief || fact.label === ui.facts.dates));
 // "€200 & VAT (24%)": the amount stands out, the tax note sits smaller beside it.
 const splitFee = (display: string) => {
   const at = display.indexOf(' ');
@@ -99,7 +101,7 @@ const splitFee = (display: string) => {
       </Title>
       {course.subtitle && <p class="card__subtitle" set:html={keepHyphens(course.subtitle)} />}
     </div>
-    {course.summary && <p class="card__summary">{course.summary}</p>}
+    {course.summary && !brief && <p class="card__summary">{course.summary}</p>}
     <dl class="card__facts">
       {
         facts.map((fact) => (

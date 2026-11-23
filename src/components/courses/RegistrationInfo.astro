@@ -55,6 +55,8 @@ const more = [
     : null,
   { id: 'scholarships', title: registration.scholarships.title, html: registration.scholarships.html },
 ].filter((item) => item !== null);
+// "for the whole Cycle of 24 lessons": the count is the number the course's length starts with
+const lessons = course.duration?.match(/^\d+/)?.[0];
 ---
 
 <div class="reginfo">
@@ -68,7 +70,7 @@ const more = [
         payInFull={tuition.payInFull}
         payMonthly={tuition.payMonthly}
         month={tuition.month}
-        per={tuition.wholeCycle}
+        per={lessons ? fill(tuition.wholeCycleOf, { n: lessons }) : tuition.wholeCycle}
         or={tuition.or}
         payments={tuition.payments}
         total={tuition.total}

@@ -1,18 +1,16 @@
 ---
-// Shared SVG filters. #rough and #rough-sm give paper cut-outs their uneven, hand-cut edge.
+// Shared SVG filters. #rough and #rough-sm once gave paper cut-outs an uneven, hand-cut edge. Athena asked for
+// solid forms instead (23 November 2026): they now pass the shape through untouched, so every edge is clean.
+// To bring the hand-cut edge back, restore the feTurbulence + feDisplacementMap pair (git history).
 ---
 
 <svg class="svg-defs" width="0" height="0" aria-hidden="true" focusable="false">
   <defs>
     <filter id="rough" x="-3%" y="-3%" width="106%" height="106%" color-interpolation-filters="sRGB">
-      <feTurbulence type="fractalNoise" baseFrequency="0.022 0.03" numOctaves="2" seed="7" result="noise"></feTurbulence>
-      <feDisplacementMap in="SourceGraphic" in2="noise" scale="9" xChannelSelector="R" yChannelSelector="G"
-      ></feDisplacementMap>
+      <feOffset in="SourceGraphic" dx="0" dy="0"></feOffset>
     </filter>
     <filter id="rough-sm" x="-4%" y="-8%" width="108%" height="116%" color-interpolation-filters="sRGB">
-      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.07" numOctaves="2" seed="11" result="noise"></feTurbulence>
-      <feDisplacementMap in="SourceGraphic" in2="noise" scale="4.5" xChannelSelector="R" yChannelSelector="G"
-      ></feDisplacementMap>
+      <feOffset in="SourceGraphic" dx="0" dy="0"></feOffset>
     </filter>
     <!-- For line art: a slight wobble so strokes look drawn, not plotted -->
     <filter id="wobble" x="-2%" y="-2%" width="104%" height="104%">

@@ -38,6 +38,8 @@ export interface TuitionTier {
 }
 
 export interface Course {
+  /** Kept in the data but shown nowhere until switched back on */
+  hidden?: boolean;
   slug: string;
   title: string;
   status: 'open' | 'placeholder';
@@ -129,7 +131,7 @@ const cancellations = (term?: string) => `<p><strong>Important note</strong></p>
 </ul>
 <p>In exceptional cases, the student is to write to the ${secretariat('Secretariat')} with any request to change or cancel their participation.</p>`;
 
-export const courses: Course[] = [
+const allCourses: Course[] = [
   {
     slug: 'odusseia',
     // Title and subtitle as on the banner (Maria, 22 November 2026)
@@ -340,6 +342,7 @@ export const courses: Course[] = [
   },
   {
     slug: 'the-hidden-non-duality-of-ancient-greek-philosophy',
+    hidden: true,
     // Title and subtitle as lettered on the course banner. Copy as on the live home page (October 2026),
     // without its old registration text.
     title: 'The Hidden Non-Duality of Ancient Greek Philosophy',
@@ -420,6 +423,11 @@ export const courses: Course[] = [
   },
 ];
 
+// A course marked hidden is kept here but shown nowhere (no card, no menu entry, no page) until it is
+// switched back on: the non-duality course, in English, waits so it does not confuse this autumn's
+// registrations (Athena, 23 November 2026).
+export const courses: Course[] = allCourses.filter((course) => !course.hidden);
+
 export const registrationTab = {
   id: 'registration',
   label: 'Registration & Tuition Fees',
@@ -452,6 +460,7 @@ export const coursesPage = {
     // buttons lead to its Stripe Payment Links.
     tuition: {
       wholeCycle: 'for the whole Cycle',
+      wholeCycleOf: 'for the whole Cycle of {n} lessons',
       // both buttons say the same word; the box says which way it is (Maria, 23 November 2026)
       payInFull: 'Proceed',
       payMonthly: 'Proceed',

@@ -58,7 +58,8 @@ const facts = [
 
 // Page only: each section sits on a different ground so the long read has a rhythm.
 // The three blues all appear down the page: light blue here, darker blue here, Greek blue for registration.
-const grounds = [[], ['box', 'box--offset', 'on-blue-light'], ['panel', 'on-blue-deep'], [], ['box', 'box--line']];
+// Not the light blue (Athena, 23 November 2026: "not lilac", something that pops): Greek blue with white words.
+const grounds = [[], ['panel', 'on-blue'], ['panel', 'on-blue-deep'], [], ['box', 'box--line']];
 // The monad (the One) closes each course's description (ΟΔΥΣΣΕΙΑ speaks of "the relation of the One to the Many").
 const symbolFor = 'description';
 ---
@@ -69,8 +70,8 @@ const symbolFor = 'description';
       class:list={['body__figure', !isOpen && 'body__figure--jot']}
       style={`--ar:${(image.height / image.width).toFixed(3)}`}
     >
-      {/* The sun behind the picture, centred on it, its rays reaching out past its edges (page only) */}
-      {page && <Illustration name="sun-rays" class="body__rays" draw data-depth="0.18" />}
+      {/* The sun's rays that stood behind the picture were taken away (Athena, 23 November 2026: calmer,
+          and the flyer itself larger) */}
       {/* Every course picture is a banner, shown whole in a rectangle with softly rounded corners
           (Maria, 22 November 2026); on the page it runs the full width of the content */}
       <Media
@@ -364,6 +365,23 @@ const symbolFor = 'description';
     border-top: 1.5px solid var(--line);
     font-size: var(--step--1);
   }
+  /* On the page the facts lie on a sheet of papyrus, a warmer, deeper paper than the page (Athena,
+     23 November 2026), with a clean edge */
+  .body--page .facts {
+    padding: 0.4rem clamp(1rem, 0.6rem + 2vw, 2rem) 0.6rem;
+    border-top: 0;
+    border-radius: 1.1rem;
+    background-color: color-mix(in srgb, var(--paper) 80%, #c49a52);
+    background-image: var(--grain);
+    background-size: 400px 400px;
+  }
+  .body--page .facts__row:last-child {
+    border-bottom: 0;
+  }
+  /* the summary under the picture: the key line of the course, in bold (Athena, 23 November 2026) */
+  .body--page .body__summary {
+    font-weight: 600;
+  }
   .facts__row {
     display: grid;
     grid-template-columns: 6.4rem minmax(0, 1fr);
@@ -609,21 +627,6 @@ const symbolFor = 'description';
   .body--page .body__lede {
     order: 3;
   }
-  /* The sun: centred on the picture, a little wider than it and flattened to its shape, so its rays
-     reach out past all four edges. Centred with margins and flattened with scale: the parallax
-     script owns translate on this layer. */
-  .body__rays {
-    --rays: 118%;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    z-index: -1;
-    width: var(--rays);
-    margin: calc(var(--rays) / -2) 0 0 calc(var(--rays) / -2);
-    scale: 1 calc(var(--ar) * 1.15);
-    opacity: 0.45;
-    pointer-events: none;
-  }
 
   /* Who teaches it: Athena's name on a crème paper chip at the picture's lower left, half over its edge
      (as the date's label is stuck at its lower right), and her photograph pinned to it like a medallion,
@@ -683,15 +686,35 @@ const symbolFor = 'description';
   }
   /* A phone has no room for both slips on the picture: the chip keeps its place on the picture's edge and
      the date's label sits just under it, on the right, in room the figure keeps below itself */
+  /* The start date under the picture on the right, in plain ink on the page: no paper shape behind it
+     (Athena, 23 November 2026: the shape read as childish) */
+  .body--page .body__note {
+    top: calc(100% + 1.2rem);
+    bottom: auto;
+    right: 0;
+    max-width: 80%;
+    padding: 0;
+    font-weight: 500;
+  }
+  .body--page .body__note::before {
+    display: none;
+  }
+  .body--page .body__figure {
+    margin-bottom: clamp(5rem, 3rem + 4vw, 7rem);
+  }
   @media (max-width: 40rem) {
+    /* the flyer larger on a phone: it reaches into the page's side margins (Athena, 23 November 2026) */
     .body--page .body__figure {
+      margin-inline: calc(var(--gutter) * -0.7);
       margin-bottom: 9rem;
     }
     .body--page .body__note {
       top: calc(100% + 2.6rem);
-      right: 0;
-      bottom: auto;
-      max-width: 80%;
+      right: calc(var(--gutter) * 0.7);
+    }
+    /* the chip keeps clear of the screen's edge now that the flyer reaches into the margins */
+    .body--page .body__chip {
+      left: calc(var(--gutter) * 0.7 + 0.5rem);
     }
     .body__chip {
       max-width: 88%;
@@ -752,6 +775,19 @@ const symbolFor = 'description';
   }
   .sec__head {
     container-type: inline-size;
+  }
+  /* Easier to read on a phone (Athena, 23 November 2026): a little larger, a touch heavier, more air
+     between the lines and between the points of a list */
+  .sec .prose {
+    font-size: max(1.24rem, var(--step-0));
+    font-weight: 430;
+    line-height: 1.72;
+  }
+  .sec .prose :global(li + li) {
+    margin-top: 0.9em;
+  }
+  .sec .prose :global(strong) {
+    font-weight: 640;
   }
   /* A heading never outgrows its column: its longest word ("Orientation", "Προσανατολισμός") still fits */
   .sec__title {
@@ -859,9 +895,6 @@ const symbolFor = 'description';
   :global(html.motion) .body--page .body__subtitle {
     animation: body-rise 0.55s var(--ease-out) 0.3s both;
   }
-  :global(html.motion) .body--page .body__rays {
-    animation: body-sun 0.9s var(--ease-out) 0.55s both;
-  }
   :global(html.motion) .body--page .body__chip {
     /* the same calm slide up and fade as the date label (Maria, 23 November 2026) */
     animation: body-press 0.8s cubic-bezier(0.22, 0.61, 0.36, 1) 0.95s both;
@@ -898,12 +931,6 @@ const symbolFor = 'description';
     from {
       opacity: 0;
       transform: translate3d(0, 0.8rem, 0);
-    }
-  }
-  @keyframes body-sun {
-    from {
-      opacity: 0;
-      transform: scale(0.9);
     }
   }
   @keyframes body-slide {

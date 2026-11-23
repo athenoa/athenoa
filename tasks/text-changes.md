@@ -454,3 +454,9 @@ The four earlier courses (The Hidden Non-Duality, and the three placeholders) ar
 - el: "Περιλαμβάνουν τα βασικά δίδακτρα και μια χορηγία για συμμαθητές που τη χρειάζονται, στηρίζοντας το έργο της Σχολής μας." / "Και μια προαιρετική ατομική συνεδρία με την Αθηνά για τις απορίες σας."
 - en: "It includes the standard tuition and a sponsorship for fellow students who need it, supporting the work of our School." / "And an optional one-to-one session with Athena for your questions."
 - About contact: 'Ή στείλτε μας email στο' / 'Or email us at' + philathenea@athenoa.academy under the title (proposed, 23 Nov 2026)
+
+## 23 November 2026, Athena's feedback (WhatsApp, morning)
+- Price label: "για ολόκληρο τον Κύκλο 24 Μαθημάτων" / "για ολόκληρο τον Κύκλο 16 Μαθημάτων" (EN "for the whole Cycle of N lessons"), at Athena's request.
+- Bold key words added in Οδύσσεια and Εὖ Ζῆν "Ο Κύκλος Σπουδών Περιλαμβάνει", and in the Εὖ Ζῆν description (wording unchanged, emphasis only; proposed choice of words to bold).
+- Menu course list: "Οδύσσεια:" / "Εὖ Ζῆν:" in bold, subtitle after the colon.
+- The non-duality course hidden everywhere until it is ready in Greek.
