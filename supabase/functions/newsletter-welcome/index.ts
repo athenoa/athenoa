@@ -7,7 +7,7 @@ import { createClient } from 'npm:@supabase/supabase-js@2.45.4';
 
 const SITE = Deno.env.get('SITE_URL') ?? 'https://www.athenoa.academy';
 // the email's pictures: on the preview until the site is on its domain, then SITE/email
-const ASSETS = Deno.env.get('ASSETS_URL') ?? 'https://productnerd.github.io/athenoa/email';
+const ASSETS = Deno.env.get('ASSETS_URL') ?? 'https://athenoa.github.io/athenoa/email';
 // Resend sends from onboarding@resend.dev until athenoa.academy is verified there
 const FROM = Deno.env.get('EMAIL_FROM') ?? 'ATHENOA <onboarding@resend.dev>';
 const FUNCTIONS = `${Deno.env.get('SUPABASE_URL')}/functions/v1`;
