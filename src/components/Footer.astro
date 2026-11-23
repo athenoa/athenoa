@@ -154,7 +154,9 @@ const custom = Object.entries(images).find(([file]) =>
   //                      Once only: it does not come back until the page is opened again.
   //   Courses (Aegean):  the dolphins dive under the first wave with a splash; a second click and
   //                      they leap again with another.
-  //   Membership (grove): Athena's owl hoots, its eyes glow gold and gold sparks rise around it.
+  //   Membership (delphi): by night Athena's owl (who flies in when night falls) hoots, its eyes glow gold,
+  //                      sparks rise and the cypresses sway; by day the trees sway in a gust of wind.
+  //   (grove, the other candidate: the owl hoots the same way.)
   //   Nostos (island):   a gust of wind, and the windmill's sails go round once, slowly. A click while
   //                      they turn changes nothing.
   // The bird is silent while the site's sound button is off; the other sounds play either way (scripts/sound.ts).
@@ -188,6 +190,17 @@ const custom = Object.entries(images).find(([file]) =>
         // a splash as they go under, another as they break the surface
         if (dived) window.setTimeout(() => play('/audio/splash-in.mp3', 0.12), 450);
         else window.setTimeout(() => play('/audio/splash-out.mp3', 0.12), 120);
+      } else if (kind === 'delphi') {
+        // by night Athena's owl hoots, its eyes glow and sparks rise, and the cypresses sway; by day only the
+        // trees sway in a gust of wind
+        const night = document.documentElement.dataset.theme === 'dark';
+        if (once(scene, night ? 'is-hooting' : 'is-swaying', 1800)) {
+          if (night) {
+            scene.classList.add('is-swaying');
+            window.setTimeout(() => scene.classList.remove('is-swaying'), 1800);
+            play('/audio/owl.mp3', 0.16);
+          } else play('/audio/wind.mp3', 0.06);
+        }
       } else if (kind === 'grove') {
         // Athena's owl hoots: its eyes glow gold, it bobs, and a few gold sparks rise around it
         const owl = scene.querySelector('.grove-owl');
@@ -440,6 +453,42 @@ const custom = Object.entries(images).find(([file]) =>
     0% { opacity: 0; transform: translateY(6px) scale(0.3) rotate(0deg); }
     30% { opacity: 1; transform: translateY(-4px) scale(1.15) rotate(25deg); }
     100% { opacity: 0; transform: translateY(-22px) scale(0.6) rotate(70deg); }
+  }
+
+  /* Delphi: the owl is there by night only, and flies in to its cypress when night falls (the animation
+     starts whenever the dark theme takes hold); the trees sway when woken (Maria, 23 November 2026) */
+  .footer__scene :global(.delphi-owl) {
+    visibility: hidden;
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+  }
+  :global(html[data-theme='dark']) .footer__scene :global(.delphi-owl) {
+    visibility: visible;
+  }
+  :global(html.motion[data-theme='dark']) .footer__scene :global(.delphi-owl) {
+    animation: owl-fly-in 2.6s cubic-bezier(0.25, 0.6, 0.3, 1) both;
+  }
+  @keyframes owl-fly-in {
+    0% { transform: translate(260px, -220px) scale(0.55) rotate(-12deg); opacity: 0; }
+    15% { opacity: 1; }
+    30% { transform: translate(170px, -170px) scale(0.7) rotate(8deg); }
+    50% { transform: translate(90px, -100px) scale(0.85) rotate(-8deg); }
+    70% { transform: translate(30px, -40px) scale(0.95) rotate(6deg); }
+    88% { transform: translate(0, 4px) scale(1.04, 0.94); }
+    100% { transform: none; }
+  }
+  .footer__scene :global(.delphi-sway) {
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+  }
+  .footer__scene:global(.is-swaying) :global(.delphi-sway) {
+    animation: tree-sway 1.6s ease-in-out;
+  }
+  @keyframes tree-sway {
+    0%, 100% { transform: none; }
+    20% { transform: rotate(calc(var(--sway, 1) * 2.2deg)); }
+    45% { transform: rotate(calc(var(--sway, 1) * -1.6deg)); }
+    70% { transform: rotate(calc(var(--sway, 1) * 0.9deg)); }
   }
 
   /* The windmill of the island turns its sails round once, slowly, and stops. (The sails are a group
