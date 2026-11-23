@@ -59,7 +59,7 @@ export const membershipEn: Membership = {
     'Beyond the individual Cycles of Studies, this year too, for the third year running, you can study as a Member of the Academy. As a Member you:',
   ],
   benefits: [
-    { icon: 'mem-doors', text: 'Have access to all the Cycles of Studies & Seminars of our Academy' },
+    { icon: 'mem-doors', text: 'Have access to all the live Cycles of Studies & Seminars of our Academy' },
     { icon: 'mem-scroll', text: 'Receive a deeper, organised and complete Education in the Theory & Practice of Philosophy' },
     { icon: 'mem-path', text: 'Go deeper on the path of Awakening, through the steps of Knowledge, Practices and Initiations' },
     { icon: 'mem-books', text: 'Have access to the Library of Lessons' },
