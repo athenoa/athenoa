@@ -133,6 +133,8 @@ const canEnrol = course.available && Boolean(course.tuition?.length);
     justify-items: center;
     gap: var(--space-s);
     margin: var(--space-xl) auto 0;
+    /* more room above (Maria, 23 November 2026) */
+    padding-top: clamp(3rem, 7vw, 6rem);
     padding-bottom: clamp(2.5rem, 6vw, 4.5rem);
     color: var(--ink-strong);
   }
