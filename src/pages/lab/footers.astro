@@ -1,0 +1,23 @@
+---
+// Two candidate footer scenes for the membership page, in the real footer (Maria, 23 November 2026):
+// Plato's olive grove and the path up to Delphi. Not linked from the site.
+import Base from '../../layouts/Base.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<Base title="Footer scenes | ATHENOA" description="Two footer scenes to choose from" noindex footer={false}>
+  <section class="wrap lab">
+    <h1 class="t-2">Α. Ο ελαιώνας του Πλάτωνα</h1>
+  </section>
+  <Footer scene="grove" />
+  <section class="wrap lab">
+    <h1 class="t-2">Β. Ο δρόμος προς τους Δελφούς</h1>
+  </section>
+  <Footer scene="delphi" />
+</Base>
+
+<style>
+  .lab {
+    padding-block: var(--space-xl) var(--space-m);
+  }
+</style>
