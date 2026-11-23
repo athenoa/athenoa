@@ -643,6 +643,17 @@ const custom = Object.entries(images).find(([file]) =>
   .footer--aegean {
     --footer-ground: var(--blue-deep);
   }
+  /* By night the ground and the strip under it are the darkest blue, never the light blue (lilac) the
+     inks turn into by night; the copyright line in crème on it (Maria for Athena, 23 November 2026) */
+  :global(html[data-theme='dark']) .footer {
+    --footer-ground: #03072a;
+  }
+  :global(html[data-theme='dark']) .footer__layer--near :global(path[fill='currentColor']) {
+    fill: #03072a;
+  }
+  :global(html[data-theme='dark']) .footer__legal {
+    color: #f2e9d3;
+  }
   /* the quay at the foot of the island is drawn in the ink colour (footer-island-near.svg) */
   .footer--island {
     --footer-ground: var(--blue);
