@@ -173,6 +173,8 @@ const announced = home.announcement.courses
       display: grid;
       grid-template-columns: minmax(0, 1fr) auto;
       column-gap: clamp(1rem, 0.4rem + 1.6vw, 2rem);
+      /* the letter's lines close together, the signature beside them, not pushed apart (Maria) */
+      align-content: start;
       padding-right: clamp(1.4rem, 0.6rem + 2vw, 2.5rem);
       align-items: start;
     }
@@ -184,8 +186,10 @@ const announced = home.announcement.courses
       gap: 0.9rem;
       width: min-content;
       margin: 0;
-      text-align: center;
-      --sign-justify: center;
+      /* left-aligned under the photograph, as on a phone (Maria, 23 November 2026) */
+      text-align: left;
+      align-items: flex-start;
+      --sign-justify: start;
     }
     /* larger (client direction, 7 November 2026) */
     .letter__sign :global(.letter__portrait) {
@@ -325,14 +329,21 @@ const announced = home.announcement.courses
       align-items: center;
       row-gap: 0;
       /* the two sentences together, centred beside the photograph (Maria, 23 November 2026) */
-      grid-template-rows: auto auto;
+      grid-template-rows: 1fr 1fr;
       align-content: center;
     }
+    /* the two sentences as one block, close together, centred beside the photograph (Maria, 23 November 2026:
+       no wide gap between them) */
     .announcement__top:not(:has(.slip)) .letter > h2 {
+      grid-row: 1;
       align-self: end;
     }
     .announcement__top:not(:has(.slip)) .letter > .letter__text {
+      grid-row: 2;
       align-self: start;
+    }
+    .announcement__top:not(:has(.slip)) .letter__sign {
+      grid-row: 1 / span 2;
     }
     .announcement__top:not(:has(.slip)) .letter > :is(h2, .letter__text) {
       grid-column: 1;

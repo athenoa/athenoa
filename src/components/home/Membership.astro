@@ -290,6 +290,21 @@ const looks = [
     }
   }
 
+  /* Tablets, before the row: a zigzag, close together (Maria, 23 November 2026): the first and third
+     narrower on the left, the blue pebble on the right */
+  @media (min-width: 36rem) and (max-width: 51.99rem) {
+    .points .point--1,
+    .points .point--3 {
+      width: 74%;
+      justify-self: start;
+    }
+    .points .point--2 {
+      justify-self: end;
+      margin-inline: 0 2%;
+      margin-block: 0.4rem 0.2rem;
+    }
+  }
+
   /* From wide tablets up the three stand side by side in one row across the page (client direction,
      11 October 2026): emblem, title and text stacked in each, the shapes the same height and nearly
      touching. */
