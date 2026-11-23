@@ -74,8 +74,9 @@ const allCourses: Course[] = [
     available: true,
     instructor: 'Δρ. Αθηνά Δέσποινα Ποτάρη',
     price: { amount: 550, currency: 'EUR', display: '€550 ή 8 × €68,75', label: 'Δίδακτρα:' },
-    // No discount for paying upfront (Εὖ Ζῆν only)
     // The live page rounds the instalments to 69€ and 83€; Stripe charges 68,75€ and 82,50€.
+    // 10% off paid upfront, as the Academy's Stripe links now charge (€495, €594; Maria, 23 November 2026)
+    upfrontDiscount: 0.1,
     tuition: [
       {
         name: 'Κανονικά Δίδακτρα',
@@ -83,7 +84,7 @@ const allCourses: Course[] = [
         price: 550,
         perMonth: 68.75,
         payments: 8,
-        payInFull: 'https://book.stripe.com/4gM28s5Ecf3dgO5cZO9sk06',
+        payInFull: 'https://book.stripe.com/cNi4gA7Mk1cndBT7Fu9sk0n',
         payMonthly: 'https://buy.stripe.com/3cI7sM5EcbR141jbVK9sk08',
       },
       {
@@ -93,7 +94,7 @@ const allCourses: Course[] = [
         perMonth: 82.5,
         payments: 8,
         notes: [generosity, oneToOne],
-        payInFull: 'https://book.stripe.com/3cI5kEfeM2greFX3pe9sk07',
+        payInFull: 'https://book.stripe.com/14AeVe8QoaMX7dve3S9sk0o',
         payMonthly: 'https://buy.stripe.com/9B6dRaeaI8EPfK1f7W9sk09',
       },
     ],
@@ -170,7 +171,7 @@ const allCourses: Course[] = [
     instructor: 'Δρ. Αθηνά Δέσποινα Ποτάρη',
     // Their page says 660€ and 550€; Stripe charges 640€ and 720€, confirmed by Maria on 22 November 2026.
     price: { amount: 640, currency: 'EUR', display: '€640 ή 8 × €80', label: 'Δίδακτρα:' },
-    // 10% off paid upfront (see the English file); the Stripe "full" links charge the old amounts until updated
+    // 10% off paid upfront (see the English file); the Stripe "full" links charge €576 / €648 (new links, 23 November 2026)
     upfrontDiscount: 0.1,
     tuition: [
       {
@@ -179,7 +180,7 @@ const allCourses: Course[] = [
         price: 640,
         perMonth: 80,
         payments: 8,
-        payInFull: 'https://book.stripe.com/28EbJ2c2A2gr9lDe3S9sk0b',
+        payInFull: 'https://book.stripe.com/14A5kE0jSdZ9btL7Fu9sk0p',
         payMonthly: 'https://buy.stripe.com/6oUdRaeaI6wHdBT8Jy9sk0d',
       },
       {
@@ -189,7 +190,7 @@ const allCourses: Course[] = [
         perMonth: 90,
         payments: 8,
         notes: [generosity, oneToOne],
-        payInFull: 'https://book.stripe.com/6oU14o2s0aMXfK10d29sk0c',
+        payInFull: 'https://book.stripe.com/14AeVe0jS5sD41jbVK9sk0q',
         payMonthly: 'https://buy.stripe.com/5kQ28sd6EcV5apH5xm9sk0e',
       },
     ],

@@ -6,8 +6,7 @@
 // Stripe Payment Links were checked by Maria on 22 November 2026. The old page's own figures (550€,
 // 1140€, eight instalments) were left over from a course, so they are not used. Paying the whole year
 // upfront takes 10% off (Maria, 22 November 2026): 891€ and 1026€; the monthly way is unchanged.
-// The Stripe "full" links below still charge 990€ and 1140€ until the Academy updates them there; if it
-// makes new links instead, these hrefs change.
+// The Stripe "full" links charge 891€ and 1026€ (the Academy's new links, 23 November 2026).
 import type { TuitionTier } from './courses';
 import type { Locale } from '../lib/locale';
 import { membership as greek } from './el/membership';
@@ -82,7 +81,7 @@ export const membershipEn: Membership = {
         price: 990,
         perMonth: 83,
         payments: 12,
-        payInFull: 'https://book.stripe.com/28E9AU6Ig3kvgO54ti9sk0f',
+        payInFull: 'https://book.stripe.com/aFafZiaYwaMXdBT8Jy9sk0j',
         payMonthly: 'https://buy.stripe.com/4gM6oI0jS08jcxP7Fu9sk0i',
       },
       {
@@ -92,7 +91,7 @@ export const membershipEn: Membership = {
         perMonth: 95,
         payments: 12,
         notes: [generosity],
-        payInFull: 'https://book.stripe.com/9B6aEYgiQg7hbtLaRG9sk0h',
+        payInFull: 'https://book.stripe.com/fZueVe9UscV5fK16Bq9sk0k',
         payMonthly: 'https://buy.stripe.com/cNifZi6Ig3kvdBT2la9sk0g',
       },
     ],

@@ -34,7 +34,7 @@ export const membership: Membership = {
   registration: {
     label: 'Εγγραφή & Δίδακτρα',
     per: 'για ολόκληρο το έτος',
-    // 10% έκπτωση με την προπληρωμή του έτους (see the English file); the Stripe "full" links charge 990€/1140€ until updated
+    // 10% έκπτωση με την προπληρωμή του έτους (see the English file); the Stripe "full" links charge 891€ / 1026€ (new links, 23 November 2026)
     upfrontDiscount: 0.1,
     payInFull: 'Συνέχεια',
     payMonthly: 'Συνέχεια',
@@ -45,7 +45,7 @@ export const membership: Membership = {
         price: 990,
         perMonth: 83,
         payments: 12,
-        payInFull: 'https://book.stripe.com/28E9AU6Ig3kvgO54ti9sk0f',
+        payInFull: 'https://book.stripe.com/aFafZiaYwaMXdBT8Jy9sk0j',
         payMonthly: 'https://buy.stripe.com/4gM6oI0jS08jcxP7Fu9sk0i',
       },
       {
@@ -55,7 +55,7 @@ export const membership: Membership = {
         perMonth: 95,
         payments: 12,
         notes: [generosity],
-        payInFull: 'https://book.stripe.com/9B6aEYgiQg7hbtLaRG9sk0h',
+        payInFull: 'https://book.stripe.com/fZueVe9UscV5fK16Bq9sk0k',
         payMonthly: 'https://buy.stripe.com/cNifZi6Ig3kvdBT2la9sk0g',
       },
     ],
