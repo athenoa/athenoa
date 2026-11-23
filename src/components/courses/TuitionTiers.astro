@@ -68,7 +68,7 @@ const cards = [
 <ul class:list={['tiers', member && 'tiers--member']} role="list" style={`--cols:${columns}`}>
   {
     cards.map(({ tier, discount, member: isMember }) => (
-      <li class:list={['tier box on-blue-deep', isMember && 'tier--member']}>
+      <li class:list={['tier box', isMember ? 'on-blue-light tier--member' : 'on-blue-deep']}>
         <Name class="tier__name">
           {tier.name}
           {/* a heart for the Tuition of Love, the membership page's bee for membership */}
@@ -76,7 +76,8 @@ const cards = [
           {isMember && <span class="tier__mark tier__bee" set:html={bee} aria-hidden="true" />}
         </Name>
         <div class="ways">
-          <div class="way way--upfront box on-blue-light">
+          {/* membership keeps its own colours (Maria, 23 November 2026): light-blue card, crème price box */}
+          <div class:list={['way way--upfront box', !isMember && 'on-blue-light']}>
             <p class="way__amount">
               <span class="way__sum">{money(upfrontPrice(tier.price, discount), locale)}</span>
             </p>
@@ -116,7 +117,10 @@ const cards = [
           <>
             <p class="tier__small">{member.text}</p>
             <p class="tier__small">
-              <a href={member.href}>{member.cta}</a>
+              <a class="member__more" href={member.href}>
+                {member.cta}
+                <svg viewBox="0 0 20 12" width="20" height="12" aria-hidden="true" focusable="false"><path d="M1.5 6.2c5-.3 10.6-.1 16.2.1M12.6 1.6c1.8 1.6 3.4 3 5.1 4.6-1.8 1.4-3.4 2.9-5 4.3" /></svg>
+              </a>
             </p>
           </>
         )}
@@ -142,6 +146,11 @@ const cards = [
     .tiers {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
+    /* Side by side, every card's title keeps the room of two lines, so the price boxes always start
+       level whether a title takes one line or two (Maria, 23 November 2026) */
+    .tier__name {
+      min-height: calc(2 * 1.05em);
+    }
     .tiers--member .tier--member {
       grid-column: 1 / -1;
     }
@@ -166,7 +175,8 @@ const cards = [
     margin-bottom: var(--space-s);
     font-family: var(--font-title);
     font-weight: var(--title-weight);
-    font-size: calc(min(var(--step-2), 8.5vw) * (0.55 + 0.45 * var(--title-scale)));
+    /* on phones a clear heading size (Maria, 23 November 2026): no smaller than about 2rem */
+    font-size: max(2rem, calc(min(var(--step-2), 8.5vw) * (0.55 + 0.45 * var(--title-scale))));
     line-height: 1.05;
     text-wrap: balance;
     letter-spacing: var(--title-tracking);
@@ -284,6 +294,64 @@ const cards = [
     font-variant-numeric: lining-nums;
   }
   /* The buttons stand at the foot of each way, level with each other */
+  /* "Μάθετε Περισσότερα": a link that looks like one (Maria, 23 November 2026): the card's strong ink, a
+     drawn arrow after it; on hover the line thickens, the colour deepens and the arrow moves on */
+  .member__more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45em;
+    color: var(--ink-strong);
+    font-weight: 560;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
+    transition:
+      color var(--dur-1) var(--ease-out),
+      text-decoration-thickness var(--dur-1) var(--ease-out);
+  }
+  .member__more svg {
+    flex: none;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: translate 0.22s var(--ease-out);
+  }
+  .member__more:hover,
+  .member__more:focus-visible {
+    color: var(--blue-deep);
+    text-decoration-thickness: 2.5px;
+  }
+  .member__more:hover svg,
+  .member__more:focus-visible svg {
+    translate: 0.3em 0;
+  }
+  /* on membership's light-blue card the monthly box is outlined in the card's own ink */
+  .tier--member .way--monthly {
+    border-color: color-mix(in srgb, var(--blue) 40%, transparent);
+  }
+  /* its price box on crème paper, its buttons in the light card's inks (the arch around it is dark blue) */
+  .tier--member .way--upfront {
+    --paper: var(--creme-light);
+    --box-bg: var(--creme-light);
+  }
+  .tier--member .btn {
+    --btn-bg: var(--blue);
+    --btn-bg-hover: var(--blue-bright);
+    --btn-ink: var(--creme-light);
+  }
+  .tier--member .btn--ghost {
+    --btn-ink: var(--blue);
+  }
+  /* on hover the outlined button fills with blue and its words turn crème, so they never vanish */
+  .tier--member .btn--ghost:hover {
+    --btn-ink: var(--creme-light);
+  }
+  .tier--member .btn--ghost:hover::before {
+    background: var(--blue);
+    border-color: transparent;
+  }
   .way__btn {
     margin-top: auto;
     /* the button's words start on the left edge, like the prices above them (Maria, 23 November 2026) */
@@ -320,25 +388,24 @@ const cards = [
     width: 1.3em;
     rotate: -8deg;
   }
-  /* The heart: drawn large and pale behind the title of the Tuition of Love, leaning a little */
-  .tier__name:has(.tier__heart) {
+  /* The heart: drawn large on the card's top right corner, leaning, half off the card
+     (Maria, 23 November 2026) */
+  .tier:has(.tier__heart) {
     position: relative;
-    isolation: isolate;
   }
   .tier__heart {
     position: absolute;
-    z-index: -1;
-    left: 58%;
-    top: 50%;
-    width: 2.6em;
-    height: 2.35em;
+    z-index: 1;
+    right: -0.9rem;
+    top: -1rem;
+    width: clamp(3.4rem, 2.6rem + 2.4vw, 4.6rem);
+    height: auto;
+    aspect-ratio: 120 / 108;
     margin: 0;
-    translate: -50% -50%;
-    rotate: 9deg;
-    opacity: 0.55;
+    rotate: 14deg;
+    opacity: 0.9;
     pointer-events: none;
-  }
-  :global(html.motion) .tier__bee :global(.bee__wing) {
+  }  :global(html.motion) .tier__bee :global(.bee__wing) {
     transform-box: fill-box;
     transform-origin: 50% 100%;
     animation: tier-flutter 0.42s ease-in-out infinite alternate;

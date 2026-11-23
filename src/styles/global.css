@@ -398,7 +398,7 @@ b {
   cursor: pointer;
   border-radius: 2.2rem 1.7rem 2.3rem 1.8rem / 1.8rem 2.3rem 1.7rem 2.2rem;
   transition:
-    translate var(--dur-1) var(--ease-out) var(--hover-delay),
+    translate 0.22s var(--ease-out) var(--hover-delay),
     color var(--dur-1) var(--hover-delay);
 }
 .btn::before {
@@ -414,16 +414,43 @@ b {
     scale var(--dur-2) var(--ease-out) var(--hover-delay),
     border-radius var(--dur-2) var(--ease-out) var(--hover-delay);
 }
+/* TRIAL (Maria, 23 November 2026): buttons that look pressable. A darker ledge of the same rough shape
+   sits under each button, so it stands up off the page like a key; on hover it rises a little, on a
+   press it sinks onto its ledge. */
+.btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  border-radius: inherit;
+  background: color-mix(in srgb, var(--btn-bg, var(--blue)) 62%, #000);
+  filter: url(#rough-sm);
+  translate: 0 0.28rem;
+  transition: translate 0.22s var(--ease-out) var(--hover-delay);
+}
+.btn--ghost::after {
+  background: none;
+  border: 1.5px solid currentColor;
+  opacity: 0.55;
+}
+/* one movement on hover (smooth, Maria, 23 November 2026): the face lifts 2px while its ledge stays
+   where it was, so the button seems to rise off the page; the face keeps its shape */
+.btn:hover::after {
+  translate: 0 calc(0.28rem + 2px);
+}
+.btn:active::after {
+  translate: 0 0.06rem;
+  transition-duration: 0.06s;
+  transition-delay: 0s;
+}
 .btn:hover {
   translate: 0 -2px;
 }
 .btn:hover::before {
   background: var(--btn-bg-hover, var(--blue-bright));
-  scale: 1.035 1.06;
-  border-radius: 1.7rem 2.3rem 1.8rem 2.2rem / 2.3rem 1.8rem 2.2rem 1.7rem;
 }
 .btn:active {
-  translate: 0 1px;
+  translate: 0 0.22rem;
   /* a press answers at once */
   transition-delay: 0s;
 }

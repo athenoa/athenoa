@@ -109,10 +109,11 @@ const secretariat = (words: string) => `<a href="mailto:${site.emails[0]}">${wor
 const registrationNote =
   'Registration is for the whole Cycle of Studies and requires payment of the full amount, whichever way of paying you choose.';
 const generosity =
-  'The Tuition of Love and Generosity includes the standard tuition plus a sponsorship for our fellow students who need it. Your Generosity will help us offer reduced tuition to the students who need it, and will support the work of our School!';
+  // shortened (Maria, 23 November 2026)
+  'It includes the standard tuition and a sponsorship for fellow students who need it, supporting the work of our School.';
 // From the registration form
 const oneToOne =
-  'The Tuition of Love includes an optional one-to-one session with Athena, for queries, questions and answers, and any other clarifications about the Teaching.';
+  'And an optional one-to-one session with Athena for your questions.';
 const paymentNotes = [
   'Paying in 8 monthly instalments is offered solely to make things easier for students. It does not mean that the lessons are attended month by month: the Cycle is one whole, whichever way you pay.',
   'To register for the course, the first instalment must be paid as a deposit before the lessons begin.',
@@ -532,7 +533,7 @@ export const coursesPage = {
           'Every file we receive from you is for our own use only and is not shared in any way, out of respect for personal data and under Greek Law 4624/2019 on the protection of personal data.',
         ],
       },
-      cancellations: 'Cancellations',
+      cancellations: 'Payment & cancellations',
       scholarships: {
         title: 'Scholarships',
         html: `<p><strong>The possibility of a scholarship</strong></p>

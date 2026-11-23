@@ -43,10 +43,16 @@ const member = memberFee && {
   tier: yearly.tiers[0],
   discount: yearly.upfrontDiscount ?? 0,
 };
+const escape = (text: string) => text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const paymentNotes = [course.registrationNote, ...(course.paymentNotes ?? [])].filter((note): note is string => Boolean(note)).map(escape);
 // The closed items under the tuition. The cancellation terms belong to each course (their dates differ).
 const more = [
   { id: 'bank', title: bank.title },
-  course.cancellations ? { id: 'cancellations', title: registration.cancellations, html: course.cancellations } : null,
+  // the payment notes folded in at the top of the cancellation terms: one item, "Payment & cancellations"
+  // (Maria, 23 November 2026)
+  course.cancellations || paymentNotes.length
+    ? { id: 'cancellations', title: registration.cancellations, html: `${paymentNotes.map((note) => `<p>${note}</p>`).join('')}${course.cancellations ?? ''}` }
+    : null,
   { id: 'scholarships', title: registration.scholarships.title, html: registration.scholarships.html },
 ].filter((item) => item !== null);
 ---
@@ -72,10 +78,6 @@ const more = [
       />
     )
   }
-  <div class="prose reginfo__notes">
-    {course.registrationNote && <p>{course.registrationNote}</p>}
-    {course.paymentNotes?.map((note) => <p>{note}</p>)}
-  </div>
 
   <div class="more">
     {
@@ -147,11 +149,6 @@ const more = [
   }
   .bank__register {
     margin-top: var(--space-s);
-  }
-  .reginfo__notes {
-    font-size: var(--step--1);
-    /* as wide as the items below it (Maria, 23 November 2026) */
-    max-width: none;
   }
 
   /* The further ways and terms: closed items with a hand-drawn plus, like the popup's sections */

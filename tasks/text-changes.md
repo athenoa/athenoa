@@ -449,3 +449,7 @@ The four earlier courses (The Hidden Non-Duality, and the three placeholders) ar
 ## Courses, round 13
 
 - The Hidden Non-Duality's page: the "Σύντομα" / "Coming soon" pill stands above the title. The waitlist moves to the foot of the page, under the line "Θέλετε να μάθετε πρώτοι πότε ανοίγουν οι εγγραφές;" / "Want to hear first when enrolment opens?" (proposed), followed by the button and "Έχετε κάποια ερώτηση; Επικοινωνήστε μαζί μας".
+
+## 23 November 2026: Tuition of Love notes shortened (Maria; approved by her, Athena to review)
+- el: "Περιλαμβάνουν τα βασικά δίδακτρα και μια χορηγία για συμμαθητές που τη χρειάζονται, στηρίζοντας το έργο της Σχολής μας." / "Και μια προαιρετική ατομική συνεδρία με την Αθηνά για τις απορίες σας."
+- en: "It includes the standard tuition and a sponsorship for fellow students who need it, supporting the work of our School." / "And an optional one-to-one session with Athena for your questions."

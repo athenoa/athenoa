@@ -125,75 +125,88 @@ const canEnrol = course.available && Boolean(course.tuition?.length);
     max-width: 40rem;
     font-size: var(--step-1);
   }
-  /* The voyage: boat on the left, the quotation, Ithaca on the right, a star above, the sea beneath */
+  /* The voyage (Maria, 23 November 2026): the quotation, and under it the sea across the whole window,
+     the boat sailing slowly from the left towards Ithaca, which waits large on the right edge */
   .course__voyage {
     position: relative;
     display: grid;
-    grid-template-columns: 1fr;
     justify-items: center;
-    gap: var(--space-s);
     margin: var(--space-xl) auto 0;
-    /* more room above (Maria, 23 November 2026) */
     padding-top: clamp(3rem, 7vw, 6rem);
-    padding-bottom: clamp(2.5rem, 6vw, 4.5rem);
+    padding-bottom: clamp(9rem, 14vw, 12rem);
     color: var(--ink-strong);
-  }
-  .course__voyage :global(.voyage__boat) {
-    width: clamp(5rem, 10vw, 8rem);
-    rotate: -4deg;
-  }
-  .course__voyage :global(.voyage__island) {
-    width: clamp(7rem, 14vw, 12rem);
   }
   .course__voyage :global(.voyage__star) {
     position: absolute;
-    top: -1.5rem;
-    right: 18%;
+    top: clamp(0.5rem, 2vw, 1.5rem);
+    right: 12%;
     width: clamp(1.6rem, 3vw, 2.4rem);
   }
+  /* the sea: the whole width of the window, drifting a little */
   .course__voyage :global(.voyage__waves) {
     position: absolute;
     left: 50%;
     bottom: 0;
-    width: min(100%, 54rem);
+    width: 120vw;
     translate: -50% 0;
     opacity: 0.55;
   }
-  /* desktop: boat, words, island in one line, all resting on the waves */
-  @media (min-width: 56rem) {
-    .course__voyage {
-      grid-template-columns: auto minmax(0, 40rem) auto;
-      align-items: end;
-      justify-content: center;
-      column-gap: clamp(2rem, 4vw, 4.5rem);
+  @keyframes voyage-sea {
+    0%,
+    100% {
+      transform: translateX(-4vw);
     }
-    .course__voyage :global(.voyage__boat) {
-      grid-column: 1;
-      grid-row: 1;
-      margin-bottom: 0.5rem;
-    }
-    .course__voyage .course__closing {
-      grid-column: 2;
-      grid-row: 1;
-      align-self: center;
-    }
-    .course__voyage :global(.voyage__island) {
-      grid-column: 3;
-      grid-row: 1;
+    50% {
+      transform: translateX(4vw);
     }
   }
-  /* the boat rocks a little on the water */
+  :global(html.motion) .course__voyage :global(.voyage__waves svg) {
+    animation: voyage-sea 26s ease-in-out infinite;
+  }
+  /* Ithaca: large, on the right edge of the page, standing in the sea */
+  .course__voyage :global(.voyage__island) {
+    position: absolute;
+    right: calc(50% - 50vw);
+    bottom: clamp(1.2rem, 2.4vw, 2rem);
+    width: clamp(12rem, 26vw, 24rem);
+  }
+  /* the boat rides the waves, sailing from the left towards the island and back again */
+  .course__voyage :global(.voyage__boat) {
+    position: absolute;
+    left: calc(50% - 50vw + 2rem);
+    bottom: clamp(1.4rem, 2.6vw, 2.2rem);
+    width: clamp(5rem, 9vw, 7.5rem);
+  }
+  @keyframes voyage-sail {
+    0% {
+      opacity: 0;
+      transform: translateX(0);
+    }
+    6% {
+      opacity: 1;
+    }
+    88% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(calc(100vw - 6rem - clamp(5rem, 9vw, 7.5rem) - clamp(9rem, 20vw, 18rem)));
+    }
+  }
   @keyframes voyage-rock {
     0%,
     100% {
-      transform: rotate(-2deg) translateY(0);
+      transform: rotate(-2.5deg) translateY(0);
     }
     50% {
-      transform: rotate(2deg) translateY(-0.2rem);
+      transform: rotate(2.5deg) translateY(-0.25rem);
     }
   }
+  :global(html.motion) .course__voyage :global(.voyage__boat) {
+    animation: voyage-sail 60s linear infinite;
+  }
   :global(html.motion) .course__voyage :global(.voyage__boat svg) {
-    animation: voyage-rock 6s ease-in-out infinite;
+    animation: voyage-rock 5s ease-in-out infinite;
     transform-origin: 50% 90%;
   }
   /* The heading above, the ways to pay under it across the whole width: the tiers stand as columns */
