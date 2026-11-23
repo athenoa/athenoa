@@ -13,12 +13,12 @@ def cr(p):
     return d
 L=lambda s: sum(math.dist(s[i],s[i+1]) for i in range(len(s)-1))
 letters=pts[:-4]; star=pts[-4:]
-t=0.15; strokes=[]
+t=0.1; strokes=[]
 for s in letters:
-    d=max(L(s)/550,0.06); strokes.append((cr(s),t,d)); t+=d+0.05
-t+=0.18
+    d=max(L(s)/800,0.05); strokes.append((cr(s),t,d)); t+=d+0.015
+t+=0.1
 for s in star:
-    d=max(L(s)/400,0.1); strokes.append((cr(s),t,d)); t+=d+0.04
+    d=max(L(s)/600,0.08); strokes.append((cr(s),t,d)); t+=d+0.02
 total=t
 mask='\n'.join(f'        <path d="{d}" pathLength="1" style="--t:{t0:.2f}s;--d:{du:.2f}s" />' for d,t0,du in strokes)
 ink='\n'.join(f'        <path d="{d}" />' for d in ds)
@@ -83,7 +83,7 @@ const id = `sig-${{Math.random().toString(36).slice(2, 8)}}`;
   }}
   :global(html.motion) .signature.is-in mask path {{
     stroke-dashoffset: 0;
-    transition: stroke-dashoffset var(--d) cubic-bezier(0.35, 0.05, 0.55, 0.95) var(--t);
+    transition: stroke-dashoffset var(--d) linear var(--t);
   }}
   :global(html.motion) .signature .signature__whole {{
     opacity: 0;

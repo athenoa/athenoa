@@ -691,7 +691,8 @@ const showAthena = false;
   }
   /* (each starts part of the way across, about where it stands in the still picture) */
   :global(html.motion:not([data-theme='dark'])) .hero__layer--haze :global(.illo) {
-    animation: hero-haze var(--t) linear calc(var(--t) * -0.45) infinite;
+    /* a little faster than first drawn (Maria, 23 November 2026): 0.6 of each cloud's time */
+    animation: hero-haze calc(var(--t) * 0.6) linear calc(var(--t) * -0.27) infinite;
     will-change: transform;
   }
   :global(html.motion:not([data-theme='dark'])) .hero__layer--haze :global(.hero__haze--2),

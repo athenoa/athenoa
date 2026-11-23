@@ -7,6 +7,7 @@ import Media from '../Media.astro';
 import portrait from '../../assets/media/library-portrait.jpg';
 import Illustration from '../Illustration.astro';
 import CourseCard from '../courses/CourseCard.astro';
+import Signature from '../Signature.astro';
 import { content } from '../../data';
 import { getLocale } from '../../lib/locale';
 
@@ -40,6 +41,8 @@ const announced = home.announcement.courses
             framed
           />
           <figcaption>
+            {/* her own hand above her name (Maria, 23 November 2026; moved here from the foot of the home page) */}
+            <Signature class="letter__signhand" />
             <span class="letter__name">{site.founder}</span>
             <span class="letter__role">{signature.role}</span>
           </figcaption>
@@ -100,6 +103,14 @@ const announced = home.announcement.courses
 </script>
 
 <style>
+  /* inline, so it follows the name's alignment: left beside the photograph, centred under it on a phone */
+  .letter :global(.letter__signhand) {
+    display: block;
+    justify-self: var(--sign-justify, start);
+    width: clamp(6.5rem, 5rem + 3vw, 8.5rem);
+    margin: 0 0 0.3rem;
+    color: var(--ink-strong);
+  }
   .announcement__top {
     position: relative;
     display: grid;
@@ -174,6 +185,7 @@ const announced = home.announcement.courses
       width: min-content;
       margin: 0;
       text-align: center;
+      --sign-justify: center;
     }
     /* larger (client direction, 7 November 2026) */
     .letter__sign :global(.letter__portrait) {
