@@ -393,6 +393,13 @@ const showAthena = false;
   .hero__title .hl__w::before {
     display: none;
   }
+  /* With no swash to wait for, the highlighted words are in their blue from the start (Maria, 23 November
+     2026): the delayed colour change of split headings (motion.css) does not apply here */
+  :global(html) .hero .hero__title .hl__w,
+  :global(html.motion) .hero .hero__title[data-split] .hl__w {
+    color: var(--ink-strong);
+    transition: none;
+  }
   /* The pen strokes, in the title's ink: one under each line of highlighted words, placed by the
      script (left, width and the top of the line); --pen-top sets them under the letters. */
   .hero__title {
