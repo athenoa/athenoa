@@ -461,3 +461,4 @@ The four earlier courses (The Hidden Non-Duality, and the three placeholders) ar
 - Menu course list: "Οδύσσεια:" / "Εὖ Ζῆν:" in bold, subtitle after the colon.
 - The non-duality course hidden everywhere until it is ready in Greek.
 - Membership benefits: key words in bold inside Athena's sentences (EN likewise); emphasis only, no new words.
+- Menu: 'Γίνε Μέλος' renamed 'Γίνε Μέλος της Ακαδημίας' (Maria, 23 November 2026). English 'Membership' unchanged.

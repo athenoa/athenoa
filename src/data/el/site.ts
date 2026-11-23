@@ -29,7 +29,7 @@ export const site = {
     // menu: 'courses' opens a list of the course pages under it (Header.astro). Membership added to the
     // menu (Maria, 22 November 2026); its label is NEW WORDING, proposed.
     { label: 'Ζωντανά μαθήματα', href: '/courses/', menu: 'courses' },
-    { label: 'Γίνε Μέλος', href: '/membership/' },
+    { label: 'Γίνε Μέλος της Ακαδημίας', href: '/membership/' },
     // Nostos is hidden from the menu for the launch (Maria, 22 November 2026). To bring it back:
     // { label: nostosUi.el.entry.nav, href: '/nostos/play/', section: '/nostos/' }, with nostosUi imported from data/nostos/ui
   ],

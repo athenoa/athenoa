@@ -246,8 +246,8 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
   .header__links {
     display: flex;
     align-items: center;
-    /* wide enough that the brush marks of two neighbours (hovered and current) never touch */
-    gap: clamp(2.4rem, 1.4rem + 2vw, 3.4rem);
+    /* closer together on a laptop, so the longer "Γίνε Μέλος της Ακαδημίας" still fits on one row */
+    gap: clamp(1.4rem, -2.4rem + 4.4vw, 3.4rem);
     margin: 0;
     padding: 0;
     list-style: none;
@@ -595,7 +595,8 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
     transform: translateY(-7px) rotate(-42deg);
   }
 
-  @media (max-width: 64rem) {
+  /* the phone menu up to 82rem: below that the four items no longer fit on one row (Maria, 23 November 2026) */
+  @media (max-width: 82rem) {
     .header__toggle {
       display: grid;
     }
