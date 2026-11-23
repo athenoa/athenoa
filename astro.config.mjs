@@ -32,6 +32,18 @@ export default defineConfig({
   devToolbar: { enabled: false },
   // the Anthropic SDK is loaded only when the tutor is used; prepared with the rest in development, so
   // the dev server never serves a stale copy of it
-  vite: { optimizeDeps: { include: ['@anthropic-ai/sdk', '@anthropic-ai/sdk/helpers/json-schema'] } },
+  vite: {
+    optimizeDeps: { include: ['@anthropic-ai/sdk', '@anthropic-ai/sdk/helpers/json-schema'] },
+    // Stylesheets keep the same name from one deploy to the next (Maria, 23 November 2026): a browser or
+    // Cloudflare holding a page from before a deploy (up to 10 minutes) then still finds its styles, instead of
+    // a page with none. Scripts and pictures keep their hashed names.
+    build: {
+      rollupOptions: {
+        output: {
+          assetFileNames: (asset) => (/\.css$/.test(asset.names?.[0] ?? asset.name ?? '') ? '_astro/[name].css' : '_astro/[name].[hash][extname]'),
+        },
+      },
+    },
+  },
   server: { port: 4321 },
 });
