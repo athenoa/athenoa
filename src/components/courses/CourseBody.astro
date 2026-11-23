@@ -694,18 +694,20 @@ const symbolFor = 'description';
   }
   /* A phone has no room for both slips on the picture: the chip keeps its place on the picture's edge and
      the date's label sits just under it, on the right, in room the figure keeps below itself */
-  /* The start date under the picture on the right, in plain ink on the page: no paper shape behind it
-     (Athena, 23 November 2026: the shape read as childish) */
+  /* The start date on a chip like Athena's, on the picture's lower edge at the right, level with hers
+     (Maria, 23 November 2026): the same clean, slightly see-through paper (not the old irregular shape) */
   .body--page .body__note {
-    top: calc(100% + 1.2rem);
-    bottom: auto;
-    right: 0;
+    top: auto;
+    bottom: calc(clamp(1.3rem, 0.8rem + 1.6vw, 2.1rem) * -1);
     max-width: 80%;
-    padding: 0;
+    padding: 0.55rem 1.3rem 0.6rem;
     font-weight: 500;
   }
   .body--page .body__note::before {
-    display: none;
+    border-radius: 2.6rem 2rem 2.4rem 2.8rem / 2.8rem 2.4rem 2rem 2.6rem;
+    background-color: var(--creme-light);
+    background-image: url('/textures/grain-dark.webp');
+    opacity: 0.82;
   }
   /* The banner as large as it can be: the full width of the window, edge to edge, square-cornered, at the
      top of the page (Athena, 23 November 2026). The chip and the date line up with the text column. */
@@ -734,8 +736,13 @@ const symbolFor = 'description';
     .body--page .body__figure {
       margin-bottom: 9rem;
     }
+    /* a phone has no room for both chips on the picture's edge: the date's sits just under Athena's */
     .body--page .body__note {
       top: calc(100% + 2.6rem);
+      bottom: auto;
+      max-width: none;
+      white-space: nowrap;
+      font-size: var(--step-1);
     }
     .body__chip {
       max-width: 88%;

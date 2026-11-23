@@ -99,7 +99,8 @@ const gated = import.meta.env.PUBLIC_PREVIEW_GATE === 'on';
               asked = (localStorage.getItem('ath-theme') || '').split('@')[0];
             } catch (e) {}
           }
-          if (asked !== 'dark') asked = 'light';
+          // dark unless light was chosen (Maria, 23 November 2026: dark mode by default)
+          if (asked !== 'light') asked = 'dark';
           if (asked === 'dark') {
             if (root.dataset.theme !== 'dark') root.dataset.theme = 'dark';
           } else if (root.dataset.theme) delete root.dataset.theme;

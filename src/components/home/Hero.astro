@@ -416,6 +416,10 @@ const showAthena = false;
     inset: 0;
     pointer-events: none;
   }
+  /* the pen underline taken away (Maria, 23 November 2026); delete this rule to bring it back */
+  .hero__pens {
+    display: none;
+  }
   .hero__pens :global(.hero__pen) {
     position: absolute;
     margin-top: var(--pen-top, 0.84em);
