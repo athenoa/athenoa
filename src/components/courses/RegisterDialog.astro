@@ -516,6 +516,8 @@ const monthly = (tier: (typeof tiers)[number]) =>
       // the page Stripe sends them back to opens in the language they registered in (PaymentStatus.astro)
       try {
         localStorage.setItem('ath-pay-lang', pageLocale() === 'en' ? 'en' : 'el');
+        // and the first name, for "Σας ευχαριστούμε, Μαρία" on that page
+        localStorage.setItem('ath-pay-name', value('first_name').slice(0, 60));
       } catch {}
       if (link) window.location.assign(withReference(link, reference));
       else {

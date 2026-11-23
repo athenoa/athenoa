@@ -17,6 +17,24 @@ const PLACE: Record<string, { el: string; en: string; path: string }> = {
   membership: { el: 'ως Μέλος της Ακαδημίας', en: 'as a Member of the Academy', path: '/membership/' },
 };
 
+// "Αγαπητή Μαρία," / "Αγαπητέ Γιώργο,": the greeting in Greek follows the first name (Maria, 23 November 2026).
+// Greek men's names end in ς and take the vocative (-ος → -ο or -ε, -ας → -α, -ης → -η); other Greek names
+// are taken as women's. A name not in Greek letters, or none, gets "Αγαπητή/έ".
+const vowels = (w: string) => (w.normalize('NFD').replace(/[\u0300-\u036f]/g, '').match(/[αεηιουω]+/gi) ?? []).length;
+function greekGreeting(raw: string) {
+  const name = raw.trim().split(/\s+/)[0] ?? '';
+  if (!name) return 'Αγαπητή/έ φίλη/ε,';
+  if (!/^[\u0370-\u03ff\u1f00-\u1fff]+$/.test(name)) return `Αγαπητή/έ ${name},`;
+  const cap = name[0].toUpperCase() + name.slice(1);
+  if (/ς$/.test(cap)) {
+    let voc = cap;
+    if (/ος$/.test(cap)) voc = vowels(cap) <= 2 ? cap.slice(0, -1) : cap.slice(0, -2) + 'ε';
+    else voc = cap.slice(0, -1);
+    return `Αγαπητέ ${voc},`;
+  }
+  return `Αγαπητή ${cap},`;
+}
+
 // "Your place is secured": sent once, when a registration first becomes paid
 async function confirm(row: { email: string; first_name: string | null; course: string; locale: string | null }) {
   const lang = row.locale === 'en' ? 'en' : 'el';
@@ -27,9 +45,8 @@ async function confirm(row: { email: string; first_name: string | null; course: 
   const html = (await page.text())
     .replaceAll('{{SITE}}', SITE)
     .replaceAll('{{ASSETS}}', ASSETS)
-    .replaceAll('{{GREETING}}', lang === 'en' ? `Dear ${name || 'friend'},` : `Χαίρετε${name ? ` ${name}` : ''},`)
-    .replaceAll('{{COURSE}}', place[lang])
-    .replaceAll('{{PAGE_URL}}', `${SITE}${lang === 'en' ? '/en' : ''}${place.path}`);
+    .replaceAll('{{GREETING}}', lang === 'en' ? `Dear ${name.split(/\s+/)[0] || 'friend'},` : greekGreeting(name))
+    .replaceAll('{{COURSE}}', place[lang]);
   const sent = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: { Authorization: `Bearer ${Deno.env.get('RESEND_API_KEY')}`, 'Content-Type': 'application/json' },

@@ -53,15 +53,18 @@ const w = words[kind];
 <section class="pay wrap" aria-labelledby="pay-title">
   <div class="pay__sheet box on-blue">
     <Illustration name="laurel" class="pay__laurel" draw />
-    <p class="pay__kicker hand hand--m">{w.kicker}</p>
+    <p class="pay__kicker hand hand--m" data-kicker>{w.kicker}</p>
     <h1 class="t-1 pay__title" id="pay-title">{w.title}</h1>
     {w.text.map((line) => <p class="pay__text">{line}</p>)}
     {kind === 'success' && <Signature class="pay__sign" />}
     <p class="pay__ask">{words.ask} <a href={`mailto:${email}`}>{email}</a></p>
-    <p class="pay__go">
-      {kind === 'failed' && <a class="btn" href={site.routes.courses}>{words.courses}</a>}
-      <a class="btn btn--ghost" href={site.home.href}>{words.home}</a>
-    </p>
+    {/* no home button on the success page (Maria, 23 November 2026): the header still leads home */}
+    {kind === 'failed' && (
+      <p class="pay__go">
+        <a class="btn" href={site.routes.courses}>{words.courses}</a>
+        <a class="btn btn--ghost" href={site.home.href}>{words.home}</a>
+      </p>
+    )}
   </div>
 </section>
 {/* No footer on these pages: the olive grove instead, its trees over the foot of the box (Maria, 23 November 2026) */}
@@ -180,6 +183,13 @@ const w = words[kind];
       lang = localStorage.getItem('ath-pay-lang') ?? '';
     } catch {}
     const onEnglish = location.pathname.startsWith('/en/');
-    if (lang === 'en' && !onEnglish) location.replace('/en' + location.pathname);
+    if (lang === 'en' && !onEnglish) return location.replace('/en' + location.pathname);
+    // "Σας ευχαριστούμε, Μαρία": the first name they gave in the form (success page only)
+    let name = '';
+    try {
+      name = (localStorage.getItem('ath-pay-name') ?? '').trim().split(/\s+/)[0] ?? '';
+    } catch {}
+    const kicker = document.querySelector<HTMLElement>('[data-kicker]');
+    if (name && kicker && location.pathname.includes('/success')) kicker.textContent = `${kicker.textContent}, ${name}`;
   });
 </script>
