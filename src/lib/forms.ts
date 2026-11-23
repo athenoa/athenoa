@@ -6,7 +6,7 @@
 const URL = 'https://czfcjxzngedjjskybvos.supabase.co/rest/v1';
 const KEY = 'sb_publishable_UsD5ub8WtH_XAnwxU0OrtA_HIjD5H2C';
 
-export type Table = 'waitlist' | 'registrations';
+export type Table = 'waitlist' | 'registrations' | 'newsletter';
 
 /** Adds one row. Resolves when it is stored; rejects with the server's message otherwise. */
 export async function addRow(table: Table, row: Record<string, unknown>): Promise<void> {
@@ -15,5 +15,6 @@ export async function addRow(table: Table, row: Record<string, unknown>): Promis
     headers: { apikey: KEY, 'Content-Type': 'application/json', Prefer: 'return=minimal' },
     body: JSON.stringify(row),
   });
-  if (!response.ok) throw new Error(`${response.status} ${await response.text()}`);
+  // 409: the address is already on the list (newsletter), which is as good as a new sign-up
+  if (!response.ok && response.status !== 409) throw new Error(`${response.status} ${await response.text()}`);
 }

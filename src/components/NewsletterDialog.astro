@@ -1,4 +1,5 @@
 ---
+import SourceField from './SourceField.astro';
 // The newsletter popup: one native <dialog id="newsletter"> for the whole site. Place it once, at
 // body level (not inside an on-blue surface). Any link whose href ends in "#newsletter" and any
 // element with data-newsletter-open opens it.
@@ -55,10 +56,15 @@ const contactHref = pathIn(locale, '/about-athena/#contact');
             id="newsletter-email"
             type="email"
             required
+            name="email"
             autocomplete="email"
             inputmode="email"
             placeholder={t.placeholder}
           />
+        </div>
+        <div class="field">
+          <label for="newsletter-source">{t.source}</label>
+          <SourceField id="newsletter-source" name="source" label={t.source} />
         </div>
         <button class="btn" type="submit">{t.submit}</button>
       </form>
@@ -66,7 +72,8 @@ const contactHref = pathIn(locale, '/about-athena/#contact');
       <!-- Shown in place of the form after a valid address is entered (and, with no JavaScript,
            from the start): sign-up is not connected yet, and the popup says so. -->
       <div class="nl__note" tabindex="-1" data-newsletter-note>
-        <p>{t.pending}</p>
+        <p data-newsletter-msg>{t.pending}</p>
+        <p data-newsletter-fail hidden>{t.failed}</p>
         <p><a href={contactHref} data-newsletter-contact>{t.pendingLink}</a></p>
       </div>
     </Fragment>
@@ -74,6 +81,7 @@ const contactHref = pathIn(locale, '/about-athena/#contact');
 </dialog>
 
 <script>
+  import { addRow } from '../lib/forms';
   const motionOn = () => document.documentElement.classList.contains('motion');
   const find = () => document.querySelector<HTMLDialogElement>('dialog#newsletter[data-ready]');
   // What was clicked to open the popup: focus goes back there when it closes.
@@ -129,13 +137,23 @@ const contactHref = pathIn(locale, '/about-athena/#contact');
 
     // The browser only fires "submit" once the address has passed its own validation
     // (required, type="email"); an empty or malformed one gets the native message instead.
-    form.addEventListener('submit', (event) => {
+    // Sign-ups are kept in our own database (src/lib/forms.ts, table 'newsletter'; Maria, 23 November
+    // 2026); the list is sent to the Academy's address once a week.
+    form.addEventListener('submit', async (event) => {
       event.preventDefault();
-      // NEWSLETTER SERVICE, part 2 of 2. Nothing is sent anywhere yet. To connect a service
-      // (a Brevo, Mailchimp or Buttondown form endpoint), replace the two lines below with
-      //   await fetch(form.action, { method: 'POST', body: new FormData(form) })
-      // and show a confirmation or an error instead of the "not connected yet" note
-      // (newsletter.pending in src/data/newsletter.ts, which can then go).
+      const data = new FormData(form);
+      const email = data.get('email')?.toString().trim() ?? '';
+      // "How did you find us?": the chosen answer, or what was written after "Other"
+      const picked = data.get('source')?.toString().trim() ?? '';
+      const other = data.get('source-other')?.toString().trim() ?? '';
+      const heard = (other || picked).slice(0, 300);
+      const row: Record<string, string> = { email, locale: document.documentElement.lang || 'el' };
+      if (heard) row.heard_from = heard;
+      const ok = await addRow('newsletter', row)
+        .then(() => true)
+        .catch(() => false);
+      dialog.querySelector<HTMLElement>('[data-newsletter-msg]')!.hidden = !ok;
+      dialog.querySelector<HTMLElement>('[data-newsletter-fail]')!.hidden = ok;
       dialog.setAttribute('data-sent', '');
       note.focus();
     });

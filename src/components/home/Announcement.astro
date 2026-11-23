@@ -13,7 +13,7 @@ import { getLocale } from '../../lib/locale';
 const locale = getLocale(Astro.url);
 const { home, courses, site } = content(locale);
 const { greeting, text, newsletter, signature } = home.announcement;
-const showNewsletter = false;
+const showNewsletter = true; // back, saving to our database (Maria, 23 November 2026)
 // The announced courses, as their full course entries, so they are drawn as course cards.
 const announced = home.announcement.courses
   .map((item) => courses.find((course) => course.slug === item.slug))
