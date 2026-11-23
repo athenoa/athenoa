@@ -93,8 +93,10 @@ const others = courses.filter((course) => course !== lead);
     display: grid;
     gap: var(--space-l) var(--space-m);
   }
+  /* one column: the card almost the full width, centred (Maria, 23 November 2026) */
   .courses__list > :global(.card) {
-    width: min(100%, 34rem);
+    width: 100%;
+    justify-self: center;
   }
 
   /* One even row: two equal columns, so the cards are the same width and their pictures the same size.

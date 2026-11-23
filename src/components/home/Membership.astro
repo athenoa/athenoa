@@ -83,11 +83,8 @@ const looks = [
 
     {/* The "Discover all the features" button was removed at the client's wish (11 October 2026) */}
 
-    {/* the way to the membership page, between the three cards and the frieze (Maria, 23 November 2026) */}
-    <p class="membership__go" data-reveal>
-      <a class="btn" href={site.routes.membership}>{t.go}</a>
-    </p>
-
+    {/* the frieze, with the way to the membership page laid over it, centred on its height (Maria, 23 November 2026) */}
+    <div class="membership__band">
     <Media
       class="membership__frieze"
       src={frieze}
@@ -96,8 +93,11 @@ const looks = [
       focus="62% 30%"
       widths={[560, 800, 1096]}
       sizes="(min-width: 62rem) 76vw, 120vw"
-      data-depth="0.06"
     />
+    <p class="membership__go">
+      <a class="btn" href={site.routes.membership}>{t.go}</a>
+    </p>
+    </div>
 
   </div>
 </section>
@@ -121,8 +121,21 @@ const looks = [
   .point--3 :global(.point__emblem path[fill]) {
     fill: var(--gold);
   }
-  .membership__go {
+  /* the band holds the frieze and nothing else above it, so the button's middle is the picture's middle */
+  .membership__band {
+    position: relative;
     margin-top: var(--space-l);
+  }
+  .membership__band :global(.membership__frieze) {
+    margin-top: 0 !important;
+  }
+  .membership__go {
+    position: absolute;
+    z-index: 2;
+    left: clamp(1.25rem, 4vw, 3.5rem);
+    top: 50%;
+    translate: 0 -50%;
+    margin: 0;
   }
   .membership__head .lead {
     margin-top: var(--space-m);
@@ -345,10 +358,10 @@ const looks = [
       margin: -115% 0 0 -115%;
     }
     /* The procession passes behind the niche: its far end is hidden by the arch */
-    .membership__go {
-      grid-column: 1 / span 9;
-      grid-row: 3;
-      align-self: start;
+    .membership__band {
+      grid-column: 1 / span 10;
+      grid-row: 4;
+      align-self: end;
     }
     .membership__grid :global(.membership__frieze) {
       grid-column: 1 / span 10;

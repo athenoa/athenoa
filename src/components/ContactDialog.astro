@@ -20,7 +20,8 @@ const { about, coursesPage } = content(getLocale(Astro.url));
         <path d="M5 5.4c4.6 4.2 9 8.800 14 13.400M19 5c-4.400 4.800-9.200 9-13.800 14"></path>
       </svg>
     </button>
-    <h2 class="cd__title t-3" id="contact-pop-title">{about.contact.title}</h2>
+    {/* the title kept for screen readers only (Maria, 23 November 2026) */}
+    <h2 class="cd__title t-3 visually-hidden" id="contact-pop-title">{about.contact.title}</h2>
     <ContactForm prefix="contact-pop" />
   </div>
 </dialog>

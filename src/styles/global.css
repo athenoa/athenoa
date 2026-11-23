@@ -1076,3 +1076,9 @@ html[data-theme='dark'] .field :is(input, textarea, select):is(:hover, :focus) {
 html[data-theme='dark'] .day-birds {
   display: none;
 }
+
+/* Eyes of the drawn birds by night: crème with a dark pupil, never a dark eye on a dark ground (23 November 2026) */
+html[data-theme='dark'] .illo {
+  --eye-white: #f2e9d3;
+  --eye-pupil: #071260;
+}
