@@ -281,12 +281,12 @@ export const personSchema = (asked: AnyLocale = 'en'): Json => {
 const localeOf = (course: Course | undefined, asked?: unknown): Locale =>
   asked === 'en' || asked === 'el' ? asked : course && content('el').courses.includes(course) ? 'el' : 'en';
 
-// How a course runs: online when it is taught on Zoom (its format says so). No start dates are set yet,
-// so none appear here.
+// How a course runs: online when it is taught on Zoom (its format says so), from its first lesson.
 const courseInstance = (course: Course, locale: Locale): Json => ({
   '@type': 'CourseInstance',
   name: course.schedule,
   courseMode: course.format?.includes('Zoom') ? 'Online' : undefined,
+  startDate: course.starts?.firstLesson,
   instructor:
     course.instructor === content(locale).site.founder
       ? athenaRef(locale)
@@ -327,6 +327,33 @@ export const courseSchema = (course: Course, asked?: unknown): Json => {
     hasCourseInstance: courseInstance(course, locale),
     offers: courseOffer(course.price, url, course.upfrontDiscount),
     mainEntityOfPage: onPage,
+  };
+};
+
+/**
+ * The course's introduction, an online event of its own, so a search can show its date (Maria, 23 November
+ * 2026). Only while it is still to come: once it has passed, nothing is published.
+ */
+export const introductionSchema = (course: Course, asked?: unknown): Json | null => {
+  const at = course.starts?.introduction;
+  if (!at || new Date(at).getTime() < Date.now()) return null;
+  const locale = localeOf(course, asked);
+  const url = page(content(locale).coursePageHref(course.slug));
+  const label = course.dates?.[0]?.label ?? course.title;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Event',
+    name: `${course.title}: ${label}`,
+    description: course.summary,
+    startDate: at,
+    eventStatus: 'https://schema.org/EventScheduled',
+    eventAttendanceMode: 'https://schema.org/OnlineEventAttendanceMode',
+    location: { '@type': 'VirtualLocation', url },
+    image: photo(course.image),
+    organizer: organizationRef(locale),
+    performer: athenaRef(locale),
+    inLanguage: course.teaching ?? 'el',
+    url,
   };
 };
 

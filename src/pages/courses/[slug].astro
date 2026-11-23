@@ -10,7 +10,7 @@ import { courseImage } from '../../components/courses/media';
 import { trail } from '../../components/courses/trail';
 import { content } from '../../data';
 import { courses as allCourses, type Course } from '../../data/courses';
-import { breadcrumbSchema, courseSchema } from '../../data/schema';
+import { breadcrumbSchema, courseSchema, introductionSchema } from '../../data/schema';
 import { getLocale } from '../../lib/locale';
 
 // Slugs are the same in both languages.
@@ -38,7 +38,8 @@ const canEnrol = course.available && Boolean(course.tuition?.length);
   schema={[
     courseSchema(course),
     breadcrumbSchema([...crumbs, { name: course.title, path: coursePageHref(course.slug) }]),
-  ]}
+    introductionSchema(course),
+  ].filter((item) => item !== null)}
 >
   <article class="course section">
     <div class="wrap">

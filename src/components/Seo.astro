@@ -93,7 +93,8 @@ if (!noindex) {
   )
 }
 {languages.map((language) => <link rel="alternate" hreflang={language.code} href={language.href} />)}
-{!noindex && <link rel="alternate" hreflang="x-default" href={absolute(pathIn('en', path))} />}
+{/* the Greek pages are the default for any language not offered (Maria, 23 November 2026) */}
+{!noindex && <link rel="alternate" hreflang="x-default" href={absolute(pathIn('el', path))} />}
 {twin && <link rel="alternate" type="text/markdown" href={twin} title={title} />}
 <link rel="alternate" type="text/plain" href={pathIn(main, '/llms.txt')} title={t[main].llms} />
 

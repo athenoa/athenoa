@@ -58,6 +58,9 @@ export interface Course {
   scheduleNote?: string;
   /** The dates in full, on the course page and in the popup */
   dates?: { label: string; when: string }[];
+  /** The same moments as dates, machine-readable (ISO 8601, Greek time), for search engines: the free
+   *  introduction and the first lesson (structured data only; nothing on the page reads them) */
+  starts?: { introduction?: string; firstLesson: string };
   /** The last lesson: in full at the end of the dates ("Thursday 10 June 2027, 19:30"), and short on the
       card ("From 26 November 2026 until 10 June 2027") */
   lastLesson?: { when: string; short: string };
@@ -151,6 +154,7 @@ const allCourses: Course[] = [
       'In this Cycle of Studies in Greek Philosophy we will study the Odyssey as a timeless treasure of Wisdom, a symbolic Map of the human Soul and of its Journey to Self-knowledge and Awakening.',
     schedule: 'From 26 November 2026',
     scheduleNote: 'Introductory lesson - Presentation of the Cycle: Monday 23 November, 19:30',
+    starts: { introduction: '2026-11-23T19:30:00+02:00', firstLesson: '2026-11-26T19:30:00+02:00' },
     dates: [
       { label: 'Introductory lesson - Presentation of the Cycle', when: 'Monday 23 November 2026, 19:30 Greek time' },
       { label: 'First lesson', when: 'Thursday 26 November 2026, 19:30' },
@@ -248,6 +252,7 @@ const allCourses: Course[] = [
     summary: 'Philosophy as the Art of Living: an experiential path to becoming, each day, who we truly are.',
     schedule: 'From 1 December 2026',
     scheduleNote: 'Introductory lesson - Presentation of the Cycle: Monday 23 November, 19:30',
+    starts: { introduction: '2026-11-23T19:30:00+02:00', firstLesson: '2026-12-01T19:30:00+02:00' },
     dates: [
       { label: 'Introductory lesson - Presentation of the Cycle', when: 'Monday 23 November 2026, 19:30 Greek time' },
       { label: 'First lesson', when: 'Tuesday 1 December 2026, 19:30' },
