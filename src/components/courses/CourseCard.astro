@@ -55,6 +55,9 @@ const length =
   course.duration && course.months ? `${course.duration} · ${fill(ui.when.months, { n: String(course.months) })}` : course.duration;
 // A course with tuition shows two ways: its standard tier paid upfront, then by the month
 const fee = course.tuition?.[0] ? feeOf(course.tuition[0], course.upfrontDiscount ?? 0, locale) : null;
+// "€550 για ολόκληρο τον Κύκλο 24 Μαθημάτων" (Athena, 23 November 2026)
+const lessons = course.duration?.match(/^\d+/)?.[0];
+const perCycle = lessons ? fill(ui.tuition.wholeCycleOf, { n: lessons }) : ui.tuition.feeUpfront;
 const facts = [
   { label: ui.facts.dates, value: dates, note: course.scheduleNote },
   { label: ui.facts.duration, value: length },
@@ -112,7 +115,7 @@ const splitFee = (display: string) => {
                 /* "€550 ετήσια προπληρωμή" over "ή €68,75 τον μήνα × 8"; an upfront discount strikes the whole price */
                 <dd class="card__fee">
                   <span class="card__amount">{fee.now}</span>
-                  <span class="card__tax">{ui.tuition.feeUpfront}</span>
+                  <span class="card__tax">{perCycle}</span>
                   {/* an upfront discount: under the price, the whole price struck through and its mark */}
                   {fee.was && (
                     <span class="card__struck">

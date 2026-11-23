@@ -48,6 +48,9 @@ const length =
   course.duration && course.months ? `${course.duration} · ${fill(ui.when.months, { n: String(course.months) })}` : course.duration;
 // A course with tuition: its standard tier paid upfront, then by the month (as on the card)
 const fee = course.tuition?.[0] ? feeOf(course.tuition[0], course.upfrontDiscount ?? 0, getLocale(Astro.url)) : null;
+// "€550 για ολόκληρο τον Κύκλο 24 Μαθημάτων" (Athena, 23 November 2026): the count is the number the course's length starts with
+const lessons = course.duration?.match(/^\d+/)?.[0];
+const perCycle = lessons ? fill(ui.tuition.wholeCycleOf, { n: lessons }) : ui.tuition.feeUpfront;
 const facts = [
   { label: ui.facts.dates, value: dates ? undefined : course.schedule, dates },
   { label: ui.facts.duration, value: length },
@@ -120,14 +123,16 @@ const symbolFor = 'description';
 
     {/* A course not open yet says so above its title, on its page (Maria, 22 November 2026) */}
     {page && course.comingSoon && <p class="body__soon"><span>{ui.soon}</span></p>}
+    {/* On the page the banner carries the title and subtitle in its own lettering, so the page's own title
+        and subtitle are kept for screen readers and search only (Athena, 23 November 2026) */}
     <Title
-      class:list={['body__title', page ? 't-1' : 't-2']}
+      class:list={['body__title', page ? 't-1 visually-hidden' : 't-2']}
       id={titleId}
       data-split={page ? '' : undefined}
       set:html={keepHyphens(course.title)}
     />
     {/* The subtitle right under the title: smaller, lighter, in the title's face (Maria, 22 November 2026) */}
-    {course.subtitle && <p class="body__subtitle" set:html={keepHyphens(course.subtitle)} />}
+    {course.subtitle && <p class:list={['body__subtitle', page && 'visually-hidden']} set:html={keepHyphens(course.subtitle)} />}
     {!page && <p class="body__by">{ui.taughtBy} {course.instructor}</p>}
 
     <div class="body__lede stack">
@@ -156,7 +161,7 @@ const symbolFor = 'description';
                   ) : 'fee' in fact && fee ? (
                     <>
                       <span class="facts__fee">
-                        <strong>{fee.now}</strong> {ui.tuition.feeUpfront}
+                        <strong>{fee.now}</strong> {perCycle}
                       </span>
                       {/* an upfront discount: under the price, the whole price struck through and its mark */}
                       {fee.was && (
@@ -699,22 +704,35 @@ const symbolFor = 'description';
   .body--page .body__note::before {
     display: none;
   }
+  /* The banner as large as it can be: the full width of the window, edge to edge, square-cornered, at the
+     top of the page (Athena, 23 November 2026). The chip and the date line up with the text column. */
   .body--page .body__figure {
+    --edge: max(var(--gutter), calc((100vw - var(--wrap)) / 2));
+    margin-inline: calc(50% - 50vw);
+    margin-top: 0;
     margin-bottom: clamp(5rem, 3rem + 4vw, 7rem);
   }
+  .body--page .body__media {
+    --media-r: 0;
+  }
+  .body--page .body__note {
+    right: var(--edge);
+  }
+  .body--page .body__chip {
+    left: var(--edge);
+  }
+  @media (min-width: 48rem) {
+    /* clear of the sound and theme buttons in the window's lower left corner */
+    .body--page .body__chip {
+      left: max(7.5rem, var(--edge));
+    }
+  }
   @media (max-width: 40rem) {
-    /* the flyer larger on a phone: it reaches into the page's side margins (Athena, 23 November 2026) */
     .body--page .body__figure {
-      margin-inline: calc(var(--gutter) * -0.7);
       margin-bottom: 9rem;
     }
     .body--page .body__note {
       top: calc(100% + 2.6rem);
-      right: calc(var(--gutter) * 0.7);
-    }
-    /* the chip keeps clear of the screen's edge now that the flyer reaches into the margins */
-    .body--page .body__chip {
-      left: calc(var(--gutter) * 0.7 + 0.5rem);
     }
     .body__chip {
       max-width: 88%;
