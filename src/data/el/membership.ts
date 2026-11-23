@@ -19,7 +19,7 @@ export const membership: Membership = {
   lead: 'Η Σχολή μας για τρίτο έτος λειτουργεί την δυνατότητα ετήσιας συνδρομής ως Μέλος στην Ακαδημία Ελληνικής Σοφίας!',
   // Athena's paragraphs regrouped as an intro and a list of what membership gives (Maria, 23 November 2026)
   paragraphs: [
-    'Πέραν των Αυτοτελών Κύκλων Μαθημάτων, και φέτος για τρίτη χρονιά υπάρχει η δυνατότητα φοίτησης ως Μέλος της Ακαδημίας. Ως Μέλος:',
+    // 'Πέραν των Αυτοτελών Κύκλων…' removed (Maria, 23 November 2026): the list follows the lead directly
   ],
   benefits: [
     { icon: 'mem-doors', text: 'Έχεις πρόσβαση σε <strong>όλους τους ζωντανούς Κύκλους Σπουδών &amp; Σεμινάρια</strong> της Ακαδημίας μας' },

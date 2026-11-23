@@ -78,9 +78,9 @@ const { ui } = content(getLocale(Astro.url));
 
   const KEY = 'ath-music';
   const AT = 'ath-music-at'; // where in the piece the last page left off (this tab only)
-  // The music is muted for now: only the sound effects play (Maria, 23 November 2026). The button still
-  // turns the place's sounds (the fire, the birds) on and off. Set MUSIC to true to bring the music back.
-  const MUSIC = false;
+  // The music is on again (Maria, 23 November 2026, after a day muted). Set MUSIC to false to mute it; the button still
+  // turns the music and the place's sounds (the fire, the birds) on and off together.
+  const MUSIC = true;
   const VOLUME = 0.112; // very low: it should sit under the page, not on top of it (lowered by a fifth on 11 October 2026)
 
   function setup() {

@@ -2,6 +2,8 @@
 
 export const site = {
   name: 'ATHENOA',
+  /** the name as the header and footer show it (Greek letters on the Greek pages) */
+  wordmark: 'ATHENOA',
   // The live footer signs off in Greek capitals.
   copyright: '© ATHENOA ACADEMY',
   url: 'https://www.athenoa.academy',

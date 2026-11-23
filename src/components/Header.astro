@@ -30,7 +30,7 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
   <div class="header__bar">
     <a class="header__brand" href={home} aria-label={ui.homeLink}>
       <span class="medal medal--plain"><Image src={logo} alt="" width={56} height={55} densities={[1, 2]} loading="eager" class="header__logo" /></span>
-      <span class="header__name">{site.name}</span>
+      <span class="header__name">{site.wordmark ?? site.name}</span>
     </a>
 
     <nav class="header__nav" aria-label={ui.mainNav}>

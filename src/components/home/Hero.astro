@@ -302,8 +302,7 @@ const showAthena = false;
     --pb-stone: var(--creme-light);
     --pb-light: var(--creme-light);
     --ink-strong: var(--blue);
-    /* the highlighted words in a colour of their own (Maria, 23 November 2026): a brighter Greek blue by
-       day, on the crème sky; warm gold by night, where the title itself is crème */
+    /* the highlighted words: a brighter Greek blue by day (Maria, 23 November 2026: not gold), gold by night */
     --hero-gold: var(--blue-bright);
     --highlight: var(--creme-light);
     --highlight-ink: var(--blue);
@@ -332,7 +331,7 @@ const showAthena = false;
     --pb-stone: var(--blue);
     --pb-light: var(--blue-light);
     --ink-strong: var(--creme-light);
-    --hero-gold: #e9bf6a;
+    --hero-gold: var(--gold);
     --highlight: var(--blue-light);
     --highlight-ink: var(--blue-deep);
     --sub-ink: var(--blue-light);
@@ -625,7 +624,8 @@ const showAthena = false;
     top: var(--top);
     width: var(--w);
     aspect-ratio: 600 / 120;
-    color: color-mix(in srgb, var(--creme-light) var(--mix, 44%), var(--creme));
+    /* clouds a soft blue-grey on the crème sky, so they read against it (Maria, 23 November 2026) */
+    color: color-mix(in srgb, var(--creme-light) var(--mix, 44%), color-mix(in srgb, var(--blue) 26%, var(--creme)));
     /* where it stands when nothing moves */
     transform: translate3d(var(--at), 0, 0);
   }
@@ -801,11 +801,16 @@ const showAthena = false;
   }
   /* The rays run on past the building: by day they are sunlit paper, so they show against the sky.
      (Their colour is read by the gradient stops that fade each ray out.) */
-  .hero__stage :global(.illo--portal-b-light stop) {
-    --pb-light: var(--creme-light);
+  /* the shield's gold comes last, with the lights (Maria, 23 November 2026) */
+  .hero__layer--statue {
+    --gold-delay: 2.6s;
   }
-  :global(html[data-theme='dark']) .hero__stage :global(.illo--portal-b-light stop) {
-    --pb-light: var(--blue-light);
+  /* the rays that come out of the academy in gold, by day and by night (Maria for Athena, 23 November 2026);
+     the flame itself stays white */
+  .hero__stage :global(.illo--portal-b-light stop),
+  .hero__stage :global(.illo--portal-b-rays),
+  .hero__stage :global(.pb-spill) {
+    --pb-light: var(--gold);
   }
   :global(html[data-theme='dark']) .hero__stage :global(.illo--portal-b-cella) {
     --pb-night: var(--blue-deep);

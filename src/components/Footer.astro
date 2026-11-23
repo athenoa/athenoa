@@ -73,7 +73,7 @@ const custom = Object.entries(images).find(([file]) =>
   <div class="wrap footer__grid" data-reveal-group>
     <div class="footer__brand">
       <span class="medal medal--plain"><Image src={logo} alt="" width={96} height={94} densities={[1, 2]} class="footer__logo" /></span>
-      <p class="footer__name">{site.name}</p>
+      <p class="footer__name">{site.wordmark ?? site.name}</p>
     </div>
 
     <div class="footer__col">
@@ -439,6 +439,11 @@ const custom = Object.entries(images).find(([file]) =>
      a reload. Both skies are drawn behind the land and the sea. By night the sun rests below the
      horizon, by day the moon does; each drawing says in its own units how far its sun sinks (--set)
      and its moon rises (--rise). Without motion the hidden sky is simply taken out of the drawing. */
+  /* the sun and the moon filled with gold, their lines blue as the rest (Maria for Athena, 23 November 2026) */
+  .footer__scene :global(.sky-day path),
+  .footer__scene :global(.sky-moon path) {
+    fill: var(--gold);
+  }
   .footer__scene :global(.sky-night) {
     display: none;
   }

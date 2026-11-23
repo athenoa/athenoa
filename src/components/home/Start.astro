@@ -16,13 +16,13 @@ const t = {
     frescoAlt:
       'Raphael’s fresco The School of Athens: the philosophers of antiquity gathered beneath a great vaulted hall',
     courses: 'Explore the courses',
-    member: 'Become a Member',
+    member: 'Become a Member of the Academy',
   },
   el: {
     frescoAlt:
       'Η τοιχογραφία του Ραφαήλ «Η Σχολή των Αθηνών»: οι φιλόσοφοι της αρχαιότητας συγκεντρωμένοι κάτω από μια μεγάλη θολωτή αίθουσα',
     courses: 'Δείτε τα μαθήματα',
-    member: 'Γίνε Μέλος',
+    member: 'Γίνε Μέλος της Ακαδημίας',
   },
 }[mainLocale(locale)];
 ---
@@ -67,11 +67,11 @@ const t = {
 </section>
 
 <style>
-  /* the two ways in, in two colours (Maria, 23 November 2026): membership in the light blue */
+  /* the two ways in, in two colours (Maria, 23 November 2026): membership in gold, not light blue */
   .start__go .start__member {
-    --btn-bg: var(--blue-light);
-    --btn-bg-hover: #c8d2f7;
-    --btn-ink: var(--blue-deep);
+    --btn-bg: var(--gold);
+    --btn-bg-hover: color-mix(in srgb, var(--gold) 82%, #fff);
+    --btn-ink: #071260;
   }
   .start__lines :global(.start__sign) {
     display: block;

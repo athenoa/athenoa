@@ -153,6 +153,13 @@ const splitFee = (display: string) => {
 </article>
 
 <style>
+  /* on the Greek-blue card the button is gold (Maria for Athena, 23 November 2026) */
+  .card--blue :global(.btn) {
+    --btn-bg: var(--gold);
+    --btn-bg-hover: color-mix(in srgb, var(--gold) 82%, #fff);
+    --btn-ink: #071260;
+    --btn-ledge: color-mix(in srgb, var(--gold) 55%, #000);
+  }
   /* Every course picture is a banner (Maria, 22 November 2026): a rectangle with softly rounded corners,
      in one frame on every card (16:9, the banners' own shape), on a card of coloured paper whose corners
      follow it. --frame is the picture's outline; the link laid over it follows the same curve.

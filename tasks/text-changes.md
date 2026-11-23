@@ -463,3 +463,4 @@ The four earlier courses (The Hidden Non-Duality, and the three placeholders) ar
 - Membership benefits: key words in bold inside Athena's sentences (EN likewise); emphasis only, no new words.
 - Menu: 'Γίνε Μέλος' renamed 'Γίνε Μέλος της Ακαδημίας' (Maria, 23 November 2026). English 'Membership' unchanged.
 - Εὖ Ζῆν summary (under the banner, and on its card): 'Η Φιλοσοφία ως Τέχνη Ζωής: μια βιωματική διαδρομή για να γινόμαστε κάθε μέρα Αυτό που αληθινά Είμαστε.' (from the description's own words; replaces the line the banner repeats). EN: 'Philosophy as the Art of Living: an experiential path to becoming, each day, who we truly are.'
+- Membership: the paragraph 'Πέραν των Αυτοτελών Κύκλων Μαθημάτων… Ως Μέλος:' removed (EN likewise). Start section button: 'Γίνε Μέλος της Ακαδημίας'.

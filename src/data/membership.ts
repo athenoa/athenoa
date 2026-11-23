@@ -55,7 +55,7 @@ export const membershipEn: Membership = {
   cta: 'Register',
   lead: 'For the third year, our School offers an annual subscription as a Member of the Academy of Hellenic Wisdom!',
   paragraphs: [
-    'Beyond the individual Cycles of Studies, this year too, for the third year running, you can study as a Member of the Academy. As a Member you:',
+    // 'Beyond the individual Cycles…' removed (Maria, 23 November 2026)
   ],
   benefits: [
     { icon: 'mem-doors', text: 'Have access to <strong>all the live Cycles of Studies &amp; Seminars</strong> of our Academy' },

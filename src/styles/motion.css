@@ -129,6 +129,15 @@ html.motion [data-draw] :is(path, line, polyline, polygon, circle, ellipse, rect
 html.motion [data-draw].is-in :is(path, line, polyline, polygon, circle, ellipse, rect):not([data-nodraw]) {
   stroke-dashoffset: 0;
 }
+/* Gold fills (data-gold) come in last, once the lines are drawn (Maria, 23 November 2026). A drawing can
+   hold them longer with --gold-delay (the hero's shield waits for the lights). */
+html.motion [data-draw] [data-gold] {
+  fill-opacity: 0;
+  transition: fill-opacity 0.9s var(--ease-out) var(--gold-delay, calc(var(--dur-4) + 0.5s));
+}
+html.motion [data-draw].is-in [data-gold] {
+  fill-opacity: 1;
+}
 html.motion [data-draw] [data-nodraw] {
   opacity: 0;
   transition: opacity var(--dur-3) var(--ease-out) 0.5s;
