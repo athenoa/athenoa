@@ -17,18 +17,16 @@ const { class: className, ...rest } = Astro.props;
 // One bee, facing right, its wings attached at their lower edge so they can beat from there.
 const bee = beeSvg;
 
+// A skep, the old woven hive: a dome of coiled straw rings on a board, its little door at the foot
+// (Maria, 23 November 2026: a hive with a few bees, in place of the swarm on the pebble)
+const hive = `<svg class="hive__svg" viewBox="0 0 120 110" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M20 92C17 62 33 22 60 20C87 22 103 62 100 92Z" fill="var(--paper, #f2e9d3)"/><path d="M27 82C40 85 80 85 93 82M24 70C40 73 80 73 96 70M26 58C42 61 78 61 94 58M31 46C45 49 75 49 89 46M39 35C50 37 70 37 81 35M50 26C56 27 64 27 70 26"/><path d="M33 82l2 8M47 84l1 8M61 85v7M75 84l-1 8M88 82l-2 8M30 70l2 9M45 72l1 9M60 73v9M75 72l-1 9M90 70l-2 9M33 58l1 9M47 60l1 9M62 61v9M76 60l-1 9M88 58l-1 9M38 46l1 9M51 48v9M65 48v9M78 46l-1 9M46 35l1 9M60 36v9M73 35l-1 9" stroke-width="1.3"/><path d="M51 92C51 84 55 80 60 80C65 80 69 84 69 92Z" fill="currentColor"/><path d="M10 92H110M14 99H106" stroke-width="2.4"/></svg>`;
+
 // The swarm: where each bee hovers in the mark (centre, % of the box), its turn, size and the moment
 // its hovering begins, so no two move together
 const swarm = [
-  { x: 20, y: 22, r: -14, s: 1, d: 0 },
-  { x: 54, y: 12, r: 8, s: 0.86, d: -0.7 },
-  { x: 84, y: 30, r: 22, s: 0.94, d: -1.9 },
-  { x: 34, y: 50, r: -5, s: 1.12, d: -1.2 },
-  { x: 66, y: 50, r: 12, s: 0.9, d: -2.6 },
-  { x: 10, y: 74, r: -24, s: 0.8, d: -0.4 },
-  { x: 46, y: 82, r: 6, s: 0.96, d: -3.1 },
-  { x: 80, y: 76, r: -10, s: 0.84, d: -1.5 },
-  { x: 100, y: 54, r: 30, s: 0.74, d: -2.2 },
+  { x: -8, y: 4, r: -14, s: 0.9, d: 0 },
+  { x: 104, y: -6, r: 12, s: 0.82, d: -1.3 },
+  { x: 114, y: 70, r: -8, s: 0.76, d: -2.4 },
 ];
 // On arrival each bee flies in from its own side, from a few rem away, in turn (Maria, 23 November 2026)
 const arrive = (i: number) => {
@@ -38,6 +36,7 @@ const arrive = (i: number) => {
 ---
 
 <div class:list={['bees', className]} aria-hidden="true" data-bees {...rest}>
+  <span class="hive" set:html={hive} />
   {
     swarm.map((b, i) => (
       <span
@@ -205,8 +204,21 @@ const arrive = (i: number) => {
     transform-origin: 50% 100%;
   }
   /* the swarm: each bee at its place in the mark, turned its own way */
+  .hive {
+    position: absolute;
+    left: 50%;
+    top: 58%;
+    width: 140%;
+    translate: -50% -50%;
+    color: var(--ink-strong);
+  }
+  .hive :global(.hive__svg) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
   .bee--swarm {
-    --bee: 34%;
+    --bee: 44%;
     position: absolute;
     left: var(--x);
     top: var(--y);

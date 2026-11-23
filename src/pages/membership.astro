@@ -152,7 +152,8 @@ const bannerAlt = {
   .mem__questions {
     display: grid;
     gap: 0.6rem;
-    max-width: 46ch;
+    /* half the page wide on desktop, as wide as the title's span (Maria, 23 November 2026) */
+    max-width: max(46ch, 50vw);
   }
   .mem__text {
     max-width: 50rem;
