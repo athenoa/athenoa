@@ -1,0 +1,124 @@
+---
+// After Stripe (Maria, 23 November 2026): where a Payment Link sends people back to, set in each link's
+// "After payment" setting in Stripe: /payment/success/ (or /en/payment/success/). /payment/failed/ is for
+// links that cannot complete, and for us to point people to. Not for search engines.
+// Wording PROPOSED, for Athena to approve (logged in tasks/text-changes.md).
+import Illustration from '../Illustration.astro';
+import Signature from '../Signature.astro';
+import { content } from '../../data';
+import { getLocale, mainLocale } from '../../lib/locale';
+
+interface Props {
+  kind: 'success' | 'failed';
+}
+const { kind } = Astro.props;
+const locale = getLocale(Astro.url);
+const { site } = content(locale);
+const email = site.emails[0];
+const words = {
+  el: {
+    success: {
+      kicker: 'Σας ευχαριστούμε',
+      title: 'Η θέση σας εξασφαλίστηκε',
+      text: ['Η πληρωμή σας ολοκληρώθηκε και η εγγραφή σας καταχωρήθηκε.', 'Θα σας στείλουμε σύντομα email με όλες τις λεπτομέρειες για την έναρξη.'],
+    },
+    failed: {
+      kicker: 'Κάτι δεν πήγε καλά',
+      title: 'Η πληρωμή δεν ολοκληρώθηκε',
+      text: ['Η πληρωμή σας δεν ολοκληρώθηκε, οπότε δεν έγινε καμία χρέωση.', 'Μπορείτε να δοκιμάσετε ξανά, να επιλέξετε κατάθεση σε τραπεζικό λογαριασμό, ή να μας γράψετε και θα σας βοηθήσουμε.'],
+    },
+    ask: 'Για οτιδήποτε, γράψτε μας στο',
+    home: 'Αρχική σελίδα',
+    courses: 'Δείτε τα μαθήματα',
+    other: { label: 'English', href: `/en/payment/${kind}/` },
+  },
+  en: {
+    success: {
+      kicker: 'Thank you',
+      title: 'Your place is secured',
+      text: ['Your payment went through and your registration is recorded.', 'We will email you soon with all the details for the start.'],
+    },
+    failed: {
+      kicker: 'Something went wrong',
+      title: 'The payment did not go through',
+      text: ['Your payment was not completed, so nothing was charged.', 'You can try again, choose a bank transfer, or write to us and we will help.'],
+    },
+    ask: 'For anything at all, write to us at',
+    home: 'Home page',
+    courses: 'See the courses',
+    other: { label: 'Ελληνικά', href: `/payment/${kind}/` },
+  },
+}[mainLocale(locale)];
+const w = words[kind];
+---
+
+<section class="pay wrap" aria-labelledby="pay-title">
+  <div class="pay__sheet box on-blue">
+    <Illustration name="laurel" class="pay__laurel" draw />
+    <p class="pay__kicker hand hand--m">{w.kicker}</p>
+    <h1 class="t-1 pay__title" id="pay-title">{w.title}</h1>
+    {w.text.map((line) => <p class="pay__text">{line}</p>)}
+    {kind === 'success' && <Signature class="pay__sign" />}
+    <p class="pay__ask">{words.ask} <a href={`mailto:${email}`}>{email}</a></p>
+    <p class="pay__go">
+      {kind === 'failed' && <a class="btn" href={site.routes.courses}>{words.courses}</a>}
+      <a class="btn btn--ghost" href={site.home.href}>{words.home}</a>
+    </p>
+    <p class="pay__other"><a href={words.other.href} lang={locale === 'en' ? 'el' : 'en'}>{words.other.label}</a></p>
+  </div>
+</section>
+
+<style>
+  .pay {
+    display: grid;
+    place-items: center;
+    min-height: 70vh;
+    padding-block: calc(var(--header-h) + var(--space-l)) var(--space-xl);
+  }
+  .pay__sheet {
+    max-width: 42rem;
+    padding: clamp(2rem, 1.2rem + 4vw, 4rem);
+    text-align: center;
+    --leaf: var(--gold);
+  }
+  .pay__laurel {
+    width: clamp(5rem, 4rem + 4vw, 7rem);
+    margin: 0 auto var(--space-s);
+  }
+  .pay__title {
+    margin: 0.2rem 0 var(--space-m);
+    font-size: clamp(2.2rem, 1.6rem + 3vw, 3.6rem);
+  }
+  .pay__text {
+    margin: 0 auto 0.7rem;
+    max-width: 34ch;
+    font-size: var(--step-1);
+  }
+  .pay__sheet :global(.pay__sign) {
+    display: block;
+    width: 8rem;
+    margin: var(--space-s) auto 0;
+  }
+  .pay__ask {
+    margin-top: var(--space-m);
+    font-size: var(--step-0);
+  }
+  .pay__ask a {
+    color: inherit;
+    overflow-wrap: anywhere;
+  }
+  .pay__go {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.8rem;
+    margin-top: var(--space-m);
+  }
+  .pay__other {
+    margin-top: var(--space-m);
+    font-size: var(--step--1);
+  }
+  .pay__other a {
+    color: inherit;
+  }
+</style>

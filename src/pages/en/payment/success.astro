@@ -1,0 +1,9 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PaymentStatus from '../../../components/payment/PaymentStatus.astro';
+import { site } from '../../../data/site';
+---
+
+<Base title={`Your place is secured | ${site.name}`} description="ATHENOA" noindex>
+  <PaymentStatus kind="success" />
+</Base>

@@ -387,7 +387,7 @@ export const coursesPage = {
       tierLegend: 'Δίδακτρα',
       payLegend: 'Τρόπος πληρωμής',
       payFull: 'Με κάρτα, Ετήσια Προπληρωμή',
-      payMonthly: 'Με κάρτα, Μηνιαία καταβολή σε 8 δόσεις',
+      payMonthly: 'Με κάρτα, Μηνιαία καταβολή σε {n} δόσεις',
       payBank: 'Με κατάθεση σε Τραπεζικό Λογαριασμό, εφάπαξ',
       instead: 'αντί {price}',
       detailsLegend: 'Τα στοιχεία σας',

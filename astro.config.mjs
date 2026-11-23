@@ -25,7 +25,7 @@ export default defineConfig({
   integrations: [
     sitemap({
       // Working pages stay out of the sitemap
-      filter: (page) => !['/lab/', '/en/lab/', '/font-test/', '/grc/', '/nostos/', '/en/nostos/'].some((part) => new URL(page).pathname.startsWith(part)),
+      filter: (page) => !['/lab/', '/en/lab/', '/font-test/', '/grc/', '/nostos/', '/en/nostos/', '/payment/', '/en/payment/'].some((part) => new URL(page).pathname.startsWith(part)),
       i18n: { defaultLocale: 'el', locales: { el: 'el', en: 'en' } },
     }),
   ],

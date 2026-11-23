@@ -499,7 +499,7 @@ export const coursesPage = {
       tierLegend: 'Tuition',
       payLegend: 'Way of paying',
       payFull: 'By card, in full',
-      payMonthly: 'By card, in 8 monthly instalments',
+      payMonthly: 'By card, in {n} monthly instalments',
       payBank: 'By bank transfer, in full',
       instead: 'instead of {price}',
       detailsLegend: 'Your details',

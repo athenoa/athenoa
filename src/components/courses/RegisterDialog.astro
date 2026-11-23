@@ -24,8 +24,12 @@ import { heart } from './marks';
 
 interface Props {
   course: Course;
+  /** Ask for the name on the certificate (the courses); membership has no certificate (Maria, 23 November 2026) */
+  certificate?: boolean;
+  /** The line above the title (the courses: "Register for the Cycle of Studies") */
+  kicker?: string;
 }
-const { course } = Astro.props;
+const { course, certificate = true, kicker } = Astro.props;
 const locale = getLocale(Astro.url);
 const { coursesPage, site } = content(locale);
 const { ui } = coursesPage;
@@ -60,7 +64,7 @@ const monthly = (tier: (typeof tiers)[number]) =>
 
         <div class="rg__scroll" data-register-scroll>
           <header class="rg__head">
-            <p class="hand hand--m">{handCase(r.kicker)}</p>
+            <p class="hand hand--m">{handCase(kicker ?? r.kicker)}</p>
             <h2 class="rg__title t-3" id={id('title')}>
               {course.title}
             </h2>
@@ -110,7 +114,7 @@ const monthly = (tier: (typeof tiers)[number]) =>
                 </label>
                 <label class="opt">
                   <input type="radio" name="payment" value="monthly" />
-                  <span class="opt__name">{r.payMonthly}</span>
+                  <span class="opt__name">{fill(r.payMonthly, { n: String(first.payments) })}</span>
                   <span class="opt__price">
                     <span data-now="monthly">{monthly(first)}</span>
                   </span>
@@ -212,7 +216,7 @@ const monthly = (tier: (typeof tiers)[number]) =>
                   </label>
                   <input id={id('address')} name="address" autocomplete="street-address" maxlength="300" />
                 </div>
-                <div class="field rg__wide">
+                {certificate && <div class="field rg__wide">
                   <label for={id('certificate')}>
                     {r.certificate} <span aria-hidden="true">*</span>
                   </label>
@@ -224,7 +228,7 @@ const monthly = (tier: (typeof tiers)[number]) =>
                     maxlength="200"
                     data-missing={r.errors.certificate}
                   />
-                </div>
+                </div>}
               </div>
             </fieldset>
 
@@ -419,12 +423,12 @@ const monthly = (tier: (typeof tiers)[number]) =>
     });
 
     // The name for the certificate follows the first and last name, until it is written by hand
-    const certificate = field('certificate_name');
+    const certificate = form.querySelector<HTMLInputElement>('[name="certificate_name"]');
     let ownName = false;
-    certificate.addEventListener('input', () => (ownName = certificate.value.trim() !== ''));
+    certificate?.addEventListener('input', () => (ownName = certificate.value.trim() !== ''));
     ['first_name', 'last_name'].forEach((name) =>
       field(name).addEventListener('input', () => {
-        if (ownName) return;
+        if (ownName || !certificate) return;
         certificate.value = `${field('first_name').value.trim()} ${field('last_name').value.trim()}`.trim();
         check(certificate);
         // lets the site's field messages see the change
@@ -490,11 +494,11 @@ const monthly = (tier: (typeof tiers)[number]) =>
         last_name: value('last_name'),
         email: value('email'),
         phone: value('phone'),
-        certificate_name: value('certificate_name'),
         terms_accepted: true,
         locale: pageLocale(),
       };
       if (value('address')) row.address = value('address');
+      if (certificate) row.certificate_name = value('certificate_name');
 
       busy(true);
       try {

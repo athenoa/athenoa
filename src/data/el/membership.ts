@@ -8,6 +8,7 @@ const generosity =
 
 export const membership: Membership = {
   title: 'Γίνε Μέλος της Ακαδημίας',
+  formKicker: 'Εγγραφή Μέλους',
   description:
     'Γίνετε ετήσιο Μέλος της Ακαδημίας ΑΘΕΝΟΑ: όλοι οι Κύκλοι Σπουδών και τα Σεμινάρια, η Βιβλιοθήκη Μαθημάτων και άλλα προνόμια.',
   questions: [

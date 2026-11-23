@@ -7,13 +7,15 @@
 // 1140€, eight instalments) were left over from a course, so they are not used. Paying the whole year
 // upfront takes 10% off (Maria, 22 November 2026): 891€ and 1026€; the monthly way is unchanged.
 // The Stripe "full" links charge 891€ and 1026€ (the Academy's new links, 23 November 2026).
-import type { TuitionTier } from './courses';
+import type { Course, TuitionTier } from './courses';
 import type { Locale } from '../lib/locale';
 import { membership as greek } from './el/membership';
 import { membership as ancient } from './grc/membership';
 
 export interface Membership {
   title: string;
+  /** the line above the title in the registration form */
+  formKicker: string;
   description: string;
   /** The questions that open the old page, in Athena's voice */
   questions: string[];
@@ -45,6 +47,7 @@ const generosity =
 
 export const membershipEn: Membership = {
   title: 'Become a Member of the Academy',
+  formKicker: 'Membership registration',
   description:
     'Become an annual Member of the ATHENOA Academy: all the Cycles of Studies and Seminars, the Library of Lessons and other privileges.',
   questions: [
@@ -106,3 +109,22 @@ export const membershipEn: Membership = {
 /** The membership page's words in the language of the page */
 export const membershipFor = (locale: Locale): Membership =>
   locale === 'en' ? membershipEn : locale === 'grc' ? ancient : greek;
+
+/** Membership shaped as a course, for the registration form it shares with the courses (RegisterDialog.astro):
+ *  its tiers, its upfront discount and its payment terms. Saved with course "membership". */
+export const memberCourse = (locale: Locale): Course => {
+  const m = membershipFor(locale);
+  return {
+    slug: 'membership',
+    title: m.title,
+    status: 'open',
+    image: '',
+    imageAlt: '',
+    available: true,
+    instructor: '',
+    sections: [],
+    tuition: m.registration.tiers,
+    upfrontDiscount: m.registration.upfrontDiscount,
+    paymentNotes: m.registration.notes,
+  };
+};

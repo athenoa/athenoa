@@ -1,0 +1,9 @@
+---
+import Base from '../../layouts/Base.astro';
+import PaymentStatus from '../../components/payment/PaymentStatus.astro';
+import { site } from '../../data/el/site';
+---
+
+<Base title={`Η πληρωμή δεν ολοκληρώθηκε | ${site.name}`} description="ATHENOA" noindex>
+  <PaymentStatus kind="failed" />
+</Base>

@@ -11,6 +11,8 @@ import Media from '../components/Media.astro';
 import portrait from '../assets/media/portrait-sea.jpg';
 import bannerDay from '../assets/media/membership-banner-day.jpg';
 import TuitionTiers from '../components/courses/TuitionTiers.astro';
+import RegisterDialog from '../components/courses/RegisterDialog.astro';
+import { memberCourse } from '../data/membership';
 import { content } from '../data';
 import { membershipFor } from '../data/membership';
 import { getLocale } from '../lib/locale';
@@ -99,6 +101,7 @@ const bannerAlt = {
               or={tuition.or}
               payments={tuition.payments}
               total={tuition.total}
+              course="membership"
             />
             {/* the payment terms in a closed item, as on the course pages (Maria, 23 November 2026) */}
             <details class="more__item">
@@ -119,6 +122,8 @@ const bannerAlt = {
       </section>
     </div>
   </section>
+  {/* the membership registration, like a course's but with no certificate (Maria, 23 November 2026) */}
+  <RegisterDialog course={memberCourse(locale)} certificate={false} kicker={m.formKicker} />
 </Base>
 
 <style>
