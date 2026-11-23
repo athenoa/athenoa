@@ -7,6 +7,7 @@
 import Base from '../layouts/Base.astro';
 import Illustration from '../components/Illustration.astro';
 import Signature from '../components/Signature.astro';
+import Bees from '../components/membership/Bees.astro';
 import Media from '../components/Media.astro';
 import portrait from '../assets/media/portrait-sea.jpg';
 import bannerDay from '../assets/media/membership-banner-day.jpg';
@@ -48,6 +49,9 @@ const bannerAlt = {
         {/* The goddess on her plinth, the statue from the home page's hero, in place of the bees
             (Athena, 23 November 2026: "a symbol like the temple or the goddess"). No pebble behind her. */}
         <div class="mem__mark" data-reveal="fade"><Illustration name="portal-b-statue" draw /></div>
+        {/* now and then a bee crosses the page or settles on something for a moment (Maria, 23 November
+            2026: back without the hive; Athena asked only for the goddess in its place) */}
+        <Bees class="mem__visitors" />
         {/* Athena's questions, as the lead of the home page's membership section (in the reading face:
             they name Socrates and Plato, whom the handwriting's sentence case would lower) */}
         <div class="mem__questions" data-reveal-group style="--delay:450ms">
@@ -239,6 +243,21 @@ const bannerAlt = {
   .mem__benefits :global(.mem__icon svg) {
     width: 100%;
     height: 100%;
+  }
+  /* Athena's photograph and words sit at the foot of the box, level with the end of the list (Maria) */
+  .mem__athena {
+    align-self: end;
+  }
+  /* only the visiting bees: no hive and no swarm of its own */
+  .mem__head :global(.mem__visitors) {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: visible;
+  }
+  .mem__head :global(.mem__visitors .hive),
+  .mem__head :global(.mem__visitors .bee--swarm) {
+    display: none;
   }
   .mem__quote :global(.mem__sign) {
     display: block;

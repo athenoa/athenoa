@@ -157,8 +157,11 @@ def far():
     b.append(cloud(250, 350, 136, 6))
     b.append(cloud(1330, 1540, 112, 12))
     # three birds over the saddle
+    # (a group of their own: hidden by night, Maria 23 November 2026)
+    birds = ''
     for x, y, s in [(905, 128, 7), (930, 116, 5.5), (948, 134, 4.5)]:
-        b.append(path(f'M{f(x - s)} {f(y - s * 0.3)}Q{f(x - s * 0.45)} {f(y - s * 0.75)} {f(x)} {f(y)}Q{f(x + s * 0.45)} {f(y - s * 0.75)} {f(x + s)} {f(y - s * 0.3)}', stroke_width='1.8'))
+        birds += (path(f'M{f(x - s)} {f(y - s * 0.3)}Q{f(x - s * 0.45)} {f(y - s * 0.75)} {f(x)} {f(y)}Q{f(x + s * 0.45)} {f(y - s * 0.75)} {f(x + s)} {f(y - s * 0.3)}', stroke_width='1.8'))
+    b.append('<g class="day-birds">' + birds + '</g>')
 
     # back ridge: Parnes to the left, the long back of Hymettus to the right
     r1 = [(-40, 182), (60, 172), (170, 160), (270, 166), (360, 178), (450, 172), (560, 180), (660, 192), (760, 200),

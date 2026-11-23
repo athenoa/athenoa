@@ -1067,3 +1067,8 @@ html[data-theme='dark'] .field :is(input, textarea, select):is(:hover, :focus) {
 :is(.on-blue, .on-blue-deep) .field__error::before {
   background: var(--blue-light);
 }
+
+/* Birds drawn in a daytime sky (the olive grove) fly off at night (Maria, 23 November 2026) */
+html[data-theme='dark'] .day-birds {
+  display: none;
+}

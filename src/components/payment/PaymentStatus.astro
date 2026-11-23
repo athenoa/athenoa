@@ -29,6 +29,7 @@ const words = {
     },
     ask: 'Για οτιδήποτε, γράψτε μας στο',
     home: 'Αρχική σελίδα',
+    retry: 'Δοκιμάστε ξανά',
     courses: 'Δείτε τα μαθήματα',
   },
   en: {
@@ -44,6 +45,7 @@ const words = {
     },
     ask: 'For anything at all, write to us at',
     home: 'Home page',
+    retry: 'Try again',
     courses: 'See the courses',
   },
 }[mainLocale(locale)];
@@ -65,10 +67,10 @@ const w = words[kind];
     {kind === 'success' && <Signature class="pay__sign" />}
     <p class="pay__ask">{words.ask} <a href={`mailto:${email}`}>{email}</a></p>
     {/* no home button on the success page (Maria, 23 November 2026): the header still leads home */}
+    {/* the failure page: one way, back to the course (or membership) to try again (Maria, 23 November 2026) */}
     {kind === 'failed' && (
       <p class="pay__go">
-        <a class="btn" href={site.routes.courses}>{words.courses}</a>
-        <a class="btn btn--ghost" href={site.home.href}>{words.home}</a>
+        <a class="btn" href={site.routes.courses} data-retry>{words.retry}</a>
       </p>
     )}
   </div>
@@ -235,5 +237,12 @@ const w = words[kind];
     } catch {}
     const kicker = document.querySelector<HTMLElement>('[data-kicker]');
     if (name && kicker && location.pathname.includes('/success')) kicker.textContent = `${kicker.textContent}, ${name}`;
+    // "try again" leads back to the page they registered on (a course, or membership), at its prices
+    let back = '';
+    try {
+      back = localStorage.getItem('ath-pay-back') ?? '';
+    } catch {}
+    const retry = document.querySelector<HTMLAnchorElement>('[data-retry]');
+    if (retry && /^\/(en\/)?(courses\/[a-z0-9-]+|membership)\/$/.test(back)) retry.href = back + '#registration';
   });
 </script>

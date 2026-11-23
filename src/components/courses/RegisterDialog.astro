@@ -518,6 +518,8 @@ const monthly = (tier: (typeof tiers)[number]) =>
         localStorage.setItem('ath-pay-lang', pageLocale() === 'en' ? 'en' : 'el');
         // and the first name, for "Σας ευχαριστούμε, Μαρία" on that page
         localStorage.setItem('ath-pay-name', value('first_name').slice(0, 60));
+        // and the page they registered on, for the failure page's "try again"
+        localStorage.setItem('ath-pay-back', location.pathname);
       } catch {}
       if (link) window.location.assign(withReference(link, reference));
       else {
