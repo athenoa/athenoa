@@ -83,6 +83,11 @@ const looks = [
 
     {/* The "Discover all the features" button was removed at the client's wish (11 October 2026) */}
 
+    {/* the way to the membership page, between the three cards and the frieze (Maria, 23 November 2026) */}
+    <p class="membership__go" data-reveal>
+      <a class="btn" href={site.routes.membership}>{t.go}</a>
+    </p>
+
     <Media
       class="membership__frieze"
       src={frieze}
@@ -94,10 +99,6 @@ const looks = [
       data-depth="0.06"
     />
 
-    {/* the way to the membership page, at the foot of the section, just above Athena's letter (Maria, 23 November 2026) */}
-    <p class="membership__go" data-reveal>
-      <a class="btn" href={site.routes.membership}>{t.go}</a>
-    </p>
   </div>
 </section>
 
@@ -345,8 +346,9 @@ const looks = [
     }
     /* The procession passes behind the niche: its far end is hidden by the arch */
     .membership__go {
-      grid-column: 1 / -1;
-      grid-row: 5;
+      grid-column: 1 / span 9;
+      grid-row: 3;
+      align-self: start;
     }
     .membership__grid :global(.membership__frieze) {
       grid-column: 1 / span 10;

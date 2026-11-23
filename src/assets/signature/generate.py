@@ -42,7 +42,7 @@ const id = `sig-${{Math.random().toString(36).slice(2, 8)}}`;
   <svg viewBox="22 40 388 166" aria-hidden="true" focusable="false">
     <defs>
       <mask id={{`${{id}}-pen`}} maskUnits="userSpaceOnUse" x="0" y="0" width="454" height="220">
-        <g fill="none" stroke="#fff" stroke-width="22" stroke-linecap="round" stroke-linejoin="round">
+        <g fill="none" stroke="#fff" stroke-width="32" stroke-linecap="round" stroke-linejoin="round">
 {mask}
         </g>
       </mask>
@@ -90,7 +90,7 @@ const id = `sig-${{Math.random().toString(36).slice(2, 8)}}`;
   }}
   :global(html.motion) .signature.is-in .signature__whole {{
     opacity: 1;
-    transition: opacity 0.35s ease var(--done);
+    transition: opacity 0.2s ease var(--done);
   }}
 </style>
 '''

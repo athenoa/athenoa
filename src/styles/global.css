@@ -515,6 +515,10 @@ b {
   --btn-ink: var(--ink-strong);
   translate: none;
 }
+/* a quiet button has no raised ledge under it (the dark block under 'Μόνο τα απαραίτητα', 23 November 2026) */
+.btn--quiet::after {
+  display: none;
+}
 .btn--quiet:hover::before {
   background: currentColor;
   scale: 1;
