@@ -3,7 +3,7 @@
 
 export const site = {
   name: 'ATHENOA',
-  wordmark: 'ΑΘΗΝΟΑ',
+  wordmark: 'ΑΘΕΝΟΑ',
   // The live footer signs off in Greek capitals. Left as it is.
   copyright: '© ΑΚΑΔΗΜΙΑ ΑΘΕΝΟΑ',
   url: 'https://www.athenoa.academy',

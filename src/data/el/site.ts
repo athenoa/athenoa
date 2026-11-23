@@ -3,8 +3,8 @@
 
 export const site = {
   name: 'ATHENOA',
-  // the name as the header and footer show it: in Greek letters, as on the Greek emblem (Maria, 23 November 2026)
-  wordmark: 'ΑΘΗΝΟΑ',
+  // the name as the header and footer show it: in Greek letters, ΑΘΕΝΟΑ with epsilon, as on the Greek emblem (Maria, 23 November 2026)
+  wordmark: 'ΑΘΕΝΟΑ',
   // The live footer signs off in Greek capitals.
   copyright: '© ΑΚΑΔΗΜΙΑ ΑΘΕΝΟΑ',
   url: 'https://www.athenoa.academy',
