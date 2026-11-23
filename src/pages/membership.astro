@@ -155,6 +155,11 @@ const bannerAlt = {
     /* half the page wide on desktop, as wide as the title's span (Maria, 23 November 2026) */
     max-width: max(46ch, 50vw);
   }
+  /* its outline goes evenly all round, not offset (Maria, 23 November 2026) */
+  .mem__text::after {
+    inset: -0.6rem;
+    border-radius: var(--box-r, var(--r-soft));
+  }
   .mem__text {
     max-width: 50rem;
     margin-inline: auto;
