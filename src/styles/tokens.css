@@ -122,8 +122,17 @@ html[data-theme='dark'] {
   );
   color-scheme: dark;
 }
+/* By night the blue panels keep their daytime colours, Greek blue with crème words: swapped, they turned
+   light blue (lilac), the colour Athena does not want (Maria, 23 November 2026). Their own inks follow, as
+   they are read from these. */
 html[data-theme='dark'] :is(.on-blue, .on-blue-deep):not(.theme-day, .theme-day *) {
-  --grain: url('/textures/grain-dark.webp');
+  --blue-light: #b3c0f3;
+  --blue: #0b1c8c;
+  --blue-deep: #071260;
+  --blue-bright: #2238c3;
+  --creme: #f2e9d3;
+  --creme-light: #f9f3e3;
+  --creme-deep: #e3d6b6;
 }
 html[data-theme='dark'] .on-blue-light:not(.theme-day, .theme-day *) {
   --grain: url('/textures/grain-light.webp');
