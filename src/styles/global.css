@@ -414,7 +414,7 @@ b {
     scale var(--dur-2) var(--ease-out) var(--hover-delay),
     border-radius var(--dur-2) var(--ease-out) var(--hover-delay);
 }
-/* TRIAL (Maria, 23 November 2026): buttons that look pressable. A darker ledge of the same rough shape
+/* Buttons that look pressable (Maria, 23 November 2026; kept). A darker ledge of the same rough shape
    sits under each button, so it stands up off the page like a key; on hover it rises a little, on a
    press it sinks onto its ledge. */
 .btn::after {
@@ -423,10 +423,17 @@ b {
   inset: 0;
   z-index: -2;
   border-radius: inherit;
-  background: color-mix(in srgb, var(--btn-bg, var(--blue)) 62%, #000);
+  background: var(--btn-ledge, color-mix(in srgb, var(--btn-bg, var(--blue)) 62%, #000));
   filter: url(#rough-sm);
-  translate: 0 0.28rem;
+  translate: 0 var(--btn-drop, 0.28rem);
   transition: translate 0.22s var(--ease-out) var(--hover-delay);
+}
+/* A dark-blue button's ledge is nearly black, almost lost on blue grounds (Maria, 23 November 2026):
+   it is the near-black of the ink, and the button keeps a fine crème edge so its shape always shows */
+:is(.way--upfront, .on-blue-light, .tier--member) .btn:not(.btn--ghost),
+.btn:not(.btn--ghost):not(:is(.on-blue, .on-blue-deep) .btn) {
+  --btn-ledge: #020627;
+  --btn-drop: 0.4rem;
 }
 .btn--ghost::after {
   background: none;
@@ -436,7 +443,7 @@ b {
 /* one movement on hover (smooth, Maria, 23 November 2026): the face lifts 2px while its ledge stays
    where it was, so the button seems to rise off the page; the face keeps its shape */
 .btn:hover::after {
-  translate: 0 calc(0.28rem + 2px);
+  translate: 0 calc(var(--btn-drop, 0.28rem) + 2px);
 }
 .btn:active::after {
   translate: 0 0.06rem;

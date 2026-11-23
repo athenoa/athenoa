@@ -357,7 +357,9 @@ const cards = [
     border-color: transparent;
   }
   .way__btn {
-    margin-top: auto;
+    /* close under the price, on the right of its box (Maria, 23 November 2026) */
+    margin-top: 0.2rem;
+    align-self: flex-end;
     /* the button's words start on the left edge, like the prices above them (Maria, 23 November 2026) */
     justify-content: flex-start;
     text-align: left;
@@ -367,7 +369,7 @@ const cards = [
     padding-inline: 1.15em;
   }
   .way > :nth-last-child(2) {
-    margin-bottom: 0.7rem;
+    margin-bottom: 0.2rem;
   }
   .tier__small {
     max-width: 52ch;

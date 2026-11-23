@@ -164,11 +164,16 @@ const canEnrol = course.available && Boolean(course.tuition?.length);
     animation: voyage-sea 26s ease-in-out infinite;
   }
   /* Ithaca: large, on the right edge of the page, standing in the sea */
+  /* standing on the sea, just touching its top line, in front of the waves (Maria, 23 November 2026) */
   .course__voyage :global(.voyage__island) {
     position: absolute;
+    z-index: 1;
     right: calc(50% - 50vw);
-    bottom: clamp(1.2rem, 2.4vw, 2rem);
+    bottom: clamp(3.4rem, 5.4vw, 4.6rem);
     width: clamp(12rem, 26vw, 24rem);
+  }
+  .course__voyage :global(.voyage__boat) {
+    z-index: 1;
   }
   /* the boat rides the waves, sailing from the left towards the island and back again */
   .course__voyage :global(.voyage__boat) {

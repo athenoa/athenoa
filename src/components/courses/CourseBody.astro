@@ -863,10 +863,8 @@ const symbolFor = 'description';
     animation: body-sun 0.9s var(--ease-out) 0.55s both;
   }
   :global(html.motion) .body--page .body__chip {
-    animation: body-slide 0.55s var(--ease-out) 0.95s both;
-  }
-  :global(html.motion) .body--page .body__chip :global(.body__thumb) {
-    animation: body-settle 0.5s var(--ease-out) 1.1s both;
+    /* the same calm slide up and fade as the date label (Maria, 23 November 2026) */
+    animation: body-press 0.8s cubic-bezier(0.22, 0.61, 0.36, 1) 0.95s both;
   }
   :global(html.motion) .body--page .body__note {
     animation: body-press 0.8s cubic-bezier(0.22, 0.61, 0.36, 1) 1.1s both;
