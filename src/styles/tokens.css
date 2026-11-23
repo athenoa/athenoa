@@ -9,7 +9,7 @@
   --blue-bright: #2238c3; /* interaction tint only (hover, focus) */
   --blue-wash: var(--blue-light);
   /* gold: small touches only, in both themes (the rays, Athena's shield, a laurel, a highlight; Maria, 23 November 2026) */
-  --gold: #d9a43a;
+  --gold: #cda04f;
 
   /* Paper */
   --creme: #f2e9d3;
@@ -107,7 +107,7 @@
    on the site keeps its contrast, because surfaces and inks swap together: a Greek-blue panel with crème
    words by day is a light-blue panel with night-blue words by night. Photographs are untouched. */
 html[data-theme='dark'] {
-  --gold: #e9bf6a;
+  --gold: #dcbb78;
   --blue-light: #1c2b96;
   --blue: #b4c1f4;
   --blue-deep: #f2e9d3;
@@ -144,7 +144,7 @@ html[data-theme='dark'] .on-blue-light:not(.theme-day, .theme-day *) {
 /* .theme-day keeps one part of the page in its daytime colours whatever the theme (a night scene that is
    already dark, a white-ground photograph that is blended into crème paper). */
 .theme-day {
-  --gold: #d9a43a;
+  --gold: #cda04f;
   --blue-light: #b3c0f3;
   --blue: #0b1c8c;
   --blue-deep: #071260;

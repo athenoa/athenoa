@@ -130,6 +130,10 @@ const looks: { surface: string; mat: string; photo: Photo; second?: Photo }[] = 
 </section>
 
 <style>
+  /* gold rim around the reading photograph only (Maria for Athena, 23 November 2026) */
+  .unit--2 .unit__frame::before {
+    background-color: var(--gold);
+  }
   .benefits__grid {
     display: grid;
     gap: var(--space-l);
@@ -186,8 +190,7 @@ const looks: { surface: string; mat: string; photo: Photo; second?: Photo }[] = 
     content: '';
     position: absolute;
     z-index: -1;
-    /* the rim around each photograph in gold (Maria for Athena, 23 November 2026) */
-    background-color: var(--gold);
+    background-color: var(--paper);
     background-image: var(--grain);
     background-size: 400px 400px;
     filter: url(#rough-sm);
