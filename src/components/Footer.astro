@@ -26,8 +26,8 @@ import logo from '../assets/media/logo.png';
 import { content } from '../data';
 import { barePath, getLocale } from '../lib/locale';
 
-// grove: the membership page, Plato's olive grove with its empty bench and Athena's owl (Maria, 23 November
-// 2026); delphi: the other candidate, kept, seen at /lab/footers/
+// delphi: the membership page, the path up to Delphi (Maria's choice, 23 November 2026); grove: the other
+// candidate, the olive grove with Athena's owl, kept, seen at /lab/footers/
 type Scene = 'attica' | 'olympus' | 'aegean' | 'island' | 'grove' | 'delphi';
 interface Props {
   /** Overrides the scene chosen from the page address. */
@@ -46,7 +46,7 @@ const byPage: Scene = nostos
     : path.startsWith('/courses')
       ? 'aegean'
       : path.startsWith('/membership')
-        ? 'grove'
+        ? 'delphi'
         : 'attica';
 const scene = Astro.props.scene ?? byPage;
 
