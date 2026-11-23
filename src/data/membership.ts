@@ -35,6 +35,7 @@ export interface Membership {
     tiers: TuitionTier[];
     /** Under the two ways of paying: what paying by the month is, and what registration covers */
     notes: string[];
+    notesTitle: string;
   };
 }
 
@@ -86,6 +87,7 @@ export const membershipEn: Membership = {
         payMonthly: 'https://buy.stripe.com/cNifZi6Ig3kvdBT2la9sk0g',
       },
     ],
+    notesTitle: 'Payment & terms',
     notes: [
       'Paying in 12 monthly instalments is offered solely to make things easier for you.',
       'Registration is for the whole educational Cycle and requires payment of the full amount, whichever way of paying you choose.',

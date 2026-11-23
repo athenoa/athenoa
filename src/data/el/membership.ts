@@ -51,6 +51,8 @@ export const membership: Membership = {
         payMonthly: 'https://buy.stripe.com/cNifZi6Ig3kvdBT2la9sk0g',
       },
     ],
+    // the notes go in a closed item under the prices (Maria, 23 November 2026)
+    notesTitle: 'Πληρωμή & όροι',
     notes: [
       'Η εξόφληση σε 12 μηνιαίες δόσεις παρέχεται αποκλειστικά για τη διευκόλυνσή σας.',
       'Η εγγραφή αφορά το σύνολο του εκπαιδευτικού Κύκλου και προϋποθέτει την καταβολή ολόκληρου του ποσού, ανεξάρτητα από την επιλογή του τρόπου πληρωμής.',

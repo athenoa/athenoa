@@ -8,6 +8,7 @@ import Base from '../layouts/Base.astro';
 import Illustration from '../components/Illustration.astro';
 import Media from '../components/Media.astro';
 import Bees from '../components/membership/Bees.astro';
+import portrait from '../assets/media/portrait-sea.jpg';
 import bannerDay from '../assets/media/membership-banner-day.jpg';
 import TuitionTiers from '../components/courses/TuitionTiers.astro';
 import { content } from '../data';
@@ -20,6 +21,10 @@ const { site, coursesPage } = content(locale);
 const { tuition } = coursesPage.ui;
 const m = membershipFor(locale);
 const reg = m.registration;
+const athena = {
+  el: { alt: 'Η Δρ. Αθηνά Ποτάρη πάνω από ένα ανοιχτό βιβλίο, με τη θάλασσα πίσω της', quote: 'Σας περιμένω με χαρά και ενθουσιασμό σε ένα Νέο Μυητικό Ταξίδι', name: 'Δρ. Αθηνά Δέσποινα Ποτάρη', questions: 'Για ερωτήσεις, γράψτε μας στο' },
+  en: { alt: 'Dr. Athena Potari over an open book, the sea behind her', quote: 'I await you with joy and enthusiasm on a New Initiatic Journey', name: 'Dr. Athena Despoina Potari', questions: 'For any questions, write to us at' },
+}[locale === 'en' ? 'en' : 'el'];
 const discount = reg.upfrontDiscount ?? 0;
 // The Academy's membership banner (Maria, 22 November 2026): crème by day, navy by night; only the one
 // for the current theme is shown, and a hidden lazy picture is never fetched.
@@ -51,6 +56,15 @@ const bannerAlt = {
 
 
       <div class="mem__text box box--offset on-blue-light" data-reveal>
+        {/* Athena herself beside the words, in an organic frame, with her own line from the home page
+            (Maria, 23 November 2026: warmer and more personal) */}
+        <figure class="mem__athena">
+          <Media src={portrait} alt={athena.alt} shape="pebble-1" ratio="1 / 1" focus="50% 30%" widths={[320, 480, 640]} sizes="(min-width: 60rem) 18rem, 60vw" />
+          <blockquote class="mem__quote">
+            <p>{athena.quote}</p>
+            <cite>{athena.name}</cite>
+          </blockquote>
+        </figure>
         <div class="prose">
           <p class="mem__lead">{m.lead}</p>
           {m.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
@@ -76,7 +90,20 @@ const bannerAlt = {
               payments={tuition.payments}
               total={tuition.total}
             />
-            <div class="reg__notes">{reg.notes.map((note) => <p class="reg__note">{note}</p>)}</div>
+            {/* the payment terms in a closed item, as on the course pages (Maria, 23 November 2026) */}
+            <details class="more__item">
+              <summary>
+                <span class="more__title">{reg.notesTitle}</span>
+                <svg class="more__mark" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+                  <path d="M4 12.3c5-.9 11-.6 16-.4" />
+                  <path class="more__mark-v" d="M12.2 4c-.6 5-.5 11 0 16" />
+                </svg>
+              </summary>
+              <div class="more__body prose">
+                {reg.notes.map((note) => <p>{note}</p>)}
+                <p>{athena.questions} <a href={`mailto:${site.emails[0]}`}>{site.emails[0]}</a></p>
+              </div>
+            </details>
           </div>
         </div>
       </section>
@@ -168,6 +195,89 @@ const bannerAlt = {
   .mem__text::after {
     inset: -0.6rem;
     border-radius: var(--box-r, var(--r-soft));
+  }
+  /* Athena beside the words: her picture in a pebble with a fine outline, her line under it */
+  .mem__text {
+    display: grid;
+    gap: var(--space-m);
+    align-items: center;
+  }
+  .mem__athena {
+    margin: 0;
+    display: grid;
+    justify-items: center;
+    gap: var(--space-s);
+  }
+  .mem__athena :global(.media) {
+    width: min(100%, 15rem);
+  }
+  .mem__quote {
+    margin: 0;
+    text-align: center;
+  }
+  .mem__quote p {
+    margin: 0;
+    font-family: var(--font-hand);
+    font-style: italic;
+    font-size: var(--step-1);
+    line-height: 1.3;
+    color: var(--ink-strong);
+  }
+  .mem__quote cite {
+    display: block;
+    margin-top: 0.4rem;
+    font-style: normal;
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  @media (min-width: 52rem) {
+    .mem__text {
+      grid-template-columns: minmax(0, 17rem) minmax(0, 1fr);
+      gap: var(--space-l);
+    }
+  }
+  /* the closed item under the prices */
+  .more__item {
+    margin-top: var(--space-m);
+    border: 1.5px solid var(--line);
+    border-radius: 1.4rem 1.7rem 1.5rem 1.8rem / 1.7rem 1.4rem 1.8rem 1.5rem;
+  }
+  .more__item summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.8rem 1rem 0.85rem 1.25rem;
+    list-style: none;
+    cursor: pointer;
+    border-radius: inherit;
+  }
+  .more__item summary::-webkit-details-marker {
+    display: none;
+  }
+  .more__title {
+    font-weight: 560;
+  }
+  .more__mark {
+    flex: none;
+  }
+  .more__mark path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    transform-origin: 12px 12px;
+    transition:
+      transform var(--dur-2) var(--ease-out),
+      opacity var(--dur-1);
+  }
+  .more__item[open] .more__mark-v {
+    transform: rotate(90deg);
+    opacity: 0;
+  }
+  .more__body {
+    padding: 0 1.25rem 1.25rem;
+    font-size: var(--step--1);
   }
   .mem__text {
     max-width: 50rem;
