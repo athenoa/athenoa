@@ -50,6 +50,12 @@ const words = {
 const w = words[kind];
 ---
 
+{/* By night the starry sky of the home page behind everything, its larger stars pulsing (Maria, 23 November 2026) */}
+<div class="pay__sky" aria-hidden="true">
+  <Illustration name="portal-b-sky" />
+  {[1, 2, 3].map((n) => <span class="pay__tw" style={`--n:${n - 1}`}><Illustration name={`portal-b-stars-${n}`} /></span>)}
+  <Illustration name="portal-b-milkyway" />
+</div>
 <section class="pay wrap" aria-labelledby="pay-title">
   <div class="pay__sheet box on-blue">
     <Illustration name="laurel" class="pay__laurel" draw />
@@ -75,6 +81,40 @@ const w = words[kind];
 </div></div>
 
 <style>
+  .pay__sky {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    display: none;
+    color: #f2e9d3;
+    pointer-events: none;
+  }
+  :global(html[data-theme='dark']) .pay__sky {
+    display: block;
+  }
+  .pay__sky :global(.illo),
+  .pay__sky .pay__tw {
+    position: absolute;
+    inset: 0;
+  }
+  .pay__sky :global(svg) {
+    width: 100%;
+    height: 100%;
+  }
+  .pay__sky :global(.illo--portal-b-milkyway) {
+    opacity: 0.55;
+  }
+  @keyframes pay-twinkle {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0.3;
+    }
+  }
+  :global(html.motion) .pay__tw {
+    animation: pay-twinkle calc(2.6s + var(--n, 0) * 0.9s) ease-in-out calc(var(--n, 0) * -1.3s) infinite alternate;
+  }
   .pay {
     position: relative;
     z-index: 1;
