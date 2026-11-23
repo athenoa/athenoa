@@ -22,7 +22,8 @@ const icons: Record<string, string> = {
 
 <ul class:list={['social', className]}>
   {
-    site.social.map((item, i) => (
+    /* WhatsApp hidden for now (Maria, 23 November 2026); remove the filter to show it again */
+    site.social.filter((item) => item.id !== 'whatsapp').map((item, i) => (
       <li style={`--i:${i}`}>
         <a href={item.url} rel="me noopener" target="_blank" aria-label={ui.socialOn(item.name)}>
           <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true" focusable="false">
