@@ -22,7 +22,7 @@ export interface Membership {
   cta: string;
   lead: string;
   paragraphs: string[];
-  /** what membership gives, each with one of the site's drawings */
+  /** what membership gives, each with one of the site's drawings; HTML, its key words in bold (Maria, 23 November 2026) */
   benefits: { icon: string; text: string }[];
   /** "If you are interested, read more at the link below:" and the link to the membership form */
   more: string;
@@ -59,12 +59,12 @@ export const membershipEn: Membership = {
     'Beyond the individual Cycles of Studies, this year too, for the third year running, you can study as a Member of the Academy. As a Member you:',
   ],
   benefits: [
-    { icon: 'mem-doors', text: 'Have access to all the live Cycles of Studies & Seminars of our Academy' },
-    { icon: 'mem-scroll', text: 'Receive a deeper, organised and complete Education in the Theory & Practice of Philosophy' },
-    { icon: 'mem-path', text: 'Go deeper on the path of Awakening, through the steps of Knowledge, Practices and Initiations' },
-    { icon: 'mem-books', text: 'Have access to the Library of Lessons' },
-    { icon: 'mem-circle', text: 'Become part of our Community of students' },
-    { icon: 'mem-star', text: 'And other privileges of Membership' },
+    { icon: 'mem-doors', text: 'Have access to <strong>all the live Cycles of Studies &amp; Seminars</strong> of our Academy' },
+    { icon: 'mem-scroll', text: 'Receive a <strong>deeper, organised and complete Education</strong> in the Theory &amp; Practice of Philosophy' },
+    { icon: 'mem-path', text: 'Go deeper on <strong>the path of Awakening</strong>, through the steps of Knowledge, Practices and Initiations' },
+    { icon: 'mem-books', text: 'Have access to the <strong>Library of Lessons</strong>' },
+    { icon: 'mem-circle', text: 'Become part of our <strong>Community</strong> of students' },
+    { icon: 'mem-star', text: 'And <strong>other privileges</strong> of Membership' },
   ],
   more: 'If you are interested, read more at the link below:',
   formLink: 'Become a member',

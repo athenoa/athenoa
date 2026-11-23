@@ -55,7 +55,7 @@ const bannerAlt = {
       </header>
 
 
-      <div class="mem__text box box--offset on-blue-light" data-reveal>
+      <div class="mem__text box on-blue" data-reveal>
         <div class="prose">
           <p class="mem__lead">{m.lead}</p>
           {m.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
@@ -63,7 +63,7 @@ const bannerAlt = {
             {m.benefits.map((benefit) => (
               <li>
                 <Illustration name={benefit.icon} class="mem__icon" note={false} />
-                <span>{benefit.text}</span>
+                <span set:html={benefit.text} />
               </li>
             ))}
           </ul>

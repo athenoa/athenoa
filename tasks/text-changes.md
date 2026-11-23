@@ -460,3 +460,4 @@ The four earlier courses (The Hidden Non-Duality, and the three placeholders) ar
 - Bold key words added in Οδύσσεια and Εὖ Ζῆν "Ο Κύκλος Σπουδών Περιλαμβάνει", and in the Εὖ Ζῆν description (wording unchanged, emphasis only; proposed choice of words to bold).
 - Menu course list: "Οδύσσεια:" / "Εὖ Ζῆν:" in bold, subtitle after the colon.
 - The non-duality course hidden everywhere until it is ready in Greek.
+- Membership benefits: key words in bold inside Athena's sentences (EN likewise); emphasis only, no new words.
