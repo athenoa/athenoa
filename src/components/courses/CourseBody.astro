@@ -81,12 +81,14 @@ const symbolFor = 'description';
         ratio={`${image.width} / ${image.height}`}
         sizes={page ? '(min-width: 86rem) 82rem, calc(100vw - 2rem)' : '(min-width: 48rem) 26rem, 88vw'}
         priority={page}
-        reveal={page ? 'unveil' : false}
+        reveal={false}
       />
+      {/* On the page the picture "prints in": a sheet of paper slides off it, downward (the arrival below) */}
+      {page && <span class="body__print" aria-hidden="true"><span /></span>}
       {/* On the page, who teaches it: Athena's photograph and name on a paper chip stuck to the picture */}
       {
         page && (
-          <p class="body__chip" data-reveal="grow" style="--delay:450ms">
+          <p class="body__chip">
             <Image class="body__thumb" src={portrait} alt="" width={112} height={112} densities={[1, 2]} />
             <span>
               {ui.taughtBy} {course.instructor}
@@ -99,7 +101,7 @@ const symbolFor = 'description';
       {
         isOpen ? (
           course.schedule && (
-            <PaperNote class="body__note" data-reveal={page ? 'grow' : undefined} style="--delay:600ms">
+            <PaperNote class="body__note">
               {handCase(course.schedule)}
             </PaperNote>
           )
@@ -126,7 +128,7 @@ const symbolFor = 'description';
     {course.subtitle && <p class="body__subtitle" set:html={keepHyphens(course.subtitle)} />}
     {!page && <p class="body__by">{ui.taughtBy} {course.instructor}</p>}
 
-    <div class="body__lede stack" data-reveal-group={page ? '' : undefined}>
+    <div class="body__lede stack">
       {
         isOpen ? (
           course.summary && <p class="body__summary">{course.summary}</p>
@@ -808,5 +810,125 @@ const symbolFor = 'description';
     font-size: calc(var(--step-2) * var(--title-scale));
     line-height: 1.15;
     text-wrap: balance;
+  }
+
+  /* ---------- The page's arrival (Maria, 23 November 2026) ----------
+     One calm, ordered arrival of the course page's first screen, with motion on only (html.motion; with
+     reduced motion all of it is simply there), opacity and transform only, done within about 1.8 s:
+       the "Coming soon" pill drops in; the title's words rise (the site's split heading, motion.ts);
+       the subtitle fades up; the picture prints in (a sheet of paper slides off it, downward, its top
+       edge soft) while the sun swells a little behind it; the chip with Athena's medallion slides onto
+       it from the left, the medallion settling; the date's label is pressed on at the lower right;
+       then the summary and the facts, row after row, the fee last. Further down, the scroll reveals. */
+  .body__print {
+    display: none;
+  }
+  :global(html.motion) .body--page .body__print {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: block;
+    overflow: hidden;
+    border-radius: var(--r-soft);
+    -webkit-mask-image: -webkit-radial-gradient(white, black); /* Safari keeps the rounded clip */
+    pointer-events: none;
+  }
+  /* the sheet: taller than the picture, its top fifth fading in, so the edge that leaves is soft */
+  :global(html.motion) .body--page .body__print > span {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -22%;
+    height: 122%;
+    background:
+      linear-gradient(to bottom, transparent, var(--paper) 18%) top / 100% 100% no-repeat;
+    animation: body-print 0.85s var(--ease-in-out) 0.35s both;
+  }
+  @keyframes body-print {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      transform: translate3d(0, 104%, 0);
+    }
+  }
+  :global(html.motion) .body--page .body__soon {
+    animation: body-drop 0.45s var(--ease-out) 0s both;
+  }
+  :global(html.motion) .body--page .body__subtitle {
+    animation: body-rise 0.55s var(--ease-out) 0.3s both;
+  }
+  :global(html.motion) .body--page .body__rays {
+    animation: body-sun 0.9s var(--ease-out) 0.55s both;
+  }
+  :global(html.motion) .body--page .body__chip {
+    animation: body-slide 0.55s var(--ease-out) 0.95s both;
+  }
+  :global(html.motion) .body--page .body__chip :global(.body__thumb) {
+    animation: body-settle 0.5s var(--ease-out) 1.1s both;
+  }
+  :global(html.motion) .body--page .body__note {
+    animation: body-press 0.45s var(--ease-out) 1.15s both;
+  }
+  :global(html.motion) .body--page .body__summary {
+    animation: body-rise 0.5s var(--ease-out) 1s both;
+  }
+  :global(html.motion) .body--page .facts__row {
+    animation: body-rise 0.42s var(--ease-out) both;
+    animation-delay: calc(1.1s + var(--row, 0) * 60ms);
+  }
+  .body--page .facts__row:nth-child(2) {
+    --row: 1;
+  }
+  .body--page .facts__row:nth-child(3) {
+    --row: 2;
+  }
+  .body--page .facts__row:nth-child(4) {
+    --row: 3;
+  }
+  .body--page .facts__row:nth-child(5) {
+    --row: 4;
+  }
+  @keyframes body-drop {
+    from {
+      opacity: 0;
+      transform: translate3d(0, -0.9rem, 0);
+    }
+  }
+  @keyframes body-rise {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 0.8rem, 0);
+    }
+  }
+  @keyframes body-sun {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+  }
+  @keyframes body-slide {
+    from {
+      opacity: 0;
+      transform: translate3d(-1.6rem, 0, 0);
+    }
+  }
+  @keyframes body-settle {
+    from {
+      transform: rotate(-10deg) scale(0.9);
+    }
+    60% {
+      transform: rotate(3deg) scale(1.03);
+    }
+  }
+  @keyframes body-press {
+    from {
+      opacity: 0;
+      transform: translate3d(0, -0.5rem, 0) rotate(-5deg) scale(1.1);
+    }
+    70% {
+      opacity: 1;
+      transform: rotate(1deg) scale(0.98);
+    }
   }
 </style>
