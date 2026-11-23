@@ -1,7 +1,8 @@
-# Publishes a PREVIEW of the site to GitHub Pages (https://<user>.github.io/<repo>/) on every push
-# to main, for showing work in progress. It is marked noindex. The real site is built for the root
-# of its own domain; scripts/pages-preview.mjs adapts the build to the project path.
-name: Preview on GitHub Pages
+# Publishes the site to GitHub Pages on every push to main. Since 23 November 2026 it is THE site, at
+# the root of its own domain, www.athenoa.academy (the domain is set in the repository's Pages
+# settings). Until then it was a noindex preview under /athenoa/: to build that again, put back the
+# step `node scripts/pages-preview.mjs "/${{ github.event.repository.name }}"` after the build.
+name: Site on GitHub Pages
 
 on:
   push:
@@ -32,7 +33,6 @@ jobs:
       - run: npm run build
         env:
           PUBLIC_PREVIEW_GATE: 'off'
-      - run: node scripts/pages-preview.mjs "/${{ github.event.repository.name }}"
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
