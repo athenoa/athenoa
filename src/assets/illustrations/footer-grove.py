@@ -604,8 +604,7 @@ def near():
                         hollow=(1462, 258, 4, 8)))
 
     # the exedra and the gathering on it, the farthest drawn first
-    b.append(exedra(rng))
-    # the bench stands empty: a place waiting (Maria, 23 November 2026: no people, only the owl)
+    # no bench and no people, only the olives and the owl (Maria, 23 November 2026)
 
     # the two great olives framing it
     b.append(olive_tree(rng, (458, 287), (466, 226), 40,
@@ -639,8 +638,6 @@ def near():
     tufts = ''
     for x in range(-20, 1640, 38):
         xx = x + rng.uniform(-12, 12)
-        if 606 < xx < 994:
-            continue
         yy = interp(ground, xx) + 0.5
         h = rng.uniform(7, 12)
         tufts += f'M{f(xx - 3)} {f(yy)}l{f(-3)} {f(-h * 0.7)}M{f(xx)} {f(yy)}l{f(0.5)} {f(-h)}M{f(xx + 3)} {f(yy)}l{f(3)} {f(-h * 0.75)}'
