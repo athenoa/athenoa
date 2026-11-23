@@ -6,6 +6,7 @@
 // the address. All its words are in src/data/membership.ts and src/data/el/membership.ts.
 import Base from '../layouts/Base.astro';
 import Illustration from '../components/Illustration.astro';
+import Signature from '../components/Signature.astro';
 import Media from '../components/Media.astro';
 import Bees from '../components/membership/Bees.astro';
 import portrait from '../assets/media/portrait-sea.jpg';
@@ -74,6 +75,8 @@ const bannerAlt = {
           <Media src={portrait} alt={athena.alt} shape="pebble-1" ratio="1 / 1" focus="50% 30%" widths={[320, 480, 640]} sizes="(min-width: 60rem) 18rem, 60vw" />
           <blockquote class="mem__quote">
             <p>“{athena.quote}”</p>
+            {/* her own hand under her words (Maria, 23 November 2026) */}
+            <Signature class="mem__sign" />
             <cite>{athena.name}</cite>
           </blockquote>
         </figure>
@@ -244,6 +247,11 @@ const bannerAlt = {
   .mem__benefits :global(.mem__icon svg) {
     width: 100%;
     height: 100%;
+  }
+  .mem__quote :global(.mem__sign) {
+    display: block;
+    width: 8rem;
+    margin: 0.5rem auto 0.2rem;
   }
   .mem__quote {
     margin: 0;

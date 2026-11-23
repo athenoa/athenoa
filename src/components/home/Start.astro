@@ -3,6 +3,7 @@
 // with Athena's words set across it in the voice face.
 import { handCase } from '../../lib/hand';
 import Media from '../Media.astro';
+import Signature from '../Signature.astro';
 import fresco from '../../assets/media/school-of-athens.jpg';
 import { content } from '../../data';
 import { getLocale, mainLocale } from '../../lib/locale';
@@ -52,11 +53,13 @@ const t = {
         <!-- Athena's two lines read as one sentence: one block (client direction, 11 October 2026) -->
         <div class="start__lines">
           <p class="hand hand--l" data-reveal style="--i:4">“{locale === 'en' ? handCase(start.lines.join(' ')) : start.lines.join(' ')}”</p>
+          {/* signed by her own hand (Maria, 23 November 2026) */}
+          <Signature class="start__sign" />
         </div>
         {/* the two ways in, at the foot of the home page (Maria, 23 November 2026) */}
         <p class="start__go" data-reveal style="--i:5">
           <a class="btn" href={site.routes.courses}>{t.courses}</a>
-          <a class="btn" href={site.routes.membership}>{t.member}</a>
+          <a class="btn start__member" href={site.routes.membership}>{t.member}</a>
         </p>
       </div>
     </div>
@@ -64,6 +67,17 @@ const t = {
 </section>
 
 <style>
+  /* the two ways in, in two colours (Maria, 23 November 2026): membership in the light blue */
+  .start__go .start__member {
+    --btn-bg: var(--blue-light);
+    --btn-bg-hover: #c8d2f7;
+    --btn-ink: var(--blue-deep);
+  }
+  .start__lines :global(.start__sign) {
+    display: block;
+    width: clamp(7rem, 5rem + 6vw, 10rem);
+    margin: 0.6rem 0 0 auto;
+  }
   .start__wrap {
     container-type: inline-size;
   }

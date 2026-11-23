@@ -12,6 +12,7 @@ import type { ImageMetadata } from 'astro';
 import Media from '../Media.astro';
 import Illustration from '../Illustration.astro';
 import Logos from './Logos.astro';
+import Signature from '../Signature.astro';
 import { content } from '../../data';
 import { getLocale, mainLocale } from '../../lib/locale';
 
@@ -107,6 +108,8 @@ const [roots, studies, back, academy] = about.story;
       <div class="box on-blue-light academy__sheet" data-reveal>
         <div class="story__text academy__text">
           {academy.paragraphs.map((text) => <p set:html={withLemma(withInlineLemmas(text, locale), locale)} />)}
+          {/* the end of "What Athena says": signed by her own hand (Maria, 23 November 2026) */}
+          <Signature class="academy__sign" />
         </div>
       </div>
       <div class="academy__photo" data-depth="0.1">
@@ -123,6 +126,11 @@ const [roots, studies, back, academy] = about.story;
 </section>
 
 <style>
+  .academy__text :global(.academy__sign) {
+    display: block;
+    width: clamp(7rem, 5rem + 6vw, 10rem);
+    margin: 0.4rem 0 0 auto;
+  }
   .story {
     position: relative;
     padding-block: var(--space-l) var(--space-xl);
