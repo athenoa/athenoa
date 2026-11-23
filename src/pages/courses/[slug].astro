@@ -66,10 +66,18 @@ const canEnrol = course.available && Boolean(course.tuition?.length);
       {/* A last line in Athena's voice (the live ΟΔΥΣΣΕΙΑ page ends on Cavafy's Ithaca) */}
       {
         course.closing && (
-          <div class="prose course__closing" data-reveal>
-            <blockquote>
-              <p>{course.closing}</p>
-            </blockquote>
+          <div class="course__voyage" data-reveal>
+            {/* The voyage drawn around Cavafy's Ithaca (Maria, 23 November 2026): the boat setting out, the
+                island waiting, a star to steer by, the sea beneath */}
+            <Illustration name="hero-a-star" class="voyage__star" draw data-depth="0.12" />
+            <Illustration name="sea-boat" class="voyage__boat" draw data-depth="-0.06" />
+            <div class="prose course__closing">
+              <blockquote>
+                <p>{course.closing}</p>
+              </blockquote>
+            </div>
+            <Illustration name="sea-island" class="voyage__island" draw data-depth="0.06" />
+            <Illustration name="waves" class="voyage__waves" draw />
           </div>
         )
       }
@@ -115,8 +123,76 @@ const canEnrol = course.available && Boolean(course.tuition?.length);
   /* The closing quotation, set like every quotation of the course: the voice face, a thin rule on its left */
   .course__closing {
     max-width: 40rem;
-    margin: var(--space-xl) auto 0;
     font-size: var(--step-1);
+  }
+  /* The voyage: boat on the left, the quotation, Ithaca on the right, a star above, the sea beneath */
+  .course__voyage {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: var(--space-s);
+    margin: var(--space-xl) auto 0;
+    padding-bottom: clamp(2.5rem, 6vw, 4.5rem);
+    color: var(--ink-strong);
+  }
+  .course__voyage :global(.voyage__boat) {
+    width: clamp(5rem, 10vw, 8rem);
+    rotate: -4deg;
+  }
+  .course__voyage :global(.voyage__island) {
+    width: clamp(7rem, 14vw, 12rem);
+  }
+  .course__voyage :global(.voyage__star) {
+    position: absolute;
+    top: -1.5rem;
+    right: 18%;
+    width: clamp(1.6rem, 3vw, 2.4rem);
+  }
+  .course__voyage :global(.voyage__waves) {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: min(100%, 54rem);
+    translate: -50% 0;
+    opacity: 0.55;
+  }
+  /* desktop: boat, words, island in one line, all resting on the waves */
+  @media (min-width: 56rem) {
+    .course__voyage {
+      grid-template-columns: auto minmax(0, 40rem) auto;
+      align-items: end;
+      justify-content: center;
+      column-gap: clamp(2rem, 4vw, 4.5rem);
+    }
+    .course__voyage :global(.voyage__boat) {
+      grid-column: 1;
+      grid-row: 1;
+      margin-bottom: 0.5rem;
+    }
+    .course__voyage .course__closing {
+      grid-column: 2;
+      grid-row: 1;
+      align-self: center;
+    }
+    .course__voyage :global(.voyage__island) {
+      grid-column: 3;
+      grid-row: 1;
+    }
+  }
+  /* the boat rocks a little on the water */
+  @keyframes voyage-rock {
+    0%,
+    100% {
+      transform: rotate(-2deg) translateY(0);
+    }
+    50% {
+      transform: rotate(2deg) translateY(-0.2rem);
+    }
+  }
+  :global(html.motion) .course__voyage :global(.voyage__boat svg) {
+    animation: voyage-rock 6s ease-in-out infinite;
+    transform-origin: 50% 90%;
   }
   /* The heading above, the ways to pay under it across the whole width: the tiers stand as columns */
   .reg {
