@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
   ATHENOA: sent when Stripe confirms a payment (stripe-webhook function, Maria 23 November 2026).
-  Wording PROPOSED, for Athena to approve. Placeholders: {{ASSETS}}, {{SITE}}, {{GREETING}}, {{COURSE}}, {{PAGE_URL}}.
+  Wording PROPOSED, for Athena to approve. Placeholders: {{ASSETS}}, {{SITE}}, {{GREETING}}, {{COURSE}}, 
   Same look as the welcome email (newsletter-welcome.en.html).
 -->
 <html lang="en">
@@ -53,10 +53,6 @@
       <p style="margin:0;">We will email you soon with all the details for the start. For anything in the meantime, simply reply to this message.</p>
     </td></tr>
 
-    <!-- to the page of what they paid for -->
-    <tr><td align="left" style="padding:24px 56px 0;" class="pad">
-      <a href="{{PAGE_URL}}" style="display:inline-block;padding:13px 30px;background:#0b1c8c;color:#f9f3e3;border-radius:999px;font-family:'EB Garamond',Garamond,Georgia,serif;font-size:18px;text-decoration:none;border-bottom:4px solid #020627;">See the page</a>
-    </td></tr>
 
     <!-- signed by Athena: her photograph beside her name -->
     <tr><td style="padding:38px 56px 0;" class="pad">
@@ -88,11 +84,11 @@
   </table>
 
 </td></tr>
-<!-- Olympus across the whole width, down to the very bottom. In the middle a picture that also draws the
+<!-- The olive grove across the whole width, down to the very bottom. In the middle a picture that also draws the
      sheet's rounded foot, the mountain tips rising into it; either side a band of the same landscape
      (mirrored, so its repeats join) carries it out to the edges of the window. -->
-<tr><td align="center" background="{{ASSETS}}/olympus-band.jpg" style="padding:0;line-height:0;font-size:0;background-color:#f2e9d3;background-image:url('{{ASSETS}}/olympus-band.jpg');background-repeat:repeat-x;background-position:center bottom;">
-  <img src="{{ASSETS}}/olympus.jpg" width="680" alt="" style="display:block;width:100%;max-width:680px;height:auto;border:0;margin:0 auto;">
+<tr><td align="center" background="{{ASSETS}}/grove-band.jpg" style="padding:0;line-height:0;font-size:0;background-color:#f2e9d3;background-image:url('{{ASSETS}}/grove-band.jpg');background-repeat:repeat-x;background-position:center bottom;">
+  <img src="{{ASSETS}}/grove.jpg" width="680" alt="" style="display:block;width:100%;max-width:680px;height:auto;border:0;margin:0 auto;">
 </td></tr>
 </table>
 </body>
