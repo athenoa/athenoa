@@ -428,6 +428,7 @@ export const coursesPage = {
         ],
       },
       cancellations: 'Πληρωμή & Ακυρώσεις',
+      cancellationsOnly: 'Ακυρώσεις',
       scholarships: {
         title: 'Υποτροφίες',
         html: `<p><strong>ΔΥΝΑΤΟΤΗΤΑ ΥΠΟΤΡΟΦΙΑΣ</strong></p>

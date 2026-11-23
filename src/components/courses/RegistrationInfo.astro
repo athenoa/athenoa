@@ -48,11 +48,10 @@ const escape = (text: string) => text.replace(/&/g, '&amp;').replace(/</g, '&lt;
 const paymentNotes = [course.registrationNote, ...(course.paymentNotes ?? [])].filter((note): note is string => Boolean(note)).map(escape);
 // The closed items under the tuition. The cancellation terms belong to each course (their dates differ).
 const more = [
-  { id: 'bank', title: bank.title },
   // the payment notes folded in at the top of the cancellation terms: one item, "Payment & cancellations"
   // (Maria, 23 November 2026)
   course.cancellations || paymentNotes.length
-    ? { id: 'cancellations', title: registration.cancellations, html: `${paymentNotes.map((note) => `<p>${note}</p>`).join('')}${course.cancellations ?? ''}` }
+    ? { id: 'cancellations', title: registration.cancellations, html: '' }
     : null,
   { id: 'scholarships', title: registration.scholarships.title, html: registration.scholarships.html },
 ].filter((item) => item !== null);
@@ -92,8 +91,12 @@ const more = [
               <path class="more__mark-v" d="M12.2 4c-.6 5-.5 11 0 16" />
             </svg>
           </summary>
-          {item.id === 'bank' ? (
+          {item.id === 'cancellations' ? (
             <div class="more__body">
+              {/* the payment notes, then paying by bank transfer, then the cancellation terms: one item
+                  (Maria, 23 November 2026) */}
+              {paymentNotes.length > 0 && <div class="prose" set:html={paymentNotes.map((note) => `<p>${note}</p>`).join('')} />}
+              <h4 class="more__sub">{bank.title}</h4>
               <dl class="bank">
                 <div>
                   <dt>{bank.bankLabel}</dt>
@@ -130,6 +133,8 @@ const more = [
                   </a>
                 </p>
               ) : null}
+              {course.cancellations && <h4 class="more__sub">{registration.cancellationsOnly}</h4>}
+              {course.cancellations && <div class="prose" set:html={course.cancellations} />}
             </div>
           ) : (
             <div class="more__body prose" set:html={item.html} />
@@ -194,6 +199,17 @@ const more = [
   .more__item[open] .more__mark-v {
     transform: rotate(90deg);
     opacity: 0;
+  }
+  /* the words in the items run the item's full width (Maria, 23 November 2026) */
+  .more__body :global(.prose),
+  .more__body.prose {
+    max-width: none;
+  }
+  .more__sub {
+    margin: var(--space-s) 0 0.4rem;
+    font-family: var(--font-title);
+    font-weight: var(--title-weight);
+    font-size: var(--step-1);
   }
   .more__body {
     padding: 0 1.25rem 1.25rem;

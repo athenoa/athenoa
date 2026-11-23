@@ -535,6 +535,7 @@ export const coursesPage = {
         ],
       },
       cancellations: 'Payment & cancellations',
+      cancellationsOnly: 'Cancellations',
       scholarships: {
         title: 'Scholarships',
         html: `<p><strong>The possibility of a scholarship</strong></p>
