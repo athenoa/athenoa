@@ -126,18 +126,18 @@ const monthly = (tier: (typeof tiers)[number]) =>
                       </span>
                     )}
                   </span>
+                  {/* the account at a glance, inside the bank option's card (Maria, 23 November 2026) */}
+                  <details class="opt__bank">
+                    <summary>{t.bankShow}</summary>
+                    <p>
+                      {bank.bank} · {bank.holder}
+                      <br />
+                      IBAN <span class="opt__iban" translate="no">{bank.iban}</span>
+                      <br />
+                      {t.bankRef}
+                    </p>
+                  </details>
                 </label>
-                {/* the account at a glance, under the bank option (Maria, 23 November 2026) */}
-                <details class="opt__bank">
-                  <summary>{t.bankShow}</summary>
-                  <p>
-                    {bank.bank} · {bank.holder}
-                    <br />
-                    IBAN <span class="opt__iban" translate="no">{bank.iban}</span>
-                    <br />
-                    {t.bankRef}
-                  </p>
-                </details>
               </div>
             </fieldset>
 
@@ -750,7 +750,8 @@ const monthly = (tier: (typeof tiers)[number]) =>
     font-weight: 560;
   }
   .opt__bank {
-    margin: -0.2rem 0 0.4rem 2.4rem;
+    grid-column: 2;
+    margin-top: 0.3rem;
     font-size: var(--step--1);
   }
   .opt__bank summary {
