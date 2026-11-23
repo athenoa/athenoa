@@ -80,7 +80,8 @@ const w = words[kind];
     z-index: 1;
     display: grid;
     place-items: center;
-    padding-block: calc(var(--header-h) + var(--space-l)) 0;
+    /* half the room above the box (Maria, 23 November 2026) */
+    padding-block: calc((var(--header-h) + var(--space-l)) / 2) 0;
   }
   /* the grove: as wide as the window (never narrower than 64rem, so a phone sees its middle), rising over the
      last part of the box */
@@ -161,8 +162,8 @@ const w = words[kind];
   }
   .pay__ask {
     margin-top: var(--space-m);
-    font-size: var(--step--1);
-    opacity: 0.85;
+    font-size: 0.92rem;
+    opacity: 0.8;
   }
   .pay__ask a {
     color: inherit;
