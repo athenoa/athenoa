@@ -34,7 +34,14 @@ const member = memberFee && {
   was: memberFee.was,
   off: memberFee.pct ? fill(tuition.off, { pct: memberFee.pct }) : '',
   month: `${memberFee.month} ${tuition.month} ${fill(tuition.payments, { n: memberFee.payments })} · ${fill(tuition.total, { price: money(Math.round(yearly.tiers[0].perMonth * yearly.tiers[0].payments * 100) / 100, locale) })}`,
+  // the monthly way in parts, for its own box (Maria, 23 November 2026)
+  perMonth: memberFee.month,
+  rate: fill(tuition.payments, { n: memberFee.payments }),
+  sum: fill(tuition.total, { price: money(Math.round(yearly.tiers[0].perMonth * yearly.tiers[0].payments * 100) / 100, locale) }),
   payments: memberFee.payments,
+  // the standard yearly tier itself, drawn like the courses' tiers (Maria, 23 November 2026)
+  tier: yearly.tiers[0],
+  discount: yearly.upfrontDiscount ?? 0,
 };
 // The closed items under the tuition. The cancellation terms belong to each course (their dates differ).
 const more = [

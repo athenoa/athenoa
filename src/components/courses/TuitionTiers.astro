@@ -43,25 +43,37 @@ interface Props {
     off: string;
     month: string;
     payments: string;
+    perMonth?: string;
+    rate?: string;
+    sum?: string;
+    tier?: TuitionTier;
+    discount?: number;
   };
 }
 const { tiers, level = 3, payInFull, payMonthly, month, or, payments, total, discount = 0, off, course, member } = Astro.props;
-const columns = tiers.length + (member ? 1 : 0);
+const columns = tiers.length + (member?.tier ? 1 : 0);
 const locale = getLocale(Astro.url);
 const Name = level === 4 ? 'h4' : 'h3';
 const opens = (tier: TuitionTier, pay: 'full' | 'monthly') =>
   course ? { 'data-register': course, 'data-tier': tier.id, 'data-pay': pay } : {};
+// The cards: the tiers, then membership drawn with the same pieces (Maria, 23 November 2026): its price
+// box and monthly box pay straight through its own Stripe links, as on the membership page
+const cards = [
+  ...tiers.map((tier) => ({ tier, discount, member: false })),
+  ...(member?.tier ? [{ tier: { ...member.tier, name: member.title }, discount: member.discount ?? 0, member: true }] : []),
+];
 ---
 
 <div class="tiers-box">
 <ul class:list={['tiers', member && 'tiers--member']} role="list" style={`--cols:${columns}`}>
   {
-    tiers.map((tier) => (
-      <li class="tier box on-blue-deep">
+    cards.map(({ tier, discount, member: isMember }) => (
+      <li class:list={['tier box on-blue-deep', isMember && 'tier--member']}>
         <Name class="tier__name">
           {tier.name}
-          {/* a heart for the Tuition of Love */}
-          {tier.id === 'love' && <span class="tier__mark" set:html={heart} />}
+          {/* a heart for the Tuition of Love, the membership page's bee for membership */}
+          {!isMember && tier.id === 'love' && <span class="tier__mark tier__heart" set:html={heart} />}
+          {isMember && <span class="tier__mark tier__bee" set:html={bee} aria-hidden="true" />}
         </Name>
         <div class="ways">
           <div class="way way--upfront box on-blue-light">
@@ -75,7 +87,7 @@ const opens = (tier: TuitionTier, pay: 'full' | 'monthly') =>
                 <span class="tier__off">{fill(off ?? '', { pct: percent(discount) })}</span>
               </p>
             )}
-            <a class="btn way__btn" href={tier.payInFull} {...opens(tier, 'full')}>
+            <a class="btn way__btn" href={tier.payInFull} {...(isMember ? {} : opens(tier, 'full'))}>
               {payInFull}
             </a>
           </div>
@@ -91,7 +103,7 @@ const opens = (tier: TuitionTier, pay: 'full' | 'monthly') =>
               {fill(payments, { n: String(tier.payments) })}{' '}
               <span class="way__total">· {fill(total, { price: money(Math.round(tier.perMonth * tier.payments * 100) / 100, locale) })}</span>
             </p>
-            <a class="btn btn--ghost way__btn" href={tier.payMonthly} {...opens(tier, 'monthly')}>
+            <a class="btn btn--ghost way__btn" href={tier.payMonthly} {...(isMember ? {} : opens(tier, 'monthly'))}>
               {payMonthly}
             </a>
           </div>
@@ -99,35 +111,17 @@ const opens = (tier: TuitionTier, pay: 'full' | 'monthly') =>
         {tier.notes?.map((note) => (
           <p class="tier__small">{note}</p>
         ))}
+        {/* membership: its sentence and the way to its page, at the foot like the Tuition of Love's note */}
+        {isMember && member && (
+          <>
+            <p class="tier__small">{member.text}</p>
+            <p class="tier__small">
+              <a href={member.href}>{member.cta}</a>
+            </p>
+          </>
+        )}
       </li>
     ))
-  }
-  {
-    member && (
-      <li class="tier tier--member box on-blue-light">
-        <Name class="tier__name">
-          {member.title}
-          {/* the membership page's bee */}
-          <span class="tier__mark tier__bee" set:html={bee} aria-hidden="true" />
-        </Name>
-        <p class="tier__small member__text">{member.text}</p>
-        <p class="way__amount">
-          <span class="way__sum">{member.now}</span>
-        </p>
-        {member.was && (
-          <p class="way__was">
-            <s>{member.was}</s>
-            <span class="tier__off">{member.off}</span>
-          </p>
-        )}
-        <p class="tier__small member__month">
-          <span class="ways__or ways__or--inline">{or}</span> {member.month}
-        </p>
-        <a class="btn way__btn" href={member.href}>
-          {member.cta}
-        </a>
-      </li>
-    )
   }
 </ul>
 </div>
@@ -168,6 +162,8 @@ const opens = (tier: TuitionTier, pay: 'full' | 'monthly') =>
   }
   /* the tier's name a heading step up (Maria, 22 November 2026), so each column reads as its own */
   .tier__name {
+    /* more room under each card's title (Maria, 23 November 2026) */
+    margin-bottom: var(--space-s);
     font-family: var(--font-title);
     font-weight: var(--title-weight);
     font-size: calc(min(var(--step-2), 8.5vw) * (0.55 + 0.45 * var(--title-scale)));
@@ -181,14 +177,6 @@ const opens = (tier: TuitionTier, pay: 'full' | 'monthly') =>
   .ways {
     display: grid;
     gap: 0.6rem;
-  }
-  /* Membership, the alternative: light-blue paper, its words, its price, the way to its page */
-  .tier--member {
-    align-content: start;
-    justify-items: start;
-  }
-  .tier--member .way__btn {
-    margin-top: 0.6rem;
   }
   /* Room above the amount, so it never crowds the edge (Maria, 22 November 2026) */
   .tiers .way {
@@ -218,6 +206,25 @@ const opens = (tier: TuitionTier, pay: 'full' | 'monthly') =>
     flex-wrap: wrap;
     align-items: baseline;
     gap: 0.1em 0.45em;
+  }
+  /* TRIAL (Maria, 23 November 2026, to see how it looks): a brush stroke of light blue behind each
+     price, the site's highlighter mark, set a little askew */
+  .way__sum {
+    position: relative;
+    isolation: isolate;
+  }
+  .way__sum::before {
+    content: '';
+    position: absolute;
+    inset: 8% -0.3em -4% -0.25em;
+    z-index: -1;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 40' preserveAspectRatio='none'%3E%3Cg fill='%23e8b864'%3E%3Cpath d='M4 22C2 12 14 7 30 6c22-2 48-3 68-1 12 1 20 6 19 14-1 9-13 14-29 15-24 2-50 3-68 1C9 34 5 30 4 22z'/%3E%3Cpath opacity='.6' d='M9 9C30 3 70 1 105 4c9 1 14 4 11 9C96 9 50 9 14 14c-6 0-9-3-5-5z'/%3E%3Cpath opacity='.6' d='M66 36c20-1 40-4 50-11 2 7-8 13-24 14-9 0-18-1-26-3z'/%3E%3C/g%3E%3C/svg%3E") center / 100% 100% no-repeat;
+    opacity: 0.55;
+    rotate: -2deg;
+  }
+  /* only the full price carries the stroke, not the monthly one (Maria, 23 November 2026) */
+  .way--monthly .way__sum::before {
+    content: none;
   }
   .way__sum {
     font-family: var(--font-title);
@@ -313,6 +320,24 @@ const opens = (tier: TuitionTier, pay: 'full' | 'monthly') =>
     width: 1.3em;
     rotate: -8deg;
   }
+  /* The heart: drawn large and pale behind the title of the Tuition of Love, leaning a little */
+  .tier__name:has(.tier__heart) {
+    position: relative;
+    isolation: isolate;
+  }
+  .tier__heart {
+    position: absolute;
+    z-index: -1;
+    left: 58%;
+    top: 50%;
+    width: 2.6em;
+    height: 2.35em;
+    margin: 0;
+    translate: -50% -50%;
+    rotate: 9deg;
+    opacity: 0.55;
+    pointer-events: none;
+  }
   :global(html.motion) .tier__bee :global(.bee__wing) {
     transform-box: fill-box;
     transform-origin: 50% 100%;
@@ -356,7 +381,4 @@ const opens = (tier: TuitionTier, pay: 'full' | 'monthly') =>
     font-size: var(--step--1);
   }
   /* membership's sentence runs the full width of its column */
-  .member__text {
-    max-width: none;
-  }
 </style>
