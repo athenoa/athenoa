@@ -256,7 +256,6 @@ const allCourses: Course[] = [
   },
   {
     slug: 'the-hidden-non-duality-of-ancient-greek-philosophy',
-    hidden: true,
     title: 'Η Κρυμμένη Μη-Δυαδικότητα της Αρχαίας Ελληνικής Φιλοσοφίας',
     status: 'open',
     image: 'course-non-duality',
@@ -336,6 +335,8 @@ const allCourses: Course[] = [
 // A course marked hidden is kept here but shown nowhere (no card, no menu entry, no page) until it is
 // switched back on: the non-duality course, in English, waits so it does not confuse this autumn's
 // registrations (Athena, 23 November 2026).
+// The non-duality course is back on its waitlist on branch v2 (Maria, 24 November 2026); the live
+// site (main) still hides it.
 export const courses: Course[] = allCourses.filter((course) => !course.hidden);
 
 export const registrationTab = {
