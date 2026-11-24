@@ -211,6 +211,7 @@ const symbolFor = 'description';
                 data-waitlist-open
                 data-waitlist-course={course.title}
                 data-waitlist-slug={course.slug}
+                data-waitlist-lang={course.teaching && `${ui.facts.language}: ${ui.languages[course.teaching]}`}
               >
                 {ui.joinWaitlist}
               </a>
@@ -301,6 +302,7 @@ const symbolFor = 'description';
             data-waitlist-open
             data-waitlist-course={course.title}
             data-waitlist-slug={course.slug}
+            data-waitlist-lang={course.teaching && `${ui.facts.language}: ${ui.languages[course.teaching]}`}
           >
             {ui.joinWaitlist}
           </a>

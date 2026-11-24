@@ -33,6 +33,8 @@ const t = ui.waitlist;
       <p class="wl__for" id="waitlist-for">
         {t.forCourse}{' '}
         <span class="wl__course" data-waitlist-for></span>
+        {/* the language it is taught in, small (Maria, 24 November 2026) */}
+        <span class="wl__lang" data-waitlist-lang></span>
       </p>
     </div>
 
@@ -44,7 +46,7 @@ const t = ui.waitlist;
         </div>
         <input type="hidden" name="course" data-waitlist-course-field />
         <button class="btn" type="submit">{t.submit}</button>
-        <p class="wl__notify">{t.notify}</p>
+        {/* (the 'we will notify you' line under the button was taken away: Maria, 24 November 2026) */}
         <p class="wl__error" role="alert" data-waitlist-error hidden>{t.failed}</p>
       </form>
 
@@ -75,7 +77,9 @@ const t = ui.waitlist;
     opener = from;
     dialog.classList.remove('is-closing');
     // Which course the waitlist is for: the button that opened the popup carries its title.
-    dialog.querySelector('[data-waitlist-for]')!.textContent = from.dataset.waitlistCourse ?? '';
+    // (a hyphen in a title never breaks the line: 'Μη-Δυαδικότητα' stays whole)
+    dialog.querySelector('[data-waitlist-for]')!.textContent = (from.dataset.waitlistCourse ?? '').replace(/-/g, '\u2011');
+    dialog.querySelector('[data-waitlist-lang]')!.textContent = from.dataset.waitlistLang ?? '';
     // kept with the address: the course's slug (the same in every language), else its title
     dialog.querySelector<HTMLInputElement>('[data-waitlist-course-field]')!.value =
       from.dataset.waitlistSlug ?? from.dataset.waitlistCourse ?? '';
@@ -273,8 +277,9 @@ const t = ui.waitlist;
   .wl__mark :global(svg) {
     stroke-width: 4.2;
   }
+  /* the heading a step under the course's name, which is what the visitor came for (Maria, 24 November 2026) */
   .wl__title {
-    font-size: calc(clamp(1.75rem, 1.5rem + 1.1vw, 2.2rem) * var(--title-scale));
+    font-size: calc(clamp(1.35rem, 1.2rem + 0.6vw, 1.6rem) * var(--title-scale));
     text-wrap: balance;
   }
   .wl__for {
@@ -285,11 +290,21 @@ const t = ui.waitlist;
     display: block;
     font-family: var(--font-title);
     font-weight: var(--title-weight);
-    font-size: var(--step-1);
-    line-height: 1.1;
+    margin-top: 0.2rem;
+    font-size: calc(clamp(1.5rem, 1.3rem + 0.8vw, 1.85rem) * var(--title-scale));
+    line-height: 1.12;
     letter-spacing: var(--title-tracking);
     color: var(--ink-strong);
     text-wrap: balance;
+  }
+  .wl__lang {
+    display: block;
+    margin-top: 0.4rem;
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  .wl__lang:empty {
+    display: none;
   }
 
   /* Form and note share one cell, so the sheet keeps its height when one replaces the other */
@@ -313,11 +328,6 @@ const t = ui.waitlist;
   :global(html[data-theme='dark']) .wl__form .field input:is(:hover, :focus) {
     background: color-mix(in srgb, var(--blue) 12%, var(--creme-light));
   }
-  .wl__notify {
-    margin-top: -0.2rem;
-    font-size: var(--step--1);
-    color: var(--ink-soft);
-  }
   .wl__error {
     font-size: var(--step--1);
     font-weight: 560;
@@ -336,6 +346,34 @@ const t = ui.waitlist;
   .wl:not([data-sent]) .wl__note,
   .wl[data-sent] .wl__form {
     visibility: hidden;
+  }
+  /* Once sent, the thanks alone: the heading, the course and the question line go, and the note stands
+     centred under the star of Athena's signature (Maria, 24 November 2026) */
+  .wl[data-sent] :is(.wl__head, .wl__ask, .wl__form) {
+    display: none;
+  }
+  .wl[data-sent] .wl__note {
+    justify-items: center;
+    gap: 1.1rem;
+    padding-block: 1.5rem 1rem;
+    text-align: center;
+    font-family: var(--font-title);
+    font-size: var(--step-1);
+    line-height: 1.3;
+    color: var(--ink-strong);
+    text-wrap: balance;
+  }
+  .wl[data-sent] .wl__note::before {
+    content: '';
+    width: 3.2rem;
+    height: 3.2rem;
+    background: currentColor;
+    -webkit-mask: url('/marks/athena-star.svg') center / contain no-repeat;
+    mask: url('/marks/athena-star.svg') center / contain no-repeat;
+  }
+  .wl[data-sent] .wl__note p {
+    max-width: 22ch;
+    margin: 0;
   }
 
   /* ---------- Open and close ---------- */
