@@ -371,7 +371,7 @@ const w = words[kind];
       translate: 0 calc(var(--sh) * 0.75);
       opacity: 0;
     }
-    55% {
+    60% {
       opacity: 1;
     }
     to {
@@ -380,7 +380,8 @@ const w = words[kind];
     }
   }
   :global(html.motion) .pay__sheet {
-    animation: pay-rise 1.6s cubic-bezier(0.16, 0.84, 0.24, 1) 0.2s both;
+    /* slow and calm (Maria, 24 November 2026): a long, soft settle */
+    animation: pay-rise 3.2s cubic-bezier(0.22, 0.61, 0.18, 1) 0.3s both;
   }
   .pay__laurel {
     width: clamp(3rem, 7svh, 5rem);
