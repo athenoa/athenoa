@@ -32,6 +32,7 @@ export const site = {
     { label: 'Ζωντανά μαθήματα', href: '/courses/', menu: 'courses' },
     { label: 'Γίνε Μέλος της Ακαδημίας', href: '/membership/' },
     { label: 'Σχετικά με τη Δρ. Αθηνά', href: '/about-athena/' }, // last in the menu (Maria, 23 November 2026)
+    { label: 'Έργο & Τύπος', href: '/work/' }, // at the bottom of the menu (Maria, 24 November 2026)
     // Nostos is hidden from the menu for the launch (Maria, 22 November 2026). To bring it back:
     // { label: nostosUi.el.entry.nav, href: '/nostos/play/', section: '/nostos/' }, with nostosUi imported from data/nostos/ui
   ],

@@ -41,7 +41,7 @@ export const coursesPage = {
     // ἐπιστολή is the word for email throughout; the Latin word is added here so that nobody types a name.
     email: 'Ἐπιστολή (email)',
     back: 'Πάλιν',
-    contactInstead: 'Ἐπιστείλατε ἡμῖν',
+    contactInstead: 'Ἐπιστείλατε τῇ Ὀλυμπίᾳ',
     // A verb, read together with the instructor's name: "Διδάσκει Δρ. Αθηνά Δέσποινα Πόταρη".
     taughtBy: 'Διδάσκει',
     tuition: greekPage.ui.tuition,

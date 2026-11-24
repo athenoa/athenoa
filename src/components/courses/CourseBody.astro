@@ -102,6 +102,9 @@ const symbolFor = 'description';
         priority={page}
         reveal={false}
       />
+      {/* On the page, whether it is open: "Live" in gold, or "Coming soon", a pill over the banner's top right
+          corner (Maria, 24 November 2026) */}
+      {page && <p class:list={['body__soon', !course.comingSoon && 'body__soon--live']}><span>{course.comingSoon ? ui.soon : ui.live}</span></p>}
       {/* On the page the picture "prints in": a sheet of paper slides off it, downward (the arrival below) */}
       {page && <span class="body__print" aria-hidden="true"><span /></span>}
       {/* On the page, who teaches it: Athena's photograph and name on a paper chip stuck to the picture.
@@ -136,9 +139,6 @@ const symbolFor = 'description';
       }
     </div>
 
-    {/* A course not open yet says so above its title, on its page (Maria, 22 November 2026) */}
-    {/* and a course open now says "Live", in gold, in the same place (Maria, 24 November 2026) */}
-    {page && <p class:list={['body__soon', !course.comingSoon && 'body__soon--live']}><span>{course.comingSoon ? ui.soon : ui.live}</span></p>}
     {/* On the page the banner carries the title and subtitle in its own lettering, so the page's own title
         and subtitle are kept for screen readers and search only (Athena, 23 November 2026) */}
     <Title
@@ -636,14 +636,17 @@ const symbolFor = 'description';
     gap: var(--space-m);
   }
   .body--page .body__title,
-  .body--page .body__soon,
   .body--page .body__subtitle {
     order: 1;
   }
   /* "Coming soon": a small pill on light-blue paper, under the title */
-  /* the pill stands above the title, close to it */
+  /* the pill lies over the banner, at its top right, inside the content's edge */
   .body--page .body__soon {
-    margin-bottom: calc(var(--space-m) * -0.55);
+    position: absolute;
+    z-index: 3;
+    top: clamp(0.8rem, 0.4rem + 1.6vw, 1.8rem);
+    right: var(--edge);
+    margin: 0;
   }
   .body__soon span {
     display: inline-block;

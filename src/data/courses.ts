@@ -472,7 +472,8 @@ export const coursesPage = {
     placeholderBadge: 'Details to follow',
     email: 'Email',
     back: 'Back',
-    contactInstead: 'Contact us',
+    // the person who answers, by name (Maria, 24 November 2026)
+    contactInstead: 'Write to Olympia',
     taughtBy: 'With',
     // The tuition (RegistrationInfo.astro): the live page's own words, translated. Each tier's two
     // buttons lead to its Stripe Payment Links.

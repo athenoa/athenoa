@@ -33,6 +33,7 @@ export const site = {
     { label: 'Ζῶντα μαθήματα', href: '/grc/courses/', menu: 'courses' },
     { label: 'Οἱ ἑταῖροι', href: '/grc/membership/' },
     { label: 'Περὶ τῆς διδασκάλου Ἀθηνᾶς', href: '/grc/about-athena/' }, // last in the menu (Maria, 23 November 2026)
+    { label: 'Ἔργα & Τύπος', href: '/grc/work/' }, // at the bottom of the menu (Maria, 24 November 2026)
     // Nostos is hidden from the menu for the launch (Maria, 22 November 2026). To bring it back:
     // { label: nostosUi.el.entry.nav, href: '/grc/nostos/play/', section: '/grc/nostos/' }, with nostosUi imported from data/nostos/ui
   ],
