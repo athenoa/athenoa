@@ -122,6 +122,13 @@ const t = {
     margin: -4.3rem 0 0.1rem -0.5rem;
     color: var(--blue);
   }
+  /* by night the biscuits are outlines only; their holes stay paper by day too (Maria, 24 November 2026) */
+  :global(html[data-theme='dark']) .cookies :global(.cookies__plate) {
+    --ck-ring: var(--paper);
+    --ck-flower: var(--paper);
+    --ck-twist: var(--paper);
+    --ck-melomakarono: var(--paper);
+  }
   .cookies__steam {
     position: absolute;
     left: 3.4rem;
