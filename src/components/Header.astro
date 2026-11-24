@@ -690,6 +690,9 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
     .drop__list {
       position: static;
       min-width: 0;
+      /* the whole menu's width, so a long course title, its colon and its pill stay on one line
+         (Maria, 24 November 2026) */
+      max-width: none;
       margin: 0.1rem 0 0.4rem 0.9rem;
       padding: 0;
       rotate: none;

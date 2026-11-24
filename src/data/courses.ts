@@ -464,6 +464,8 @@ export const coursesPage = {
     languages: { el: 'Greek', en: 'English' },
     // The small mark on a course not open yet (Course.comingSoon)
     soon: 'Coming soon',
+    // The small mark on a course open now, in the courses menu (Maria, 24 November 2026)
+    live: 'Live',
     close: 'Close',
     enroll: 'Enroll',
     placeholderNote: 'Course details are on their way. Leave your name and we will write to you when enrolment opens.',

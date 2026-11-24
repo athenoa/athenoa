@@ -137,7 +137,8 @@ const symbolFor = 'description';
     </div>
 
     {/* A course not open yet says so above its title, on its page (Maria, 22 November 2026) */}
-    {page && course.comingSoon && <p class="body__soon"><span>{ui.soon}</span></p>}
+    {/* and a course open now says "Live", in gold, in the same place (Maria, 24 November 2026) */}
+    {page && <p class:list={['body__soon', !course.comingSoon && 'body__soon--live']}><span>{course.comingSoon ? ui.soon : ui.live}</span></p>}
     {/* On the page the banner carries the title and subtitle in its own lettering, so the page's own title
         and subtitle are kept for screen readers and search only (Athena, 23 November 2026) */}
     <Title
@@ -653,6 +654,9 @@ const symbolFor = 'description';
     font-size: var(--step-0);
     font-weight: 600;
     letter-spacing: 0.02em;
+  }
+  .body__soon--live span {
+    background: var(--gold);
   }
   /* between the title and the section headings in size: on the page it sits close under the title */
   .body--page .body__subtitle {

@@ -32,6 +32,7 @@ export const coursesPage = {
     languages: { el: 'Ἑλληνιστί', en: 'Ἀγγλιστί' },
     when: greekPage.ui.when,
     soon: greekPage.ui.soon,
+    live: greekPage.ui.live,
     close: 'Κλείσατε',
     enroll: 'Ἐγγράψασθε',
     placeholderNote:
