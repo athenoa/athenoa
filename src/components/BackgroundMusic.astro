@@ -10,7 +10,7 @@
 // again. A link that forces such a reload fades the music out first, so it never cuts.
 import { content } from '../data';
 import { handCase } from '../lib/hand';
-import { getLocale, mainLocale } from '../lib/locale';
+import { getLocale } from '../lib/locale';
 
 // invite: a handwritten note beside the button while the browser holds sound back (see the script)
 const t = {
@@ -21,7 +21,13 @@ const t = {
     turnOn: 'Ενεργοποίηση μουσικής',
     invite: 'πατήστε για ήχο',
   },
-}[mainLocale(getLocale(Astro.url))];
+  grc: {
+    group: 'Ἡ ὑπὸ τοῖς λόγοις μουσική',
+    turnOff: 'Παύσατε τὴν μουσικήν',
+    turnOn: 'Ἄρξασθε τῆς μουσικῆς',
+    invite: 'θίγετε ἵνα ἠχῇ',
+  },
+}[getLocale(Astro.url)];
 const { ui } = content(getLocale(Astro.url));
 ---
 

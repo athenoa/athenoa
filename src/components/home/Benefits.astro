@@ -11,7 +11,7 @@ import gathering from '../../assets/media/gathering-amphitheatre.jpg';
 import reading from '../../assets/media/reading-by-the-sea.jpg';
 import hilltop from '../../assets/media/hilltop-meditation.png';
 import { content } from '../../data';
-import { getLocale, mainLocale } from '../../lib/locale';
+import { getLocale } from '../../lib/locale';
 
 const locale = getLocale(Astro.url);
 const { benefits } = content(locale).home;
@@ -33,7 +33,13 @@ const t = {
     columnAlt:
       'Μια γυναίκα με μπλε φόρεμα στέκεται μπροστά στην Ακαδημία Αθηνών, κάτω από τον ψηλό κίονα με το άγαλμα της Αθηνάς',
   },
-}[mainLocale(locale)];
+  grc: {
+    gatheringAlt: 'Κύκλος γυναικῶν λευχειμόνων ἀλλήλας περιβάλλουσιν ἐπὶ λιθίνου ἐδάφους παρὰ κολυμβήθραν, ὑψηλὰ ὑπὲρ τῆς θαλάττης',
+    hilltopAlt: 'Γυνὴ ἐν ἡσυχίᾳ κάθηται ἐν μέσοις ἀρχαίοις λίθοις ἐπὶ λόφου ἡλιοβλήτου, ὄρη δ’ ἀχλυώδη πόρρωθεν',
+    readingAlt: 'Γυνὴ μειδιῶσα βίβλον ἀναγιγνώσκει ἐν ἡλίῳ, ὄπισθεν δ’ αὐτῆς ἡ θάλαττα καὶ λαμπρὸς ὁ οὐρανός',
+    columnAlt: 'Γυνὴ κυανῆν ἐσθῆτα ἔχουσα πρὸ τῆς Ἀκαδημίας τῶν Ἀθηνῶν ἕστηκεν, ὑπὸ τῷ ὑψηλῷ κίονι τῷ τὸ τῆς Ἀθηνᾶς ἄγαλμα φέροντι',
+  },
+}[locale];
 
 // One look per benefit, in the order of the copy: the experiential path and its community,
 // methodical training in the texts, the footsteps of the Ancient Sages and the Platonic Academy.

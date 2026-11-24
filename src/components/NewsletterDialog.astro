@@ -11,11 +11,11 @@ import SourceField from './SourceField.astro';
 import Portico from './Portico.astro';
 import { content } from '../data';
 import { newsletter } from '../data/newsletter';
-import { getLocale, mainLocale, pathIn } from '../lib/locale';
+import { getLocale, pathIn } from '../lib/locale';
 
 const locale = getLocale(Astro.url);
 const { text, cta } = content(locale).home.announcement.newsletter;
-const t = newsletter[mainLocale(locale)];
+const t = newsletter[locale];
 const contactHref = pathIn(locale, '/about-athena/#contact');
 ---
 

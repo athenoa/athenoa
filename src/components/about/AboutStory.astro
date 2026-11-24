@@ -14,7 +14,7 @@ import Illustration from '../Illustration.astro';
 import Logos from './Logos.astro';
 import Signature from '../Signature.astro';
 import { content } from '../../data';
-import { getLocale, mainLocale } from '../../lib/locale';
+import { getLocale } from '../../lib/locale';
 
 const locale = getLocale(Astro.url);
 const { about } = content(locale);
@@ -31,7 +31,13 @@ const t = {
     sea: 'Μια γυναίκα ντυμένη στα λευκά κάθεται με κλειστά μάτια και ενωμένα χέρια, ψηλά πάνω από τη γαλάζια θάλασσα',
     pines: 'Μια μικρή ομάδα κάθεται σε κύκλο κάτω από πεύκα, με την Ακρόπολη πάνω στον βράχο της πίσω τους',
   },
-}[mainLocale(locale)];
+  grc: {
+    graduation:
+      'Ἀπόφοιτοι ἐν ἐρυθροῖς καὶ κυανοῖς τρίβωσι καθίζουσιν ἐν αἰθούσῃ ἑορτῆς, μία δ’ αὐτῶν ὑπὲρ τὸν ὦμον ὀπίσω βλέπει',
+    sea: 'Γυνὴ λευχειμονοῦσα κάθηται μεμυκόσι τοῖς ὀφθαλμοῖς καὶ συμπεπλεγμέναις ταῖς χερσίν, ὑψηλὰ ὑπὲρ τῆς κυανῆς θαλάττης',
+    pines: 'Ὀλίγοι ἐν κύκλῳ κάθηνται ὑπὸ πίτυσιν, ὄπισθεν δ’ αὐτῶν ἡ Ἀκρόπολις ἐπὶ τῆς πέτρας',
+  },
+}[locale];
 
 const files = import.meta.glob<{ default: ImageMetadata }>('../../assets/media/*.jpg', { eager: true });
 const photo = (name: string) => files[`../../assets/media/${name}.jpg`].default;

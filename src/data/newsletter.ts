@@ -1,8 +1,8 @@
 // Words of the newsletter popup that are not part of Athena's copy: its headline and description
 // come from home.announcement.newsletter, everything else (labels, the button, the note shown
-// while sign-up is not connected to a mailing service) lives here, in both languages.
+// while sign-up is not connected to a mailing service) lives here, in each language.
 // The field label and placeholder repeat those of the contact form (about.contact).
-import type { MainLocale as Locale } from '../lib/locale';
+import type { Locale } from '../lib/locale';
 
 export const newsletter = {
   en: {
@@ -27,5 +27,16 @@ export const newsletter = {
     failed: 'Κάτι πήγε στραβά και η διεύθυνσή σας δεν αποθηκεύτηκε. Δοκιμάστε ξανά ή γράψτε μας.',
     source: 'Πώς μας βρήκατε;',
     pendingLink: 'Γράψτε μας μέσω της φόρμας επικοινωνίας',
+  },
+  // Ancient Greek: ἀπογράφεσθαι, to have one's name put on a list, as for the waitlist (./grc/courses.ts)
+  grc: {
+    label: 'Ἐπιστολή (email)',
+    placeholder: 'example@mail.com',
+    submit: 'Ἀπογράψασθε',
+    close: 'Κλείσατε',
+    pending: 'Χάριν ἴσμεν. Ἐν τῷ καταλόγῳ ἡμῶν ἐστε, καὶ τὰ παρ’ ἡμῶν καινὰ ἀκούσεσθε.',
+    failed: 'Οὐκ ἐξεγένετο φυλάξαι τὴν ὑμετέραν ἐπιστολήν. Πειράσασθε αὖθις ἢ γράψατε ἡμῖν.',
+    source: 'Πῶς ἡμᾶς ηὕρετε;',
+    pendingLink: 'Γράψατε ἡμῖν ἐνταῦθα',
   },
 } satisfies Record<Locale, Record<string, string>>;

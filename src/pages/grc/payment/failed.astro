@@ -1,0 +1,9 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PaymentStatus from '../../../components/payment/PaymentStatus.astro';
+import { site } from '../../../data/grc/site';
+---
+
+<Base title={`Ἡ καταβολὴ οὐκ ἐτελέσθη | ${site.name}`} description={site.name} noindex footer={false}>
+  <PaymentStatus kind="failed" />
+</Base>

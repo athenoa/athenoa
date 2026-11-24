@@ -4,9 +4,9 @@
 // header, with a soft chime, while the ways of paying are in sight (TuitionTiers.astro, data-early-bird),
 // and slides back up when they leave it; closed, it stays away for the rest of that page.
 // Still a draft as well: ?promo=banner or ?promo=toast shows either form on any page.
-import { getLocale, mainLocale } from '../lib/locale';
+import { getLocale } from '../lib/locale';
 
-const locale = mainLocale(getLocale(Astro.url));
+const locale = getLocale(Astro.url);
 // site-wide: one offer for the Academy, not for one course (Maria, 24 November 2026)
 const OFFER = { id: 'earlybird', code: 'EARLY10' };
 const copy = {
@@ -28,8 +28,18 @@ const copy = {
     copied: 'Copied',
     close: 'Close',
   },
+  // Ancient Greek: "to the early risers"; σύνθημα, the agreed word, for the code
+  grc: {
+    kicker: 'Τοῖς ὀρθρίοις',
+    text: '−10% τῶν μηνιαίων διδάκτρων τοῖς ἐγγραφομένοις μέχρι τῆς τριακοστῆς τοῦ Νοεμβρίου τῷ συνθήματι',
+    until: '',
+    copy: 'Ἀντιγράψατε τὸ σύνθημα',
+    tip: 'Ἀντιγράψατε',
+    copied: 'Ἀντεγράφη',
+    close: 'Κλείσατε',
+  },
 };
-const t = copy[locale === 'en' ? 'en' : 'el'];
+const t = copy[locale];
 ---
 
 <!-- the strip across the top -->
@@ -37,7 +47,7 @@ const t = copy[locale === 'en' ? 'en' : 'el'];
   <p class="promo__line">
     <span class="promo__kicker">{t.kicker}</span>
     <span>{t.text}</span>
-    <button class="promo__code" type="button" data-promo-copy data-tip={t.tip} aria-label={`${t.copy}: ${OFFER.code}`}>{OFFER.code}</button>
+    <button class="promo__code" type="button" data-promo-copy data-tip={t.tip} data-copied={t.copied} aria-label={`${t.copy}: ${OFFER.code}`}>{OFFER.code}</button>
     {t.until && <span class="promo__until">{t.until}</span>}
   </p>
   <button class="promo__close" type="button" data-promo-close aria-label={t.close}>×</button>
@@ -49,7 +59,7 @@ const t = copy[locale === 'en' ? 'en' : 'el'];
   <p class="promo__kicker">{t.kicker}</p>
   <p class="promo__text">{t.text}</p>
   <p class="promo__row">
-    <button class="promo__code" type="button" data-promo-copy data-tip={t.tip} aria-label={`${t.copy}: ${OFFER.code}`}>{OFFER.code}</button>
+    <button class="promo__code" type="button" data-promo-copy data-tip={t.tip} data-copied={t.copied} aria-label={`${t.copy}: ${OFFER.code}`}>{OFFER.code}</button>
     {t.until && <span class="promo__until">{t.until}</span>}
   </p>
 </aside>
@@ -138,7 +148,7 @@ const t = copy[locale === 'en' ? 'en' : 'el'];
       code.addEventListener('click', async () => {
         try {
           await navigator.clipboard.writeText(label);
-          code.textContent = el.closest('[lang="en"]') || document.documentElement.lang === 'en' ? 'Copied' : 'Αντιγράφηκε';
+          code.textContent = code.dataset.copied!;
           code.classList.add('is-copied');
           setTimeout(() => {
             code.textContent = label;

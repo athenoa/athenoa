@@ -5,7 +5,7 @@ import { handCase } from '../../lib/hand';
 import Media from '../Media.astro';
 import fresco from '../../assets/media/school-of-athens.jpg';
 import { content } from '../../data';
-import { getLocale, mainLocale } from '../../lib/locale';
+import { getLocale } from '../../lib/locale';
 
 const locale = getLocale(Astro.url);
 const { home, site } = content(locale);
@@ -23,7 +23,12 @@ const t = {
     courses: 'Δείτε τα μαθήματα',
     member: 'Γίνε Μέλος της Ακαδημίας',
   },
-}[mainLocale(locale)];
+  grc: {
+    frescoAlt: 'Ἡ τοῦ Ῥαφαήλου γραφὴ «Ἡ τῶν Ἀθηνῶν Σχολή»: οἱ τῶν παλαιῶν φιλόσοφοι ὑπὸ μεγάλῃ θολωτῇ στοᾷ συνειλεγμένοι',
+    courses: 'Ἴδετε τὰ μαθήματα',
+    member: 'Γένεσθε ἑταῖροι τῆς Ἀκαδημίας',
+  },
+}[locale];
 ---
 
 <section class="start section" aria-labelledby="start-title">

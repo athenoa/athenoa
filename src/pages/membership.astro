@@ -27,14 +27,15 @@ const reg = m.registration;
 const athena = {
   el: { alt: 'Η Δρ. Αθηνά Πόταρη πάνω από ένα ανοιχτό βιβλίο, με τη θάλασσα πίσω της', quote: 'Σας περιμένω με χαρά και ενθουσιασμό σε ένα Νέο Μυητικό Ταξίδι', name: 'Δρ. Αθηνά Δέσποινα Πόταρη', questions: 'Για ερωτήσεις, γράψτε μας στο' },
   en: { alt: 'Dr. Athena Potari over an open book, the sea behind her', quote: 'I await you with joy and enthusiasm on a New Initiatic Journey', name: 'Dr. Athena Despoina Potari', questions: 'For any questions, write to us at' },
-}[locale === 'en' ? 'en' : 'el'];
+  grc: { alt: 'Ἡ διδάσκαλος Ἀθηνᾶ Πόταρη ὑπὲρ βίβλου ἀνεῳγμένης, ὄπισθεν δ’ αὐτῆς ἡ θάλαττα', quote: 'Μετὰ χαρᾶς καὶ ἐνθουσιασμοῦ ὑμᾶς ἀναμένω εἰς Νέαν Μυστικὴν Ὁδόν', name: 'Ἀθηνᾶ Δέσποινα Πόταρη', questions: 'Εἴ τι ἀπορεῖτε, ἐπιστείλατε ἡμῖν πρὸς' },
+}[locale];
 const discount = reg.upfrontDiscount ?? 0;
 // The Academy's membership banner (Maria, 22 November 2026): crème by day, navy by night; only the one
 // for the current theme is shown, and a hidden lazy picture is never fetched.
 const bannerAlt = {
   en: 'Banner: “Φιλόσοφος γίνου” (Become a philosopher). Become an annual Member of the Academy',
   el: 'Αφίσα: «Φιλόσοφος γίνου». Γίνε ετήσιο Μέλος της Ακαδημίας',
-  grc: 'Αφίσα: «Φιλόσοφος γίνου». Γίνε ετήσιο Μέλος της Ακαδημίας',
+  grc: 'Πίναξ: «Φιλόσοφος γίνου». Γένεσθε ἑταῖροι τῆς Ἀκαδημίας ἐπ’ ἐνιαυτόν',
 }[locale];
 ---
 

@@ -6,7 +6,7 @@
 import Illustration from '../Illustration.astro';
 import Signature from '../Signature.astro';
 import { content } from '../../data';
-import { getLocale, mainLocale } from '../../lib/locale';
+import { getLocale } from '../../lib/locale';
 
 interface Props {
   kind: 'success' | 'failed';
@@ -49,7 +49,23 @@ const words = {
     retry: 'Try again',
     courses: 'See the courses',
   },
-}[mainLocale(locale)];
+  grc: {
+    success: {
+      kicker: 'Χάριν ἴσμεν',
+      title: 'Ἡ χώρα ὑμῖν φυλάττεται',
+      text: ['Ἡ καταβολὴ ἐτελέσθη καὶ ἡ ἐγγραφὴ ὑμῶν ἀναγέγραπται.', 'Ἐν τάχει ἐπιστελοῦμεν ὑμῖν πάντα τὰ περὶ τῆς ἀρχῆς.'],
+    },
+    failed: {
+      kicker: 'Οὐ κατὰ γνώμην ἐχώρησεν',
+      title: 'Ἡ καταβολὴ οὐκ ἐτελέσθη',
+      text: ['Ἡ καταβολὴ ὑμῶν οὐκ ἐτελέσθη, ὥστε οὐδὲν ἀργύριον ἐλήφθη.', 'Ἔξεστιν ὑμῖν αὖθις πειρᾶσθαι, ἢ διὰ τραπέζης καταβαλεῖν, ἢ ἐπιστεῖλαι ἡμῖν, καὶ βοηθήσομεν.'],
+    },
+    ask: 'Περὶ παντὸς ἐπιστείλατε τῇ Ὀλυμπίᾳ πρὸς',
+    home: 'Οἴκαδε',
+    retry: 'Πειράσασθε αὖθις',
+    courses: 'Ἴδετε τὰ μαθήματα',
+  },
+}[locale];
 const w = words[kind];
 ---
 
@@ -453,7 +469,8 @@ const w = words[kind];
 <script>
   import { ambienceMuted, playSound } from '../../scripts/sound';
 
-  // Stripe sends everyone back to the Greek page; whoever registered on the English pages sees it in English
+  // Stripe sends everyone back to the Greek page; whoever registered on the English (or Ancient Greek) pages
+  // sees it in that language
   // (the form notes the language just before leaving for Stripe: RegisterDialog.astro)
   document.addEventListener('astro:page-load', () => {
     // (this listener outlives the page when the visitor moves on within the site: act on the payment pages only)
@@ -462,8 +479,8 @@ const w = words[kind];
     try {
       lang = localStorage.getItem('ath-pay-lang') ?? '';
     } catch {}
-    const onEnglish = location.pathname.startsWith('/en/');
-    if (lang === 'en' && !onEnglish) return location.replace('/en' + location.pathname);
+    if ((lang === 'en' || lang === 'grc') && !location.pathname.startsWith(`/${lang}/`))
+      return location.replace(`/${lang}` + location.pathname.replace(/^\/(en|grc)(?=\/)/, ''));
     // "Σας ευχαριστούμε, Μαρία": the first name they gave in the form (success page only)
     let name = '';
     try {
@@ -477,7 +494,7 @@ const w = words[kind];
       back = localStorage.getItem('ath-pay-back') ?? '';
     } catch {}
     const retry = document.querySelector<HTMLAnchorElement>('[data-retry]');
-    if (retry && /^\/(en\/)?(courses\/[a-z0-9-]+|membership)\/$/.test(back)) retry.href = back + '#registration';
+    if (retry && /^\/((en|grc)\/)?(courses\/[a-z0-9-]+|membership)\/$/.test(back)) retry.href = back + '#registration';
     // On the success page a soft rising phrase on the lyre as the card comes up (Maria, 24 November 2026;
     // scripts/audio/success.mjs). Most browsers hold sound back until the visitor presses something, so it
     // often stays silent; Chrome lets it play for someone who has played sound on the site before. Never

@@ -13,7 +13,7 @@
 // It shows once, on the first visit, in the lower right corner (the sound and day/night buttons
 // have the lower left), and does not block the page.
 import Illustration from './Illustration.astro';
-import { getLocale, mainLocale } from '../lib/locale';
+import { getLocale } from '../lib/locale';
 
 const t = {
   en: {
@@ -28,7 +28,14 @@ const t = {
     all: 'Ναι, όλα',
     essential: 'Μόνο τα απαραίτητα',
   },
-}[mainLocale(getLocale(Astro.url))];
+  // τήθη, the Attic grandmother; κολλύρια, the small rolls of Aristophanes
+  grc: {
+    title: 'Τὰ τῆς τήθης κολλύρια',
+    text: 'Ὅδε ὁ τόπος ὀλίγα καὶ μικρὰ ὑπομνήματα ἐν τῷ περιηγητῇ ὑμῶν φυλάττει, ἵνα μεμνῆται ὧν προείλεσθε: γλώττης, ἡμέρας ἢ νυκτός, ἤχου. Οὐδὲν ὑμᾶς ἰχνεύει. Ἄλλο δέ τι, οἷον ὁ τῶν ἐπισκεπτομένων ἀριθμός, οὐ προστεθήσεται μὴ συναινούντων ὑμῶν.',
+    all: 'Ναί, πάντα',
+    essential: 'Μόνα τὰ ἀναγκαῖα',
+  },
+}[getLocale(Astro.url)];
 ---
 
 <aside class="cookies" data-cookies hidden aria-labelledby="cookies-title">

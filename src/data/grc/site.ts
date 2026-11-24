@@ -4,8 +4,8 @@
 export const site = {
   name: 'ΑΘΕΝΟΑ',
   wordmark: 'ΑΘΕΝΟΑ',
-  // The live footer signs off in Greek capitals. Left as it is.
-  copyright: '© ΑΚΑΔΗΜΙΑ ΑΘΕΝΟΑ',
+  // The live footer signs off in Greek capitals; here in the Attic spelling of the word
+  copyright: '© ΑΚΑΔΗΜΕΙΑ ΑΘΕΝΟΑ',
   url: 'https://www.athenoa.academy',
   locale: 'grc',
   // "Who We Are" from the old footer. No longer shown there; kept for descriptions and machine-readable summaries.

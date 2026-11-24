@@ -7,7 +7,7 @@ import Illustration from '../Illustration.astro';
 import apollo from '../../assets/media/apollo-statue.jpg';
 import frieze from '../../assets/media/frieze-procession.jpg';
 import { content } from '../../data';
-import { getLocale, mainLocale } from '../../lib/locale';
+import { getLocale } from '../../lib/locale';
 
 const locale = getLocale(Astro.url);
 const { home, site } = content(locale);
@@ -25,7 +25,12 @@ const t = {
     friezeAlt: 'Ζωγραφιστή ζωφόρος με πομπή γυναικών σε λευκούς χιτώνες, που κρατούν άνθη και προσφορές',
     go: 'Γίνε Μέλος της Ακαδημίας',
   },
-}[mainLocale(locale)];
+  grc: {
+    apolloAlt: 'Ἀπόλλωνος ἄγαλμα κατάχρυσον, λύραν ἔχον, ἐπὶ κίονος Ἰωνικοῦ ἑστηκός',
+    friezeAlt: 'Ζωφόρος γραπτή, πομπὴ γυναικῶν λευχειμόνων ἄνθη καὶ ἀναθήματα φερουσῶν',
+    go: 'Γένεσθε ἑταῖροι τῆς Ἀκαδημίας',
+  },
+}[locale];
 
 // One look per point, in the order of the copy: paper with a light-blue plate behind it,
 // a light-blue pebble, darker paper. Shape and emblem differ; the depths stay close together.

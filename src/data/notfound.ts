@@ -22,6 +22,13 @@ export const notfound = {
     journey: 'να εύχεσαι νάναι μακρύς ο δρόμος, γεμάτος περιπέτειες',
     // Cavafy, «Ιθάκη» (1911). The credit is not shown on the page (client direction).
   },
+  // Ancient Greek, on addresses that begin with /grc/: the same sentence and Cavafy's line in Attic prose
+  grc: {
+    heading: 'Ἡ σελὶς οὐχ εὑρέθη',
+    wander: 'Οὐ πάντες οἱ πλανώμενοι ἀπολώλασιν',
+    home: { label: 'Πάλιν εἰς Ἰθάκην', href: '/grc/' },
+    journey: 'εὔχου μακρὰν εἶναι τὴν ὁδόν, μεστὴν περιπετειῶν',
+  },
 } as const;
 
 export type NotFoundLocale = keyof typeof notfound;

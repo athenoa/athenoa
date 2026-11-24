@@ -39,7 +39,8 @@ const bank = ui.registration.bank;
 const t = {
   en: { bankShow: 'See the account details', bankRef: 'As reference, write your full name and the course. Afterwards, send the proof of payment to philathenea@athenoa.academy.' },
   el: { bankShow: 'Δείτε τα στοιχεία του λογαριασμού', bankRef: 'Ως αιτιολογία γράψτε το ονοματεπώνυμό σας και τον Κύκλο. Μετά στείλτε το αποδεικτικό στο philathenea@athenoa.academy.' },
-}[locale === 'en' ? 'en' : 'el'];
+  grc: { bankShow: 'Ἴδετε τὰ τῆς τραπέζης', bankRef: 'Ἐπὶ τῆς αἰτίας γράψατε τό τε ὄνομα ὑμῶν καὶ τὸν Κύκλον. Ἔπειτα πέμψατε τὸ τῆς καταβολῆς τεκμήριον πρὸς philathenea@athenoa.academy.' },
+}[locale];
 const tiers = course.tuition ?? [];
 const discount = course.upfrontDiscount ?? 0;
 const off = discount > 0 ? fill(ui.tuition.off, { pct: percent(discount) }) : '';
@@ -494,7 +495,8 @@ const monthly = (tier: (typeof tiers)[number]) =>
         email: value('email'),
         phone: value('phone'),
         terms_accepted: true,
-        locale: pageLocale(),
+        // the edge functions know only English and Greek: an Ancient Greek visitor is written to in Greek
+        locale: pageLocale() === 'en' ? 'en' : 'el',
       };
       if (value('address')) row.address = value('address');
       if (certificate) row.certificate_name = value('certificate_name');
@@ -514,7 +516,7 @@ const monthly = (tier: (typeof tiers)[number]) =>
       }
       // the page Stripe sends them back to opens in the language they registered in (PaymentStatus.astro)
       try {
-        localStorage.setItem('ath-pay-lang', pageLocale() === 'en' ? 'en' : 'el');
+        localStorage.setItem('ath-pay-lang', pageLocale());
         // and the first name, for "Σας ευχαριστούμε, Μαρία" on that page
         localStorage.setItem('ath-pay-name', value('first_name').slice(0, 60));
         // and the page they registered on, for the failure page's "try again"

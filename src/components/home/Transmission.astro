@@ -6,7 +6,7 @@ import Media from '../Media.astro';
 import waves from '../../assets/illustrations/waves.svg?raw';
 import night from '../../assets/media/night-acropolis.png';
 import { content } from '../../data';
-import { getLocale, mainLocale } from '../../lib/locale';
+import { getLocale } from '../../lib/locale';
 
 const locale = getLocale(Astro.url);
 const { transmission } = content(locale).home;
@@ -18,7 +18,10 @@ const t = {
     photoAlt:
       'Μια γυναίκα με λευκή μπλούζα και μπλε εσάρπα κάθεται στο σκοτάδι, με τη φωταγωγημένη Ακρόπολη να λάμπει πίσω της',
   },
-}[mainLocale(locale)];
+  grc: {
+    photoAlt: 'Γυνὴ λευκὸν χιτωνίσκον καὶ κυανοῦν ἱμάτιον ἔχουσα ἐν σκότῳ κάθηται, ὄπισθεν δ’ αὐτῆς ἡ Ἀκρόπολις πεφωτισμένη λάμπει',
+  },
+}[locale];
 // The three bands of sea are one drawing (src/assets/illustrations/waves.svg, 50 KB with its moving
 // lines). It is written into the page once, in the middle band, and the other two show that same
 // drawing through <use>: the page is 100 KB lighter and the browser moves one set of lines instead of

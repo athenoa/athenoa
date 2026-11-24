@@ -18,7 +18,7 @@ import galileo from '../../assets/logos/galileo-commission.png';
 import smn from '../../assets/logos/scientific-and-medical-network.png';
 import { getImage } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
-import { getLocale, mainLocale } from '../../lib/locale';
+import { getLocale } from '../../lib/locale';
 
 const t = {
   en: {
@@ -49,7 +49,22 @@ const t = {
     galileo: 'Galileo Commission',
     smn: 'Scientific and Medical Network',
   },
-}[mainLocale(getLocale(Astro.url))];
+  // πανδιδακτήριον, the Byzantine word for a university; the foreign names stay as they are, as in the Greek
+  grc: {
+    athensCollege: 'Κολλέγιον τῶν Ἀθηνῶν',
+    lse: 'London School of Economics and Political Science (LSE)',
+    oxford: 'Πανδιδακτήριον τῆς Ὀξφόρδης',
+    academy: 'Ἀκαδήμεια τῶν Ἀθηνῶν',
+    harvard: 'Πανδιδακτήριον Harvard',
+    chs: 'Κέντρον Ἑλληνικῶν Σπουδῶν τοῦ Πανδιδακτηρίου Harvard',
+    athens: 'Ἐθνικὸν καὶ Καποδιστριακὸν Πανδιδακτήριον τῶν Ἀθηνῶν',
+    patras: 'Πανδιδακτήριον τῶν Πατρῶν',
+    toulouse: 'Université Toulouse Capitole',
+    defence: 'Σχολὴ τῆς Ἐθνικῆς Ἀμύνης',
+    galileo: 'Galileo Commission',
+    smn: 'Scientific and Medical Network',
+  },
+}[getLocale(Astro.url)];
 
 // Three lines of four, in the order of the story. `h` is the height in rem: the shapes differ (a
 // square, a tall emblem, long wordmarks), so each gets the height at which it weighs the same as its

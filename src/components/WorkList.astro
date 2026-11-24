@@ -14,7 +14,21 @@ interface Props {
 }
 const { ideas: withIdeas = false } = Astro.props;
 const locale = getLocale(Astro.url);
-const t = nostosUi[mainLocale(locale)].sources;
+// The Work & Press page in Ancient Greek has words of its own; Nostos (with `ideas`) keeps the Greek ones.
+const grc = {
+  talks: 'Λόγοι',
+  talksSub: 'ὁρώμενοι καὶ ἀκουόμενοι',
+  writings: 'Συγγράμματα',
+  writingsSub: 'μελέται, πραγματεῖαι καὶ λόγοι',
+  watch: 'Θεάσασθε',
+  read: 'Ἀνάγνωτε',
+  view: 'Ἴδετε',
+  ideas: 'Αἱ ἐνοῦσαι ἰδέαι',
+  keyIdeas: 'Αἱ κυριώταται ἰδέαι',
+  lang: { en: 'Ἀγγλιστί', el: 'Ἑλληνιστί' },
+  kind: { essay: 'λόγος', article: 'σύγγραμμα', paper: 'μελέτη', interview: 'διάλογος', thesis: 'διατριβή' },
+};
+const t = locale === 'grc' && !withIdeas ? grc : nostosUi[mainLocale(locale)].sources;
 const map = pathIn(locale, '/nostos/');
 // left out of the list: the New Greek TV interview on her Harvard lecture series (Maria, 24 November 2026)
 // the latest first (Maria, 24 November 2026), by the date each was published on YouTube

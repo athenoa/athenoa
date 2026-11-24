@@ -31,8 +31,9 @@ export const coursesPage = {
     facts: { dates: 'Πότε', duration: 'Πόσον χρόνον', format: 'Πῶς', language: 'Τίνι γλώττῃ', fee: 'Πόσου' },
     languages: { el: 'Ἑλληνιστί', en: 'Ἀγγλιστί' },
     when: greekPage.ui.when,
-    soon: greekPage.ui.soon,
-    live: greekPage.ui.live,
+    // the pills on the course cards: "any moment now", and "live" (ζῶν, as in Ζῶντα μαθήματα)
+    soon: 'Ὅσον οὔπω',
+    live: 'Ζῶν',
     close: 'Κλείσατε',
     enroll: 'Ἐγγράψασθε',
     placeholderNote:
@@ -56,12 +57,12 @@ export const coursesPage = {
       // Followed by the title of the course
       forCourse: 'Εἰς τὸ μάθημα',
       submit: 'Ἀπογράψατέ με',
-      invite: greekPage.ui.waitlist.invite,
+      invite: 'Βούλεσθε πρῶτοι πυθέσθαι ὁπότε αἱ ἐγγραφαὶ ἀνοιχθήσονται;',
       notify: 'Ἀγγελοῦμεν ὑμῖν ὅταν αἱ ἐγγραφαὶ ἀνοιχθῶσιν.',
       // The quiet line under the button, followed by a link that opens an email to the Academy
       question: 'Ἀπορεῖτέ τι;',
-      thanks: greekPage.ui.waitlist.thanks,
-      failed: greekPage.ui.waitlist.failed,
+      thanks: 'Χάριν ἴσμεν. Ἐπιστελοῦμεν ὑμῖν ἐπειδὰν αἱ ἐγγραφαὶ ἀνοιχθῶσιν.',
+      failed: 'Οὐκ ἐξεγένετο ἀποστεῖλαι. Πειράσασθε αὖθις ἢ γράψατε ἡμῖν.',
     },
   },
 } as const;
