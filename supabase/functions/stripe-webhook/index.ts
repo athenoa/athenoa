@@ -96,15 +96,52 @@ Deno.serve(async (req) => {
   if (!(await verified(body, req.headers.get('stripe-signature')))) return new Response('bad signature', { status: 400 });
 
   const event = JSON.parse(body);
-  const decide = STATUS[event.type];
-  if (!decide) return new Response('ignored', { status: 200 });
   const s = event.data?.object ?? {};
-  const id = String(s.client_reference_id ?? '');
-  if (!/^[0-9a-f-]{36}$/i.test(id)) return new Response('no registration', { status: 200 });
-  const status = decide(s);
-  if (!status) return new Response('waiting', { status: 200 });
-
   const db = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!);
+  const id = String(s.client_reference_id ?? '');
+  const isRegistration = /^[0-9a-f-]{36}$/i.test(id);
+  // Every signed event is kept in stripe_events, with who paid and how much where Stripe says (Maria, 24 November
+  // 2026), so a payment that matches no registration is never lost. A failure to log never stops the webhook.
+  const log = async (outcome: string) => {
+    const who = (s.customer_details ?? {}) as Record<string, unknown>;
+    const isSession = s.object === 'checkout.session';
+    const { error: logError } = await db.from('stripe_events').upsert(
+      {
+        id: String(event.id ?? crypto.randomUUID()),
+        type: String(event.type ?? ''),
+        stripe_created: event.created ? new Date(Number(event.created) * 1000).toISOString() : null,
+        session_id: isSession ? (s.id ?? null) : null,
+        client_reference_id: s.client_reference_id ?? null,
+        payment_link: s.payment_link ?? null,
+        mode: s.mode ?? null,
+        payment_status: s.payment_status ?? s.status ?? null,
+        amount: typeof s.amount_total === 'number' ? s.amount_total / 100 : typeof s.amount === 'number' ? s.amount / 100 : null,
+        currency: s.currency ?? null,
+        email: who.email ?? s.receipt_email ?? s.customer_email ?? null,
+        name: who.name ?? null,
+        phone: who.phone ?? null,
+        matched_registration: ['paid', 'failed', 'abandoned'].includes(outcome) ? id : null,
+        outcome,
+      },
+      { onConflict: 'id', ignoreDuplicates: true },
+    );
+    if (logError) console.error('log', logError.message);
+  };
+
+  const decide = STATUS[event.type];
+  if (!decide) {
+    await log('ignored');
+    return new Response('ignored', { status: 200 });
+  }
+  if (!isRegistration) {
+    await log('no registration');
+    return new Response('no registration', { status: 200 });
+  }
+  const status = decide(s);
+  if (!status) {
+    await log('waiting');
+    return new Response('waiting', { status: 200 });
+  }
   const update: Record<string, unknown> = {
     payment_status: status,
     stripe_session_id: s.id ?? null,
@@ -127,8 +164,10 @@ Deno.serve(async (req) => {
   const { error } = await q;
   if (error) {
     console.error('update', error.message);
+    await log('update failed');
     return new Response('update failed', { status: 500 });
   }
+  await log(before ? status : 'registration not found');
   // the first time it is paid: the "your place is secured" email
   if (status === 'paid' && before && before.payment_status !== 'paid' && before.email) await confirm(before);
   return new Response('ok', { status: 200 });
