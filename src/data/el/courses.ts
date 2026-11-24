@@ -75,7 +75,7 @@ const allCourses: Course[] = [
     format: 'Ζωντανά μέσω Zoom, με recordings',
     teaching: 'el',
     available: true,
-    instructor: 'Δρ. Αθηνά Δέσποινα Ποτάρη',
+    instructor: 'Δρ. Αθηνά Δέσποινα Πόταρη',
     price: { amount: 550, currency: 'EUR', display: '€550 ή 8 × €68,75', label: 'Δίδακτρα:' },
     // The live page rounds the instalments to 69€ and 83€; Stripe charges 68,75€ and 82,50€.
     // 10% off paid upfront, as the Academy's Stripe links now charge (€495, €594; Maria, 23 November 2026)
@@ -153,7 +153,7 @@ const allCourses: Course[] = [
     // Η αφίσα του Κύκλου, από την Ακαδημία (Maria, 22 November 2026)
     image: 'course-eu-zen',
     imageAlt:
-      'Αφίσα του Κύκλου: Εὖ Ζῆν, Η Αρχαία Τέχνη της Ευδαιμονίας. Η Δρ. Αθηνά Ποτάρη μπροστά σε βιβλιοθήκη, ανάμεσα σε έναν ιωνικό κίονα με φύλλα ελιάς και μια μαρμάρινη προτομή της Αθηνάς με την κουκουβάγια της· 16 Βιωματικά Μαθήματα Ελληνικής Φιλοσοφίας στην Πράξη, Από την Αυτογνωσία στην Ευδαιμονία',
+      'Αφίσα του Κύκλου: Εὖ Ζῆν, Η Αρχαία Τέχνη της Ευδαιμονίας. Η Δρ. Αθηνά Πόταρη μπροστά σε βιβλιοθήκη, ανάμεσα σε έναν ιωνικό κίονα με φύλλα ελιάς και μια μαρμάρινη προτομή της Αθηνάς με την κουκουβάγια της· 16 Βιωματικά Μαθήματα Ελληνικής Φιλοσοφίας στην Πράξη, Από την Αυτογνωσία στην Ευδαιμονία',
     subtitle: 'Η Αρχαία Τέχνη της Ευδαιμονίας',
     // The banner already says "16 Βιωματικά Μαθήματα…": a line drawn from the description instead (Maria, 23 November 2026)
     summary: 'Η Φιλοσοφία ως Τέχνη Ζωής: μια βιωματική διαδρομή για να γινόμαστε κάθε μέρα Αυτό που αληθινά Είμαστε.',
@@ -172,7 +172,7 @@ const allCourses: Course[] = [
     format: 'Ζωντανά μέσω Zoom, με recordings',
     teaching: 'el',
     available: true,
-    instructor: 'Δρ. Αθηνά Δέσποινα Ποτάρη',
+    instructor: 'Δρ. Αθηνά Δέσποινα Πόταρη',
     // Their page says 660€ and 550€; Stripe charges 640€ and 720€, confirmed by Maria on 22 November 2026.
     price: { amount: 640, currency: 'EUR', display: '€640 ή 8 × €80', label: 'Δίδακτρα:' },
     // 10% off paid upfront (see the English file); the Stripe "full" links charge €576 / €648 (new links, 23 November 2026)
@@ -273,7 +273,7 @@ const allCourses: Course[] = [
     // Not open yet: "Join waitlist" (see the English file)
     available: false,
     comingSoon: true,
-    instructor: 'Δρ. Αθηνά Δέσποινα Ποτάρη',
+    instructor: 'Δρ. Αθηνά Δέσποινα Πόταρη',
     // The price is to come (Maria, 22 November 2026: not final); no fee is shown until it is set here
     // Until it opens its page shows only the four weeks (Maria, 22 November 2026); the full description,
     // the meetings, the access notes and the orientation wait in `later`, to come back when it opens.
@@ -363,7 +363,7 @@ export const coursesPage = {
     email: 'Email',
     back: 'Πίσω',
     contactInstead: 'Επικοινωνήστε μαζί μας',
-    // Read together with the instructor's name: "Με τη Δρ. Αθηνά Δέσποινα Ποτάρη".
+    // Read together with the instructor's name: "Με τη Δρ. Αθηνά Δέσποινα Πόταρη".
     taughtBy: 'Με τη',
     // The tuition, in the live page's own words (see the English file)
     tuition: {

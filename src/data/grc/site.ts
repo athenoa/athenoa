@@ -16,7 +16,7 @@ export const site = {
     'Ἡγεμόνι χρώμενοι τῷ τῆς θεοῦ Ἀθηνᾶς ἀρχετύπῳ, φῶς παρέχομεν τῇ ὁδῷ τῇ φερούσῃ ἀπὸ μὲν τῆς λόγῳ μαθήσεως ἐπὶ τὴν ἔργῳ γνῶσιν, ἀπὸ δὲ φιλοσοφίας ἐπὶ τὴν ἔνδον ἐγρήγορσιν — τὴν ἡμετέραν πρὸς τὴν Φύσιν καὶ τὴν Ψυχὴν καὶ τὸν Κόσμον οἰκειότητα ἀνανεούμενοι.',
   // No "Dr." here: the title is rendered in running text as ἡ διδάσκαλος (see nav and ./about.ts).
   // The first word must stay a substring of about.title, which AboutHero splits at it.
-  founder: 'Ἀθηνᾶ Δέσποινα Ποτάρη',
+  founder: 'Ἀθηνᾶ Δέσποινα Πόταρη',
   phone: { display: '(0030) 690-606-8444', href: 'tel:00306906068444' },
   emails: ['philathenea@athenoa.academy'],
   membershipForm: 'https://docs.google.com/forms/d/10wWFfEJswGyhoiPyGHOc5QjUimHitGUBsbFaHlYpnvY/viewform',

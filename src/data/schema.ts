@@ -115,7 +115,7 @@ const facts: Record<Locale, Facts> = {
       ['Αρχαία Ιερατική Τέχνη'],
       ['Ορφικοί Ύμνοι'],
     ],
-    shortName: ['Αθηνά Ποτάρη'],
+    shortName: ['Αθηνά Πόταρη'],
     jobTitle: ['Ιδρύτρια', 'ιδρύτρια της Φιλοσοφικής Ακαδημίας'],
     university: ['Πανεπιστήμιο της Οξφόρδης', 'διδακτορικές σπουδές στο Πανεπιστήμιο της Οξφόρδης'],
     graduateSchool: ['LSE', 'Μεταπτυχιακό μου Δίπλωμα με Διάκριση από το LSE'],
@@ -161,7 +161,7 @@ const named = (type: string, name: string | undefined): Json | undefined => (nam
 
 // ---------- The Academy, its site and its founder ----------
 
-// site.founder carries the title: "Dr. Athena Despoina Potari", "Δρ. Αθηνά Δέσποινα Ποτάρη".
+// site.founder carries the title: "Dr. Athena Despoina Potari", "Δρ. Αθηνά Δέσποινα Πόταρη".
 const founder = (locale: Locale) => {
   const { site } = content(locale);
   const [, honorific, name] = site.founder.match(/^(Dr\.|Δρ\.)\s+(.+)$/) ?? [undefined, undefined, site.founder];
