@@ -2,7 +2,7 @@
 // To be reviewed by Athena before anything is published.
 
 export const site = {
-  name: 'ATHENOA',
+  name: 'ΑΘΕΝΟΑ',
   wordmark: 'ΑΘΕΝΟΑ',
   // The live footer signs off in Greek capitals. Left as it is.
   copyright: '© ΑΚΑΔΗΜΙΑ ΑΘΕΝΟΑ',
@@ -10,7 +10,7 @@ export const site = {
   locale: 'grc',
   // "Who We Are" from the old footer. No longer shown there; kept for descriptions and machine-readable summaries.
   description:
-    'Ἡ ATHENOA Μουσῶν τέμενός ἐστιν, ὃ τὴν παλαιὰν τῶν Ἑλλήνων σοφίαν ἀναζωπυρεῖ ὡς ὁδὸν ζῶσαν ἐπὶ τὸ γενέσθαι ἕκαστον οἷός ἐστι καὶ ἐπὶ παιδείαν ἱερὰν καὶ πολιτικὴν ἀρετήν.',
+    'Ἡ ΑΘΕΝΟΑ Μουσῶν τέμενός ἐστιν, ὃ τὴν παλαιὰν τῶν Ἑλλήνων σοφίαν ἀναζωπυρεῖ ὡς ὁδὸν ζῶσαν ἐπὶ τὸ γενέσθαι ἕκαστον οἷός ἐστι καὶ ἐπὶ παιδείαν ἱερὰν καὶ πολιτικὴν ἀρετήν.',
   mission:
     'Ἡγεμόνι χρώμενοι τῷ τῆς θεοῦ Ἀθηνᾶς ἀρχετύπῳ, φῶς παρέχομεν τῇ ὁδῷ τῇ φερούσῃ ἀπὸ μὲν τῆς λόγῳ μαθήσεως ἐπὶ τὴν ἔργῳ γνῶσιν, ἀπὸ δὲ φιλοσοφίας ἐπὶ τὴν ἔνδον ἐγρήγορσιν — τὴν ἡμετέραν πρὸς τὴν Φύσιν καὶ τὴν Ψυχὴν καὶ τὸν Κόσμον οἰκειότητα ἀνανεούμενοι.',
   // No "Dr." here: the title is rendered in running text as ἡ διδάσκαλος (see nav and ./about.ts).

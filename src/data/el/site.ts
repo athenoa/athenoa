@@ -2,7 +2,7 @@
 // To be reviewed by Athena before any of it is published.
 
 export const site = {
-  name: 'ATHENOA',
+  name: 'ΑΘΕΝΟΑ',
   // the name as the header and footer show it: in Greek letters, ΑΘΕΝΟΑ with epsilon, as on the Greek emblem (Maria, 23 November 2026)
   wordmark: 'ΑΘΕΝΟΑ',
   // The live footer signs off in Greek capitals.
@@ -11,7 +11,7 @@ export const site = {
   locale: 'el',
   // "Who We Are" from the old footer. No longer shown there; kept for descriptions and machine-readable summaries.
   description:
-    'Η ATHENOA είναι ένα Τέμενος Πολιτισμού που αναζωπυρώνει την Αρχαία Ελληνική Σοφία ως ζωντανό δρόμο αυτοπραγμάτωσης, ιερής παιδείας και πολιτικής αρετής.',
+    'Η ΑΘΕΝΟΑ είναι ένα Τέμενος Πολιτισμού που αναζωπυρώνει την Αρχαία Ελληνική Σοφία ως ζωντανό δρόμο αυτοπραγμάτωσης, ιερής παιδείας και πολιτικής αρετής.',
   mission:
     'Με οδηγό το Αρχέτυπο της Θεάς Αθηνάς, φωτίζουμε τον δρόμο από τη διανοητική μάθηση στην ενσώματη γνώση, από τη φιλοσοφία στην εσωτερική αφύπνιση — αποκαθιστώντας τη σχέση μας με τη Φύση, με την Ψυχή και με τον Κόσμο.',
   founder: 'Δρ. Αθηνά Δέσποινα Πόταρη',

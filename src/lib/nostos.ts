@@ -73,6 +73,8 @@ export interface Edge {
 }
 export interface Talk {
   id: string;
+  /** published on YouTube (YYYY-MM-DD), read from each video's page on 24 November 2026 */
+  date?: string;
   title: string;
   en: string;
   channel: string;

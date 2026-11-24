@@ -93,6 +93,16 @@ const splitFee = (display: string) => {
       sizes="(min-width: 48rem) 46vw, 92vw"
       priority={priority}
     />
+    {/* On the courses page, whether it is open: "Live" in gold with a pulsing white dot, like a recording light,
+        or "Coming soon" (Maria, 24 November 2026); not on the home page's brief cards */}
+    {
+      !brief && (
+        <p class:list={['card__status', !course.comingSoon && 'card__status--live']}>
+          {!course.comingSoon && <span class="card__pulse" aria-hidden="true" />}
+          {course.comingSoon ? ui.soon : ui.live}
+        </p>
+      )
+    }
     {/* The picture is a second way in for a pointer; keyboard and screen readers use the named links below. */}
     <a class="card__cover" href={href} tabindex="-1" aria-hidden="true"></a>
   </div>
@@ -185,6 +195,52 @@ const splitFee = (display: string) => {
   }
   .card__media {
     --media-r: var(--frame);
+  }
+  .card__status {
+    position: absolute;
+    z-index: 2;
+    top: clamp(0.6rem, 0.4rem + 0.8vw, 1rem);
+    right: clamp(0.6rem, 0.4rem + 0.8vw, 1rem);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45em;
+    margin: 0;
+    padding: 0.2em 0.85em 0.26em;
+    border-radius: 58% 42% 52% 48% / 48% 56% 44% 52%;
+    background: var(--blue-light);
+    color: var(--blue-deep);
+    font-size: var(--step--1);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    pointer-events: none;
+  }
+  .card__status--live {
+    background: var(--gold);
+  }
+  /* the recording light: a white dot that breathes */
+  .card__pulse {
+    width: 0.55em;
+    height: 0.55em;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 0 0 rgb(255 255 255 / 0.7);
+  }
+  :global(html.motion) .card__pulse {
+    animation: card-pulse 1.6s ease-out infinite;
+  }
+  @keyframes card-pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgb(255 255 255 / 0.75);
+      opacity: 1;
+    }
+    70% {
+      box-shadow: 0 0 0 0.5em rgb(255 255 255 / 0);
+      opacity: 0.75;
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgb(255 255 255 / 0);
+      opacity: 1;
+    }
   }
   .card__cover {
     position: absolute;

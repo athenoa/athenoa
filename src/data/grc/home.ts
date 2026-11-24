@@ -5,7 +5,7 @@ import { courseHref } from './courses';
 
 export const home = {
   meta: {
-    title: 'ATHENOA | Φοιτᾶτε εἰς τὴν νῦν Πλατωνικὴν Ἀκαδήμειαν',
+    title: 'ΑΘΕΝΟΑ | Φοιτᾶτε εἰς τὴν νῦν Πλατωνικὴν Ἀκαδήμειαν',
     description: site.description,
   },
 
@@ -45,7 +45,7 @@ export const home = {
     // Athena speaks: first person feminine.
     text: 'Πάνυ ἀσμένη ἀγγέλλω ὑμῖν τὰ μαθήματα πάλιν ἀρχόμενα!',
     signature: {
-      role: 'Ἱδρύτρια τῆς Ἀκαδημείας ATHENOA',
+      role: 'Ἱδρύτρια τῆς Ἀκαδημείας ΑΘΕΝΟΑ',
       alt: 'Ἡ Ἀθηνᾶ Πόταρη μειδιῶσα ἐν βιβλιοθήκῃ, βιβλίον ἔχουσα',
     },
     newsletter: {
@@ -91,7 +91,7 @@ export const home = {
   },
 
   benefits: {
-    title: 'Ὅσα ὠφελήσεσθε τῆς ATHENOA μετασχόντες',
+    title: 'Ὅσα ὠφελήσεσθε τῆς ΑΘΕΝΟΑ μετασχόντες',
     question:
       'Ἆρ’ ἂν βούλοισθε διερευνᾶσθαι τήν τε βαθεῖαν περὶ ψυχὴν σοφίαν καὶ τὰς τῶν κορυφαίων παλαιῶν φιλοσόφων περὶ τοῦ μὴ δύο εἶναι διδαχάς;',
     items: [

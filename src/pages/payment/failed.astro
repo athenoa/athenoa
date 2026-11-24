@@ -4,6 +4,6 @@ import PaymentStatus from '../../components/payment/PaymentStatus.astro';
 import { site } from '../../data/el/site';
 ---
 
-<Base title={`Η πληρωμή δεν ολοκληρώθηκε | ${site.name}`} description="ATHENOA" noindex footer={false}>
+<Base title={`Η πληρωμή δεν ολοκληρώθηκε | ${site.name}`} description={site.name} noindex footer={false}>
   <PaymentStatus kind="failed" />
 </Base>

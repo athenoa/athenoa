@@ -102,9 +102,9 @@ const symbolFor = 'description';
         priority={page}
         reveal={false}
       />
-      {/* On the page, whether it is open: "Live" in gold, or "Coming soon", a pill over the banner's top right
-          corner (Maria, 24 November 2026) */}
-      {page && <p class:list={['body__soon', !course.comingSoon && 'body__soon--live']}><span>{course.comingSoon ? ui.soon : ui.live}</span></p>}
+      {/* On the page, a course not open yet says "Coming soon", a pill over the banner's top right corner; the
+          "Live" pill is only on the courses page's cards (Maria, 24 November 2026) */}
+      {page && course.comingSoon && <p class="body__soon"><span>{ui.soon}</span></p>}
       {/* On the page the picture "prints in": a sheet of paper slides off it, downward (the arrival below) */}
       {page && <span class="body__print" aria-hidden="true"><span /></span>}
       {/* On the page, who teaches it: Athena's photograph and name on a paper chip stuck to the picture.
@@ -337,8 +337,13 @@ const symbolFor = 'description';
     .body--page .body__figure:has(:global(.body__portrait)) {
       margin-top: calc(var(--header-h) * -1 - var(--space-m));
     }
+    /* the start date half over the banner's lower edge (Maria, 24 November 2026) */
     .body--page .body__figure:has(:global(.body__portrait)) .body__note {
-      top: calc(100% + 1.4rem);
+      top: 100%;
+      translate: 0 -50%;
+    }
+    .body--page .body__figure:has(:global(.body__portrait)) {
+      margin-bottom: 4.5rem;
     }
   }
   /* ---------- Header, shared ---------- */
@@ -665,9 +670,6 @@ const symbolFor = 'description';
     font-size: var(--step-0);
     font-weight: 600;
     letter-spacing: 0.02em;
-  }
-  .body__soon--live span {
-    background: var(--gold);
   }
   /* between the title and the section headings in size: on the page it sits close under the title */
   .body--page .body__subtitle {

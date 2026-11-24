@@ -5,8 +5,10 @@
 import Base from '../layouts/Base.astro';
 import WorkList from '../components/WorkList.astro';
 import { getLocale } from '../lib/locale';
+import { content } from '../data';
 
 const locale = getLocale(Astro.url);
+const { site } = content(locale);
 const w = {
   el: { title: 'Έργο & Τύπος', description: 'Ομιλίες, συνεντεύξεις, μελέτες και άρθρα της Δρ. Αθηνάς Πόταρη.' },
   en: { title: 'Work & Press', description: 'Talks, interviews, papers and articles by Dr. Athena Potari.' },
@@ -14,7 +16,7 @@ const w = {
 }[locale];
 ---
 
-<Base title={`${w.title} | ATHENOA`} description={w.description}>
+<Base title={`${w.title} | ${site.name}`} description={w.description}>
   <section class="section work">
     <div class="wrap">
       <h1 class="t-1" data-split>{w.title}</h1>

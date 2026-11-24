@@ -359,7 +359,7 @@ export const coursesPage = {
     when: { last: 'Τελευταίο μάθημα', until: 'έως {date}', months: '{n} μήνες' },
     languages: { el: 'Ελληνικά', en: 'Αγγλικά' },
     soon: 'Σύντομα',
-    live: 'Ζωντανά',
+    live: 'Ζωντανό',
     close: 'Κλείσιμο',
     enroll: 'Εγγραφή',
     placeholderNote:
