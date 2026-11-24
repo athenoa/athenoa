@@ -476,7 +476,7 @@ export const coursesPage = {
     email: 'Email',
     back: 'Back',
     // the person who answers, by name (Maria, 24 November 2026)
-    contactInstead: 'Write to Olympia',
+    contactInstead: 'Write to Olymbia',
     taughtBy: 'With',
     // The tuition (RegistrationInfo.astro): the live page's own words, translated. Each tier's two
     // buttons lead to its Stripe Payment Links.
