@@ -61,8 +61,13 @@ const locale = getLocale(Astro.url);
 const Name = level === 4 ? 'h4' : 'h3';
 const opens = (tier: TuitionTier, pay: 'full' | 'monthly') =>
   course ? { 'data-register': course, 'data-tier': tier.id, 'data-pay': pay } : {};
+// Membership on a course page: its buttons lead to the membership page and open its registration form there
+// with the same choice made, so every membership is recorded before Stripe (Maria, 24 November 2026: they
+// went straight to Stripe and no registration was kept)
+const memberLink = (tier: TuitionTier, pay: 'full' | 'monthly') =>
+  `${member?.href ?? ''}?register=membership&tier=${encodeURIComponent(tier.id)}&pay=${pay}`;
 // The cards: the tiers, then membership drawn with the same pieces (Maria, 23 November 2026): its price
-// box and monthly box pay straight through its own Stripe links, as on the membership page
+// box and monthly box open the membership form on its own page (memberLink above)
 const cards = [
   ...tiers.map((tier) => ({ tier, discount, member: false, per })),
   ...(member?.tier ? [{ tier: { ...member.tier, name: member.title }, discount: member.discount ?? 0, member: true, per: member.per ?? per }] : []),
@@ -94,7 +99,7 @@ const cards = [
                 <span class="tier__off">{fill(off ?? '', { pct: percent(discount) })}</span>
               </p>
             )}
-            <a class="btn way__btn" href={tier.payInFull} {...(isMember ? {} : opens(tier, 'full'))}>
+            <a class="btn way__btn" href={isMember ? memberLink(tier, 'full') : tier.payInFull} {...(isMember ? {} : opens(tier, 'full'))}>
               {payInFull}
             </a>
           </div>
@@ -110,7 +115,7 @@ const cards = [
               {fill(payments, { n: String(tier.payments) })}{' '}
               <span class="way__total">· {fill(total, { price: money(Math.round(tier.perMonth * tier.payments * 100) / 100, locale) })}</span>
             </p>
-            <a class="btn way__btn" href={tier.payMonthly} {...(isMember ? {} : opens(tier, 'monthly'))}>
+            <a class="btn way__btn" href={isMember ? memberLink(tier, 'monthly') : tier.payMonthly} {...(isMember ? {} : opens(tier, 'monthly'))}>
               {payMonthly}
             </a>
           </div>

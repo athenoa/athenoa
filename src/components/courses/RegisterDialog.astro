@@ -570,6 +570,23 @@ const monthly = (tier: (typeof tiers)[number]) =>
       dialog.setAttribute('data-ready', '');
       openers.set(dialog, bind(dialog));
     });
+    // Arriving with ?register=<form>&tier=<id>&pay=<full|monthly> (membership's buttons on a course page):
+    // that form opens with the choice made, and the address is tidied so a reload does not open it again
+    const ask = new URLSearchParams(location.search);
+    const wanted = ask.get('register');
+    if (wanted) {
+      const dialog = document.querySelector<HTMLDialogElement>(`dialog[data-register-dialog="${CSS.escape(wanted)}"][data-ready]`);
+      const open = dialog && openers.get(dialog);
+      const pay = ask.get('pay') === 'monthly' ? 'monthly' : 'full';
+      const tier = ask.get('tier') ?? '';
+      ['register', 'tier', 'pay'].forEach((key) => ask.delete(key));
+      const rest = ask.toString();
+      history.replaceState(history.state, '', location.pathname + (rest ? `?${rest}` : '') + location.hash);
+      if (open) {
+        document.getElementById('registration')?.scrollIntoView({ block: 'start' });
+        open(tier, pay);
+      }
+    }
   });
 
   // One listener for every tier button on every page, added once. Capture phase: it answers before
