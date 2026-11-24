@@ -1,4 +1,5 @@
 // Site-wide facts. Copy here is taken from the live site (athenoa.academy, October 2026).
+import { nostosUi } from './nostos/ui';
 
 export const site = {
   name: 'ATHENOA',
@@ -31,8 +32,8 @@ export const site = {
     { label: 'Live Courses', href: '/en/courses/', menu: 'courses' },
     { label: 'Membership', href: '/en/membership/' },
     { label: 'About Dr. Athena', href: '/en/about-athena/' }, // last in the menu (Maria, 23 November 2026)
-    // Nostos is hidden from the menu for the launch (Maria, 22 November 2026). To bring it back:
-    // { label: nostosUi.en.entry.nav, href: '/en/nostos/play/', section: '/en/nostos/' }, with nostosUi imported from data/nostos/ui
+    // NEW WORDING, proposed for Maria's approval (src/data/nostos/ui.ts): the way into Nostos (back on branch v2, Maria, 24 November 2026)
+    { label: nostosUi.en.entry.nav, href: '/en/nostos/play/', section: '/en/nostos/' },
   ],
   footer: {
     linksTitle: 'Internal Links',

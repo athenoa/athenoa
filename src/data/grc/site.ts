@@ -1,5 +1,6 @@
 // A playful DRAFT translation into Ancient Greek (Attic prose) of src/data/site.ts, made by machine.
 // To be reviewed by Athena before anything is published.
+import { nostosUi } from '../nostos/ui';
 
 export const site = {
   name: 'ATHENOA',
@@ -33,8 +34,8 @@ export const site = {
     { label: 'Ζῶντα μαθήματα', href: '/grc/courses/', menu: 'courses' },
     { label: 'Οἱ ἑταῖροι', href: '/grc/membership/' },
     { label: 'Περὶ τῆς διδασκάλου Ἀθηνᾶς', href: '/grc/about-athena/' }, // last in the menu (Maria, 23 November 2026)
-    // Nostos is hidden from the menu for the launch (Maria, 22 November 2026). To bring it back:
-    // { label: nostosUi.el.entry.nav, href: '/grc/nostos/play/', section: '/grc/nostos/' }, with nostosUi imported from data/nostos/ui
+    // NEW WORDING, proposed for Maria's approval (src/data/nostos/ui.ts): the way into Nostos (back on branch v2, Maria, 24 November 2026)
+    { label: nostosUi.el.entry.nav, href: '/grc/nostos/play/', section: '/grc/nostos/' },
   ],
   footer: {
     linksTitle: 'Οἱ ἔνδον σύνδεσμοι',

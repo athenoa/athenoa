@@ -8,6 +8,7 @@ import Announcement from '../components/home/Announcement.astro';
 import Transmission from '../components/home/Transmission.astro';
 import Start from '../components/home/Start.astro';
 import Benefits from '../components/home/Benefits.astro';
+import NostosInvite from '../components/nostos/NostosInvite.astro';
 import { content } from '../data';
 import { organizationSchema, websiteSchema } from '../data/schema';
 import { getLocale } from '../lib/locale';
@@ -27,7 +28,8 @@ const { home } = content(locale);
   <Announcement />
   {/* The monthly seminar (Seminar: Orphic Hymns) is hidden (Maria, 22 November 2026) */}
   {/* The course in detail with its tabs (CourseTabs) is hidden from the home page (Maria, 22 November 2026) */}
-  {/* The way into Nostos (NostosInvite) is hidden for the launch (Maria, 22 November 2026) */}
+  {/* The way into Nostos (proposed, src/data/nostos/ui.ts); hidden on the live site since the launch, back on branch v2 (Maria, 24 November 2026) */}
+  <NostosInvite />
   <Transmission />
   <Start />
   <Benefits />
