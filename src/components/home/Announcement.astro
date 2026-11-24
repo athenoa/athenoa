@@ -103,10 +103,6 @@ const announced = home.announcement.courses
 </script>
 
 <style>
-  /* a good deal more room under the letter and the newsletter box (Maria, 24 November 2026) */
-  .announcement {
-    padding-bottom: calc(var(--space-xl) + clamp(3rem, 1.5rem + 6vw, 7rem));
-  }
   /* inline, so it follows the name's alignment: left beside the photograph, centred under it on a phone */
   .letter :global(.letter__signhand) {
     display: block;
@@ -285,7 +281,8 @@ const announced = home.announcement.courses
   .courses-row {
     display: grid;
     gap: var(--space-xl) calc(var(--space-l) / 2);
-    margin: var(--space-xl) 0 0;
+    /* a good deal more room between the letter and the course cards (Maria, 24 November 2026) */
+    margin: calc(var(--space-xl) + clamp(4rem, 2rem + 7vw, 9rem)) 0 0;
     padding: 0;
     list-style: none;
   }
