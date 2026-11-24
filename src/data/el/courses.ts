@@ -78,8 +78,8 @@ const allCourses: Course[] = [
     instructor: 'Δρ. Αθηνά Δέσποινα Πόταρη',
     price: { amount: 550, currency: 'EUR', display: '€550 ή 8 × €68,75', label: 'Δίδακτρα:' },
     // The live page rounds the instalments to 69€ and 83€; Stripe charges 68,75€ and 82,50€.
-    // 10% off paid upfront, as the Academy's Stripe links now charge (€495, €594; Maria, 23 November 2026)
-    upfrontDiscount: 0.1,
+    // No discount when paid upfront (Maria, 24 November 2026: the Odyssey has none; the 10% taken off on
+    // 23 November is gone). Its Stripe 'full' links may still charge the discounted price until Maria updates them.
     tuition: [
       {
         name: 'Κανονικά Δίδακτρα',
@@ -472,7 +472,7 @@ export const coursesPage = {
       notify: 'Θα σας ειδοποιήσουμε μόλις ανοίξουν οι εγγραφές.',
       // The quiet line under the button, followed by a link that opens an email to the Academy
       question: 'Έχετε κάποια ερώτηση;',
-      thanks: 'Ευχαριστούμε. Θα σας γράψουμε μόλις ανοίξουν οι εγγραφές.',
+      thanks: 'Ευχαριστούμε. Θα επικοινωνήσουμε μαζί σας μόλις ανοίξουν οι εγγραφές.',
       failed: 'Η διεύθυνσή σας δεν στάλθηκε. Δοκιμάστε ξανά ή γράψτε μας.',
     },
   },

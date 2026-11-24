@@ -175,8 +175,8 @@ const allCourses: Course[] = [
     instructor: 'Dr. Athena Despoina Potari',
     price: { amount: 550, currency: 'EUR', display: '€550 or 8 × €68.75', label: 'Tuition:' },
     // The live page rounds the instalments to €69 and €83; Stripe charges €68.75 and €82.50.
-    // 10% off paid upfront, as the Academy's Stripe links now charge (€495, €594; Maria, 23 November 2026)
-    upfrontDiscount: 0.1,
+    // No discount when paid upfront (Maria, 24 November 2026: the Odyssey has none; the 10% taken off on
+    // 23 November is gone). Its Stripe 'full' links may still charge the discounted price until Maria updates them.
     tuition: [
       {
         name: 'Standard Tuition',
@@ -596,7 +596,7 @@ export const coursesPage = {
       question: 'Got a question?',
       // Shown in place of the form after a valid address is entered: the waitlist is not connected yet.
       // After the address is kept (src/lib/forms.ts), or when it could not be
-      thanks: 'Thank you. We will write to you as soon as enrolment opens.',
+      thanks: 'Thank you. We will contact you as soon as enrolment opens.',
       failed: 'Your address could not be sent. Please try again, or write to us.',
     },
   },
