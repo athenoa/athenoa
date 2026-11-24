@@ -469,3 +469,4 @@ The four earlier courses (The Hidden Non-Duality, and the three placeholders) ar
 - Membership registration form: kicker 'Εγγραφή Μέλους'; monthly option now 'σε {n} δόσεις' (12 for membership, 8 for the courses).
 - Home: 'Ζωντανή Μετάδοση της Αρχαίας Σκέψης για ένα Βιώσιμο Μέλλον' → 'Αρχαία Σκέψη για ένα Βιώσιμο Μέλλον' (Maria, 23 November 2026); EN 'Ancient Thought for a Sustainable Future'.
 - Payment failure page: one button 'Δοκιμάστε ξανά' / 'Try again', back to the page they registered on.
+- Payment pages, contact line: 'Για οτιδήποτε, γράψτε μας στο' → 'Για οτιδήποτε, γράψτε στην Ολυμπία στο'; EN 'For anything at all, write to Olymbia at' (Maria, 24 November 2026).
