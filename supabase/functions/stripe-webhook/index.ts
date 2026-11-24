@@ -8,7 +8,7 @@ import { createClient } from 'npm:@supabase/supabase-js@2.45.4';
 const SECRET = Deno.env.get('STRIPE_WEBHOOK_SECRET') ?? '';
 const SITE = Deno.env.get('SITE_URL') ?? 'https://www.athenoa.academy';
 const ASSETS = Deno.env.get('ASSETS_URL') ?? `${SITE}/email`;
-const FROM = Deno.env.get('EMAIL_FROM') ?? 'ATHENOA <onboarding@resend.dev>';
+const FROM = Deno.env.get('EMAIL_FROM') ?? 'ATHENOA <philathenea@athenoa.academy>';
 
 // What they paid for, as the email's sentence needs it ("η θέση σας … εξασφαλίστηκε"), and its page
 const PLACE: Record<string, { el: string; en: string; path: string }> = {

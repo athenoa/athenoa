@@ -8,8 +8,8 @@ import { createClient } from 'npm:@supabase/supabase-js@2.45.4';
 const SITE = Deno.env.get('SITE_URL') ?? 'https://www.athenoa.academy';
 // the email's template and pictures, on the site itself
 const ASSETS = Deno.env.get('ASSETS_URL') ?? 'https://www.athenoa.academy/email';
-// Resend sends from onboarding@resend.dev until athenoa.academy is verified there
-const FROM = Deno.env.get('EMAIL_FROM') ?? 'ATHENOA <onboarding@resend.dev>';
+// from the Academy's own address (athenoa.academy verified in Resend, 24 November 2026)
+const FROM = Deno.env.get('EMAIL_FROM') ?? 'ATHENOA <philathenea@athenoa.academy>';
 const FUNCTIONS = `${Deno.env.get('SUPABASE_URL')}/functions/v1`;
 
 Deno.serve(async (req) => {
