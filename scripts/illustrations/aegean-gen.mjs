@@ -17,7 +17,7 @@ import { dirname, resolve } from 'node:path';
 
 const outDir = resolve(dirname(fileURLToPath(import.meta.url)), '../../src/assets/illustrations');
 const PAPER = 'var(--paper, #f2e9d3)';
-const LIGHT = 'var(--blue-light, #b3c0f3)';
+const LIGHT = 'var(--blue-light, #e3d6b6)';
 const DEEP = 'var(--blue-deep, #071260)';
 const GROUND = DEEP; // the foot of the scene; must match --footer-ground for .footer--aegean in Footer.astro
 const TAU = Math.PI * 2;

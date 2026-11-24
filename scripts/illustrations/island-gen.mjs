@@ -22,7 +22,7 @@ import { dirname, resolve } from 'node:path';
 
 const outDir = resolve(dirname(fileURLToPath(import.meta.url)), '../../src/assets/illustrations');
 const PAPER = 'var(--paper, #f2e9d3)';
-const LIGHT = 'var(--blue-light, #b3c0f3)';
+const LIGHT = 'var(--blue-light, #e3d6b6)';
 const TAU = Math.PI * 2;
 const SUN_X = 1036;
 const OFF = 70.8; // mid y = scene y - OFF

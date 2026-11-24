@@ -4,7 +4,7 @@ import math, random
 
 OUT = '/Users/mariap/projects/athenoa/src/assets/illustrations/'
 PAPER = 'var(--paper, #f2e9d3)'
-LIGHT = 'var(--blue-light, #b3c0f3)'
+LIGHT = 'var(--blue-light, #e3d6b6)'
 R = random.Random(11)
 
 

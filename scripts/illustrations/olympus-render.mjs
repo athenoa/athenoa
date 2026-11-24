@@ -21,7 +21,7 @@ const width = Number(opt('width', 1600));
 const blue = args.includes('--blue');
 const css = `
   * { box-sizing: border-box; margin: 0; }
-  body { background: ${blue ? '#0b1c8c' : '#f2e9d3'}; --paper: ${blue ? '#0b1c8c' : '#f2e9d3'}; --blue-light: #b3c0f3; --blue: #0b1c8c; --blue-deep: #071260; color: ${blue ? '#f2e9d3' : '#0b1c8c'}; }
+  body { background: ${blue ? '#0b1c8c' : '#f2e9d3'}; --paper: ${blue ? '#0b1c8c' : '#f2e9d3'}; --blue-light: #e3d6b6; --blue: #0b1c8c; --blue-deep: #071260; color: ${blue ? '#f2e9d3' : '#0b1c8c'}; }
   .row { display: flex; gap: 24px; padding: 16px; width: ${width}px; }
   .row > div { flex: 1; }
   svg { display: block; width: 100%; height: auto; }

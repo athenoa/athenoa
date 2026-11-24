@@ -26,14 +26,14 @@ const W = Number(process.env.W ?? 1600);
 const css = `
   * { box-sizing: border-box; margin: 0; }
   body { background: #f2e9d3; }
-  .ground { --blue-light: #b3c0f3; --blue: #0b1c8c; --blue-deep: #071260; padding-top: 60px; width: ${W}px; }
+  .ground { --blue-light: #e3d6b6; --blue: #0b1c8c; --blue-deep: #071260; padding-top: 60px; width: ${W}px; }
   .creme { background: #f2e9d3; color: #0b1c8c; --paper: #f2e9d3; }
   .blue { background: #0b1c8c; color: #f2e9d3; --paper: #0b1c8c; }
   .scene { position: relative; width: ${W}px; aspect-ratio: 1600 / 525; }
   .layer { position: absolute; left: 0; bottom: 0; width: 100%; }
   .far { bottom: 16%; } .mid { bottom: 2.7%; } .near { bottom: -1px; }
   svg { display: block; width: 100%; height: auto; }
-  .alone { width: ${W}px; outline: 1px dashed #b3c0f3; }
+  .alone { width: ${W}px; outline: 1px dashed #e3d6b6; }
 `;
 
 let html;

@@ -27,7 +27,7 @@ const svg = (name) => readFileSync(resolve(root, `src/assets/illustrations/${nam
 
 const css = `
   * { box-sizing: border-box; margin: 0; }
-  body { background: #f2e9d3; --paper: #f2e9d3; --blue-light: #b3c0f3; --blue: #0b1c8c; --blue-deep: #071260; }
+  body { background: #f2e9d3; --paper: #f2e9d3; --blue-light: #e3d6b6; --blue: #0b1c8c; --blue-deep: #071260; }
   .scene { position: relative; width: ${width}px; aspect-ratio: 1600 / 525; margin-top: ${Math.round(width * 0.06)}px; color: #0b1c8c; }
   .layer { position: absolute; left: 0; bottom: 0; width: 100%; }
   .layer svg { display: block; width: 100%; height: auto; overflow: visible; }

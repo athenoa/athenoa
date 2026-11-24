@@ -658,7 +658,7 @@ def preview():
     rd = lambda n: open(OUT + f'footer-grove-{n}.svg').read()
     html = '''<!doctype html><meta charset="utf-8"><style>
 body{margin:0;background:#f2e9d3;--paper:#f2e9d3;--gold:#cda04f;color:#0b1c8c}
-body.dark{background:#080d42;--paper:#080d42;--gold:#dcbb78;color:#b4c1f4}
+body.dark{background:#080d42;--paper:#080d42;--gold:#dcbb78;color:#e3d6b6}
 .s{position:relative;width:max(100%,1024px);left:50%;translate:-50% 0;aspect-ratio:1600/525;margin-top:80px}
 .l{position:absolute;left:0;width:100%;bottom:0}.l svg{display:block;width:100%}
 .far{bottom:16%}.mid{bottom:2.7%}.near{bottom:-1px}

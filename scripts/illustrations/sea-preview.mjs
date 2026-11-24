@@ -16,7 +16,7 @@ const names = only.length
       .filter((f) => f.startsWith('sea-') && f.endsWith('.svg'))
       .map((f) => f.slice(0, -4));
 const scale = Number(process.env.SCALE ?? 1);
-const bg = { blue: ['#0b1c8c', '#f2e9d3'], deep: ['#071260', '#f2e9d3'], light: ['#b3c0f3', '#071260'] }[process.env.BG] ?? [
+const bg = { blue: ['#0b1c8c', '#f2e9d3'], deep: ['#071260', '#f2e9d3'], light: ['#e3d6b6', '#071260'] }[process.env.BG] ?? [
   '#f2e9d3',
   '#0b1c8c',
 ];
@@ -24,7 +24,7 @@ const bg = { blue: ['#0b1c8c', '#f2e9d3'], deep: ['#071260', '#f2e9d3'], light: 
 const css = `
   html,body{margin:0}
   body{background:${bg[0]};color:${bg[1]};font:14px/1.2 Georgia,serif;padding:24px;
-    --paper:${bg[0]};--creme:#f2e9d3;--creme-light:#f9f3e3;--blue-light:#b3c0f3;--blue:#0b1c8c;--blue-deep:#071260}
+    --paper:${bg[0]};--creme:#f2e9d3;--creme-light:#f9f3e3;--blue-light:#e3d6b6;--blue:#0b1c8c;--blue-deep:#071260}
   figure{margin:0 0 28px}
   figcaption{margin-bottom:8px}
   svg{display:block;overflow:visible}

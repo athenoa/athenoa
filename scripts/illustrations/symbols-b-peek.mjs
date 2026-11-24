@@ -19,7 +19,7 @@ for (const f of files) {
   const src = readFileSync(f, 'utf8')
     .replaceAll('currentColor', ink)
     .replace(/var\(--paper[^)]*\)/g, paper)
-    .replace(/var\(--blue-light[^)]*\)/g, '#b3c0f3')
+    .replace(/var\(--blue-light[^)]*\)/g, '#e3d6b6')
     .replace(/var\(--blue-deep[^)]*\)/g, '#071260')
     .replace(/var\(--blue[^)]*\)/g, '#0b1c8c');
   const [, , , vw, vh] = src.match(/viewBox="([\d.]+) ([\d.]+) ([\d.]+) ([\d.]+)"/).map(Number);

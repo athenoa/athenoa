@@ -34,7 +34,7 @@ const layers = args
 const css = `
   html,body{margin:0}
   body{background:${bg};color:#f2e9d3;font-family:'EB Garamond',Garamond,serif;
-    --paper:#071260;--pb-night:#071260;--pb-stone:#0b1c8c;--pb-light:#b3c0f3;--pb-line:#f2e9d3;--font-title:'EB Garamond',Garamond,serif}
+    --paper:#071260;--pb-night:#071260;--pb-stone:#0b1c8c;--pb-light:#e3d6b6;--pb-line:#f2e9d3;--font-title:'EB Garamond',Garamond,serif}
   .stage{position:relative;width:${w}px;height:${h}px;overflow:hidden}
   .stage svg{display:block;height:100%;width:auto;overflow:visible}
 `;

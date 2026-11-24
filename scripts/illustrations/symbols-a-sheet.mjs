@@ -44,7 +44,7 @@ async function row({ paper, ink }, size, gap, padX, padY) {
       .replace('<svg ', `<svg width="${w}" height="${ht}" `)
       .replaceAll('currentColor', ink)
       .replaceAll('var(--paper, #f2e9d3)', paper)
-      .replaceAll('var(--blue-light, #b3c0f3)', '#b3c0f3')
+      .replaceAll('var(--blue-light, #e3d6b6)', '#e3d6b6')
       .replaceAll('var(--blue-deep, #071260)', '#071260')
       .replaceAll('var(--blue, #0b1c8c)', '#0b1c8c');
     cells.push({ input: await sharp(Buffer.from(svg)).png().toBuffer(), w, ht });

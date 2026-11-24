@@ -36,7 +36,7 @@ const column = `<div class="cap">${piece('capital')}</div><div class="shaft">${p
 
 const html = `<!doctype html><meta charset="utf-8"><style>
   html,body{margin:0}
-  body{width:max-content;padding:${30 * zoom}px;background:#8a8fb5;--paper:#f2e9d3;--blue-light:#b3c0f3;--blue:#0b1c8c;--blue-deep:#071260;color:#0b1c8c}
+  body{width:max-content;padding:${30 * zoom}px;background:#8a8fb5;--paper:#f2e9d3;--blue-light:#e3d6b6;--blue:#0b1c8c;--blue-deep:#071260;color:#0b1c8c}
   .frame{width:${w * zoom}px;container-type:inline-size;position:relative}
   .grid{--u:calc(100cqw / 620);position:relative;display:grid;
     grid-template-columns:calc(15 * var(--u)) calc(82 * var(--u)) minmax(0,1fr) calc(82 * var(--u)) calc(15 * var(--u));

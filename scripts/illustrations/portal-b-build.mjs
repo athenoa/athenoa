@@ -25,7 +25,7 @@ import { fileURLToPath } from 'node:url';
 const OUT = join(dirname(fileURLToPath(import.meta.url)), '../../src/assets/illustrations');
 const NIGHT = 'var(--pb-night, #071260)';
 const STONE = 'var(--pb-stone, #0b1c8c)';
-const LIGHT = 'var(--pb-light, #b3c0f3)';
+const LIGHT = 'var(--pb-light, #e3d6b6)';
 const SW = 2.6; // the one stroke weight, in scene units
 
 // ---------- helpers ----------
@@ -294,7 +294,7 @@ function light() {
       const id = `pb-ray-${n++}`;
       const at = (d) => (wall - 40 + d * beyond) / (far - 40);
       const stop = (offset, opacity) =>
-        `<stop offset="${num(offset)}" stop-color="var(--pb-light, #b3c0f3)" stop-opacity="${opacity}"/>`;
+        `<stop offset="${num(offset)}" stop-color="var(--pb-light, #e3d6b6)" stop-opacity="${opacity}"/>`;
       defs += `<linearGradient id="${id}" gradientUnits="userSpaceOnUse" x1="${num(x0)}" y1="${num(y0)}" x2="${num(x1)}" y2="${num(y1)}">${stop(0, 1)}${stop(at(-0.08), 1)}${stop(at(0.14), 0.62)}${stop(at(0.34), 0.34)}${stop(at(0.58), 0.15)}${stop(at(0.8), 0.05)}${stop(1, 0)}</linearGradient>`;
       rays += `<path d="M${pt([x0, y0])}L${pt(polar(FLAME, far, deg - w / 2))}L${pt(polar(FLAME, far, deg + w / 2))}Z" fill="url(#${id})" stroke="none"/>`;
     }

@@ -32,7 +32,7 @@ import { dirname, resolve } from 'node:path';
 
 const outDir = resolve(dirname(fileURLToPath(import.meta.url)), '../../src/assets/illustrations');
 const PAPER = 'var(--paper, #f2e9d3)';
-const LIGHT = 'var(--blue-light, #b3c0f3)';
+const LIGHT = 'var(--blue-light, #e3d6b6)';
 const TAU = Math.PI * 2;
 const SW = 2.6; // the stroke weight of the footers' nearest layers, at the same scale
 // the empty column the stones run down

@@ -12,7 +12,7 @@ const tiles = names
   .map((n) => `<div style="width:${width}px">${readFileSync(resolve(root, `src/assets/illustrations/${n}.svg`), 'utf8')}</div>`)
   .join('');
 const css = `body{margin:0;background:#f2e9d3}#shot{display:flex;flex-wrap:wrap;gap:30px;padding:30px;width:1500px;color:#0b1c8c;
-  --paper:#f2e9d3;--blue-light:#b3c0f3;--blue:#0b1c8c;--blue-deep:#071260;--creme-light:#f9f3e3}svg{display:block;width:100%;height:auto}`;
+  --paper:#f2e9d3;--blue-light:#e3d6b6;--blue:#0b1c8c;--blue-deep:#071260;--creme-light:#f9f3e3}svg{display:block;width:100%;height:auto}`;
 const browser = await chromium.launch({ channel: 'chrome' });
 const page = await browser.newPage({ viewport: { width: 1500, height: 800 }, deviceScaleFactor: 1 });
 await page.setContent(`<!doctype html><style>${css}</style><div id="shot">${tiles}</div>`);

@@ -17,7 +17,7 @@ const here = dirname(fileURLToPath(import.meta.url));
 const outDir = resolve(here, '../../src/assets/illustrations');
 
 const PAPER = 'var(--paper, #f2e9d3)';
-const LIGHT = 'var(--blue-light, #b3c0f3)';
+const LIGHT = 'var(--blue-light, #e3d6b6)';
 const DEEP = 'var(--blue-deep, #071260)';
 const INK = 'currentColor';
 const TAU = Math.PI * 2;

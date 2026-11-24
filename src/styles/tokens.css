@@ -3,7 +3,7 @@
 
 :root {
   /* Ink: three blues of one hue (232deg). All three are used as surfaces and as ink. */
-  --blue-light: #b3c0f3; /* light Aegean: washes, highlights, soft panels */
+  --blue-light: #e3d6b6; /* once a light Aegean blue; warm crème since 24 November 2026 (Maria: no light blue anywhere): washes, highlights, soft panels */
   --blue: #0b1c8c; /* Greek blue: the main ink and the main panel colour */
   --blue-deep: #071260; /* darker Greek blue: body text, night panels, foreground shapes */
   --blue-bright: #2238c3; /* interaction tint only (hover, focus) */
@@ -109,9 +109,9 @@
 html[data-theme='dark'] {
   --gold: #dcbb78;
   --blue-light: #1c2b96;
-  --blue: #b4c1f4;
+  --blue: #e3d6b6;
   --blue-deep: #f2e9d3;
-  --blue-bright: #dfe6ff;
+  --blue-bright: #f9f3e3;
   --creme: #080d42;
   --creme-light: #0f1859;
   --creme-deep: #050932;
@@ -129,7 +129,7 @@ html[data-theme='dark'] {
    light blue (lilac), the colour Athena does not want (Maria, 23 November 2026). Their own inks follow, as
    they are read from these. */
 html[data-theme='dark'] :is(.on-blue, .on-blue-deep):not(.theme-day, .theme-day *) {
-  --blue-light: #b3c0f3;
+  --blue-light: #e3d6b6;
   --blue: #0b1c8c;
   --blue-deep: #071260;
   --blue-bright: #2238c3;
@@ -145,7 +145,7 @@ html[data-theme='dark'] .on-blue-light:not(.theme-day, .theme-day *) {
    already dark, a white-ground photograph that is blended into crème paper). */
 .theme-day {
   --gold: #cda04f;
-  --blue-light: #b3c0f3;
+  --blue-light: #e3d6b6;
   --blue: #0b1c8c;
   --blue-deep: #071260;
   --blue-bright: #2238c3;

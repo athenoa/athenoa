@@ -18,7 +18,7 @@ const { paper, ink } = {
   creme: { paper: '#f2e9d3', ink: '#0b1c8c' },
   blue: { paper: '#0b1c8c', ink: '#f9f3e3' },
   deep: { paper: '#071260', ink: '#f9f3e3' },
-  light: { paper: '#b3c0f3', ink: '#071260' },
+  light: { paper: '#e3d6b6', ink: '#071260' },
 }[on];
 const src = readFileSync(file, 'utf8')
   .replace('<svg ', `<svg width="${w}" `)

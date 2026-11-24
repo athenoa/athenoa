@@ -20,7 +20,7 @@ for (const job of jobs) {
   const css = `
     html,body{margin:0}
     body{background:${bg};color:${ink};--paper:${bg};
-      --blue-light:#b3c0f3;--blue:#0b1c8c;--blue-deep:#071260;--creme:#f2e9d3;--creme-light:#f9f3e3;
+      --blue-light:#e3d6b6;--blue:#0b1c8c;--blue-deep:#071260;--creme:#f2e9d3;--creme-light:#f9f3e3;
       --font-title:'EB Garamond',Garamond,serif}
     .stage{position:relative;width:${w}px;height:${h}px;overflow:hidden}
     .stage svg{position:absolute;inset:0;width:100%;height:100%}

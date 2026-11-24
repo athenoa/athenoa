@@ -26,7 +26,7 @@ const OP = Number(process.env.OP ?? 0.3);
 const css = `
   * { box-sizing: border-box; margin: 0; }
   body { background: #777; font: 12px system-ui; }
-  .creme { background: #f2e9d3; color: #0b1c8c; --paper: #f2e9d3; --blue-light: #b3c0f3; }
+  .creme { background: #f2e9d3; color: #0b1c8c; --paper: #f2e9d3; --blue-light: #e3d6b6; }
   .blue { background: #080d42; color: #f2e9d3; --paper: #080d42; --blue-light: #1c2b96; }
   .cell { position: relative; overflow: hidden; }
   .cell svg { position: absolute; left: 0; bottom: 0; width: 100%; height: auto; display: block; }

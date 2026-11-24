@@ -3,7 +3,7 @@ import { writeFileSync } from 'node:fs';
 
 export const OUT = new URL('../../src/assets/illustrations/', import.meta.url);
 export const PAPER = 'var(--paper, #f2e9d3)';
-export const LIGHT = 'var(--blue-light, #b3c0f3)';
+export const LIGHT = 'var(--blue-light, #e3d6b6)';
 
 /** Seeded random numbers, so a rerun writes the same drawing. */
 export function rng(seed) {

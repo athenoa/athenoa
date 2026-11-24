@@ -16,7 +16,7 @@ import { writeFileSync } from 'node:fs';
 const OUT = new URL('../../src/assets/illustrations/', import.meta.url);
 const NIGHT = 'var(--paper,#071260)';
 const STONE = 'var(--blue,#0b1c8c)';
-const GLOW = 'var(--blue-light,#b3c0f3)';
+const GLOW = 'var(--blue-light,#e3d6b6)';
 const BRIGHT = 'var(--creme-light,#f9f3e3)';
 const DARK = 'var(--blue-deep,#071260)';
 const SKIN = 'var(--pa-skin,#0b1c8c)';
