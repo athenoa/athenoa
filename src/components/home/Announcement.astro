@@ -103,6 +103,10 @@ const announced = home.announcement.courses
 </script>
 
 <style>
+  /* a good deal more room under the letter and the newsletter box (Maria, 24 November 2026) */
+  .announcement {
+    padding-bottom: calc(var(--space-xl) + clamp(3rem, 1.5rem + 6vw, 7rem));
+  }
   /* inline, so it follows the name's alignment: left beside the photograph, centred under it on a phone */
   .letter :global(.letter__signhand) {
     display: block;
