@@ -4,6 +4,7 @@ import '../styles/global.css';
 import Seo from '../components/Seo.astro';
 import SvgDefs from '../components/SvgDefs.astro';
 import Header from '../components/Header.astro';
+import PromoNotice from '../components/PromoNotice.astro';
 import Footer from '../components/Footer.astro';
 import BackgroundMusic from '../components/BackgroundMusic.astro';
 import NewsletterDialog from '../components/NewsletterDialog.astro';
@@ -153,6 +154,7 @@ const gated = import.meta.env.PUBLIC_PREVIEW_GATE === 'on';
     <NostosEntry />
     <a class="skip-link" href="#main">{ui.skip}</a>
     <SvgDefs />
+    <PromoNotice />
     {header && <Header />}
     <main id="main">
       <slot />

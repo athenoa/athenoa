@@ -1,0 +1,394 @@
+---
+// The early-bird offer for monthly plans: 10% off with the code EARLY10 for registrations until 30 November
+// (Maria, 24 November 2026). On Εὖ Ζῆν's page and the membership page the banner slides down from under the
+// header, with a soft chime, while the ways of paying are in sight (TuitionTiers.astro, data-early-bird),
+// and slides back up when they leave it; closed, it stays away for the rest of that page.
+// Still a draft as well: ?promo=banner or ?promo=toast shows either form on any page.
+import { getLocale, mainLocale } from '../lib/locale';
+
+const locale = mainLocale(getLocale(Astro.url));
+// site-wide: one offer for the Academy, not for one course (Maria, 24 November 2026)
+const OFFER = { id: 'earlybird', code: 'EARLY10' };
+const copy = {
+  el: {
+    kicker: 'Early bird',
+    text: '−10% στα μηνιαία δίδακτρα για εγγραφές έως 30 Νοεμβρίου με τον κωδικό',
+    until: '',
+    copy: 'Αντιγραφή κωδικού',
+    tip: 'Αντιγραφή',
+    copied: 'Αντιγράφηκε',
+    close: 'Κλείσιμο',
+  },
+  en: {
+    kicker: 'Early bird',
+    text: '−10% on monthly plans for registrations until 30 November with the code',
+    until: '',
+    copy: 'Copy the code',
+    tip: 'Copy',
+    copied: 'Copied',
+    close: 'Close',
+  },
+};
+const t = copy[locale === 'en' ? 'en' : 'el'];
+---
+
+<!-- the strip across the top -->
+<div class="promo promo--banner" data-promo="banner" data-offer={OFFER.id} hidden>
+  <p class="promo__line">
+    <span class="promo__kicker">{t.kicker}</span>
+    <span>{t.text}</span>
+    <button class="promo__code" type="button" data-promo-copy data-tip={t.tip} aria-label={`${t.copy}: ${OFFER.code}`}>{OFFER.code}</button>
+    {t.until && <span class="promo__until">{t.until}</span>}
+  </p>
+  <button class="promo__close" type="button" data-promo-close aria-label={t.close}>×</button>
+</div>
+
+<!-- the note at the top right -->
+<aside class="promo promo--toast" data-promo="toast" data-offer={OFFER.id} hidden aria-label={t.kicker}>
+  <button class="promo__close" type="button" data-promo-close aria-label={t.close}>×</button>
+  <p class="promo__kicker">{t.kicker}</p>
+  <p class="promo__text">{t.text}</p>
+  <p class="promo__row">
+    <button class="promo__code" type="button" data-promo-copy data-tip={t.tip} aria-label={`${t.copy}: ${OFFER.code}`}>{OFFER.code}</button>
+    {t.until && <span class="promo__until">{t.until}</span>}
+  </p>
+</aside>
+
+<script>
+  import { soundContext } from '../scripts/sound';
+
+  const KEY = 'ath-promo';
+  let watcher: IntersectionObserver | null = null;
+
+  // a soft chime as the banner arrives: two bell-like notes, a fifth apart, quiet and short
+  async function chime() {
+    const ctx = await soundContext();
+    if (!ctx) return;
+    const now = ctx.currentTime;
+    [
+      [880, 0],
+      [1318.5, 0.11],
+    ].forEach(([freq, at]) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = freq;
+      gain.gain.setValueAtTime(0, now + at);
+      gain.gain.linearRampToValueAtTime(0.05, now + at + 0.015);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + at + 1.1);
+      osc.connect(gain).connect(ctx.destination);
+      osc.start(now + at);
+      osc.stop(now + at + 1.2);
+    });
+  }
+
+  // On a page whose ways of paying carry the offer: the banner slides down while they are in sight
+  function slide(banner: HTMLElement, targets: HTMLElement[]) {
+    watcher?.disconnect();
+    banner.hidden = false;
+    banner.classList.add('promo--slide');
+    banner.classList.remove('is-in', 'is-leaving');
+    let closed = false;
+    const seen = new Set<Element>();
+    watcher = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => (entry.isIntersecting ? seen.add(entry.target) : seen.delete(entry.target)));
+        const show = !closed && seen.size > 0;
+        if (show && !banner.classList.contains('is-in')) chime();
+        banner.classList.toggle('is-in', show);
+        banner.inert = !show;
+      },
+      { rootMargin: '-15% 0px -25% 0px' },
+    );
+    targets.forEach((target) => watcher!.observe(target));
+    banner.inert = true;
+    banner.querySelector('[data-promo-close]')!.addEventListener(
+      'click',
+      (event) => {
+        event.stopImmediatePropagation();
+        closed = true;
+        banner.classList.remove('is-in');
+        banner.inert = true;
+      },
+      { capture: true },
+    );
+  }
+
+  function setup() {
+    const want = new URLSearchParams(location.search).get('promo');
+    const targets = [...document.querySelectorAll<HTMLElement>('[data-early-bird]')];
+    const banner = document.querySelector<HTMLElement>('[data-promo="banner"]');
+    if (!want && banner && targets.length) slide(banner, targets);
+    else watcher?.disconnect();
+    document.querySelectorAll<HTMLElement>('[data-promo]').forEach((el) => {
+      // draft: only on request, and always (a closed one comes back when asked for by the address)
+      if (!(el === banner && !want && targets.length)) el.hidden = el.dataset.promo !== want;
+      if (el.hidden || el.dataset.ready) return;
+      el.dataset.ready = '1';
+      el.querySelector('[data-promo-close]')?.addEventListener('click', () => {
+        el.classList.add('is-leaving');
+        try {
+          localStorage.setItem(KEY, el.dataset.offer!);
+        } catch {}
+        setTimeout(() => (el.hidden = true), 300);
+      });
+      const code = el.querySelector<HTMLButtonElement>('[data-promo-copy]');
+      if (!code) return;
+      const label = code.textContent!;
+      code.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(label);
+          code.textContent = el.closest('[lang="en"]') || document.documentElement.lang === 'en' ? 'Copied' : 'Αντιγράφηκε';
+          code.classList.add('is-copied');
+          setTimeout(() => {
+            code.textContent = label;
+            code.classList.remove('is-copied');
+          }, 1600);
+        } catch {}
+      });
+    });
+  }
+  document.addEventListener('astro:page-load', setup);
+</script>
+
+<style>
+  .promo[hidden] {
+    display: none;
+  }
+  .promo__code {
+    font: inherit;
+    letter-spacing: 0.08em;
+    padding: 0.1em 0.6em;
+    border: 1.5px dashed currentColor;
+    border-radius: 999px;
+    background: transparent;
+    color: inherit;
+    cursor: copy;
+    position: relative;
+    transition:
+      background-color var(--dur-1, 0.2s),
+      translate var(--dur-1, 0.2s);
+  }
+  /* on hover: a soft wash and a lift, and a small tip under it saying it copies (Maria, 24 November 2026) */
+  .promo__code:hover,
+  .promo__code:focus-visible {
+    background: color-mix(in srgb, currentColor 16%, transparent);
+    translate: 0 -1px;
+  }
+  .promo__code::after {
+    content: attr(data-tip);
+    position: absolute;
+    top: calc(100% + 0.45rem);
+    left: 50%;
+    translate: -50% -0.2rem;
+    padding: 0.15rem 0.7rem 0.2rem;
+    border-radius: 999px;
+    background: var(--blue-deep);
+    color: var(--creme-light);
+    font-size: 0.8rem;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition:
+      opacity var(--dur-1, 0.2s),
+      translate var(--dur-1, 0.2s);
+  }
+  .promo__code:hover::after,
+  .promo__code:focus-visible::after {
+    opacity: 1;
+    translate: -50% 0;
+  }
+  /* once copied, the word itself says so; the tip steps back */
+  .promo__code.is-copied::after {
+    opacity: 0;
+  }
+  .promo__close {
+    font: inherit;
+    font-size: 1.5rem;
+    line-height: 1;
+    width: 2.2rem;
+    height: 2.2rem;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    opacity: 0.75;
+  }
+  .promo__close:hover {
+    opacity: 1;
+  }
+  .promo__kicker {
+    font-family: var(--font-hand);
+    color: var(--gold);
+  }
+
+  /* the banner: a Greek-blue pebble floating above the header, round at every end, drifting gently
+     (Maria, 24 November 2026: no hard corners); it scrolls away with the page */
+  .promo--banner {
+    position: relative;
+    /* above the header and the hero, so the copy tip under the code is never covered */
+    z-index: 60;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: fit-content;
+    max-width: calc(100% - 2 * var(--gutter));
+    margin: 0.7rem auto 0;
+    padding: 0.5rem 3rem 0.5rem 1.6rem;
+    background: var(--blue);
+    color: var(--creme-light);
+    font-size: 0.98rem;
+    text-align: center;
+    border-radius: 999px;
+    box-shadow: 0 0.9rem 1.8rem -1.1rem color-mix(in srgb, var(--blue-deep) 70%, transparent);
+  }
+  /* on two or more lines a full pill would pinch: a soft pebble instead */
+  @media (max-width: 52rem) {
+    .promo--banner {
+      border-radius: 1.8rem 1.5rem 1.9rem 1.6rem / 1.6rem 1.9rem 1.5rem 1.8rem;
+      padding: 0.7rem 2.6rem 0.75rem 1.3rem;
+    }
+  }
+  .promo--banner .promo__line {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem 0.6rem;
+  }
+  .promo--banner .promo__kicker {
+    font-size: 1.15em;
+  }
+  .promo--banner .promo__kicker::after {
+    content: ' ✦';
+    font-size: 0.7em;
+  }
+  /* the code in the banner: gold, in the dashed outline; a click copies it */
+  .promo--banner .promo__code {
+    color: var(--gold);
+  }
+  .promo--banner .promo__until {
+    opacity: 0.8;
+  }
+  .promo--banner .promo__close {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    translate: 0 -50%;
+  }
+  /* sliding: held just under the header, out of sight above it until the ways of paying come into view,
+     then it slides down; back up when they leave */
+  .promo--banner.promo--slide {
+    position: fixed;
+    top: calc(var(--header-h, 4.5rem) + 0.6rem);
+    left: 0;
+    right: 0;
+    z-index: 55;
+    margin-inline: auto;
+    opacity: 0;
+    translate: 0 calc(-100% - var(--header-h, 4.5rem) - 1rem);
+    pointer-events: none;
+    /* a fine crème rim, so it stays apart from the blue arch it slides over */
+    outline: 1.5px solid color-mix(in srgb, var(--creme-light) 45%, transparent);
+    outline-offset: -1.5px;
+    transition:
+      translate 0.55s var(--ease-out, ease-out),
+      opacity 0.35s ease;
+  }
+  .promo--banner.promo--slide.is-in {
+    opacity: 1;
+    translate: 0 0;
+    pointer-events: auto;
+  }
+  .promo--banner.is-leaving {
+    transition: opacity 0.3s;
+    opacity: 0;
+  }
+
+  /* the note: a sheet of crème paper at the top right, like the cookie notice */
+  .promo--toast {
+    position: fixed;
+    top: clamp(4.5rem, 3.5rem + 2vw, 6rem);
+    right: clamp(0.75rem, 0.4rem + 1vw, 1.5rem);
+    z-index: 57;
+    isolation: isolate;
+    width: min(19rem, 100vw - 1.5rem);
+    padding: 1.1rem 1.4rem 1.3rem;
+    color: var(--blue-deep);
+  }
+  .promo--toast::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-color: var(--creme-light);
+    background-image: var(--grain);
+    background-size: 400px 400px;
+    border: 1.5px solid color-mix(in srgb, var(--blue) 26%, transparent);
+    border-radius: 2.6rem 2.1rem 2.8rem 2.3rem / 2.2rem 2.7rem 2.1rem 2.6rem;
+    box-shadow: 0 0.8rem 2rem -1rem color-mix(in srgb, var(--blue-deep) 40%, transparent);
+  }
+  .promo--toast .promo__close {
+    position: absolute;
+    top: 0.45rem;
+    right: 0.45rem;
+    color: var(--blue);
+  }
+  .promo--toast .promo__kicker {
+    margin: 0;
+    font-size: 1.35rem;
+  }
+  .promo--toast .promo__text {
+    margin: 0.2rem 0 0.6rem;
+    font-family: var(--font-title);
+    font-size: 1.35rem;
+    line-height: 1.15;
+    color: var(--blue);
+  }
+  .promo--toast .promo__row {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem 0.7rem;
+    font-size: 0.95rem;
+  }
+  .promo--toast .promo__code {
+    color: var(--blue);
+    font-size: 1.05rem;
+  }
+  .promo--toast .promo__until {
+    color: var(--ink-soft);
+  }
+  .promo--toast.is-leaving {
+    transition:
+      opacity 0.3s,
+      translate 0.3s;
+    opacity: 0;
+    translate: 1rem 0;
+  }
+  /* both drift a little, like paper on warm air (translate only: nothing blurred is animated) */
+  @keyframes promo-float {
+    50% {
+      transform: translateY(-4px) rotate(-0.25deg);
+    }
+  }
+  :global(html.motion) .promo--banner {
+    animation: promo-float 6s ease-in-out infinite;
+  }
+  :global(html.motion) .promo--toast {
+    animation:
+      promo-in 0.6s var(--ease-out) 0.8s both,
+      promo-float 7s ease-in-out 1.4s infinite;
+  }
+  @keyframes promo-in {
+    from {
+      opacity: 0;
+      translate: 1.5rem 0;
+    }
+  }
+</style>
