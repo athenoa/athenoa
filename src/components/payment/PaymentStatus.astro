@@ -364,6 +364,24 @@ const w = words[kind];
     text-align: center;
     --leaf: var(--gold);
   }
+  /* On arrival the card rises from behind the hills of the grove and fades in (Maria, 24 November 2026).
+     The grove stands in front of it, so it seems to come up from behind the land. Translate and opacity only. */
+  @keyframes pay-rise {
+    from {
+      translate: 0 calc(var(--sh) * 0.75);
+      opacity: 0;
+    }
+    55% {
+      opacity: 1;
+    }
+    to {
+      translate: 0 0;
+      opacity: 1;
+    }
+  }
+  :global(html.motion) .pay__sheet {
+    animation: pay-rise 1.6s cubic-bezier(0.16, 0.84, 0.24, 1) 0.2s both;
+  }
   .pay__laurel {
     width: clamp(3rem, 7svh, 5rem);
     margin: 0 auto clamp(0.3rem, 1svh, 0.8rem);
