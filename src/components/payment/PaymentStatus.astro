@@ -384,6 +384,30 @@ const w = words[kind];
     /* slow and calm (Maria, 24 November 2026): a long, soft settle */
     animation: pay-rise 3.2s cubic-bezier(0.22, 0.61, 0.18, 1) 0.3s both;
   }
+  /* A faint gold halo around the card, like the sun's but softer still, breathing slowly (Maria, 24 November
+     2026). It belongs to the card, so it rises with it. A gradient, never a blur. */
+  .pay__sheet::after {
+    content: '';
+    position: absolute;
+    inset: -22% -18%;
+    z-index: -2;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, color-mix(in srgb, var(--gold) 34%, transparent) 66%, color-mix(in srgb, var(--gold) 16%, transparent) 80%, color-mix(in srgb, var(--gold) 5%, transparent) 92%, transparent 100%);
+    pointer-events: none;
+  }
+  @keyframes pay-aura {
+    from {
+      opacity: 0.55;
+      transform: scale(0.97);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1.03);
+    }
+  }
+  :global(html.motion) .pay__sheet::after {
+    animation: pay-aura 7s ease-in-out infinite alternate;
+  }
   .pay__laurel {
     width: clamp(3rem, 7svh, 5rem);
     margin: 0 auto clamp(0.3rem, 1svh, 0.8rem);
@@ -408,6 +432,10 @@ const w = words[kind];
     opacity: 0.8;
   }
   .pay__ask a {
+    /* the address on a line of its own (Maria, 24 November 2026) */
+    display: block;
+    width: fit-content;
+    margin: 0.15rem auto 0;
     color: inherit;
     overflow-wrap: anywhere;
   }
