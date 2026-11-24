@@ -813,6 +813,11 @@ const showAthena = false;
   .hero__stage :global(.pb-spill) {
     --pb-light: var(--gold);
   }
+  /* by night the flame is pure white, so it shows against the dark doorway (Maria, 24 November 2026) */
+  :global(html[data-theme='dark']) .hero__layer--fire :global(.illo) {
+    color: #fff;
+    --pb-light: #fff;
+  }
   :global(html[data-theme='dark']) .hero__stage :global(.illo--portal-b-cella) {
     --pb-night: var(--blue-deep);
   }
