@@ -47,7 +47,7 @@
   --title-leading: 0.95;
   --title-scale: 1;
   --body-scale: 0.93;
-  --site-scale: 0.92; /* every size a tad smaller (Maria, 24 November 2026) */
+  --site-scale: 0.86; /* every size smaller (Maria, 24 November 2026: 0.92, then 'a little bit smaller') */
 
   /* Space */
   --space-2xs: 0.375rem;
@@ -59,9 +59,9 @@
   --space-2xl: clamp(5rem, 3rem + 9vw, 12rem);
   /* wider margins and a narrower column, so the content's total width is smaller (Maria, 24 November 2026;
      was clamp(1.15rem, 0.6rem + 2.6vw, 3.25rem) and 82rem, then 72rem). The course banners still run the full width. */
-  --gutter: clamp(1.5rem, 0.4rem + 6vw, 7rem); /* second pass, Maria: 'I don't see the page any less wide' */
+  --gutter: clamp(1.75rem, 0.5rem + 8vw, 9rem); /* third pass (Maria: 'even more narrow') */
   --measure: 62ch;
-  --wrap: 64rem;
+  --wrap: 56rem;
   /* The header's width and the inner padding of its bar. --edge is where the logo starts, measured
      from the window's edge; the hero title starts there too, so the two always line up (client
      direction, 16 October 2026: the header a little wider, the title a little further in). */
