@@ -250,6 +250,9 @@ const allCourses: Course[] = [
     status: 'open',
     // The course banner, from the Academy (Maria, 22 November 2026)
     image: 'course-eu-zen',
+    // phones: a portrait version, recomposed from the banner with Higgsfield (Nano Banana Pro): Athena's bust on
+    // top, the text in the middle, an olive-grove scene with a temple and the sea at the foot (Maria, 24 November 2026)
+    bannerPortrait: 'course-eu-zen-portrait',
     imageAlt:
       'Course banner: Εὖ Ζῆν, The Ancient Art of Eudaimonia. Dr. Athena Potari in front of bookshelves, between an Ionic column with olive leaves and a marble bust of Athena with her owl; 16 experiential lessons of Greek Philosophy in practice, from Self-knowledge to Eudaimonia',
     subtitle: 'The Ancient Art of Eudaimonia',

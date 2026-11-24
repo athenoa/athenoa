@@ -650,6 +650,12 @@ const symbolFor = 'description';
     right: var(--edge);
     margin: 0;
   }
+  /* phones: the portrait banner fills the screen from the top, so the pill sits clear under the header */
+  @media (max-width: 47.99rem) {
+    .body--page .body__figure:has(:global(.body__portrait)) .body__soon {
+      top: calc(var(--header-h) + 1.4rem);
+    }
+  }
   .body__soon span {
     display: inline-block;
     padding: 0.25em 0.95em 0.32em;

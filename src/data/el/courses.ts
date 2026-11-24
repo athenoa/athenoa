@@ -152,6 +152,9 @@ const allCourses: Course[] = [
     status: 'open',
     // Η αφίσα του Κύκλου, από την Ακαδημία (Maria, 22 November 2026)
     image: 'course-eu-zen',
+    // phones: a portrait version, recomposed from the banner with Higgsfield (Nano Banana Pro): Athena's bust on
+    // top, the text in the middle, an olive-grove scene with a temple and the sea at the foot (Maria, 24 November 2026)
+    bannerPortrait: 'course-eu-zen-portrait',
     imageAlt:
       'Αφίσα του Κύκλου: Εὖ Ζῆν, Η Αρχαία Τέχνη της Ευδαιμονίας. Η Δρ. Αθηνά Πόταρη μπροστά σε βιβλιοθήκη, ανάμεσα σε έναν ιωνικό κίονα με φύλλα ελιάς και μια μαρμάρινη προτομή της Αθηνάς με την κουκουβάγια της· 16 Βιωματικά Μαθήματα Ελληνικής Φιλοσοφίας στην Πράξη, Από την Αυτογνωσία στην Ευδαιμονία',
     subtitle: 'Η Αρχαία Τέχνη της Ευδαιμονίας',
