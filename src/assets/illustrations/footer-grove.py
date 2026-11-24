@@ -153,8 +153,9 @@ def far():
         inner = path(catmull([(x0 + (x1 - x0) * 0.22, y - h * 0.15), (x0 + (x1 - x0) * 0.5, y - h * 0.3), (x0 + (x1 - x0) * 0.8, y - h * 0.12)]))
         return out + inner
 
-    b.append(cloud(170, 400, 118, 13))
-    b.append(cloud(250, 350, 136, 6))
+    # (up and to the left, clear of the temple, Maria 24 November 2026)
+    b.append(cloud(10, 230, 84, 12))
+    b.append(cloud(70, 170, 101, 5))
     b.append(cloud(1330, 1540, 112, 12))
     # three birds over the saddle
     # (a group of their own: hidden by night, Maria 23 November 2026)
@@ -191,15 +192,16 @@ def far():
     # nearer hills of the plain, and the Acropolis on its rock (left third)
     r2 = [(-40, 236), (80, 222), (200, 212), (300, 216), (380, 224), (470, 226), (560, 232), (680, 240), (800, 244),
           (920, 243), (1040, 246), (1160, 240), (1280, 232), (1400, 228), (1520, 222), (1640, 230)]
-    # the rock
-    rock = [(330, 222), (352, 214), (368, 206), (372, 198), (392, 195), (430, 194), (468, 195), (480, 200), (486, 210),
-            (500, 218), (520, 226)]
+    # the rock: further left and higher, so the temple clears the payment page's card and stands almost as
+    # high as Lycabettus's peak, a little lower (Maria, 24 November 2026)
+    rock = [(80, 216), (102, 205), (116, 191), (122, 177), (138, 163), (176, 160), (214, 161), (228, 167), (234, 182),
+            (250, 201), (272, 216)]
     rock = jit(rng, rock, 0.4)
-    b.append(path(catmull(rock) + 'L520 260L330 260Z', fill=PAPER, stroke='none') + path(catmull(rock)))
-    for x0, y0, l in [(378, 204, 14), (474, 203, 13), (395, 199, 9)]:
+    b.append(path(catmull(rock) + 'L272 262L80 262Z', fill=PAPER, stroke='none') + path(catmull(rock)))
+    for x0, y0, l in [(126, 172, 18), (226, 170, 17), (143, 165, 11)]:
         b.append(path(f'M{f(x0)} {f(y0)}l{f(-3)} {f(l)}', stroke_width='1.6'))
     # Parthenon: stylobate, columns, entablature, pediment
-    px, py, pw = 404, 194, 46
+    px, py, pw = 154, 160, 46
     tmp = f'M{f(px - 2)} {f(py)}H{f(px + pw + 2)}M{f(px)} {f(py - 3)}H{f(px + pw)}'
     for i in range(8):
         cx = px + 3 + i * (pw - 6) / 7

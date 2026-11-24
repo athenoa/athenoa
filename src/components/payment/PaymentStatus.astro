@@ -75,7 +75,8 @@ const w = words[kind];
     <Illustration name="laurel" class="pay__laurel" draw />
     <p class="pay__kicker hand hand--m" data-kicker>{w.kicker}</p>
     <h1 class="t-1 pay__title" id="pay-title">{w.title}</h1>
-    {w.text.map((line) => <p class="pay__text">{line}</p>)}
+    {/* both sentences in one paragraph, so the space between them matches the lines' (Maria, 24 November 2026) */}
+    <p class="pay__text">{w.text.map((line, i) => <>{i > 0 && <br />}{line}</>)}</p>
     {kind === 'success' && <Signature class="pay__sign" />}
     <p class="pay__ask">{words.ask} <a href={`mailto:${email}`}>{email}</a></p>
     {/* no home button on the success page (Maria, 23 November 2026): the header still leads home */}
@@ -429,13 +430,14 @@ const w = words[kind];
   .pay__ask {
     margin-top: clamp(0.6rem, 2svh, 1.4rem);
     font-size: 0.92rem;
+    line-height: 1.3;
     opacity: 0.8;
   }
   .pay__ask a {
     /* the address on a line of its own (Maria, 24 November 2026) */
     display: block;
     width: fit-content;
-    margin: 0.15rem auto 0;
+    margin: 0 auto;
     color: inherit;
     overflow-wrap: anywhere;
   }
@@ -449,9 +451,13 @@ const w = words[kind];
 </style>
 
 <script>
+  import { ambienceMuted, playSound } from '../../scripts/sound';
+
   // Stripe sends everyone back to the Greek page; whoever registered on the English pages sees it in English
   // (the form notes the language just before leaving for Stripe: RegisterDialog.astro)
   document.addEventListener('astro:page-load', () => {
+    // (this listener outlives the page when the visitor moves on within the site: act on the payment pages only)
+    if (!document.querySelector('.pay-stage')) return;
     let lang = '';
     try {
       lang = localStorage.getItem('ath-pay-lang') ?? '';
@@ -472,5 +478,10 @@ const w = words[kind];
     } catch {}
     const retry = document.querySelector<HTMLAnchorElement>('[data-retry]');
     if (retry && /^\/(en\/)?(courses\/[a-z0-9-]+|membership)\/$/.test(back)) retry.href = back + '#registration';
+    // On the success page a soft rising phrase on the lyre as the card comes up (Maria, 24 November 2026;
+    // scripts/audio/success.mjs). Most browsers hold sound back until the visitor presses something, so it
+    // often stays silent; Chrome lets it play for someone who has played sound on the site before. Never
+    // when the sound button in the corner is off.
+    if (location.pathname.includes('/success') && !ambienceMuted()) window.setTimeout(() => playSound('/audio/success.mp3', 0.08), 700);
   });
 </script>
