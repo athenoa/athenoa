@@ -47,6 +47,7 @@
   --title-leading: 0.95;
   --title-scale: 1;
   --body-scale: 0.93;
+  --site-scale: 0.92; /* every size a tad smaller (Maria, 24 November 2026) */
 
   /* Space */
   --space-2xs: 0.375rem;
@@ -56,9 +57,11 @@
   --space-l: clamp(2.25rem, 1.6rem + 2.6vw, 4rem);
   --space-xl: clamp(3.5rem, 2.2rem + 5.4vw, 7.5rem);
   --space-2xl: clamp(5rem, 3rem + 9vw, 12rem);
-  --gutter: clamp(1.15rem, 0.6rem + 2.6vw, 3.25rem);
+  /* wider margins and a narrower column, so the content's total width is smaller (Maria, 24 November 2026;
+     was clamp(1.15rem, 0.6rem + 2.6vw, 3.25rem) and 82rem). The course banners still run the full width. */
+  --gutter: clamp(1.4rem, 0.7rem + 3.6vw, 4.75rem);
   --measure: 62ch;
-  --wrap: 82rem;
+  --wrap: 72rem;
   /* The header's width and the inner padding of its bar. --edge is where the logo starts, measured
      from the window's edge; the hero title starts there too, so the two always line up (client
      direction, 16 October 2026: the header a little wider, the title a little further in). */
@@ -248,16 +251,17 @@ html[lang='grc'] {
   --body-scale: 1.02;
 }
 
-/* Type scale (fluid). Declared wherever a type set is chosen, so the sizes follow that set. */
+/* Type scale (fluid). Declared wherever a type set is chosen, so the sizes follow that set. --site-scale makes
+   everything a tad smaller across the site (Maria, 24 November 2026). */
 :root,
 [data-fonts] {
-  --step--1: calc(clamp(0.94rem, 0.9rem + 0.2vw, 1.05rem) * var(--body-scale));
-  --step-0: calc(clamp(1.14rem, 1.06rem + 0.36vw, 1.36rem) * var(--body-scale));
-  --step-1: calc(clamp(1.35rem, 1.2rem + 0.7vw, 1.8rem) * var(--body-scale));
-  --step-2: calc(clamp(1.9rem, 1.5rem + 1.9vw, 3.1rem) * var(--title-scale));
-  --step-3: calc(clamp(2.5rem, 1.8rem + 3.4vw, 4.9rem) * var(--title-scale));
-  --step-4: calc(clamp(3.1rem, 1.9rem + 5.8vw, 7.6rem) * var(--title-scale));
-  --step-5: calc(clamp(3.4rem, 1.4rem + 9.6vw, 11.5rem) * var(--title-scale));
+  --step--1: calc(clamp(0.94rem, 0.9rem + 0.2vw, 1.05rem) * var(--body-scale) * var(--site-scale));
+  --step-0: calc(clamp(1.14rem, 1.06rem + 0.36vw, 1.36rem) * var(--body-scale) * var(--site-scale));
+  --step-1: calc(clamp(1.35rem, 1.2rem + 0.7vw, 1.8rem) * var(--body-scale) * var(--site-scale));
+  --step-2: calc(clamp(1.9rem, 1.5rem + 1.9vw, 3.1rem) * var(--title-scale) * var(--site-scale));
+  --step-3: calc(clamp(2.5rem, 1.8rem + 3.4vw, 4.9rem) * var(--title-scale) * var(--site-scale));
+  --step-4: calc(clamp(3.1rem, 1.9rem + 5.8vw, 7.6rem) * var(--title-scale) * var(--site-scale));
+  --step-5: calc(clamp(3.4rem, 1.4rem + 9.6vw, 11.5rem) * var(--title-scale) * var(--site-scale));
 }
 [data-fonts]:not(html) {
   font-family: var(--font-body);
