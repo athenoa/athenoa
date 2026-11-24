@@ -58,6 +58,17 @@ const w = words[kind];
   {[1, 2, 3].map((n) => <span class="pay__tw" style={`--n:${n - 1}`}><Illustration name={`portal-b-stars-${n}`} /></span>)}
   <Illustration name="portal-b-milkyway" />
 </div>
+{/* The whole page is one screen, nothing to scroll (Maria, 24 November 2026): the card in the middle, the grove
+    along the foot of the screen over the card's foot, and by day a living sky behind: clouds drifting, a pair of
+    birds now and then, the sun glowing low over the hills. */}
+<div class="pay-stage">
+<div class="pay__day" aria-hidden="true">
+  <span class="pay__sun"><span class="pay__glow"></span><span class="pay__disc"></span></span>
+  {[1, 2, 3, 4, 5].map((n) => <Illustration name="hero-cloud-soft" class={`pay__cloud pay__cloud--${n}`} />)}
+  <Illustration name="hero-bird" class="pay__bird pay__bird--1" />
+  <Illustration name="hero-bird" class="pay__bird pay__bird--2" />
+  <Illustration name="hero-bird" class="pay__bird pay__bird--3" />
+</div>
 <section class="pay wrap" aria-labelledby="pay-title">
   <div class="pay__sheet box on-blue">
     <Illustration name="laurel" class="pay__laurel" draw />
@@ -81,6 +92,7 @@ const w = words[kind];
   <div class="pay__layer pay__layer--mid"><Illustration name="footer-grove-mid" /></div>
   <div class="pay__layer pay__layer--near"><Illustration name="footer-grove-near" /></div>
 </div></div>
+</div>
 
 <style>
   .pay__sky {
@@ -117,32 +129,193 @@ const w = words[kind];
   :global(html.motion) .pay__tw {
     animation: pay-twinkle calc(2.6s + var(--n, 0) * 0.9s) ease-in-out calc(var(--n, 0) * -1.3s) infinite alternate;
   }
+  /* One screen, nothing to scroll (Maria, 24 November 2026). --sw/--sh: the grove's width and height. It spans
+     the window (a little wider, its sides clipped) but never stands taller than about a third of the screen,
+     so the card always has the room above it. On a very small phone the stage may grow past the screen
+     rather than let the trees cover the words. */
+  .pay-stage {
+    --sw: max(100vw, min(max(130vw, 83rem), 34svh * 3.0476));
+    --sh: calc(var(--sw) * 525 / 1600);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    overflow: clip;
+  }
+  /* the page is the screen: the header, then the stage taking whatever height is left */
+  :global(body:has(.pay-stage)) {
+    display: flex;
+    flex-direction: column;
+    min-height: 100svh;
+  }
+  :global(body:has(.pay-stage) > main) {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+  }
   .pay {
     position: relative;
     z-index: 1;
+    flex: 1 1 auto;
     display: grid;
     place-items: center;
-    /* half the room above the box (Maria, 23 November 2026) */
-    padding-block: calc((var(--header-h) + var(--space-l)) / 2) 0;
+    /* below the card: room for the trees, which rise to just over half the grove's height */
+    padding-block: clamp(0.4rem, 1.6svh, 1rem) calc(var(--sh) * 0.53);
   }
-  /* the grove: as wide as the window (never narrower than 64rem, so a phone sees its middle), rising over the
-     last part of the box */
-  /* the grove is wider than a phone: clip it there, so the page never widens */
+  /* the grove along the foot of the screen, over the last part of the card */
   .pay__ground {
-    position: relative;
+    position: absolute;
     z-index: 2;
-    overflow-x: clip;
-    margin-top: calc(max(130vw, 83rem) * -0.17);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: var(--sh);
+    pointer-events: none;
   }
   .pay__scene {
-    position: relative;
-    z-index: 2;
+    position: absolute;
     left: 50%;
-    /* 30% taller than a footer (Maria, 23 November 2026): wider by as much, its sides clipped */
-    width: max(130%, 83rem);
+    bottom: 0;
+    width: var(--sw);
     translate: -50% 0;
     aspect-ratio: 1600 / 525;
+  }
+
+  /* The day sky behind everything (Maria, 24 November 2026): soft clouds drift across, a pair of birds
+     crosses now and then, and the sun glows low over the hills. By day only; at night the stars. Only
+     transforms and opacity move. */
+  .pay__day {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
     pointer-events: none;
+  }
+  :global(html[data-theme='dark']) .pay__day {
+    display: none;
+  }
+  .pay__sun {
+    position: absolute;
+    right: 19%;
+    bottom: calc(var(--sh) * 0.62);
+    width: clamp(2.4rem, 1.8rem + 2.4vw, 4.2rem);
+    aspect-ratio: 1;
+  }
+  .pay__disc,
+  .pay__glow {
+    position: absolute;
+    border-radius: 50%;
+  }
+  .pay__disc {
+    inset: 0;
+    background: var(--gold);
+  }
+  /* the glow: a wide soft halo of gold that breathes (a gradient, never a blur) */
+  .pay__glow {
+    inset: -160%;
+    background: radial-gradient(circle, color-mix(in srgb, var(--gold) 70%, transparent) 0%, color-mix(in srgb, var(--gold) 34%, transparent) 26%, color-mix(in srgb, var(--gold) 12%, transparent) 44%, transparent 64%);
+  }
+  @keyframes pay-glow {
+    from {
+      transform: scale(0.88);
+      opacity: 0.65;
+    }
+    to {
+      transform: scale(1.08);
+      opacity: 1;
+    }
+  }
+  :global(html.motion) .pay__glow {
+    animation: pay-glow 5.5s ease-in-out infinite alternate;
+  }
+  .pay__day :global(.pay__cloud) {
+    position: absolute;
+    left: 0;
+    top: var(--top);
+    width: var(--w);
+    aspect-ratio: 600 / 120;
+    color: color-mix(in srgb, var(--creme-light) var(--mix, 40%), color-mix(in srgb, var(--blue) 26%, var(--creme)));
+    transform: translate3d(var(--at), 0, 0);
+  }
+  .pay__day :global(.pay__cloud svg) {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .pay__day :global(.pay__cloud--1) { --w: clamp(16rem, 40vw, 40rem); --top: 4%; --at: 58vw; --t: 120s; }
+  .pay__day :global(.pay__cloud--2) { --w: clamp(12rem, 28vw, 28rem); --top: 20%; --at: 6vw; --t: 150s; --mix: 32%; scale: -1 1; }
+  .pay__day :global(.pay__cloud--3) { --w: clamp(14rem, 34vw, 34rem); --top: 36%; --at: 70vw; --t: 135s; --mix: 36%; }
+  .pay__day :global(.pay__cloud--4) { --w: clamp(10rem, 22vw, 22rem); --top: 11%; --at: 30vw; --t: 170s; --mix: 30%; }
+  .pay__day :global(.pay__cloud--5) { --w: clamp(13rem, 30vw, 30rem); --top: 48%; --at: -4vw; --t: 145s; --mix: 34%; scale: -1 1; }
+  @keyframes pay-cloud {
+    from {
+      transform: translate3d(-105%, 0, 0);
+    }
+    to {
+      transform: translate3d(100vw, 0, 0);
+    }
+  }
+  :global(html.motion) .pay__day :global(.pay__cloud) {
+    animation: pay-cloud var(--t) linear calc(var(--t) * var(--d, -0.3)) infinite;
+  }
+  .pay__day :global(.pay__cloud--2) { --d: -0.75; }
+  .pay__day :global(.pay__cloud--3) { --d: -0.55; }
+  .pay__day :global(.pay__cloud--4) { --d: -0.1; }
+  .pay__day :global(.pay__cloud--5) { --d: -0.9; }
+  /* the birds: three, crossing left to right and rising a little, every half minute or so */
+  .pay__day :global(.pay__bird) {
+    position: absolute;
+    left: 0;
+    top: 16%;
+    width: clamp(1.1rem, 0.8rem + 1vw, 1.8rem);
+    aspect-ratio: 48 / 22;
+    color: var(--blue);
+    opacity: 0;
+  }
+  .pay__day :global(.pay__bird svg) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    transform-origin: 50% 68%;
+  }
+  .pay__day :global(.pay__bird--2) { top: 20%; width: clamp(0.9rem, 0.7rem + 0.8vw, 1.5rem); }
+  .pay__day :global(.pay__bird--3) { top: 13%; width: clamp(0.8rem, 0.6rem + 0.7vw, 1.3rem); }
+  @keyframes pay-bird {
+    0% {
+      transform: translate3d(-6vw, 4vh, 0);
+      opacity: 1;
+    }
+    55% {
+      transform: translate3d(106vw, -8vh, 0);
+      opacity: 1;
+    }
+    56%,
+    100% {
+      transform: translate3d(106vw, -8vh, 0);
+      opacity: 0;
+    }
+  }
+  @keyframes pay-wing {
+    from {
+      transform: scaleY(1);
+    }
+    to {
+      transform: scaleY(0.32);
+    }
+  }
+  :global(html.motion) .pay__day :global(.pay__bird) {
+    animation: pay-bird 34s linear 2s infinite backwards;
+  }
+  :global(html.motion) .pay__day :global(.pay__bird--2) {
+    animation-delay: 3.1s;
+  }
+  :global(html.motion) .pay__day :global(.pay__bird--3) {
+    animation-delay: 3.9s;
+  }
+  :global(html.motion) .pay__day :global(.pay__bird svg) {
+    animation: pay-wing 0.44s ease-in-out infinite alternate;
+  }
+  :global(html.motion) .pay__day :global(.pay__bird--2 svg) {
+    animation-duration: 0.38s;
   }
   .pay__layer {
     position: absolute;
@@ -169,6 +342,10 @@ const w = words[kind];
   .pay__scene :global(.sky-moon path) {
     fill: var(--gold);
   }
+  /* the owl's sparks are for a click in the footer; here they stay unseen */
+  .pay__scene :global(.grove-sparks) {
+    display: none;
+  }
   /* no sun, moon or stars here: they would fall on the box */
   .pay__scene :global(.sky-night),
   .pay__scene :global(.sky-day) {
@@ -178,32 +355,35 @@ const w = words[kind];
   .pay__layer--near :global(path[fill='currentColor']) {
     fill: var(--paper);
   }
+  /* compact, and sized by the screen's height too, so it fits above the trees (Maria, 24 November 2026);
+     its foot runs on behind the grove */
   .pay__sheet {
-    max-width: 42rem;
-    padding: clamp(2rem, 1.2rem + 4vw, 4rem) clamp(2rem, 1.2rem + 4vw, 4rem) clamp(6rem, 4rem + 8vw, 10rem);
+    max-width: 40rem;
+    margin-bottom: calc(var(--sh) * -0.3);
+    padding: clamp(1.3rem, 3.6svh, 2.6rem) clamp(1.5rem, 1rem + 3vw, 3.4rem) calc(var(--sh) * 0.3 + clamp(1rem, 2.4svh, 1.8rem));
     text-align: center;
     --leaf: var(--gold);
   }
   .pay__laurel {
-    width: clamp(5rem, 4rem + 4vw, 7rem);
-    margin: 0 auto var(--space-s);
+    width: clamp(3rem, 7svh, 5rem);
+    margin: 0 auto clamp(0.3rem, 1svh, 0.8rem);
   }
   .pay__title {
-    margin: 0.2rem 0 var(--space-m);
-    font-size: clamp(2.2rem, 1.6rem + 3vw, 3.6rem);
+    margin: 0.1rem 0 clamp(0.6rem, 2svh, 1.4rem);
+    font-size: clamp(1.9rem, min(1.4rem + 2.4vw, 5.8svh), 3.3rem);
   }
   .pay__text {
-    margin: 0 auto 0.7rem;
+    margin: 0 auto 0.5rem;
     max-width: 34ch;
-    font-size: var(--step-1);
+    font-size: clamp(1.02rem, min(0.9rem + 0.5vw, 2.6svh), 1.3rem);
   }
   .pay__sheet :global(.pay__sign) {
     display: block;
-    width: 8rem;
-    margin: var(--space-s) auto 0;
+    width: clamp(5.2rem, 10svh, 7.5rem);
+    margin: clamp(0.4rem, 1.4svh, 1rem) auto 0;
   }
   .pay__ask {
-    margin-top: var(--space-m);
+    margin-top: clamp(0.6rem, 2svh, 1.4rem);
     font-size: 0.92rem;
     opacity: 0.8;
   }
@@ -216,7 +396,7 @@ const w = words[kind];
     flex-wrap: wrap;
     justify-content: center;
     gap: 0.8rem;
-    margin-top: var(--space-m);
+    margin-top: clamp(0.5rem, 1.6svh, 1.2rem);
   }
 </style>
 
