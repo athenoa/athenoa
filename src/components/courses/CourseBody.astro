@@ -82,6 +82,7 @@ const symbolFor = 'description';
       {portraitBanner && (
         <Picture
           class="body__portrait"
+          data-light={course.bannerPortraitLight ? '' : undefined}
           src={portraitBanner}
           alt={course.imageAlt}
           widths={[390, 600, 714]}

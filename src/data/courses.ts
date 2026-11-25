@@ -50,6 +50,8 @@ export interface Course {
   banner?: { ratio: string; focus: string };
   /** A portrait version of the banner for phones, filling the screen (src/assets/media/<name>) */
   bannerPortrait?: string;
+  /** The portrait banner is pale (Εὖ Ζῆν): the header's name and menu turn deep blue over it */
+  bannerPortraitLight?: boolean;
   /** A second line under the title */
   subtitle?: string;
   /** One or two sentences for the course card */
@@ -252,6 +254,7 @@ const allCourses: Course[] = [
     // phones: a portrait version, recomposed from the banner with Higgsfield (Nano Banana Pro): Athena's bust on
     // top, the text in the middle, an olive-grove scene with a temple and the sea at the foot (Maria, 24 November 2026)
     bannerPortrait: 'course-eu-zen-portrait',
+    bannerPortraitLight: true,
     imageAlt:
       'Course banner: Εὖ Ζῆν, The Ancient Art of Eudaimonia. Dr. Athena Potari in front of bookshelves, between an Ionic column with olive leaves and a marble bust of Athena with her owl; 16 experiential lessons of Greek Philosophy in practice, from Self-knowledge to Eudaimonia',
     subtitle: 'The Ancient Art of Eudaimonia',

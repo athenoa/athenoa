@@ -21,6 +21,8 @@ import type { Course } from '../../data/courses';
 import { getLocale } from '../../lib/locale';
 import { fill, money, percent, upfrontPrice } from './money';
 import { heart } from './marks';
+import SourceField from '../SourceField.astro';
+import { newsletter } from '../../data/newsletter';
 
 interface Props {
   course: Course;
@@ -34,6 +36,8 @@ const locale = getLocale(Astro.url);
 const { coursesPage, site } = content(locale);
 const { ui } = coursesPage;
 const r = ui.register;
+// "How did you find us?": the newsletter's question and answers, optional (Maria, 25 November 2026)
+const heardLabel = newsletter[locale].source;
 const bank = ui.registration.bank;
 // short words for the account under the bank option
 const t = {
@@ -231,6 +235,12 @@ const monthly = (tier: (typeof tiers)[number]) =>
                     data-missing={r.errors.certificate}
                   />
                 </div>}
+                <div class="field rg__wide">
+                  <label for={id('source')}>
+                    {heardLabel} <span class="rg__optional">({r.optional})</span>
+                  </label>
+                  <SourceField id={id('source')} name="source" label={heardLabel} />
+                </div>
               </div>
             </fieldset>
 
@@ -500,6 +510,9 @@ const monthly = (tier: (typeof tiers)[number]) =>
       };
       if (value('address')) row.address = value('address');
       if (certificate) row.certificate_name = value('certificate_name');
+      // "How did you find us?": the chosen answer, or what was written after "Other", as the newsletter does
+      const heard = ((form.elements.namedItem('source-other') as HTMLInputElement | null)?.value.trim() || value('source')).slice(0, 300);
+      if (heard) row.heard_from = heard;
 
       busy(true);
       try {

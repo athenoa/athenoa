@@ -131,7 +131,7 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
     const now = ctx.currentTime;
     const gain = ctx.createGain();
     gain.gain.setValueAtTime(0, now);
-    gain.gain.linearRampToValueAtTime(0.045, now + 0.012);
+    gain.gain.linearRampToValueAtTime(0.0045, now + 0.012); // 90% quieter (Maria, 25 November 2026)
     gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.28);
     gain.connect(ctx.destination);
     [
@@ -337,6 +337,14 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
   }
   .header__brand:hover .header__name {
     letter-spacing: 0.085em;
+  }
+  /* On a phone the course's portrait banner runs up under the header; over a pale one (Εὖ Ζῆν) the
+     name and the menu are the deep blue itself, by day and by night, until the page scrolls (Maria,
+     25 November 2026: more contrast) */
+  @media (max-width: 40rem) {
+    :global(body:has(.body__portrait[data-light])) .header:not(.is-scrolled, .is-open) {
+      --blue: #071260;
+    }
   }
   /* On Home the header lies over the picture's sky until the page scrolls. By day that sky is
      light blue, so the light-blue marks turn to paper there. */
