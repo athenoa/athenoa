@@ -865,14 +865,12 @@ html.motion :is(.lemma-inline, .lemma__word)::after {
 .media--arch {
   --media-r: var(--r-arch);
 }
-.media--pebble-1 {
-  --media-r: var(--r-pebble-1);
-}
-.media--pebble-2 {
-  --media-r: var(--r-pebble-2);
-}
+/* Photographs are true circles and ovals, not uneven pebbles: Athena likes symmetry (Maria, 25 November
+   2026). The names stay; the decorative pebbles (--r-pebble-*) keep their hand-cut shapes. */
+.media--pebble-1,
+.media--pebble-2,
 .media--pebble-3 {
-  --media-r: var(--r-pebble-3);
+  --media-r: 50%;
 }
 .media--soft {
   --media-r: var(--r-soft);
