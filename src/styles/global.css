@@ -382,6 +382,13 @@ b {
 }
 
 /* ---------- Buttons ---------- */
+/* The home page's calls to action, larger and easier to read (Maria, 25 November 2026: many of the
+   Academy's students are over fifty) */
+.btn.btn--l {
+  min-height: 3.6rem;
+  padding: 0.8em 1.9em 0.88em;
+  font-size: calc(var(--step-0) * 1.22);
+}
 .btn {
   position: relative;
   isolation: isolate;

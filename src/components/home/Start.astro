@@ -20,8 +20,9 @@ const t = {
   el: {
     frescoAlt:
       'Η τοιχογραφία του Ραφαήλ «Η Σχολή των Αθηνών»: οι φιλόσοφοι της αρχαιότητας συγκεντρωμένοι κάτω από μια μεγάλη θολωτή αίθουσα',
-    courses: 'Δείτε τα μαθήματα',
-    member: 'Γίνε Μέλος της Ακαδημίας',
+    // both in the polite plural, Μαθήματα with a capital (a reader's note, via Maria, 25 November 2026)
+    courses: 'Δείτε τα Μαθήματα',
+    member: 'Γίνετε Μέλος της Ακαδημίας',
   },
   grc: {
     frescoAlt: 'Ἡ τοῦ Ῥαφαήλου γραφὴ «Ἡ τῶν Ἀθηνῶν Σχολή»: οἱ τῶν παλαιῶν φιλόσοφοι ὑπὸ μεγάλῃ θολωτῇ στοᾷ συνειλεγμένοι',
@@ -60,8 +61,8 @@ const t = {
         </div>
         {/* the two ways in, at the foot of the home page (Maria, 23 November 2026) */}
         <p class="start__go" data-reveal style="--i:5">
-          <a class="btn" href={site.routes.courses}>{t.courses}</a>
-          <a class="btn start__member" href={site.routes.membership}>{t.member}</a>
+          <a class="btn btn--l" href={site.routes.courses}>{t.courses}</a>
+          <a class="btn btn--l start__member" href={site.routes.membership}>{t.member}</a>
         </p>
       </div>
     </div>
