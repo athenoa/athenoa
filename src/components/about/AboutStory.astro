@@ -325,16 +325,18 @@ const [roots, studies, back, academy] = about.story;
       --fig: clamp(17rem, 32vw, 28rem);
       margin-top: calc(var(--space-xl) + 7rem);
     }
+    /* The text wraps around the portrait and runs on under it, not in a narrow strip beside it
+       (Maria, 25 November 2026) */
     .back__panel {
-      display: grid;
-      grid-template-columns: var(--fig) minmax(0, 1fr);
-      column-gap: var(--space-l);
-      align-items: start;
+      display: flow-root;
       padding-bottom: calc(var(--space-xl) + 4.5rem);
     }
     .back__photo {
-      margin-top: calc(var(--space-xl) * -1 - 6rem);
-      margin-bottom: 0;
+      float: left;
+      margin: calc(var(--space-xl) * -1 - 6rem) var(--space-l) var(--space-m) 0;
+    }
+    .back__text {
+      max-width: none;
     }
     .back__waves {
       bottom: 1.5rem;

@@ -75,13 +75,14 @@ const fit =
   /* Sized against its own column (0.45em is a generous average letter), so no word of the title can
      reach under the form, in either language */
   .contact__email {
-    font-size: var(--step-1);
+    /* much smaller, the address on one line (Maria, 25 November 2026) */
+    font-size: var(--step--1);
   }
   .contact__email a {
     color: inherit;
     text-decoration: underline;
     text-underline-offset: 0.2em;
-    overflow-wrap: anywhere;
+    white-space: nowrap;
   }
   .contact__title {
     font-size: min(var(--step-4), calc(100cqi / (var(--fit) * 0.45)));
@@ -95,19 +96,17 @@ const fit =
       align-items: center;
       column-gap: var(--space-m);
     }
-    .contact__email {
-    font-size: var(--step-1);
-  }
-  .contact__email a {
-    color: inherit;
-    text-decoration: underline;
-    text-underline-offset: 0.2em;
-    overflow-wrap: anywhere;
-  }
-  .contact__title {
+    /* the title and the email line in the left column, the tripod to their right */
+    .contact__title {
+      grid-column: 1;
       font-size: min(var(--step-4), calc((100cqi - 12rem) / (var(--fit) * 0.45)));
     }
+    .contact__email {
+      grid-column: 1;
+    }
     .contact__tripod {
+      grid-column: 2;
+      grid-row: 1 / span 2;
       width: clamp(7.5rem, 5rem + 9vw, 10.5rem);
       margin-top: 0;
       justify-self: end;

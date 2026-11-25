@@ -93,11 +93,14 @@ const lines = [
 // The raster marks are drawn at most 3rem tall, but the files are up to 2217 pixels wide (190 KB in
 // all). Each is sent as a WebP just tall enough for a sharp edge on a 3x screen (the mask only reads
 // its transparency): about a tenth of the weight. The SVG marks stay as they are.
+// Every mark up to a fifth bigger than the heights above (Maria, 25 November 2026); on a narrower
+// column they give way so the three lines hold (see .logos__mark).
+const scale = 1.2;
 const sized = async (file: ImageMetadata, h: number) =>
   file.format === 'svg'
     ? file.src
     : (await getImage({ src: file, height: Math.min(file.height, Math.ceil(h * 16 * 3)), format: 'webp', quality: 90 })).src;
-const marks = await Promise.all(lines.map((line) => Promise.all(line.map(async (mark) => ({ ...mark, src: await sized(mark.file, mark.h) })))));
+const marks = await Promise.all(lines.map((line) => Promise.all(line.map(async (mark) => ({ ...mark, src: await sized(mark.file, mark.h * scale) })))));
 ---
 
 <ul class="logos" role="list">
@@ -111,7 +114,7 @@ const marks = await Promise.all(lines.map((line) => Promise.all(line.map(async (
               class="logos__mark"
               role="img"
               aria-label={name}
-              style={`--h:${h}rem;--ratio:${file.width} / ${file.height};--mark:url('${src}')`}
+              style={`--h:${h};--ratio:${file.width} / ${file.height};--mark:url('${src}')`}
             />
           </li>
         ))}
@@ -134,7 +137,7 @@ const marks = await Promise.all(lines.map((line) => Promise.all(line.map(async (
   }
   .logos__mark {
     display: block;
-    height: var(--h);
+    height: calc(var(--h) * 1.2rem);
     aspect-ratio: var(--ratio);
     background-color: currentColor;
     -webkit-mask: var(--mark) center / contain no-repeat;
@@ -149,8 +152,14 @@ const marks = await Promise.all(lines.map((line) => Promise.all(line.map(async (
     /* Each line runs the full width of the text column: the first mark on its left edge, the last
        on its right, the space shared out between them (client direction, 11 October 2026). */
     .logos {
-      row-gap: calc(var(--space-s) * 0.6);
+      container-type: inline-size;
+      gap: calc(var(--space-s) * 0.6) 0.75rem;
       justify-content: space-between;
+    }
+    /* The widest line is 20.8 units long plus three gaps: the unit is 1.2rem, or less when the
+       column is too narrow to hold that line */
+    .logos__mark {
+      height: calc(var(--h) * min(1.2rem, (100cqi - 2.25rem) / 20.8));
     }
     .logos__break {
       display: block;
