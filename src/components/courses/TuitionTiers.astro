@@ -56,6 +56,9 @@ interface Props {
 // Membership's card on crème paper, the courses' tiers dark blue, their upfront boxes crème (Maria for Athena,
 // 23 November 2026: no large light-blue fills, dark blue is the accent).
 const { tiers, level = 3, payInFull, payMonthly, month, per = '', or, payments, total, discount = 0, off, course, member } = Astro.props;
+// The early-bird offer for monthly plans (PromoNotice.astro): Εὖ Ζῆν and membership, until 30 November 2026
+const earlyBird = course === 'eu-zen' || course === 'membership';
+const earlyWords = { el: 'με τον κωδικό', en: 'with the code', grc: 'τῷ συνθήματι' };
 const columns = tiers.length + (member?.tier ? 1 : 0);
 const locale = getLocale(Astro.url);
 const Name = level === 4 ? 'h4' : 'h3';
@@ -76,7 +79,7 @@ const cards = [
 
 {/* Εὖ Ζῆν and membership: the early-bird banner for monthly plans slides down while this box is in sight
     (PromoNotice.astro; Maria, 24 November 2026) */}
-<div class="tiers-box" data-early-bird={course === 'eu-zen' || course === 'membership' ? '' : undefined}>
+<div class="tiers-box" data-early-bird={earlyBird ? '' : undefined}>
 <ul class:list={['tiers', member && 'tiers--member']} role="list" style={`--cols:${columns}`}>
   {
     cards.map(({ tier, discount, member: isMember, per: perLine }) => (
@@ -117,6 +120,14 @@ const cards = [
               {fill(payments, { n: String(tier.payments) })}{' '}
               <span class="way__total">· {fill(total, { price: money(Math.round(tier.perMonth * tier.payments * 100) / 100, locale) })}</span>
             </p>
+            {/* the early-bird offer on the monthly plan, as in the banner: its mark and its code (Maria, 25 November 2026) */}
+            {earlyBird && (
+              <p class="way__early" data-until="2026-12-01T00:00:00+02:00">
+                <span class="tier__off">−10%</span>
+                <span>{earlyWords[locale]}</span>
+                <span class="way__code">EARLY10</span>
+              </p>
+            )}
             <a class="btn way__btn" href={isMember ? memberLink(tier, 'monthly') : tier.payMonthly} {...(isMember ? {} : opens(tier, 'monthly'))}>
               {payMonthly}
             </a>
@@ -286,6 +297,22 @@ const cards = [
   }
   .way__rate {
     font-weight: 560;
+  }
+  .way__early {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.3rem 0.45em;
+    margin: 0.35rem 0 0.2rem;
+    font-size: var(--step--1);
+  }
+  .way__code {
+    padding: 0.08em 0.5em 0.12em;
+    border: 1.5px dashed currentColor;
+    border-radius: 0.5rem;
+    font-weight: 650;
+    letter-spacing: 0.06em;
+    font-variant-numeric: lining-nums;
   }
   /* The discount, a small mark on a Greek-blue pebble: noticed, not shouted (it reads on every ground) */
   .tier__off {
@@ -497,3 +524,10 @@ const cards = [
     }
   }
 </style>
+
+<script is:inline>
+  // the early-bird line goes once the offer has ended (30 November 2026, Athens time)
+  document.querySelectorAll('[data-until]').forEach(function (el) {
+    if (Date.now() >= Date.parse(el.getAttribute('data-until'))) el.remove();
+  });
+</script>
