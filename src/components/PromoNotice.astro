@@ -281,6 +281,11 @@ const t = copy[locale];
   .promo--banner .promo__code {
     color: var(--gold);
   }
+  /* at night the banner turns crème, where gold does not read: the kicker and the code in deep blue
+     (Maria, 25 November 2026) */
+  :global(html[data-theme='dark']) .promo--banner :is(.promo__kicker, .promo__code) {
+    color: #0b1c8c;
+  }
   .promo--banner .promo__until {
     opacity: 0.8;
   }

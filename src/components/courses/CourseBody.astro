@@ -162,7 +162,7 @@ const symbolFor = 'description';
       }
       {
         isOpen && facts.length > 0 && (
-          <dl class="facts">
+          <dl class:list={['facts', page && 'on-blue text-larger']}>
             {facts.map((fact) => (
               <div class="facts__row">
                 <dt>{fact.label}</dt>
@@ -421,13 +421,33 @@ const symbolFor = 'description';
   }
   /* On the page the facts lie on a sheet of papyrus, a warmer, deeper paper than the page (Athena,
      23 November 2026), with a clean edge */
+  /* A bright indigo sheet, crème letters, by day and by night (Athena, 25 November 2026: no muted colours;
+     was a papyrus brown that turned muddy at night) */
   .body--page .facts {
     padding: 0.4rem clamp(1rem, 0.6rem + 2vw, 2rem) 0.6rem;
     border-top: 0;
     border-radius: 1.1rem;
-    background-color: color-mix(in srgb, var(--paper) 80%, #c49a52);
+    background-color: #2238c3;
     background-image: var(--grain);
     background-size: 400px 400px;
+    font-size: var(--step-0);
+  }
+  .body--page .facts dd .facts__what {
+    font-size: var(--step-0);
+  }
+  .body--page .facts__row {
+    grid-template-columns: 7.6rem minmax(0, 1fr);
+  }
+  /* on a phone each label sits over its value, so the larger values keep the box's full width */
+  @media (max-width: 40rem) {
+    .body--page .facts__row {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.25rem;
+    }
+  }
+  .body--page .facts__off {
+    background: var(--creme-light);
+    color: #0b1c8c;
   }
   .body--page .facts__row:last-child {
     border-bottom: 0;
@@ -717,7 +737,7 @@ const symbolFor = 'description';
     inset: 0;
     z-index: -1;
     /* a little see-through over the picture (Maria, 23 November 2026) */
-    opacity: 0.82;
+    opacity: 1; /* solid, no see-through (Maria, 25 November 2026) */
     border-radius: 2.6rem 2rem 2.4rem 2.8rem / 2.8rem 2.4rem 2rem 2.6rem;
     background-color: var(--creme-light);
     background-image: url('/textures/grain-dark.webp');
@@ -764,7 +784,7 @@ const symbolFor = 'description';
     border-radius: 2.6rem 2rem 2.4rem 2.8rem / 2.8rem 2.4rem 2rem 2.6rem;
     background-color: var(--creme-light);
     background-image: url('/textures/grain-dark.webp');
-    opacity: 0.82;
+    opacity: 1; /* solid, no see-through (Maria, 25 November 2026) */
   }
   /* The banner as large as it can be: the full width of the window, edge to edge, square-cornered, at the
      top of the page (Athena, 23 November 2026). The chip and the date line up with the text column. */

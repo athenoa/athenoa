@@ -79,7 +79,7 @@ const cards = [
 
 {/* Εὖ Ζῆν and membership: the early-bird banner for monthly plans slides down while this box is in sight
     (PromoNotice.astro; Maria, 24 November 2026) */}
-<div class="tiers-box" data-early-bird={earlyBird ? '' : undefined}>
+<div class="tiers-box text-larger" data-early-bird={earlyBird ? '' : undefined}>
 <ul class:list={['tiers', member && 'tiers--member']} role="list" style={`--cols:${columns}`}>
   {
     cards.map(({ tier, discount, member: isMember, per: perLine }) => (

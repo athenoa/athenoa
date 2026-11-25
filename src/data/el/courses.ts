@@ -61,18 +61,18 @@ const allCourses: Course[] = [
     summary:
       'Σε αυτόν τον Κύκλο Σπουδών Ελληνικής Φιλοσοφίας θα διδαχθούμε την Οδύσσεια ως διαχρονικό θησαυρό Σοφίας, συμβολικό Χάρτη της ανθρώπινης Ψυχής και του Ταξειδιού της προς την Αυτογνωσία και την Αφύπνιση.',
     schedule: 'Από 26 Νοεμβρίου 2026',
-    scheduleNote: 'Εισαγωγικό μάθημα - Παρουσίαση Κύκλου: Δευτέρα 23 Νοεμβρίου, 19:30',
+    scheduleNote: 'Εισαγωγικό Μάθημα - Παρουσίαση Κύκλου: Δευτέρα 23 Νοεμβρίου, 19:30',
     starts: { introduction: '2026-11-23T19:30:00+02:00', firstLesson: '2026-11-26T19:30:00+02:00' },
     dates: [
-      { label: 'Εισαγωγικό μάθημα - Παρουσίαση Κύκλου', when: 'Δευτέρα 23 Νοεμβρίου 2026, 19:30 (ώρα Ελλάδος)' },
+      { label: 'Εισαγωγικό Μάθημα - Παρουσίαση Κύκλου', when: 'Δευτέρα 23 Νοεμβρίου 2026, 19:30 (ώρα Ελλάδος)' },
       { label: 'Πρώτο Μάθημα', when: 'Πέμπτη 26 Νοεμβρίου 2026, 19:30' },
-      { label: 'Στη συνέχεια', when: 'κάθε Πέμπτη στις 19:30' },
+      { label: 'Στη Συνέχεια', when: 'κάθε Πέμπτη στις 19:30' },
     ],
     // calculated (Maria, 22 November 2026): to confirm with the Academy (see the English file)
     months: 8,
     // lastLesson: no end date shown for now (Maria, 22 November 2026); set { when, short } to show one
-    duration: '24 εβδομαδιαία μαθήματα',
-    format: 'Ζωντανά μέσω Zoom, με recordings',
+    duration: '24 Εβδομαδιαία Μαθήματα',
+    format: 'Ζωντανά μέσω Zoom, με Recordings',
     teaching: 'el',
     available: true,
     instructor: 'Δρ. Αθηνά Δ. Πόταρη',
@@ -161,18 +161,18 @@ const allCourses: Course[] = [
     // The banner already says "16 Βιωματικά Μαθήματα…": a line drawn from the description instead (Maria, 23 November 2026)
     summary: 'Η Φιλοσοφία ως Τέχνη Ζωής: μια βιωματική διαδρομή για να γινόμαστε κάθε μέρα Αυτό που αληθινά Είμαστε.',
     schedule: 'Από 1 Δεκεμβρίου 2026',
-    scheduleNote: 'Εισαγωγικό μάθημα - Παρουσίαση Κύκλου: Δευτέρα 23 Νοεμβρίου, 19:30',
+    scheduleNote: 'Εισαγωγικό Μάθημα - Παρουσίαση Κύκλου: Δευτέρα 23 Νοεμβρίου, 19:30',
     starts: { introduction: '2026-11-23T19:30:00+02:00', firstLesson: '2026-12-01T19:30:00+02:00' },
     dates: [
-      { label: 'Εισαγωγικό μάθημα - Παρουσίαση Κύκλου', when: 'Δευτέρα 23 Νοεμβρίου 2026, 19:30 (ώρα Ελλάδος)' },
+      { label: 'Εισαγωγικό Μάθημα - Παρουσίαση Κύκλου', when: 'Δευτέρα 23 Νοεμβρίου 2026, 19:30 (ώρα Ελλάδος)' },
       { label: 'Πρώτο Μάθημα', when: 'Τρίτη 1 Δεκεμβρίου 2026, 19:30' },
-      { label: 'Στη συνέχεια', when: 'Τρίτη στις 19:30, περίπου 2 μαθήματα τον μήνα' },
+      { label: 'Στη Συνέχεια', when: 'Τρίτη στις 19:30, περίπου 2 Μαθήματα τον Μήνα' },
     ],
     // calculated (Maria, 22 November 2026): to confirm with the Academy (see the English file)
     months: 8,
     // lastLesson: no end date shown for now (Maria, 22 November 2026); set { when, short } to show one
-    duration: '16 μαθήματα, περίπου 2 τον μήνα',
-    format: 'Ζωντανά μέσω Zoom, με recordings',
+    duration: '16 Μαθήματα, περίπου 2 τον Μήνα',
+    format: 'Ζωντανά μέσω Zoom, με Recordings',
     teaching: 'el',
     available: true,
     instructor: 'Δρ. Αθηνά Δ. Πόταρη',
@@ -269,8 +269,8 @@ const allCourses: Course[] = [
       'Κάθε εβδομάδα θα εμβαθύνουμε στη μη-δυαδική διδασκαλία που εξέφρασαν οι ακόλουθοι μεγάλοι Φιλόσοφοι ~ Αρχαίοι Σοφοί: Πλωτίνος, Πλάτων, Πυθαγόρας, οι Προσωκρατικοί',
     subtitle: 'Η Ελληνική Σοφία ως Δρόμος Αυτοπραγμάτωσης',
     schedule: 'Από τον Ιανουάριο 2027',
-    duration: 'Τέσσερις εβδομαδιαίες συναντήσεις',
-    format: 'Ζωντανά μέσω Zoom, recordings για 120 ημέρες',
+    duration: 'Τέσσερις Εβδομαδιαίες Συναντήσεις',
+    format: 'Ζωντανά μέσω Zoom, Recordings για 120 Ημέρες',
     teaching: 'en',
     // Not open yet: "Join waitlist" (see the English file)
     available: false,
@@ -356,7 +356,7 @@ export const coursesPage = {
   ui: {
     viewCourse: 'Δείτε το μάθημα',
     facts: { dates: 'Ημερομηνίες', duration: 'Διάρκεια', format: 'Τρόπος', language: 'Γλώσσα', fee: 'Κόστος' },
-    when: { last: 'Τελευταίο μάθημα', until: 'έως {date}', months: '{n} μήνες' },
+    when: { last: 'Τελευταίο Μάθημα', until: 'έως {date}', months: '{n} Μήνες' },
     languages: { el: 'Ελληνικά', en: 'Αγγλικά' },
     soon: 'Σύντομα',
     live: 'Ζωντανό',
@@ -382,7 +382,7 @@ export const coursesPage = {
       payments: '× {n}',
       total: 'σύνολο {price}',
       feeUpfront: 'ετήσια προπληρωμή',
-      feeMonthly: 'ή {month} τον μήνα × {n}',
+      feeMonthly: 'ή {month} τον Μήνα × {n}',
       // The upfront discount (see the English file)
       upfront: 'με Ετήσια Προπληρωμή, για Ολόκληρο τον Κύκλο',
       off: '−{pct}',
