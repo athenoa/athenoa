@@ -123,7 +123,8 @@ const cards = [
               <span class="way__total">· {fill(total, { price: money(Math.round(tier.perMonth * tier.payments * 100) / 100, locale) })}</span>
             </p>
             {/* the early-bird offer on the monthly plan, as in the banner: its mark and its code (Maria, 25 November 2026) */}
-            {earlyBird && (
+            {/* and on membership's card wherever it shows, the Odyssey's page too (Maria, 25 November 2026) */}
+            {(earlyBird || isMember) && (
               <p class="way__early" data-until="2026-12-01T00:00:00+02:00">
                 <span class="tier__off">−10%</span>
                 <span>{earlyWords[locale]}</span>
