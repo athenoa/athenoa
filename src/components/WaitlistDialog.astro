@@ -46,6 +46,7 @@ const t = ui.waitlist;
         </div>
         <input type="hidden" name="course" data-waitlist-course-field />
         <button class="btn" type="submit">{t.submit}</button>
+        <p class="wl__legal">{t.newsletter}</p>
         {/* (the 'we will notify you' line under the button was taken away: Maria, 24 November 2026) */}
         <p class="wl__error" role="alert" data-waitlist-error hidden>{t.failed}</p>
       </form>
@@ -327,6 +328,12 @@ const t = ui.waitlist;
      would leave the crème address unreadable as it is typed. Here it stays night paper, a shade lifted. */
   :global(html[data-theme='dark']) .wl__form .field input:is(:hover, :focus) {
     background: color-mix(in srgb, var(--blue) 12%, var(--creme-light));
+  }
+  .wl__legal {
+    max-width: 34ch;
+    font-size: calc(var(--step--1) * 0.9);
+    line-height: 1.35;
+    color: var(--ink-soft);
   }
   .wl__error {
     font-size: var(--step--1);

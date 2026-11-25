@@ -63,6 +63,9 @@ export const coursesPage = {
       question: 'Ἀπορεῖτέ τι;',
       thanks: 'Χάριν ἴσμεν. Ἐπιστελοῦμεν ὑμῖν ἐπειδὰν αἱ ἐγγραφαὶ ἀνοιχθῶσιν.',
       failed: 'Οὐκ ἐξεγένετο ἀποστεῖλαι. Πειράσασθε αὖθις ἢ γράψατε ἡμῖν.',
+      // the newsletter as "the letters about our news" (τὰ καινά, as in the newsletter popup); to leave it is
+      // to have one's name wiped from the list (ἐξαλεῖψαι), not ἀπογράψασθαι, which is to put it down
+      newsletter: 'Λήψεσθε δὲ καὶ τὰς περὶ τῶν καινῶν ἐπιστολάς· ἔξεστι δ’ ὑμῖν ἐξαλεῖψαι τὸ ὄνομα ὁπόταν βούλησθε.',
     },
   },
 } as const;

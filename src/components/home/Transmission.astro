@@ -40,7 +40,7 @@ const wavesCopy = `${wavesOpen}<use href="#trans-waves"></use></svg>`;
         src={night}
         alt={t.photoAlt}
         shape="pebble-2"
-        ratio="6 / 5"
+        ratio="1 / 1"
         focus="58% 50%"
         widths={[360, 520, 690]}
         sizes="(min-width: 60rem) 32rem, 80vw"
@@ -84,10 +84,19 @@ const wavesCopy = `${wavesOpen}<use href="#trans-waves"></use></svg>`;
   }
   /* The rim: the photograph's own shape, a little larger all round (Maria, 22 November 2026: a border,
      as around the arches, not a second shape); it moves with the photograph */
+  /* The photograph and its rim in the outline of a dodecahedron seen face on, a regular ten-sided figure:
+     Plato's figure for the whole cosmos in the Timaeus (Maria, 25 November 2026: «δωδεκάεδρο») */
+  .trans__photo {
+    --dodeca: polygon(50.00% 0.00%, 20.61% 9.55%, 2.45% 34.55%, 2.45% 65.45%, 20.61% 90.45%, 50.00% 100.00%, 79.39% 90.45%, 97.55% 65.45%, 97.55% 34.55%, 79.39% 9.55%);
+  }
+  .trans__photo :global(.media__clip) {
+    border-radius: 0;
+    clip-path: var(--dodeca);
+  }
   .trans__mat {
     position: absolute;
     inset: -0.8rem;
-    border-radius: var(--r-pebble-2);
+    clip-path: var(--dodeca);
     background-color: var(--blue-light);
     background-image: var(--grain);
     background-size: 400px 400px;

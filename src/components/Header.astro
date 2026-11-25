@@ -131,7 +131,7 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
     const now = ctx.currentTime;
     const gain = ctx.createGain();
     gain.gain.setValueAtTime(0, now);
-    gain.gain.linearRampToValueAtTime(0.0045, now + 0.012); // 90% quieter (Maria, 25 November 2026)
+    gain.gain.linearRampToValueAtTime(0.00225, now + 0.012); // 90% quieter, then half again (Maria, 25 November 2026)
     gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.28);
     gain.connect(ctx.destination);
     [

@@ -257,6 +257,7 @@ const monthly = (tier: (typeof tiers)[number]) =>
                 {course.registrationNote && <p>{course.registrationNote}</p>}
                 {course.paymentNotes?.map((note) => <p>{note}</p>)}
                 {course.cancellations && <Fragment set:html={course.cancellations} />}
+                <p>{r.newsletterTerm}</p>
               </div>
             </details>
 

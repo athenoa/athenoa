@@ -530,7 +530,12 @@ export const coursesPage = {
       submitCard: 'Continue to payment',
       submitBank: 'Complete registration',
       sending: 'One moment…',
-      privacy: 'Your details are used only for your registration and your certificate, and are never shared.',
+      // Registrations and waitlist sign-ups also join the newsletter (Maria, 25 November 2026): said here,
+      // by the button, and in the terms (newsletterTerm)
+      privacy:
+        'Your details are used for your registration and your certificate, and are never shared. You will also receive our newsletter; you can unsubscribe at any time with the link in every email.',
+      newsletterTerm:
+        'Registering for a Cycle of Studies or for membership of the Academy, or joining a waitlist, adds you to the ATHENOA newsletter. You can unsubscribe at any time with the link in every email.',
       errors: {
         firstName: 'Please enter your first name.',
         lastName: 'Please enter your last name.',
@@ -603,6 +608,8 @@ export const coursesPage = {
       // After the address is kept (src/lib/forms.ts), or when it could not be
       thanks: 'Thank you. We will contact you as soon as enrolment opens.',
       failed: 'Your address could not be sent. Please try again, or write to us.',
+      // under the button: joining the list also joins the newsletter (Maria, 25 November 2026)
+      newsletter: 'You will also receive our newsletter; you can unsubscribe at any time.',
     },
   },
 } as const;

@@ -777,6 +777,10 @@ const symbolFor = 'description';
   .body--page .body__media {
     --media-r: 0;
   }
+  /* no vignette on the banner: its blue tint showed at the corners like a border (Maria, 25 November 2026) */
+  .body--page .body__media :global(.media__clip::after) {
+    display: none;
+  }
   .body--page .body__note {
     right: var(--edge);
   }
