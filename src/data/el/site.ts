@@ -14,7 +14,7 @@ export const site = {
     'Η ΑΘΕΝΟΑ είναι ένα Τέμενος Πολιτισμού που αναζωπυρώνει την Αρχαία Ελληνική Σοφία ως ζωντανό δρόμο αυτοπραγμάτωσης, ιερής παιδείας και πολιτικής αρετής.',
   mission:
     'Με οδηγό το Αρχέτυπο της Θεάς Αθηνάς, φωτίζουμε τον δρόμο από τη διανοητική μάθηση στην ενσώματη γνώση, από τη φιλοσοφία στην εσωτερική αφύπνιση — αποκαθιστώντας τη σχέση μας με τη Φύση, με την Ψυχή και με τον Κόσμο.',
-  founder: 'Δρ. Αθηνά Δέσποινα Πόταρη',
+  founder: 'Δρ. Αθηνά Δ. Πόταρη',
   phone: { display: '(0030) 690-606-8444', href: 'tel:00306906068444' },
   emails: ['philathenea@athenoa.academy'],
   membershipForm: 'https://docs.google.com/forms/d/10wWFfEJswGyhoiPyGHOc5QjUimHitGUBsbFaHlYpnvY/viewform',
@@ -32,7 +32,7 @@ export const site = {
     { label: 'Ζωντανά μαθήματα', href: '/courses/', menu: 'courses' },
     { label: 'Γίνε Μέλος της Ακαδημίας', href: '/membership/' },
     { label: 'Σχετικά με τη Δρ. Αθηνά', href: '/about-athena/' }, // last in the menu (Maria, 23 November 2026)
-    { label: 'Έργο & Τύπος', href: '/work/' }, // at the bottom of the menu (Maria, 24 November 2026)
+    { label: 'Ομιλίες και Δημοσιεύσεις', href: '/work/' }, // at the bottom of the menu (Maria, 24 November 2026; renamed 25 November)
     // Nostos is hidden from the menu for the launch (Maria, 22 November 2026). To bring it back:
     // { label: nostosUi.el.entry.nav, href: '/nostos/play/', section: '/nostos/' }, with nostosUi imported from data/nostos/ui
   ],

@@ -161,7 +161,7 @@ const named = (type: string, name: string | undefined): Json | undefined => (nam
 
 // ---------- The Academy, its site and its founder ----------
 
-// site.founder carries the title: "Dr. Athena Despoina Potari", "Δρ. Αθηνά Δέσποινα Πόταρη".
+// site.founder carries the title: "Dr. Athena D. Potari", "Δρ. Αθηνά Δ. Πόταρη".
 const founder = (locale: Locale) => {
   const { site } = content(locale);
   const [, honorific, name] = site.founder.match(/^(Dr\.|Δρ\.)\s+(.+)$/) ?? [undefined, undefined, site.founder];

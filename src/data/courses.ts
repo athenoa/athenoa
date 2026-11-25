@@ -174,7 +174,7 @@ const allCourses: Course[] = [
     format: 'Live on Zoom, with recordings',
     teaching: 'el',
     available: true,
-    instructor: 'Dr. Athena Despoina Potari',
+    instructor: 'Dr. Athena D. Potari',
     price: { amount: 550, currency: 'EUR', display: '€550 or 8 × €68.75', label: 'Tuition:' },
     // The live page rounds the instalments to €69 and €83; Stripe charges €68.75 and €82.50.
     // No discount when paid upfront (Maria, 24 November 2026); the new Stripe links charge €550 and €660
@@ -275,7 +275,7 @@ const allCourses: Course[] = [
     format: 'Live on Zoom, with recordings',
     teaching: 'el',
     available: true,
-    instructor: 'Dr. Athena Despoina Potari',
+    instructor: 'Dr. Athena D. Potari',
     // Their page says 660€ and 550€; Stripe charges 640€ and 720€, confirmed by Maria on 22 November 2026.
     price: { amount: 640, currency: 'EUR', display: '€640 or 8 × €80', label: 'Tuition:' },
     // 10% off when the whole Cycle is paid upfront (card in full, or bank transfer); Maria,
@@ -382,7 +382,7 @@ const allCourses: Course[] = [
     // Not open yet: its button is "Join waitlist" (WaitlistDialog.astro). No tuition, so no registration shows.
     available: false,
     comingSoon: true,
-    instructor: 'Dr. Athena Despoina Potari',
+    instructor: 'Dr. Athena D. Potari',
     // The price is to come (Maria, 22 November 2026: not final); no fee is shown until it is set here
     // Until it opens its page shows only the four weeks (Maria, 22 November 2026); the full description,
     // the meetings, the access notes and the orientation wait in `later`, to come back when it opens.

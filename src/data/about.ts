@@ -12,7 +12,7 @@ export const about = {
   title: 'About Dr. Athena Potari',
 
   intro: [
-    'Dr. Athena Despoina Potari is a Doctor of Philosophy at the University of Oxford, holder of a Master’s Degree specializing in Platonic Polity and Cosmology, and founder of the Philosophical Academy “ATHENOA”.',
+    'Dr. Athena D. Potari is a Doctor of Philosophy at the University of Oxford, holder of a Master’s Degree specializing in Platonic Polity and Cosmology, and founder of the Philosophical Academy “ATHENOA”.',
     'The purpose of founding the Academy is to highlight Greek Philosophy and to teach it as a Living Spiritual Tradition, with the main goal of Awakening of Consciousness and <span lang="grc">Εὖ Ζῆν</span> (Good Living).',
     'Athena Potari’s vision is the continuation and revival of the Platonic Academy. With the founding of the Philosophical Academy ATHENOA, she gives flesh and bones to this vision and undertakes the Teaching of Philosophy in combination with Science and Spirituality, as a Path of Self-Knowledge and Awakening, with its direct and experiential application in our lives.',
   ],

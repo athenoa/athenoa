@@ -47,7 +47,7 @@
   --title-leading: 0.95;
   --title-scale: 1;
   --body-scale: 0.93;
-  --site-scale: 0.86; /* every size smaller (Maria, 24 November 2026: 0.92, then 'a little bit smaller') */
+  --site-scale: 0.9; /* the text only, every step (Maria, 24 November 2026: 0.92, then 0.86 'a little bit smaller'; 25 November: all text slightly larger, images and shapes as they are) */
 
   /* Space */
   --space-2xs: 0.375rem;

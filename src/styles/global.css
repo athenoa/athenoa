@@ -59,6 +59,8 @@ body {
   font-family: var(--font-body);
   font-size: var(--step-0);
   line-height: 1.52;
+  /* 1% tracking, a little air between the letters (Maria, 25 November 2026); titles keep their own */
+  letter-spacing: 0.01em;
   font-kerning: normal;
   font-variant-ligatures: common-ligatures;
   font-variant-numeric: oldstyle-nums proportional-nums;

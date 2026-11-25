@@ -43,7 +43,7 @@ export const coursesPage = {
     email: 'Ἐπιστολή (email)',
     back: 'Πάλιν',
     contactInstead: 'Ἐπιστείλατε τῇ Ὀλυμπίᾳ',
-    // A verb, read together with the instructor's name: "Διδάσκει Δρ. Αθηνά Δέσποινα Πόταρη".
+    // A verb, read together with the instructor's name: "Διδάσκει Δρ. Αθηνά Δ. Πόταρη".
     taughtBy: 'Διδάσκει',
     tuition: greekPage.ui.tuition,
     registration: greekPage.ui.registration,

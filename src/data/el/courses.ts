@@ -75,7 +75,7 @@ const allCourses: Course[] = [
     format: 'Ζωντανά μέσω Zoom, με recordings',
     teaching: 'el',
     available: true,
-    instructor: 'Δρ. Αθηνά Δέσποινα Πόταρη',
+    instructor: 'Δρ. Αθηνά Δ. Πόταρη',
     price: { amount: 550, currency: 'EUR', display: '€550 ή 8 × €68,75', label: 'Δίδακτρα:' },
     // The live page rounds the instalments to 69€ and 83€; Stripe charges 68,75€ and 82,50€.
     // No discount when paid upfront (Maria, 24 November 2026); the new Stripe links charge €550 and €660
@@ -175,7 +175,7 @@ const allCourses: Course[] = [
     format: 'Ζωντανά μέσω Zoom, με recordings',
     teaching: 'el',
     available: true,
-    instructor: 'Δρ. Αθηνά Δέσποινα Πόταρη',
+    instructor: 'Δρ. Αθηνά Δ. Πόταρη',
     // Their page says 660€ and 550€; Stripe charges 640€ and 720€, confirmed by Maria on 22 November 2026.
     price: { amount: 640, currency: 'EUR', display: '€640 ή 8 × €80', label: 'Δίδακτρα:' },
     // 10% off paid upfront (see the English file); the Stripe "full" links charge €576 / €648 (new links, 23 November 2026)
@@ -275,7 +275,7 @@ const allCourses: Course[] = [
     // Not open yet: "Join waitlist" (see the English file)
     available: false,
     comingSoon: true,
-    instructor: 'Δρ. Αθηνά Δέσποινα Πόταρη',
+    instructor: 'Δρ. Αθηνά Δ. Πόταρη',
     // The price is to come (Maria, 22 November 2026: not final); no fee is shown until it is set here
     // Until it opens its page shows only the four weeks (Maria, 22 November 2026); the full description,
     // the meetings, the access notes and the orientation wait in `later`, to come back when it opens.
@@ -368,7 +368,7 @@ export const coursesPage = {
     email: 'Email',
     back: 'Πίσω',
     contactInstead: 'Γράψτε στην Ολυμπία',
-    // Read together with the instructor's name: "Με τη Δρ. Αθηνά Δέσποινα Πόταρη".
+    // Read together with the instructor's name: "Με τη Δρ. Αθηνά Δ. Πόταρη".
     taughtBy: 'Με τη',
     // The tuition, in the live page's own words (see the English file)
     tuition: {

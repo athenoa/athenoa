@@ -13,7 +13,7 @@ export const site = {
     'ATHENOA is a Cultural Sanctuary which rekindles Ancient Hellenic Wisdom as a living path of self-realization, sacred education, and civic virtue.',
   mission:
     'Guided by the Archetype of Goddess Athena, we illuminate the way from intellectual learning to embodied knowing, from philosophy to inner awakening—restoring our relationship with Nature, with Soul, and with the World.',
-  founder: 'Dr. Athena Despoina Potari',
+  founder: 'Dr. Athena D. Potari',
   phone: { display: '(0030) 690-606-8444', href: 'tel:00306906068444' },
   emails: ['philathenea@athenoa.academy'],
   membershipForm: 'https://docs.google.com/forms/d/10wWFfEJswGyhoiPyGHOc5QjUimHitGUBsbFaHlYpnvY/viewform',
