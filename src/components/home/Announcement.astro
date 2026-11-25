@@ -367,6 +367,23 @@ const announced = home.announcement.courses
     .letter__sign :global(.letter__portrait) {
       width: clamp(9.5rem, 1rem + 15vw, 16rem);
     }
+    /* Beside the slip the sheet is too narrow for the words and a large photograph side by side, so
+       the signature goes under the words, as on a phone (Maria, 25 November 2026) */
+    .announcement__top:has(.slip) .letter {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .announcement__top:has(.slip) .letter__sign {
+      grid-column: 1;
+      grid-row: auto;
+      flex-direction: row;
+      align-items: center;
+      gap: 1.25rem;
+      width: auto;
+      margin-top: var(--space-m);
+    }
+    .announcement__top:has(.slip) .letter__sign :global(.letter__portrait) {
+      width: clamp(7rem, 3rem + 5vw, 9.5rem);
+    }
 
     /* One even row: the cards share a height, one column per course shown (two since the third course
        was hidden, Maria, 23 November 2026). The row reaches into the page margins, so the cards are wider

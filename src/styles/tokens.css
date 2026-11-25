@@ -59,9 +59,9 @@
   --space-2xl: clamp(5rem, 3rem + 9vw, 12rem);
   /* wider margins and a narrower column, so the content's total width is smaller (Maria, 24 November 2026;
      was clamp(1.15rem, 0.6rem + 2.6vw, 3.25rem) and 82rem, then 72rem). The course banners still run the full width. */
-  --gutter: clamp(1.75rem, 0.5rem + 8vw, 9rem); /* third pass (Maria: 'even more narrow') */
+  --gutter: clamp(1.6rem, 0.5rem + 6.5vw, 7.5rem); /* fourth pass, a tad wider again (Maria, 25 November 2026; was clamp(1.75rem, 0.5rem + 8vw, 9rem)) */
   --measure: 62ch;
-  --wrap: 56rem;
+  --wrap: 60rem;
   /* The header's width and the inner padding of its bar. --edge is where the logo starts, measured
      from the window's edge; the hero title starts there too, so the two always line up (client
      direction, 16 October 2026: the header a little wider, the title a little further in). */

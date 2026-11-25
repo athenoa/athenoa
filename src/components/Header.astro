@@ -120,6 +120,35 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
 </header>
 
 <script>
+  import { soundContext } from '../scripts/sound';
+
+  // When a menu link is clicked, a soft, low, muffled note, like a key pressed on a felt piano heard
+  // from the next room (Maria, 25 November 2026: classy and serious, nothing bright or plucked).
+  // Two quiet sines an octave apart, a slow-ish rise so there is no click, gone in a quarter second.
+  async function tap() {
+    const ctx = await soundContext();
+    if (!ctx) return;
+    const now = ctx.currentTime;
+    const gain = ctx.createGain();
+    gain.gain.setValueAtTime(0, now);
+    gain.gain.linearRampToValueAtTime(0.045, now + 0.012);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.28);
+    gain.connect(ctx.destination);
+    [
+      [146.8, 1], // D3
+      [293.7, 0.25],
+    ].forEach(([freq, level]) => {
+      const osc = ctx.createOscillator();
+      const part = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = freq;
+      part.gain.value = level;
+      osc.connect(part).connect(gain);
+      osc.start(now);
+      osc.stop(now + 0.3);
+    });
+  }
+
   document.addEventListener('astro:page-load', () => {
     const header = document.querySelector<HTMLElement>('[data-header]');
     const toggle = header?.querySelector<HTMLButtonElement>('[data-menu-toggle]');
@@ -131,6 +160,7 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
     };
     toggle.addEventListener('click', () => setOpen(!header.classList.contains('is-open')));
     header.querySelectorAll('.header__links a').forEach((link) => link.addEventListener('click', () => setOpen(false)));
+    header.querySelectorAll('.header__brand, .header__links a:not([data-here])').forEach((link) => link.addEventListener('click', tap));
     // The item of the page you are on does nothing (the pointer cannot reach it; this is for the keyboard)
     header.querySelectorAll('.header__links a[data-here]').forEach((link) => link.addEventListener('click', (event) => event.preventDefault()));
     document.addEventListener('keydown', (event) => {
