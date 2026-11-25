@@ -45,7 +45,10 @@ async function confirm(row: { email: string; first_name: string | null; course: 
   if (!page.ok) page = await fetch(`${ASSETS}/payment-confirmed.${lang}.html`);
   if (!page.ok) return console.error('template', page.status);
   const name = (row.first_name ?? '').trim();
-  const html = (await page.text())
+  const text = await page.text();
+  // the subject is the email's own title, so a course's own email has its own subject
+  const title = text.match(/<title>([^<]+)<\/title>/)?.[1] ?? (lang === 'en' ? 'Your place is secured' : 'Η θέση σας εξασφαλίστηκε');
+  const html = text
     .replaceAll('{{SITE}}', SITE)
     .replaceAll('{{ASSETS}}', ASSETS)
     .replaceAll('{{GREETING}}', lang === 'en' ? `Dear ${name.split(/\s+/)[0] || 'friend'},` : greekGreeting(name))
@@ -57,7 +60,7 @@ async function confirm(row: { email: string; first_name: string | null; course: 
       from: FROM,
       to: [row.email],
       reply_to: 'philathenea@athenoa.academy',
-      subject: lang === 'en' ? 'Your place is secured · ATHENOA' : 'Η θέση σας εξασφαλίστηκε · ΑΘΕΝΟΑ',
+      subject: `${title} · ${lang === 'en' ? 'ATHENOA' : 'ΑΘΕΝΟΑ'}`,
       html,
     }),
   });
