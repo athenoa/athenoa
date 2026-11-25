@@ -175,8 +175,7 @@ const allCourses: Course[] = [
     instructor: 'Dr. Athena Despoina Potari',
     price: { amount: 550, currency: 'EUR', display: '€550 or 8 × €68.75', label: 'Tuition:' },
     // The live page rounds the instalments to €69 and €83; Stripe charges €68.75 and €82.50.
-    // 10% off paid upfront, as the Academy's Stripe links now charge (€495, €594; Maria, 23 November 2026)
-    upfrontDiscount: 0.1,
+    // No discount when paid upfront (Maria, 24 November 2026); the new Stripe links charge €550 and €660
     tuition: [
       {
         name: 'Standard Tuition',
@@ -184,7 +183,7 @@ const allCourses: Course[] = [
         price: 550,
         perMonth: 68.75,
         payments: 8,
-        payInFull: 'https://book.stripe.com/cNi4gA7Mk1cndBT7Fu9sk0n',
+        payInFull: 'https://book.stripe.com/4gM28s5Ecf3dgO5cZO9sk06',
         payMonthly: 'https://buy.stripe.com/3cI7sM5EcbR141jbVK9sk08',
       },
       {
@@ -194,7 +193,7 @@ const allCourses: Course[] = [
         perMonth: 82.5,
         payments: 8,
         notes: [generosity, oneToOne],
-        payInFull: 'https://book.stripe.com/14AeVe8QoaMX7dve3S9sk0o',
+        payInFull: 'https://book.stripe.com/3cI5kEfeM2greFX3pe9sk07',
         payMonthly: 'https://buy.stripe.com/9B6dRaeaI8EPfK1f7W9sk09',
       },
     ],
