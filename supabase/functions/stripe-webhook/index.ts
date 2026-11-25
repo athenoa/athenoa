@@ -39,7 +39,10 @@ function greekGreeting(raw: string) {
 async function confirm(row: { email: string; first_name: string | null; course: string; locale: string | null }) {
   const lang = row.locale === 'en' ? 'en' : 'el';
   const place = PLACE[row.course] ?? { el: '', en: '', path: '/' };
-  const page = await fetch(`${ASSETS}/payment-confirmed.${lang}.html`);
+  // a course may have its own email in Athena's words (payment-confirmed.odusseia.el.html, 26 November 2026);
+  // otherwise the shared one
+  let page = await fetch(`${ASSETS}/payment-confirmed.${row.course}.${lang}.html`);
+  if (!page.ok) page = await fetch(`${ASSETS}/payment-confirmed.${lang}.html`);
   if (!page.ok) return console.error('template', page.status);
   const name = (row.first_name ?? '').trim();
   const html = (await page.text())
