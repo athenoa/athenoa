@@ -124,15 +124,19 @@ const t = copy[locale];
     );
   }
 
+  // the banner no longer slides down by itself: too much information (Maria, 25 November 2026); the −10% and
+  // the code stay in the monthly box. Set to true to bring it back; ?promo=banner still shows it.
+  const AUTO_BANNER = false;
+
   function setup() {
     const want = new URLSearchParams(location.search).get('promo');
     const targets = [...document.querySelectorAll<HTMLElement>('[data-early-bird]')];
     const banner = document.querySelector<HTMLElement>('[data-promo="banner"]');
-    if (!want && banner && targets.length) slide(banner, targets);
+    if (AUTO_BANNER && !want && banner && targets.length) slide(banner, targets);
     else watcher?.disconnect();
     document.querySelectorAll<HTMLElement>('[data-promo]').forEach((el) => {
       // draft: only on request, and always (a closed one comes back when asked for by the address)
-      if (!(el === banner && !want && targets.length)) el.hidden = el.dataset.promo !== want;
+      if (!(AUTO_BANNER && el === banner && !want && targets.length)) el.hidden = el.dataset.promo !== want;
       if (el.hidden || el.dataset.ready) return;
       el.dataset.ready = '1';
       el.querySelector('[data-promo-close]')?.addEventListener('click', () => {
