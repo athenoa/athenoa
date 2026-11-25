@@ -175,8 +175,7 @@ const allCourses: Course[] = [
     instructor: 'Dr. Athena Despoina Potari',
     price: { amount: 550, currency: 'EUR', display: '€550 or 8 × €68.75', label: 'Tuition:' },
     // The live page rounds the instalments to €69 and €83; Stripe charges €68.75 and €82.50.
-    // No discount when paid upfront (Maria, 24 November 2026: the Odyssey has none; the 10% taken off on
-    // 23 November is gone). Its Stripe 'full' links may still charge the discounted price until Maria updates them.
+    // No discount when paid upfront (Maria, 24 November 2026); the new Stripe links charge €550 and €660
     tuition: [
       {
         name: 'Standard Tuition',
