@@ -299,8 +299,8 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
   .header__links > li:not(.header__lang) > a {
     isolation: isolate;
     /* in capitals (client direction): smaller and letterspaced, so they sit as quietly as before */
-    font-size: calc(var(--step-0) * 0.8);
-    letter-spacing: 0.08em;
+    font-size: calc(var(--step-0) * 0.68); /* a touch smaller so the row breathes beside the name (Maria, 25 November 2026) */
+    letter-spacing: 0.07em;
     text-transform: uppercase;
     transition: color var(--dur-1) var(--hover-delay);
   }
@@ -633,8 +633,9 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
     transform: translateY(-7px) rotate(-42deg);
   }
 
-  /* the phone menu up to 82rem: below that the four items no longer fit on one row (Maria, 23 November 2026) */
-  @media (max-width: 82rem) {
+  /* the phone menu up to 88rem: below that the four items no longer fit on one row (Maria, 23 November 2026;
+     was 82rem before the text grew, 25 November 2026) */
+  @media (max-width: 88rem) {
     .header__toggle {
       display: grid;
     }

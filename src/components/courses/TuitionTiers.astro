@@ -59,6 +59,8 @@ const { tiers, level = 3, payInFull, payMonthly, month, per = '', or, payments, 
 // The early-bird offer for monthly plans (PromoNotice.astro): Εὖ Ζῆν and membership, until 30 November 2026
 const earlyBird = course === 'eu-zen' || course === 'membership';
 const earlyWords = { el: 'με τον κωδικό', en: 'with the code', grc: 'τῷ συνθήματι' };
+// and how long it lasts (Maria, 25 November 2026)
+const earlyUntil = { el: 'έως 30 Νοεμβρίου', en: 'until 30 November', grc: 'μέχρι τῆς τριακοστῆς Νοεμβρίου' };
 const columns = tiers.length + (member?.tier ? 1 : 0);
 const locale = getLocale(Astro.url);
 const Name = level === 4 ? 'h4' : 'h3';
@@ -126,6 +128,7 @@ const cards = [
                 <span class="tier__off">−10%</span>
                 <span>{earlyWords[locale]}</span>
                 <span class="way__code">EARLY10</span>
+                <span>{earlyUntil[locale]}</span>
               </p>
             )}
             <a class="btn way__btn" href={isMember ? memberLink(tier, 'monthly') : tier.payMonthly} {...(isMember ? {} : opens(tier, 'monthly'))}>
