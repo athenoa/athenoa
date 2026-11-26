@@ -1,0 +1,3 @@
+-- Applied 26 November 2026: the email functions retry Resend's rate limit (up to ~7 s), so their trigger calls
+-- (registrations_send_confirmation, newsletter_send_welcome) pass timeout_milliseconds := 30000 to net.http_post
+-- instead of pg_net's default 5 s. Bodies otherwise unchanged; see the database for the exact definitions.

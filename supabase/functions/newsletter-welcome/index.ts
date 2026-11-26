@@ -29,6 +29,23 @@ async function template(db: SupabaseClient, key: string): Promise<string | null>
   return await page.text();
 }
 
+// Resend allows a few requests a second: a 429 (or a passing 5xx) is tried again, up to 5 times, waiting
+// 600 ms × attempt plus a little jitter, so a burst (several payments at once) still sends every email.
+async function resend(payload: unknown): Promise<Response> {
+  let res: Response = new Response(null, { status: 599 });
+  for (let attempt = 1; attempt <= 5; attempt++) {
+    res = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${Deno.env.get('RESEND_API_KEY')}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    if (res.ok || (res.status !== 429 && res.status < 500) || attempt === 5) return res;
+    await res.body?.cancel();
+    await new Promise((r) => setTimeout(r, 600 * attempt + Math.random() * 250));
+  }
+  return res;
+}
+
 Deno.serve(async (req) => {
   if (req.method !== 'POST') return new Response('method not allowed', { status: 405 });
   let id = '';
@@ -63,17 +80,13 @@ Deno.serve(async (req) => {
     .replaceAll('{{ASSETS}}', ASSETS)
     .replaceAll('{{UNSUBSCRIBE_URL}}', `${FUNCTIONS}/newsletter-unsubscribe?id=${row.id}`);
 
-  const sent = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${Deno.env.get('RESEND_API_KEY')}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      from: FROM,
-      to: [row.email],
-      reply_to: 'philathenea@athenoa.academy',
-      subject,
-      html,
-      headers: { 'List-Unsubscribe': `<${FUNCTIONS}/newsletter-unsubscribe?id=${row.id}>` },
-    }),
+  const sent = await resend({
+    from: FROM,
+    to: [row.email],
+    reply_to: 'philathenea@athenoa.academy',
+    subject,
+    html,
+    headers: { 'List-Unsubscribe': `<${FUNCTIONS}/newsletter-unsubscribe?id=${row.id}>` },
   });
   const result = await sent.text();
   if (!sent.ok) {
