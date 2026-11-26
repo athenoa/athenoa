@@ -100,6 +100,15 @@ async function verified(body: string, header: string | null) {
   return sigs.some((s) => same(s, expected));
 }
 
+// Stripe's time: seconds in a classic ("snapshot") event, an ISO string in a thin one. Never throws.
+function when(created: unknown): string | null {
+  const d =
+    typeof created === 'number' ? new Date(created * 1000)
+    : typeof created === 'string' ? new Date(/^\d+$/.test(created) ? Number(created) * 1000 : created)
+    : null;
+  return d && !Number.isNaN(d.getTime()) ? d.toISOString() : null;
+}
+
 const STATUS: Record<string, (s: Record<string, unknown>) => string | null> = {
   // a card payment is paid at once; a bank debit may still be on its way ('unpaid' until the async event)
   'checkout.session.completed': (s) => (s.payment_status === 'paid' || s.payment_status === 'no_payment_required' ? 'paid' : null),
@@ -120,31 +129,45 @@ Deno.serve(async (req) => {
   const isRegistration = /^[0-9a-f-]{36}$/i.test(id);
   // Every signed event is kept in stripe_events, with who paid and how much where Stripe says (Maria, 24 November
   // 2026), so a payment that matches no registration is never lost. A failure to log never stops the webhook.
+  // A thin event (Stripe destination set to the "thin" payload, 25 November 2026) carries no data.object, only
+  // the id of what changed (related_object): it is kept with that id and answered 200, so Stripe stops retrying.
+  const thin = !event.data?.object;
+  const related = (event.related_object ?? {}) as Record<string, unknown>;
   const log = async (outcome: string) => {
-    const who = (s.customer_details ?? {}) as Record<string, unknown>;
-    const isSession = s.object === 'checkout.session';
-    const { error: logError } = await db.from('stripe_events').upsert(
-      {
-        id: String(event.id ?? crypto.randomUUID()),
-        type: String(event.type ?? ''),
-        stripe_created: event.created ? new Date(Number(event.created) * 1000).toISOString() : null,
-        session_id: isSession ? (s.id ?? null) : null,
-        client_reference_id: s.client_reference_id ?? null,
-        payment_link: s.payment_link ?? null,
-        mode: s.mode ?? null,
-        payment_status: s.payment_status ?? s.status ?? null,
-        amount: typeof s.amount_total === 'number' ? s.amount_total / 100 : typeof s.amount === 'number' ? s.amount / 100 : null,
-        currency: s.currency ?? null,
-        email: who.email ?? s.receipt_email ?? s.customer_email ?? null,
-        name: who.name ?? null,
-        phone: who.phone ?? null,
-        matched_registration: ['paid', 'failed', 'abandoned'].includes(outcome) ? id : null,
-        outcome,
-      },
-      { onConflict: 'id', ignoreDuplicates: true },
-    );
-    if (logError) console.error('log', logError.message);
+    try {
+      const who = (s.customer_details ?? {}) as Record<string, unknown>;
+      const isSession = s.object === 'checkout.session';
+      const { error: logError } = await db.from('stripe_events').upsert(
+        {
+          id: String(event.id ?? crypto.randomUUID()),
+          type: String(event.type ?? ''),
+          stripe_created: when(event.created),
+          session_id: isSession ? (s.id ?? null) : thin && typeof related.id === 'string' ? related.id : null,
+          client_reference_id: s.client_reference_id ?? null,
+          payment_link: s.payment_link ?? null,
+          mode: s.mode ?? null,
+          payment_status: s.payment_status ?? s.status ?? null,
+          amount: typeof s.amount_total === 'number' ? s.amount_total / 100 : typeof s.amount === 'number' ? s.amount / 100 : null,
+          currency: s.currency ?? null,
+          email: who.email ?? s.receipt_email ?? s.customer_email ?? null,
+          name: who.name ?? null,
+          phone: who.phone ?? null,
+          matched_registration: ['paid', 'failed', 'abandoned'].includes(outcome) ? id : null,
+          outcome,
+        },
+        { onConflict: 'id', ignoreDuplicates: true },
+      );
+      if (logError) console.error('log', logError.message);
+    } catch (e) {
+      // logging never turns into a failed answer
+      console.error('log', String(e));
+    }
   };
+
+  if (thin) {
+    await log('thin event, ignored');
+    return new Response('thin event, ignored', { status: 200 });
+  }
 
   const decide = STATUS[event.type];
   if (!decide) {
@@ -167,7 +190,7 @@ Deno.serve(async (req) => {
     payment_updated_at: new Date().toISOString(),
   };
   if (status === 'paid') {
-    update.paid_at = new Date((Number(event.created) || Date.now() / 1000) * 1000).toISOString();
+    update.paid_at = when(event.created) ?? new Date().toISOString();
     update.amount_paid = typeof s.amount_total === 'number' ? s.amount_total / 100 : null;
     update.currency = s.currency ?? null;
   }
