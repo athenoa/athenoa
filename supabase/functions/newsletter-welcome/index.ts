@@ -3,7 +3,7 @@
 // was created in the last 15 minutes and has had no welcome yet, so the public endpoint cannot be used
 // to send mail to anyone else. Secrets: RESEND_API_KEY (set in the dashboard); optional EMAIL_FROM,
 // SITE_URL, ASSETS_URL.
-import { createClient } from 'npm:@supabase/supabase-js@2.45.4';
+import { createClient, type SupabaseClient } from 'npm:@supabase/supabase-js@2.45.4';
 
 const SITE = Deno.env.get('SITE_URL') ?? 'https://www.athenoa.academy';
 // the email's template and pictures, on the site itself
@@ -11,6 +11,23 @@ const ASSETS = Deno.env.get('ASSETS_URL') ?? 'https://www.athenoa.academy/email'
 // from the Academy's own address (athenoa.academy verified in Resend, 24 November 2026)
 const FROM = Deno.env.get('EMAIL_FROM') ?? 'ATHENOA <philathenea@athenoa.academy>';
 const FUNCTIONS = `${Deno.env.get('SUPABASE_URL')}/functions/v1`;
+
+// An email's HTML: the dashboard's edited version if there is one, else the file on the site
+async function template(db: SupabaseClient, key: string): Promise<string | null> {
+  try {
+    const { data, error } = await db.from('email_templates').select('html').eq('key', key).maybeSingle();
+    if (error) console.error('email_templates', error.message);
+    else if (data?.html) return data.html as string;
+  } catch (e) {
+    console.error('email_templates', String(e));
+  }
+  const page = await fetch(`${ASSETS}/${key}.html`);
+  if (!page.ok) {
+    console.error('template', key, page.status);
+    return null;
+  }
+  return await page.text();
+}
 
 Deno.serve(async (req) => {
   if (req.method !== 'POST') return new Response('method not allowed', { status: 405 });
@@ -35,12 +52,13 @@ Deno.serve(async (req) => {
   // English email; Greek and Ancient Greek pages the Greek one
   const lang = row.locale === 'en' ? 'en' : 'el';
   // the email itself lives with the site (public/email/newsletter-welcome.<lang>.html)
-  const page = await fetch(`${ASSETS}/newsletter-welcome.${lang}.html`);
-  if (!page.ok) {
-    console.error('template', page.status);
-    return new Response('template missing', { status: 502 });
-  }
-  const html = (await page.text())
+  // the words edited in the dashboard's Email tab win when there are any (public.email_templates, Maria,
+  // 26 November 2026); a failed read falls back to the file, so an error never stops the email
+  const text = await template(db, `newsletter-welcome.${lang}`);
+  if (!text) return new Response('template missing', { status: 502 });
+  // the subject is the email's own title, so an edited subject goes out too
+  const subject = text.match(/<title>([^<]+)<\/title>/)?.[1] ?? (lang === 'en' ? 'Welcome to ATHENOA' : 'Καλώς ήρθατε στην ΑΘΕΝΟΑ');
+  const html = text
     .replaceAll('{{SITE}}', SITE)
     .replaceAll('{{ASSETS}}', ASSETS)
     .replaceAll('{{UNSUBSCRIBE_URL}}', `${FUNCTIONS}/newsletter-unsubscribe?id=${row.id}`);
@@ -52,7 +70,7 @@ Deno.serve(async (req) => {
       from: FROM,
       to: [row.email],
       reply_to: 'philathenea@athenoa.academy',
-      subject: lang === 'en' ? 'Welcome to ATHENOA' : 'Καλώς ήρθατε στην ATHENOA',
+      subject,
       html,
       headers: { 'List-Unsubscribe': `<${FUNCTIONS}/newsletter-unsubscribe?id=${row.id}>` },
     }),

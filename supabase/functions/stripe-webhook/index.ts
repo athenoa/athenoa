@@ -3,7 +3,7 @@
 // back here, so the row is marked paid, failed or abandoned. Only events signed with STRIPE_WEBHOOK_SECRET
 // (set in the Supabase dashboard; never in the code) are believed. No Stripe API key is used. The first time a
 // registration is paid, it sends the "your place is secured" email (public/email/payment-confirmed.<lang>.html).
-import { createClient } from 'npm:@supabase/supabase-js@2.45.4';
+import { createClient, type SupabaseClient } from 'npm:@supabase/supabase-js@2.45.4';
 
 const SECRET = Deno.env.get('STRIPE_WEBHOOK_SECRET') ?? '';
 const SITE = Deno.env.get('SITE_URL') ?? 'https://www.athenoa.academy';
@@ -35,17 +35,29 @@ function greekGreeting(raw: string) {
   return `Αγαπητή ${cap},`;
 }
 
+// An email's HTML: the version edited in the dashboard's Email tab (public.email_templates, Maria, 26 November
+// 2026) if there is one, else the file on the site. A failed read falls back to the file: it never stops the email.
+async function template(db: SupabaseClient, key: string): Promise<string | null> {
+  try {
+    const { data, error } = await db.from('email_templates').select('html').eq('key', key).maybeSingle();
+    if (error) console.error('email_templates', error.message);
+    else if (data?.html) return data.html as string;
+  } catch (e) {
+    console.error('email_templates', String(e));
+  }
+  const page = await fetch(`${ASSETS}/${key}.html`);
+  return page.ok ? await page.text() : null;
+}
+
 // "Your place is secured": sent once, when a registration first becomes paid
-async function confirm(row: { email: string; first_name: string | null; course: string; locale: string | null }) {
+async function confirm(db: SupabaseClient, row: { email: string; first_name: string | null; course: string; locale: string | null }) {
   const lang = row.locale === 'en' ? 'en' : 'el';
   const place = PLACE[row.course] ?? { el: '', en: '', path: '/' };
-  // a course may have its own email in Athena's words (payment-confirmed.odusseia.el.html, 26 November 2026);
-  // otherwise the shared one
-  let page = await fetch(`${ASSETS}/payment-confirmed.${row.course}.${lang}.html`);
-  if (!page.ok) page = await fetch(`${ASSETS}/payment-confirmed.${lang}.html`);
-  if (!page.ok) return console.error('template', page.status);
+  // a course may have its own email in Athena's words (payment-confirmed.odusseia.el, 26 November 2026);
+  // otherwise the shared one. Each step checks the dashboard's edit before the file.
+  const text = (await template(db, `payment-confirmed.${row.course}.${lang}`)) ?? (await template(db, `payment-confirmed.${lang}`));
+  if (!text) return console.error('template missing', row.course, lang);
   const name = (row.first_name ?? '').trim();
-  const text = await page.text();
   // the subject is the email's own title, so a course's own email has its own subject
   const title = text.match(/<title>([^<]+)<\/title>/)?.[1] ?? (lang === 'en' ? 'Your place is secured' : 'Η θέση σας εξασφαλίστηκε');
   const html = text
@@ -175,6 +187,6 @@ Deno.serve(async (req) => {
   }
   await log(before ? status : 'registration not found');
   // the first time it is paid: the "your place is secured" email
-  if (status === 'paid' && before && before.payment_status !== 'paid' && before.email) await confirm(before);
+  if (status === 'paid' && before && before.payment_status !== 'paid' && before.email) await confirm(db, before);
   return new Response('ok', { status: 200 });
 });
