@@ -65,6 +65,15 @@ Deno.serve(async (req) => {
     try {
       const who = (s.customer_details ?? {}) as Record<string, unknown>;
       const isSession = s.object === 'checkout.session';
+      // an invoice (a monthly instalment) has no amount_total: what was paid is amount_paid, else total; its payer
+      // is customer_email / customer_name (Maria's sales view counts invoice.paid, 26 November 2026)
+      const isInvoice = s.object === 'invoice';
+      const cents =
+        typeof s.amount_total === 'number' ? s.amount_total
+        : isInvoice && typeof s.amount_paid === 'number' ? s.amount_paid
+        : isInvoice && typeof s.total === 'number' ? s.total
+        : typeof s.amount === 'number' ? s.amount
+        : null;
       const { error: logError } = await db.from('stripe_events').upsert(
         {
           id: String(event.id ?? crypto.randomUUID()),
@@ -75,10 +84,10 @@ Deno.serve(async (req) => {
           payment_link: s.payment_link ?? null,
           mode: s.mode ?? null,
           payment_status: s.payment_status ?? s.status ?? null,
-          amount: typeof s.amount_total === 'number' ? s.amount_total / 100 : typeof s.amount === 'number' ? s.amount / 100 : null,
+          amount: cents === null ? null : cents / 100,
           currency: s.currency ?? null,
           email: who.email ?? s.receipt_email ?? s.customer_email ?? null,
-          name: who.name ?? null,
+          name: who.name ?? s.customer_name ?? null,
           phone: who.phone ?? null,
           matched_registration: ['paid', 'failed', 'abandoned'].includes(outcome) ? id : null,
           outcome,
