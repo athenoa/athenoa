@@ -368,7 +368,7 @@ export const coursesPage = {
     placeholderBadge: 'Λεπτομέρειες σύντομα',
     email: 'Email',
     back: 'Πίσω',
-    contactInstead: 'Γράψτε στην Ολυμπία',
+    contactInstead: 'Επικοινωνήστε μαζί μας',
     // Read together with the instructor's name: "Με τη Δρ. Αθηνά Δ. Πόταρη".
     taughtBy: 'Με τη',
     // The tuition, in the live page's own words (see the English file)
