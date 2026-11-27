@@ -358,6 +358,7 @@ export const coursesPage = {
     facts: { dates: 'Ημερομηνίες', duration: 'Διάρκεια', format: 'Τρόπος', language: 'Γλώσσα', fee: 'Κόστος' },
     when: { last: 'Τελευταίο Μάθημα', until: 'έως {date}', months: '{n} Μήνες' },
     languages: { el: 'Ελληνικά', en: 'Αγγλικά' },
+    langNote: 'Αυτό το μάθημα διδάσκεται στα {language}, σε άλλη γλώσσα από αυτή που διαβάζετε τη σελίδα. Απλώς ελέγξτε ότι σας ταιριάζει.',
     soon: 'Σύντομα',
     live: 'Ζωντανό',
     close: 'Κλείσιμο',

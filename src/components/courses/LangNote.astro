@@ -1,0 +1,109 @@
+---
+// A quiet mark beside a course's language when it is not the language the visitor is reading the site in
+// (Maria, 27 November 2026): pointing at it, or tapping it, says so, so they can double-check before enrolling.
+// Greek and Ancient Greek pages count as Greek.
+import { content } from '../../data';
+import { getLocale } from '../../lib/locale';
+import { fill } from './money';
+
+interface Props {
+  /** The language the course is taught in (Course.teaching) */
+  teaching?: 'el' | 'en';
+}
+const { teaching } = Astro.props;
+const locale = getLocale(Astro.url);
+const reading = locale === 'en' ? 'en' : 'el';
+const { ui } = content(locale).coursesPage;
+const text = teaching && teaching !== reading ? fill(ui.langNote, { language: ui.languages[teaching] }) : '';
+---
+
+{
+  text && (
+    <span class="langnote">
+      <button class="langnote__mark" type="button" aria-label={text}>
+        <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false">
+          <circle cx="8" cy="8" r="6.6" />
+          <path d="M8 4.6v4.3" />
+          <circle class="langnote__dot" cx="8" cy="11.4" r="0.95" />
+        </svg>
+      </button>
+      <span class="langnote__tip" aria-hidden="true">{text}</span>
+    </span>
+  )
+}
+
+<style>
+  .langnote {
+    position: relative;
+    display: inline-block;
+    vertical-align: 0.05em;
+    margin-left: 0.35em;
+  }
+  /* a small ring with an exclamation, in the gold of the site's marks: noticed, not shouted */
+  .langnote__mark {
+    display: grid;
+    place-items: center;
+    width: 1.5em;
+    height: 1.5em;
+    margin: -0.25em;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--gold, #c9a24a);
+    cursor: help;
+    border-radius: 50%;
+  }
+  .langnote__mark svg {
+    width: 0.95em;
+    height: 0.95em;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+  }
+  .langnote__dot {
+    fill: currentColor;
+    stroke: none;
+  }
+  .langnote__mark:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+  /* the note: a crème slip above the mark, on hover, on keyboard focus and on a tap (a tap focuses the button) */
+  .langnote__tip {
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 0.55rem);
+    z-index: 20;
+    width: max-content;
+    max-width: min(17rem, 78vw);
+    padding: 0.55rem 0.8rem 0.6rem;
+    border: 1.5px solid var(--line);
+    border-radius: 0.9rem;
+    background: var(--creme-light);
+    color: var(--blue-deep, #0b1c8c);
+    font-size: var(--step--1);
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.4;
+    letter-spacing: 0.01em;
+    text-align: left;
+    white-space: normal;
+    box-shadow: 0 0.4rem 1.2rem rgb(7 18 96 / 0.18);
+    translate: -50% 0.25rem;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+      opacity var(--dur-1, 0.18s) ease,
+      translate var(--dur-1, 0.18s) ease,
+      visibility 0s linear var(--dur-1, 0.18s);
+  }
+  .langnote:hover .langnote__tip,
+  .langnote__mark:focus + .langnote__tip {
+    opacity: 1;
+    visibility: visible;
+    translate: -50% 0;
+    transition-delay: 0s;
+  }
+</style>

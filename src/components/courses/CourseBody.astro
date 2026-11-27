@@ -10,6 +10,7 @@ import portrait from '../../assets/media/athena-portrait-thumb.jpg';
 import Illustration from '../Illustration.astro';
 import RegistrationInfo from './RegistrationInfo.astro';
 import PaperNote from './PaperNote.astro';
+import LangNote from './LangNote.astro';
 import { content } from '../../data';
 import type { Course } from '../../data/courses';
 import { getLocale } from '../../lib/locale';
@@ -56,7 +57,7 @@ const facts = [
   { label: ui.facts.dates, value: dates ? undefined : course.schedule, dates },
   { label: ui.facts.duration, value: length },
   { label: ui.facts.format, value: format, note: formatNote },
-  { label: ui.facts.language, value: course.teaching && ui.languages[course.teaching] },
+  { label: ui.facts.language, value: course.teaching && ui.languages[course.teaching], lang: true },
   { label: ui.facts.fee, value: course.price?.display, fee: true },
 ].filter((fact) => fact.value || fact.dates);
 
@@ -192,6 +193,7 @@ const symbolFor = 'description';
                   ) : (
                     <>
                       {fact.value}
+                      {'lang' in fact && <LangNote teaching={course.teaching} />}
                       {'note' in fact && fact.note && <span class="facts__month">{fact.note}</span>}
                     </>
                   )}
