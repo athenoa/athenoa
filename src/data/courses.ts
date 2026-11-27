@@ -147,7 +147,8 @@ const allCourses: Course[] = [
     title: 'Odyssey',
     status: 'open',
     // The course banner, from the Academy (Maria, 22 November 2026); Athena's photo in both banners replaced (27 November
-    // 2026) by an event photo of hers, the other person removed with Nano Banana Pro and her face kept as photographed
+    // 2026) by an event photo of hers (the other person removed with Nano Banana Pro, her face kept as photographed), then cut
+    // out with her shadow onto the banner's cream (Maria, 27 November 2026)
     image: 'course-odusseia',
     // taller than the poster and cropped from the right, so its left side (Athena, Odysseus on his ship, the
     // foreground at the lower left) shows larger (Athena, 23 November 2026)
@@ -251,14 +252,15 @@ const allCourses: Course[] = [
     title: 'Εὖ Ζῆν',
     status: 'open',
     // The course banner, from the Academy (Maria, 22 November 2026); Athena's photo in both banners replaced (27 November
-    // 2026) by an event photo of hers, the other person removed with Nano Banana Pro and her face kept as photographed
+    // 2026) by an event photo of hers (the other person removed with Nano Banana Pro, her face kept as photographed), then cut
+    // out with her shadow onto the banner's cream (Maria, 27 November 2026)
     image: 'course-eu-zen',
     // phones: a portrait version, recomposed from the banner with Higgsfield (Nano Banana Pro): Athena's bust on
     // top, the text in the middle, an olive-grove scene with a temple and the sea at the foot (Maria, 24 November 2026)
     bannerPortrait: 'course-eu-zen-portrait',
     bannerPortraitLight: true,
     imageAlt:
-      'Course banner: Εὖ Ζῆν, The Ancient Art of Eudaimonia. Dr. Athena Potari against a pale wall, between an Ionic column with olive leaves and a marble bust of Athena with her owl; 16 experiential lessons of Greek Philosophy in practice, from Self-knowledge to Eudaimonia',
+      'Course banner: Εὖ Ζῆν, The Ancient Art of Eudaimonia. Dr. Athena Potari, her shadow falling on the cream page, between an Ionic column with olive leaves and a marble bust of Athena with her owl; 16 experiential lessons of Greek Philosophy in practice, from Self-knowledge to Eudaimonia',
     subtitle: 'The Ancient Art of Eudaimonia',
     summary: 'Philosophy as the Art of Living: an experiential path to becoming, each day, who we truly are.',
     schedule: 'From 1 December 2026',
