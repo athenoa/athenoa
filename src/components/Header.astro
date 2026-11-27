@@ -170,6 +170,10 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
     // Language list: closes on a click elsewhere and on Escape
     const langMenu = header.querySelector<HTMLDetailsElement>('[data-lang-menu]');
     if (langMenu) {
+      // opened at the foot of the phone menu, the list is brought into view
+      langMenu.addEventListener('toggle', () => {
+        if (langMenu.open) langMenu.querySelector('.lang__list')?.scrollIntoView({ block: 'nearest' });
+      });
       document.addEventListener('click', (event) => {
         if (langMenu.open && event.target instanceof Node && !langMenu.contains(event.target)) langMenu.open = false;
       });
@@ -652,6 +656,11 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
       background-image: url('/textures/grain-light.webp');
       background-size: 400px 400px;
       border-radius: 2.2rem 2.8rem 2.4rem 3rem / 2.8rem 2.2rem 3rem 2.4rem;
+      /* the menu sits in the fixed header, so on a short phone screen it scrolls itself: otherwise its foot
+         (the language picker) is out of reach and a swipe scrolls the page behind (27 November 2026) */
+      max-height: calc(100dvh - var(--header-h) - 1rem);
+      overflow-y: auto;
+      overscroll-behavior: contain;
       opacity: 0;
       visibility: hidden;
       translate: 0 -0.75rem;
