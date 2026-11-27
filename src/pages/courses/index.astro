@@ -113,8 +113,14 @@ const others = courses.filter((course) => course !== lead);
     .courses__head {
       margin-bottom: var(--space-xl);
     }
+    /* the tall symbol spans both rows: the title sits at the foot of its row and the line at the top of its
+       own, so the two stay close instead of being spread apart by the symbol (Maria, 27 November 2026) */
+    .courses__head h1 {
+      align-self: end;
+    }
     .courses__line {
       grid-column: 1;
+      align-self: start;
     }
     .courses__mark {
       grid-row: 1 / span 2;
