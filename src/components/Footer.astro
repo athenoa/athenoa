@@ -103,7 +103,7 @@ const custom = Object.entries(images).find(([file]) =>
     </div>
   </div>
 
-  {/* A click on the picture wakes something in it (script below): the donkey brays, a bird leaves a
+  {/* A click on the picture wakes something in it (script below): the sheep bleats, a bird leaves a
       pine, the dolphins dive, the windmill turns. A small surprise for the pointer; nothing depends on it. */}
   <div
     class:list={['footer__scene', `footer__scene--${scene}`, !custom && 'footer__scene--drawn']}
@@ -133,10 +133,10 @@ const custom = Object.entries(images).find(([file]) =>
           <div class="footer__layer footer__layer--near" data-depth="-0.05">
             <Illustration name={art.near} />
           </div>
-          {/* A donkey among the pines of Attica (client request, 12 October 2026): on the Home page only */}
+          {/* A sheep among the pines of Attica (a donkey until 27 November 2026, Maria): on the Home page only */}
           {scene === 'attica' && (
-            <div class="footer__donkey" data-depth="-0.05">
-              <Illustration name="donkey" draw />
+            <div class="footer__sheep" data-depth="-0.05">
+              <Illustration name="sheep" draw />
             </div>
           )}
         </>
@@ -149,7 +149,7 @@ const custom = Object.entries(images).find(([file]) =>
 
 <script>
   // The pictures at the foot of the pages answer a click.
-  //   Home (Attica):     the donkey lifts its head and brays, once.
+  //   Home (Attica):     the sheep lifts its head and bleats, once.
   //   About (Olympus):   a small bird flies out from behind a pine and off the screen, with a chirp.
   //                      Once only: it does not come back until the page is opened again.
   //   Courses (Aegean):  the dolphins dive under the first wave with a splash; a second click and
@@ -174,8 +174,8 @@ const custom = Object.entries(images).find(([file]) =>
     scene.addEventListener('click', () => {
       const kind = scene.dataset.footerScene;
       if (kind === 'attica') {
-        const donkey = scene.querySelector('.footer__donkey');
-        if (donkey && once(donkey, 'is-braying', 1400)) play('/audio/bray.mp3', 0.056);
+        const sheep = scene.querySelector('.footer__sheep');
+        if (sheep && once(sheep, 'is-bleating', 1500)) play('/audio/bleat.mp3', 0.056);
       } else if (kind === 'olympus') {
         // once only: the bird has left, so later clicks find the tree empty
         const bird = scene.querySelector('[data-footer-flyer]');
@@ -320,30 +320,36 @@ const custom = Object.entries(images).find(([file]) =>
     cursor: pointer;
   }
 
-  /* The donkey brays: its head comes up once. (The head is a group inside the drawing; it turns
-     about the top of the neck. A short, one-off movement of a very small drawing.) */
+  /* The sheep bleats: its head comes up once, with a small shake on the long «μπε-ε-ε». (The head is a
+     group inside the drawing; it turns about where it meets the wool. A short, one-off movement.) */
   /* at night the line is pale, so the pupils take the dark of the sky instead */
-  :global(html[data-theme='dark']) .footer__donkey {
+  :global(html[data-theme='dark']) .footer__sheep {
     --eye-pupil: var(--paper);
   }
-  .footer__donkey :global(.donkey__head) {
+  .footer__sheep :global(.sheep__head) {
     transform-box: view-box;
-    transform-origin: 93px 35px;
+    transform-origin: 90px 60px;
   }
-  @keyframes donkey-bray {
+  @keyframes sheep-bleat {
     0%,
     100% {
       transform: rotate(0deg);
     }
-    30% {
-      transform: rotate(-26deg);
+    25% {
+      transform: rotate(-16deg);
     }
-    62% {
-      transform: rotate(-20deg);
+    45% {
+      transform: rotate(-12deg);
+    }
+    60% {
+      transform: rotate(-15deg);
+    }
+    75% {
+      transform: rotate(-11deg);
     }
   }
-  .footer__donkey:global(.is-braying) :global(.donkey__head) {
-    animation: donkey-bray 1.3s ease-in-out;
+  .footer__sheep:global(.is-bleating) :global(.sheep__head) {
+    animation: sheep-bleat 1.4s ease-in-out;
   }
 
   /* The bird of Olympus: out of sight behind a pine until the picture is clicked, then up and away
@@ -506,7 +512,7 @@ const custom = Object.entries(images).find(([file]) =>
   }
 
   /* It stands on the ground line of the scene (60 of the picture's 1600 units up), left of centre */
-  .footer__donkey {
+  .footer__sheep {
     position: absolute;
     left: 30.5%;
     bottom: 14.4%;

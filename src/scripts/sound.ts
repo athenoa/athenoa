@@ -1,4 +1,4 @@
-// The site's short sounds (chirps, the bray, the splashes, the note tone...), all played through one
+// The site's short sounds (chirps, the bleat, the splashes, the note tone...), all played through one
 // Web Audio context.
 //
 // Why not `new Audio(file).play()`: Safari refuses that unless the call is made inside a click or key
