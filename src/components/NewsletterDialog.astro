@@ -184,6 +184,17 @@ const contactHref = pathIn(locale, '/about-athena/#contact');
     bind(dialog);
     // Arriving at .../#newsletter
     if (location.hash === '#newsletter') open(dialog, null);
+    // The dashboard's preview of this screen (?screen-preview=…, Maria, 28 November 2026): the popup opens straight
+    // on its thanks, in the team's words, and nothing is sent or kept
+    if (new URLSearchParams(location.search).get('screen-preview') === 'newsletter')
+      void screenTexts('newsletter').then((fields) => {
+        const msg = dialog.querySelector<HTMLElement>('[data-newsletter-msg]')!;
+        setText(msg, fields.text);
+        msg.hidden = false;
+        dialog.querySelector<HTMLElement>('[data-newsletter-fail]')!.hidden = true;
+        open(dialog, null);
+        dialog.setAttribute('data-sent', '');
+      });
   });
 
   // One listener for every opener on every page, added once however often this module is run.
