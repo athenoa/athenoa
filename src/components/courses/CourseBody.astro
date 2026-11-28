@@ -1134,6 +1134,26 @@ const symbolFor = 'description';
       margin-bottom: 8.5rem;
     }
   }
+
+  /* Tablet and small laptop widths (Maria, 28 November 2026: the two chips must never touch): there is
+     not room for Athena's chip and the date side by side on the picture's edge, so the date (and the golden
+     slip under it) drops just below her chip, still on the right. Pages without her chip keep the edge. */
+  @media (min-width: 40.01rem) and (max-width: 72rem) {
+    .body--page .body__figure:has(.body__chip) {
+      --overhang: clamp(1.3rem, 0.8rem + 1.6vw, 2.1rem);
+      margin-bottom: calc(var(--overhang) + 7rem);
+    }
+    .body--page .body__figure:has(.body__chip) .body__note {
+      top: calc(100% + var(--overhang) + 0.7rem);
+      bottom: auto;
+    }
+    .body--page .body__figure:has(.body__chip) .body__missed {
+      top: calc(100% + var(--overhang) + 3.6rem);
+    }
+    .body--page .body__figure:has(.body__chip):has(.body__missed:not([hidden])) {
+      margin-bottom: calc(var(--overhang) + 11rem);
+    }
+  }
 </style>
 
 <script>
