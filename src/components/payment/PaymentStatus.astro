@@ -326,12 +326,12 @@ const w = words[kind];
   .pay__layer--near :global(path[fill='currentColor']) {
     fill: var(--paper);
   }
-  /* compact, and sized by the screen's height too, so it fits above the trees (Maria, 24 November 2026);
-     its foot runs on behind the grove */
+  /* compact, and sized by the screen's height too, so it fits above the trees (Maria, 24 November 2026) */
   .pay__sheet {
     max-width: 40rem;
-    margin-bottom: calc(var(--sh) * -0.3);
-    padding: clamp(1.3rem, 3.6svh, 2.6rem) clamp(1.5rem, 1rem + 3vw, 3.4rem) calc(var(--sh) * 0.3 + clamp(1rem, 2.4svh, 1.8rem));
+    /* the card ends with its words: the email line at its foot, no empty blue under it (Maria, 28 November 2026;
+       its foot used to run on behind the grove) */
+    padding: clamp(1.3rem, 3.6svh, 2.6rem) clamp(1.5rem, 1rem + 3vw, 3.4rem);
     text-align: center;
     --leaf: var(--gold);
   }
