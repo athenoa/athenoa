@@ -7,6 +7,9 @@
 // 1140€, eight instalments) were left over from a course, so they are not used. Paying the whole year
 // upfront takes 10% off (Maria, 22 November 2026): 891€ and 1026€; the monthly way is unchanged.
 // The Stripe "full" links charge 891€ and 1026€ (the Academy's new links, 23 November 2026).
+// COPIED ELSEWHERE: the dashboard's checkout reminder email (athenoa dashboard repo, reminder.js) carries its
+// own copy of these prices and Stripe links (28 November 2026). When a price or link changes here, tell the
+// dashboard session (or change reminder.js) too.
 import type { Course, TuitionTier } from './courses';
 import type { Locale } from '../lib/locale';
 import { membership as greek } from './el/membership';

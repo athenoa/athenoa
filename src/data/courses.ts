@@ -9,6 +9,9 @@
 // Payment: each tuition tier links to the Stripe Payment Links of the live site, one to pay in full and
 // one to pay in eight monthly instalments. The amounts below are the ones Stripe charges (checked
 // 22 November 2026, and confirmed by Maria). Nothing else connects to Stripe: no key, no server.
+// COPIED ELSEWHERE: the dashboard's checkout reminder email (athenoa dashboard repo, reminder.js) carries its
+// own copy of these prices and Stripe links (28 November 2026). When a price or link changes here, tell the
+// dashboard session (or change reminder.js) too.
 
 export interface CourseSection {
   id: string;
