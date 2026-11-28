@@ -341,6 +341,11 @@ const symbolFor = 'description';
       object-fit: cover;
       object-position: 50% 50%;
     }
+    /* Εὖ Ζῆν's has crème room above Athena's helmet: on a short phone it keeps the top, losing a little of the
+       landscape at the foot instead (Maria, 28 November 2026) */
+    .body--page .body__figure :global(.body__portrait[data-light]) {
+      object-position: 50% 0;
+    }
     .body--page .body__figure:has(:global(.body__portrait)) :global(.body__media--wide),
     .body--page .body__figure:has(:global(.body__portrait)) .body__chip,
     .body--page .body__figure:has(:global(.body__portrait)) .body__print {

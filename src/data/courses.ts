@@ -256,6 +256,8 @@ const allCourses: Course[] = [
     image: 'course-eu-zen',
     // phones: a portrait version, recomposed from the banner with Higgsfield (Nano Banana Pro): Athena's bust on
     // top, the text in the middle, an olive-grove scene with a temple and the sea at the foot (Maria, 24 November 2026)
+    // both banners given crème room above and below the writing, so the header and the date's chip no longer
+    // cover it (Maria, 28 November 2026: wide 1920×1390, was 1920×1080; phone 768×1506, was 768×1376)
     bannerPortrait: 'course-eu-zen-portrait',
     bannerPortraitLight: true,
     imageAlt:
