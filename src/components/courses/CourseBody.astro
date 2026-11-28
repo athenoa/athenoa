@@ -1096,7 +1096,8 @@ const symbolFor = 'description';
     /* tucked under the date's chip: its top edge runs behind the chip */
     top: calc(100% + clamp(1.3rem, 0.8rem + 1.6vw, 2.1rem) - 0.9rem);
     z-index: 2;
-    max-width: min(30rem, 80%);
+    /* a set width, not shrink-to-fit, so the words always run the slip's full width (Maria, 28 November 2026) */
+    width: min(30rem, 80%);
     margin: 0;
     padding: 1.35rem 1.1rem 0.6rem;
     border-radius: 0.5rem 0.9rem 0.6rem 1rem / 0.9rem 0.5rem 1rem 0.6rem;
@@ -1110,33 +1111,37 @@ const symbolFor = 'description';
     font-size: var(--step--1);
     line-height: 1.35;
     text-align: left;
-    /* no balancing: in a slip sized to its text, balanced lines left half the paper empty */
-    text-wrap: pretty;
+    /* plain wrapping: balanced (or "pretty") lines left part of the paper empty in some browsers */
+    text-wrap: wrap;
   }
   /* In English the sentence is short: larger letters, filling the slip (Maria, 28 November 2026) */
   :global(html[lang='en']) .body--page .body__missed {
-    font-size: var(--step-0);
+    font-size: var(--step-1);
+  }
+  /* the larger English slip is a line taller: the page below makes room for it */
+  :global(html[lang='en']) .body--page .body__figure {
+    --missed-extra: 2.2rem;
   }
   .body--page .body__figure:has(.body__missed:not([hidden])) {
-    margin-bottom: calc(clamp(5rem, 3rem + 4vw, 7rem) + 3.2rem);
+    margin-bottom: calc(clamp(5rem, 3rem + 4vw, 7rem) + 3.2rem + var(--missed-extra, 0rem));
   }
   @media (max-width: 40rem) {
     /* on a phone the date sits under the picture, and the note under the date */
     .body--page .body__missed {
       top: calc(100% + 4.6rem);
-      max-width: none;
+      width: auto;
       left: var(--edge);
       text-align: center;
     }
     .body--page .body__figure:has(.body__missed:not([hidden])) {
-      margin-bottom: 14rem;
+      margin-bottom: calc(14rem + var(--missed-extra, 0rem));
     }
     /* Εὖ Ζῆν's phone banner: the date sits half over the picture's edge, the note just under it */
     .body--page .body__figure:has(:global(.body__portrait)) .body__missed {
       top: calc(100% + 0.6rem);
     }
     .body--page .body__figure:has(:global(.body__portrait)):has(.body__missed:not([hidden])) {
-      margin-bottom: 8.5rem;
+      margin-bottom: calc(8.5rem + var(--missed-extra, 0rem));
     }
   }
 
@@ -1156,7 +1161,7 @@ const symbolFor = 'description';
     }
     /* the slip keeps to the right half, clear of Athena's chip */
     .body--page .body__figure:has(.body__chip) .body__missed {
-      max-width: 42%;
+      width: 42%;
     }
   }
   @media (min-width: 40.01rem) and (max-width: 50rem) {
@@ -1171,7 +1176,7 @@ const symbolFor = 'description';
       top: calc(100% + 5rem);
     }
     .body--page .body__figure:has(.body__chip):has(.body__missed:not([hidden])) {
-      margin-bottom: 13rem;
+      margin-bottom: calc(13rem + var(--missed-extra, 0rem));
     }
   }
 </style>
