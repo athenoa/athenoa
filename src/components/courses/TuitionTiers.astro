@@ -55,11 +55,11 @@ interface Props {
 // Membership's card on crème paper, the courses' tiers dark blue, their upfront boxes crème (Maria for Athena,
 // 23 November 2026: no large light-blue fills, dark blue is the accent).
 const { tiers, level = 3, payInFull, payMonthly, month, per = '', or, payments, discount = 0, off, course, member } = Astro.props;
-// The early-bird offer for monthly plans (PromoNotice.astro): Εὖ Ζῆν and membership, until 30 November 2026
+// The early-bird offer for monthly plans (PromoNotice.astro): Εὖ Ζῆν and membership, until 15 December 2026 (extended from 30 November; Maria, 28 November 2026)
 const earlyBird = course === 'eu-zen' || course === 'membership';
 const earlyWords = { el: 'με τον κωδικό', en: 'with the code', grc: 'τῷ συνθήματι' };
 // and how long it lasts (Maria, 25 November 2026)
-const earlyUntil = { el: 'έως 30 Νοεμβρίου', en: 'until 30 November', grc: 'μέχρι τῆς τριακοστῆς Νοεμβρίου' };
+const earlyUntil = { el: 'έως 15 Δεκεμβρίου', en: 'until 15 December', grc: 'μέχρι τῆς πεντεκαιδεκάτης Δεκεμβρίου' };
 const columns = tiers.length + (member?.tier ? 1 : 0);
 const locale = getLocale(Astro.url);
 const Name = level === 4 ? 'h4' : 'h3';
@@ -122,7 +122,7 @@ const cards = [
             {/* the early-bird offer on the monthly plan, as in the banner: its mark and its code (Maria, 25 November 2026) */}
             {/* and on membership's card wherever it shows, the Odyssey's page too (Maria, 25 November 2026) */}
             {(earlyBird || isMember) && (
-              <p class="way__early" data-until="2026-12-01T00:00:00+02:00">
+              <p class="way__early" data-until="2026-12-16T00:00:00+02:00">
                 <span class="tier__off">−10%</span>
                 <span>{earlyWords[locale]}</span>
                 <span class="way__code">EARLY10</span>
@@ -523,7 +523,7 @@ const cards = [
 </style>
 
 <script is:inline>
-  // the early-bird line goes once the offer has ended (30 November 2026, Athens time)
+  // the early-bird line goes once the offer has ended (the end of 15 December 2026, Athens time)
   document.querySelectorAll('[data-until]').forEach(function (el) {
     if (Date.now() >= Date.parse(el.getAttribute('data-until'))) el.remove();
   });
