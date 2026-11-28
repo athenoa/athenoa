@@ -161,10 +161,9 @@ const allCourses: Course[] = [
     summary:
       'In this Cycle of Studies in Greek Philosophy we will study the Odyssey as a timeless treasure of Wisdom, a symbolic Map of the human Soul and of its Journey to Self-knowledge and Awakening.',
     schedule: 'From 26 November 2026',
-    scheduleNote: 'Introductory lesson - Presentation of the Cycle: Monday 23 November, 19:30',
     starts: { introduction: '2026-11-23T19:30:00+02:00', firstLesson: '2026-11-26T19:30:00+02:00' },
+    // the introductory lesson (Monday 23 November) is gone from the dates now it has passed (Maria, 28 November 2026)
     dates: [
-      { label: 'Introductory lesson - Presentation of the Cycle', when: 'Monday 23 November 2026, 19:30 Greek time' },
       { label: 'First lesson', when: 'Thursday 26 November 2026, 19:30' },
       { label: 'Then', when: 'every Thursday at 19:30' },
     ],
@@ -264,10 +263,9 @@ const allCourses: Course[] = [
     subtitle: 'The Ancient Art of Eudaimonia',
     summary: 'Philosophy as the Art of Living: an experiential path to becoming, each day, who we truly are.',
     schedule: 'From 1 December 2026',
-    scheduleNote: 'Introductory lesson - Presentation of the Cycle: Monday 23 November, 19:30',
     starts: { introduction: '2026-11-23T19:30:00+02:00', firstLesson: '2026-12-01T19:30:00+02:00' },
+    // the introductory lesson (Monday 23 November) is gone from the dates now it has passed (Maria, 28 November 2026)
     dates: [
-      { label: 'Introductory lesson - Presentation of the Cycle', when: 'Monday 23 November 2026, 19:30 Greek time' },
       { label: 'First lesson', when: 'Tuesday 1 December 2026, 19:30' },
       { label: 'Then', when: 'Tuesdays at 19:30, about two lessons a month' },
     ],

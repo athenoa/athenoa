@@ -61,10 +61,9 @@ const allCourses: Course[] = [
     summary:
       'Σε αυτόν τον Κύκλο Σπουδών Ελληνικής Φιλοσοφίας θα διδαχθούμε την Οδύσσεια ως διαχρονικό θησαυρό Σοφίας, συμβολικό Χάρτη της ανθρώπινης Ψυχής και του Ταξειδιού της προς την Αυτογνωσία και την Αφύπνιση.',
     schedule: 'Από 26 Νοεμβρίου 2026',
-    scheduleNote: 'Εισαγωγικό Μάθημα - Παρουσίαση Κύκλου: Δευτέρα 23 Νοεμβρίου, 19:30',
     starts: { introduction: '2026-11-23T19:30:00+02:00', firstLesson: '2026-11-26T19:30:00+02:00' },
+    // the introductory lesson (Monday 23 November) is gone from the dates now it has passed (Maria, 28 November 2026)
     dates: [
-      { label: 'Εισαγωγικό Μάθημα - Παρουσίαση Κύκλου', when: 'Δευτέρα 23 Νοεμβρίου 2026, 19:30 (ώρα Ελλάδος)' },
       { label: 'Πρώτο Μάθημα', when: 'Πέμπτη 26 Νοεμβρίου 2026, 19:30' },
       { label: 'Στην Συνέχεια', when: 'κάθε Πέμπτη στις 19:30' },
     ],
@@ -161,10 +160,9 @@ const allCourses: Course[] = [
     // The banner already says "16 Βιωματικά Μαθήματα…": a line drawn from the description instead (Maria, 23 November 2026)
     summary: 'Η Φιλοσοφία ως Τέχνη Ζωής: μια βιωματική διαδρομή για να γινόμαστε κάθε μέρα Αυτό που αληθινά Είμαστε.',
     schedule: 'Από 1 Δεκεμβρίου 2026',
-    scheduleNote: 'Εισαγωγικό Μάθημα - Παρουσίαση Κύκλου: Δευτέρα 23 Νοεμβρίου, 19:30',
     starts: { introduction: '2026-11-23T19:30:00+02:00', firstLesson: '2026-12-01T19:30:00+02:00' },
+    // the introductory lesson (Monday 23 November) is gone from the dates now it has passed (Maria, 28 November 2026)
     dates: [
-      { label: 'Εισαγωγικό Μάθημα - Παρουσίαση Κύκλου', when: 'Δευτέρα 23 Νοεμβρίου 2026, 19:30 (ώρα Ελλάδος)' },
       { label: 'Πρώτο Μάθημα', when: 'Τρίτη 1 Δεκεμβρίου 2026, 19:30' },
       { label: 'Στην Συνέχεια', when: 'Τρίτη στις 19:30, περίπου 2 Μαθήματα τον Μήνα' },
     ],

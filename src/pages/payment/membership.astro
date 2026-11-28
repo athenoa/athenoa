@@ -1,0 +1,9 @@
+---
+import Base from '../../layouts/Base.astro';
+import PaymentStatus from '../../components/payment/PaymentStatus.astro';
+import { site } from '../../data/el/site';
+---
+
+<Base title={`Καλώς ήρθατε στην Ακαδημία | ${site.name}`} description={site.name} noindex footer={false}>
+  <PaymentStatus kind="membership" />
+</Base>

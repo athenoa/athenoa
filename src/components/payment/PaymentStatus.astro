@@ -2,6 +2,8 @@
 // After Stripe (Maria, 23 November 2026): where a Payment Link sends people back to, set in each link's
 // "After payment" setting in Stripe: /payment/success/ (or /en/payment/success/). /payment/failed/ is for
 // links that cannot complete, and for us to point people to. Not for search engines.
+// Membership has its own thank-you page, /payment/membership/ (Maria, 28 November 2026): the membership links can
+// send people there, and anyone who paid from the membership page is moved there from /payment/success/ anyway.
 // Wording PROPOSED, for Athena to approve (logged in tasks/text-changes.md).
 import Illustration from '../Illustration.astro';
 import Signature from '../Signature.astro';
@@ -9,7 +11,7 @@ import { content } from '../../data';
 import { getLocale } from '../../lib/locale';
 
 interface Props {
-  kind: 'success' | 'failed';
+  kind: 'success' | 'membership' | 'failed';
 }
 const { kind } = Astro.props;
 const locale = getLocale(Astro.url);
@@ -21,6 +23,11 @@ const words = {
       kicker: 'Σας ευχαριστούμε',
       title: 'Η θέση σας εξασφαλίστηκε',
       text: ['Η πληρωμή σας ολοκληρώθηκε και η εγγραφή σας καταχωρήθηκε.', 'Θα σας στείλουμε σύντομα email με όλες τις λεπτομέρειες για την έναρξη.'],
+    },
+    membership: {
+      kicker: 'Σας ευχαριστούμε',
+      title: 'Καλώς ήρθατε στην Ακαδημία',
+      text: ['Η πληρωμή σας ολοκληρώθηκε και είστε πλέον Μέλος της Ακαδημίας ΑΘΕΝΟΑ.', 'Θα σας στείλουμε σύντομα email με όλα όσα περιλαμβάνει η συνδρομή σας.'],
     },
     failed: {
       kicker: 'Κάτι δεν πήγε καλά',
@@ -38,6 +45,11 @@ const words = {
       title: 'Your place is secured',
       text: ['Your payment went through and your registration is recorded.', 'We will email you soon with all the details for the start.'],
     },
+    membership: {
+      kicker: 'Thank you',
+      title: 'Welcome to the Academy',
+      text: ['Your payment went through and you are now a Member of the ATHENOA Academy.', 'We will email you soon with everything your membership includes.'],
+    },
     failed: {
       kicker: 'Something went wrong',
       title: 'The payment did not go through',
@@ -53,6 +65,11 @@ const words = {
       kicker: 'Χάριν ἴσμεν',
       title: 'Ἡ χώρα ὑμῖν φυλάττεται',
       text: ['Ἡ καταβολὴ ἐτελέσθη καὶ ἡ ἐγγραφὴ ὑμῶν ἀναγέγραπται.', 'Ἐν τάχει ἐπιστελοῦμεν ὑμῖν πάντα τὰ περὶ τῆς ἀρχῆς.'],
+    },
+    membership: {
+      kicker: 'Χάριν ἴσμεν',
+      title: 'Καλῶς ἤλθετε εἰς τὴν Ἀκαδημίαν',
+      text: ['Ἡ καταβολὴ ἐτελέσθη καὶ νῦν ἑταῖροι τῆς Ἀκαδημίας ἐστέ.', 'Ἐν τάχει ἐπιστελοῦμεν ὑμῖν πάντα ὅσα ἡ ἑταιρεία περιέχει.'],
     },
     failed: {
       kicker: 'Οὐ κατὰ γνώμην ἐχώρησεν',
@@ -92,7 +109,7 @@ const w = words[kind];
     <h1 class="t-1 pay__title" id="pay-title">{w.title}</h1>
     {/* both sentences in one paragraph, so the space between them matches the lines' (Maria, 24 November 2026) */}
     <p class="pay__text">{w.text.map((line, i) => <>{i > 0 && <br />}{line}</>)}</p>
-    {kind === 'success' && <Signature class="pay__sign" />}
+    {kind !== 'failed' && <Signature class="pay__sign" />}
     <p class="pay__ask">{words.ask} <a href={`mailto:${email}`}>{email}</a></p>
     {/* no home button on the success page (Maria, 23 November 2026): the header still leads home */}
     {/* the failure page: one way, back to the course (or membership) to try again (Maria, 23 November 2026) */}
@@ -480,13 +497,21 @@ const w = words[kind];
     } catch {}
     if ((lang === 'en' || lang === 'grc') && !location.pathname.startsWith(`/${lang}/`))
       return location.replace(`/${lang}` + location.pathname.replace(/^\/(en|grc)(?=\/)/, ''));
-    // "Σας ευχαριστούμε, Μαρία": the first name they gave in the form (success page only)
+    // whoever paid from the membership page thanks to the membership page, whichever page Stripe sent them to
+    let from = '';
+    try {
+      from = localStorage.getItem('ath-pay-back') ?? '';
+    } catch {}
+    if (/\/payment\/success\/?$/.test(location.pathname) && /^\/((en|grc)\/)?membership\/$/.test(from))
+      return location.replace(location.pathname.replace(/success\/?$/, 'membership/') + location.search);
+    const thanks = /\/payment\/(success|membership)/.test(location.pathname);
+    // "Σας ευχαριστούμε, Μαρία": the first name they gave in the form (the thank-you pages only)
     let name = '';
     try {
       name = (localStorage.getItem('ath-pay-name') ?? '').trim().split(/\s+/)[0] ?? '';
     } catch {}
     const kicker = document.querySelector<HTMLElement>('[data-kicker]');
-    if (name && kicker && location.pathname.includes('/success')) kicker.textContent = `${kicker.textContent}, ${name}`;
+    if (name && kicker && thanks) kicker.textContent = `${kicker.textContent}, ${name}`;
     // "try again" leads back to the page they registered on (a course, or membership), at its prices
     let back = '';
     try {
@@ -498,6 +523,6 @@ const w = words[kind];
     // scripts/audio/success.mjs). Most browsers hold sound back until the visitor presses something, so it
     // often stays silent; Chrome lets it play for someone who has played sound on the site before. Never
     // when the sound button in the corner is off.
-    if (location.pathname.includes('/success') && !ambienceMuted()) window.setTimeout(() => playSound('/audio/success.mp3', 0.08), 700);
+    if (thanks && !ambienceMuted()) window.setTimeout(() => playSound('/audio/success.mp3', 0.08), 700);
   });
 </script>

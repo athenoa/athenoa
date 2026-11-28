@@ -268,7 +268,8 @@ const cards = [
     font-family: var(--font-title);
     /* prices in bold, wherever they appear (Maria, 23 November 2026) */
     font-weight: 600;
-    font-size: min(var(--step-2), 9vw);
+    /* a little smaller (Maria, 28 November 2026; was the full --step-2) */
+    font-size: min(calc(var(--step-2) * 0.82), 7.5vw);
     line-height: 1;
     letter-spacing: var(--title-tracking);
     font-variant-numeric: lining-nums;
