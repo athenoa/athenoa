@@ -1135,23 +1135,38 @@ const symbolFor = 'description';
     }
   }
 
-  /* Tablet and small laptop widths (Maria, 28 November 2026: the two chips must never touch): there is
-     not room for Athena's chip and the date side by side on the picture's edge, so the date (and the golden
-     slip under it) drops just below her chip, still on the right. Pages without her chip keep the edge. */
+  /* Tablet and small laptop widths (Maria, 28 November 2026: the two chips must never touch, and the date
+     stays half over the picture's edge). Both chips are made smaller here; below about 50rem even that is
+     too tight, so the date (and the golden slip with it) goes under Athena's chip, as on a phone. */
   @media (min-width: 40.01rem) and (max-width: 72rem) {
-    .body--page .body__figure:has(.body__chip) {
-      --overhang: clamp(1.3rem, 0.8rem + 1.6vw, 2.1rem);
-      margin-bottom: calc(var(--overhang) + 7rem);
+    .body--page .body__figure:has(.body__chip) .body__chip {
+      --thumb: clamp(4rem, 2.4rem + 3vw, 5.4rem);
+      max-width: 46%;
+      padding-right: 1rem;
+      font-size: var(--step--1);
     }
     .body--page .body__figure:has(.body__chip) .body__note {
-      top: calc(100% + var(--overhang) + 0.7rem);
+      padding: 0.35rem 1rem 0.5rem;
+      font-size: calc(var(--step-1) * 0.86);
+    }
+    /* the slip keeps to the right half, clear of Athena's chip */
+    .body--page .body__figure:has(.body__chip) .body__missed {
+      max-width: 42%;
+    }
+  }
+  @media (min-width: 40.01rem) and (max-width: 50rem) {
+    .body--page .body__figure:has(.body__chip) {
+      margin-bottom: 9rem;
+    }
+    .body--page .body__figure:has(.body__chip) .body__note {
+      top: calc(100% + 2.4rem);
       bottom: auto;
     }
     .body--page .body__figure:has(.body__chip) .body__missed {
-      top: calc(100% + var(--overhang) + 3.6rem);
+      top: calc(100% + 5rem);
     }
     .body--page .body__figure:has(.body__chip):has(.body__missed:not([hidden])) {
-      margin-bottom: calc(var(--overhang) + 11rem);
+      margin-bottom: 13rem;
     }
   }
 </style>

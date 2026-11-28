@@ -73,7 +73,6 @@ const lessons = course.duration?.match(/^\d+/)?.[0];
         per={lessons ? fill(tuition.wholeCycleOf, { n: lessons }) : tuition.wholeCycle}
         or={tuition.or}
         payments={tuition.payments}
-        total={tuition.total}
         discount={discount}
         off={tuition.off}
         course={course.slug}

@@ -28,7 +28,6 @@ interface Props {
   per?: string;
   or: string;
   payments: string;
-  total: string;
   /** The course's upfront discount (0.1), with its mark ("−{pct}") */
   discount?: number;
   off?: string;
@@ -55,7 +54,7 @@ interface Props {
 }
 // Membership's card on crème paper, the courses' tiers dark blue, their upfront boxes crème (Maria for Athena,
 // 23 November 2026: no large light-blue fills, dark blue is the accent).
-const { tiers, level = 3, payInFull, payMonthly, month, per = '', or, payments, total, discount = 0, off, course, member } = Astro.props;
+const { tiers, level = 3, payInFull, payMonthly, month, per = '', or, payments, discount = 0, off, course, member } = Astro.props;
 // The early-bird offer for monthly plans (PromoNotice.astro): Εὖ Ζῆν and membership, until 30 November 2026
 const earlyBird = course === 'eu-zen' || course === 'membership';
 const earlyWords = { el: 'με τον κωδικό', en: 'with the code', grc: 'τῷ συνθήματι' };
@@ -117,11 +116,9 @@ const cards = [
               <span class="way__sum">{money(tier.perMonth, locale)}</span>
               <span class="way__unit">{month}</span>
             </p>
-            {/* the count and what it adds up to, on one line (membership's 12 × €83 is €996, not the year's €990) */}
-            <p class="way__rate">
-              {fill(payments, { n: String(tier.payments) })}{' '}
-              <span class="way__total">· {fill(total, { price: money(Math.round(tier.perMonth * tier.payments * 100) / 100, locale) })}</span>
-            </p>
+            {/* the count only: the sum it adds up to is left out, as the card beside it already gives the price
+                (Maria, 28 November 2026) */}
+            <p class="way__rate">{fill(payments, { n: String(tier.payments) })}</p>
             {/* the early-bird offer on the monthly plan, as in the banner: its mark and its code (Maria, 25 November 2026) */}
             {/* and on membership's card wherever it shows, the Odyssey's page too (Maria, 25 November 2026) */}
             {(earlyBird || isMember) && (
@@ -330,16 +327,12 @@ const cards = [
     font-variant-numeric: lining-nums;
   }
   .way__line,
-  .way__total,
   .tier__small {
     font-size: var(--step--1);
     color: var(--ink-soft);
   }
   .way__line {
     color: var(--ink);
-  }
-  .way__total {
-    font-variant-numeric: lining-nums;
   }
   /* The buttons stand at the foot of each way, level with each other */
   /* "Μάθετε Περισσότερα": a link that looks like one (Maria, 23 November 2026): the card's strong ink, a
