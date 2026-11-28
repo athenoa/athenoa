@@ -331,9 +331,13 @@ const contactHref = pathIn(locale, '/about-athena/#contact');
     font-weight: 560;
   }
   /* The form until an address has been entered, then the note. Without JavaScript: the note only. */
-  .nl[data-ready]:not([data-sent]) .nl__note,
-  .nl[data-sent] .nl__form {
+  .nl[data-ready]:not([data-sent]) .nl__note {
     visibility: hidden;
+  }
+  /* Once sent the form goes altogether, so the thanks closes up under the heading and the whole stands
+     in the middle of the portico (Maria, 28 November 2026: too much space between them) */
+  .nl[data-sent] .nl__form {
+    display: none;
   }
   .nl:not([data-ready]) .nl__form,
   .nl[data-ready] .nl__close--plain,
