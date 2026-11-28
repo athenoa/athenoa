@@ -82,7 +82,6 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
         <li class="header__lang">
           <details class="lang" data-lang-menu>
             <summary aria-label={`${ui.language}: ${current.label}`}>
-              <img class="lang__flag" src={`/flags/${current.locale}.svg`} alt="" width="18" height="12" />
               <span aria-hidden="true">{current.short}</span>
               <svg viewBox="0 0 12 8" width="10" height="7" aria-hidden="true" focusable="false">
                 <path d="M1.2 1.6 6 6.3l4.8-4.7"></path>
@@ -397,7 +396,7 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
     user-select: none;
     border-radius: 58% 42% 52% 48% / 48% 56% 44% 52%;
   }
-  /* Each language with its flag (Maria, 28 November 2026): Greece for Greek, the Union Jack for English,
+  /* Each language in the list with its flag; the control itself shows only the short name (Maria, 28 November 2026): Greece for Greek, the Union Jack for English,
      and for Ancient Greek, which has no flag, Athens' owl on a gold coin */
   .lang__flag {
     flex: none;

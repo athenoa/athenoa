@@ -13,7 +13,7 @@
 
   /* Paper */
   --creme: #f3e4c0; /* the paper: warmer, leaning to gold, since 24 November 2026 (Maria; was #f2e9d3) */
-  --creme-light: #f9f3e3;
+  --creme-light: #f7edd4; /* the light paper (the home hero, cards, slips): warmer, towards the crème, since 28 November 2026 (Maria; was #f9f3e3) */
   --creme-deep: #e3d6b6;
   --sand: #cbbd9c;
 
@@ -137,7 +137,7 @@ html[data-theme='dark'] :is(.on-blue, .on-blue-deep):not(.theme-day, .theme-day 
   --blue-deep: #071260;
   --blue-bright: #2238c3;
   --creme: #f3e4c0;
-  --creme-light: #f9f3e3;
+  --creme-light: #f7edd4;
   --creme-deep: #e3d6b6;
 }
 html[data-theme='dark'] .on-blue-light:not(.theme-day, .theme-day *) {
@@ -153,7 +153,7 @@ html[data-theme='dark'] .on-blue-light:not(.theme-day, .theme-day *) {
   --blue-deep: #071260;
   --blue-bright: #2238c3;
   --creme: #f3e4c0;
-  --creme-light: #f9f3e3;
+  --creme-light: #f7edd4;
   --creme-deep: #e3d6b6;
   --sand: #cbbd9c;
   --paper: var(--creme);
