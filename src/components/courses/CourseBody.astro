@@ -1085,7 +1085,8 @@ const symbolFor = 'description';
     }
   }
 
-  /* "If you sign up now…": in Athena's hand under the start date, slightly aslant, right-aligned with it */
+  /* "If you sign up now…": in Athena's hand on a slip of aged, golden paper under the start date, right-aligned
+     with it (Maria, 28 November 2026: no tilt, smaller letters). The same paper by day and by night. */
   .body__missed[hidden] {
     display: none;
   }
@@ -1094,16 +1095,24 @@ const symbolFor = 'description';
     right: var(--edge);
     top: calc(100% + clamp(1.3rem, 0.8rem + 1.6vw, 2.1rem) + 0.9rem);
     z-index: 2;
-    max-width: min(36rem, 80%);
+    max-width: min(30rem, 80%);
     margin: 0;
-    font-size: var(--step-0);
-    text-align: right;
+    padding: 0.55rem 1.1rem 0.6rem;
+    border-radius: 0.5rem 0.9rem 0.6rem 1rem / 0.9rem 0.5rem 1rem 0.6rem;
+    background-color: #e6cd94;
+    background-image:
+      radial-gradient(120% 140% at 50% 45%, transparent 55%, rgb(150 104 38 / 0.32)),
+      url('/textures/grain-dark.webp');
+    background-size: auto, 300px 300px;
+    box-shadow: 0 0.3rem 0.9rem rgb(5 10 50 / 0.28);
+    color: #4a3312;
+    font-size: var(--step--1);
+    line-height: 1.35;
+    text-align: left;
     text-wrap: balance;
-    rotate: -2.5deg;
-    transform-origin: 100% 0;
   }
   .body--page .body__figure:has(.body__missed:not([hidden])) {
-    margin-bottom: calc(clamp(5rem, 3rem + 4vw, 7rem) + 4.4rem);
+    margin-bottom: calc(clamp(5rem, 3rem + 4vw, 7rem) + 3.2rem);
   }
   @media (max-width: 40rem) {
     /* on a phone the date sits under the picture, and the note under the date */
@@ -1112,7 +1121,6 @@ const symbolFor = 'description';
       max-width: none;
       left: var(--edge);
       text-align: center;
-      transform-origin: 50% 0;
     }
     .body--page .body__figure:has(.body__missed:not([hidden])) {
       margin-bottom: 14rem;
