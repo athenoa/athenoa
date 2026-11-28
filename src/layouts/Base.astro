@@ -49,6 +49,30 @@ const gated = import.meta.env.PUBLIC_PREVIEW_GATE === 'on';
     <meta name="theme-color" content="#f3e4c0" />
     <link rel="icon" href="/favicon.png" type="image/png" />
     <Seo {...seo} />
+    {
+      /* English by default outside Greece and Cyprus (Maria, 28 November 2026). A Greek page sends a
+         visitor elsewhere to the same page in English, before anything is drawn. The place is guessed
+         from the device's time zone (nobody is asked); a language picked by hand in the menu is kept
+         and wins (English picked once opens English from then on); search engines and the pages that have no English twin are left alone. */
+      locale === 'el' && (
+        <script is:inline>
+          (function () {
+            try {
+              if (navigator.webdriver || /bot|crawl|spider|slurp|preview|lighthouse/i.test(navigator.userAgent)) return;
+              if (/^\/(lab|nostos|font-test)(\/|$)/.test(location.pathname)) return;
+              var chosen = '';
+              try {
+                chosen = localStorage.getItem('athenoa-lang') || '';
+              } catch (e) {}
+              if (chosen && chosen !== 'en') return;
+              var zone = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+              if (!chosen && (!zone || /^(Europe\/Athens|Asia\/Nicosia|Asia\/Famagusta|Europe\/Nicosia)$/.test(zone))) return;
+              location.replace('/en' + location.pathname + location.search + location.hash);
+            } catch (e) {}
+          })();
+        </script>
+      )
+    }
     <!-- Runs before first paint: decides whether motion is on and whether it is night -->
     <script is:inline>
       (function () {

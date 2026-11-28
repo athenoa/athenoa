@@ -5,12 +5,14 @@
 // (src/assets/signature/pen.json, in the source image's pixels) uncovers it, and when the pen is done the
 // whole signature, unmasked, settles over it, so no part of a letter is ever left out (the bottom of the θ
 // once was). Without motion the whole signature is simply there.
+import { getLocale } from '../lib/locale';
+
 interface Props {
   class?: string;
   /** what a screen reader hears */
   label?: string;
 }
-const { class: className, label = 'Αθηνά' } = Astro.props;
+const { class: className, label = getLocale(Astro.url) === 'en' ? 'Athena' : 'Αθηνά' } = Astro.props;
 const id = `sig-${Math.random().toString(36).slice(2, 8)}`;
 ---
 

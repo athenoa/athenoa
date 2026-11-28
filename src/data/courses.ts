@@ -156,7 +156,7 @@ const allCourses: Course[] = [
     bannerPortrait: 'course-odusseia-portrait',
     banner: { ratio: '1.56', focus: '0% 100%' },
     imageAlt:
-      'Course banner: ΟΔΥΣΣΕΙΑ, The Journey of the Soul to Awakening. Odysseus at the prow of his ship looks across a deep blue sea to a sunlit island with a temple, Athena watching from the starry sky',
+      'Course banner: Odyssey, The Journey of the Soul to Awakening. Odysseus at the prow of his ship looks across a deep blue sea to a sunlit island with a temple, Athena watching from the starry sky',
     subtitle: 'The Journey of the Soul to Awakening',
     summary:
       'In this Cycle of Studies in Greek Philosophy we will study the Odyssey as a timeless treasure of Wisdom, a symbolic Map of the human Soul and of its Journey to Self-knowledge and Awakening.',
@@ -217,13 +217,13 @@ const allCourses: Course[] = [
 <p>We, the Soul. We, Consciousness.</p>
 <p>We, the Human being with the divine spark (or the divine spark in human form!), who journeys through the visible and invisible universes of Matter, of Spirit, of Mind, of relationships, crossing seas between mortal and immortal, oblivion and truth, sleep and Awakening.</p>
 <p>It is no accident that as he finally reaches Ithaca, Odysseus is asleep.<br>So he does not, strictly speaking, arrive in Ithaca.<br>Rather, he Wakes Up in Ithaca.</p>
-<p><strong>For Ithaca <em>Is</em> Awakening.</strong><br>The Awakened state of Consciousness that Remembers its true Self.<br>This is its <span lang="el">Νόστος</span>, its return home: Remembrance.<br>The State of Presence, of Truth (<span lang="el">Α-λήθεια</span>, un-forgetting), the Recognition of Who I Am beyond the dreams of a consciousness asleep.</p>
+<p><strong>For Ithaca <em>Is</em> Awakening.</strong><br>The Awakened state of Consciousness that Remembers its true Self.<br>This is its <em>Nostos</em>, its return home: Remembrance.<br>The State of Presence, of Truth (<em>A-letheia</em>, un-forgetting), the Recognition of Who I Am beyond the dreams of a consciousness asleep.</p>
 <p>Homer’s Odyssey, as a primordial Code of the Greek Spirit, carries a unique quality, a hue of its divine nature and origin: it describes at once all the journeys of all our hypostases. It speaks to us of the relation of the One to the Many. The Passage from Unity to Multiplicity. The Journey of the Soul into existence. And the path of our Soul’s Awakening.</p>
 <p>For the Odyssey is Life itself, the course of incarnation, and indeed of all incarnations, within the cyclical orbits of the god-made Aeons.</p>
 <p>It tells of our very own journey on Earth, through the much-suffering, many-turning human experience.</p>
 <blockquote><p>~ “The Laestrygonians and the Cyclopes, wild Poseidon”, whom “you will not meet, unless you carry them within your soul.”</p></blockquote>
 <p>Yet this journey is neither arbitrary nor uncharted. It bears Archetypal Elements, Structure and Stations. The trials we face, the challenges, the passions, the oblivion, are not unique to each of us. They are, archetypally and eternally, the same. The Universe has ways, constants and laws. Even the scenarios of oblivion and the simplicity of un-forgetting are constant.</p>
-<p>All of this is mapped in the living guide of the Odyssey, a timeless handbook… for navigating life. Here we meet the distillation of Wisdom. For this handbook, this sacred epic, describes at once, on parallel levels, all the philosophical, theological, physical, historical, ontological and psychological dimensions of life and of our Soul’s journey to the <span lang="el">Νόστος</span> of Remembrance, which for Socrates is the very definition of Knowledge.</p>
+<p>All of this is mapped in the living guide of the Odyssey, a timeless handbook… for navigating life. Here we meet the distillation of Wisdom. For this handbook, this sacred epic, describes at once, on parallel levels, all the philosophical, theological, physical, historical, ontological and psychological dimensions of life and of our Soul’s journey to the <em>Nostos</em> of Remembrance, which for Socrates is the very definition of Knowledge.</p>
 <p>That is why the Goddess Athena, the Goddess of Knowledge and Wisdom, keeps ever-watchful guard at the side of Odysseus as his guide, handing Wisdom down from generation to generation into the hands of every Odysseus: You and Me, All of us.</p>
 <p><strong>What do the Cyclopes, Circe, the Sirens and Calypso symbolize? What is the deeper meaning of the trials of Odysseus? What is the role of the Goddess Athena? What does Penelope symbolize? What is Ithaca?</strong></p>
 <p>Through Greek Philosophy, Mythology and experiential exercises of Self-knowledge, we will follow the archetypal journey of the Soul to Awakening, with Homer’s handbook as our guide.</p>`,
@@ -249,7 +249,7 @@ const allCourses: Course[] = [
   },
   {
     slug: 'eu-zen',
-    title: 'Εὖ Ζῆν',
+    title: 'Eu Zen',
     status: 'open',
     // The course banner, from the Academy (Maria, 22 November 2026); Athena's photo in both banners replaced (27 November
     // 2026) by an event photo of hers (the other person removed with Nano Banana Pro, her face kept as photographed), then cut
@@ -260,7 +260,7 @@ const allCourses: Course[] = [
     bannerPortrait: 'course-eu-zen-portrait',
     bannerPortraitLight: true,
     imageAlt:
-      'Course banner: Εὖ Ζῆν, The Ancient Art of Eudaimonia. Dr. Athena Potari, her shadow falling on the cream page, between an Ionic column with olive leaves and a marble bust of Athena with her owl; 16 experiential lessons of Greek Philosophy in practice, from Self-knowledge to Eudaimonia',
+      'Course banner: Eu Zen, The Ancient Art of Eudaimonia. Dr. Athena Potari, her shadow falling on the cream page, between an Ionic column with olive leaves and a marble bust of Athena with her owl; 16 experiential lessons of Greek Philosophy in practice, from Self-knowledge to Eudaimonia',
     subtitle: 'The Ancient Art of Eudaimonia',
     summary: 'Philosophy as the Art of Living: an experiential path to becoming, each day, who we truly are.',
     schedule: 'From 1 December 2026',
@@ -316,8 +316,8 @@ const allCourses: Course[] = [
       {
         id: 'description',
         label: 'Course Description',
-        html: `<blockquote><p>“A path of Self-knowledge, Truth, Virtue, Eros and Freedom, whose aim is to return Philosophy to its primordial mission: Awakening, Freedom &amp; the Art of <span lang="grc">Εὖ Ζῆν</span>.”</p></blockquote>
-<p>At its core lies the ancient Greek ideal of <span lang="grc">Εὖ Ζῆν</span>, living well. The Cycle of Studies «<span lang="grc">Εὖ Ζῆν</span>: Philosophy as the Art of Living» is an experiential path of 16 lessons, dedicated to the practical application of Ancient Greek Wisdom in our everyday life, as a living path of Self-knowledge, of the cultivation of Virtue, of reconnection with our Authenticity and of the Awakening of the Soul. We will explore how the timeless Wisdom of the Greeks can illuminate the deepest questions of human existence, guide us through the challenges of everyday life, and transform Philosophy from an object of knowledge into lived experience and a way of life.</p>
+        html: `<blockquote><p>“A path of Self-knowledge, Truth, Virtue, Eros and Freedom, whose aim is to return Philosophy to its primordial mission: Awakening, Freedom &amp; the Art of <em>Eu Zen</em>.”</p></blockquote>
+<p>At its core lies the ancient Greek ideal of <em>Eu Zen</em>, living well. The Cycle of Studies «<em>Eu Zen</em>: Philosophy as the Art of Living» is an experiential path of 16 lessons, dedicated to the practical application of Ancient Greek Wisdom in our everyday life, as a living path of Self-knowledge, of the cultivation of Virtue, of reconnection with our Authenticity and of the Awakening of the Soul. We will explore how the timeless Wisdom of the Greeks can illuminate the deepest questions of human existence, guide us through the challenges of everyday life, and transform Philosophy from an object of knowledge into lived experience and a way of life.</p>
 <p>Unlike the Cycles that focus on the systematic study of one particular ancient work, here we will travel through selected passages of the Greek Philosophical Tradition and the study of the ancient Greek Language and its etymology, approaching by theme some of the most fundamental and timeless questions of human life.</p>
 <p>Through the meeting of philosophical study with personal reflection, dialectic and experiential practice, we will seek to rediscover Philosophy in its original mission:</p>
 <p><strong>Not simply how to learn more, but how to become, every day, That which we truly Are.</strong></p>`,
@@ -325,16 +325,16 @@ const allCourses: Course[] = [
       {
         id: 'themes',
         label: 'Indicative Themes',
-        html: `<p><strong><u>Unit I: Know Thyself (<span lang="grc">ΓΝΩΘΙ ΣΑΥΤΟΝ</span>)</u></strong><br><em>The Mystery of the Self and the Awakening of Consciousness</em></p>
+        html: `<p><strong><u>Unit I: Know Thyself (<em>Gnothi Seauton</em>)</u></strong><br><em>The Mystery of the Self and the Awakening of Consciousness</em></p>
 <ul>
 <li>What does it mean to Live Truly? What is Eudaimonia?</li>
-<li>What is true <span lang="el">Παιδεία</span>, education of the whole person, and what follows from its absence?</li>
+<li>What is true <em>Paideia</em>, education of the whole person, and what follows from its absence?</li>
 <li><strong>Who Am I? What are Mind and Consciousness?</strong> Through Plato’s Cave we explore the nature of Mind and Consciousness, the habits and unconscious programs that shape us, in search of Self-knowledge and Awakening.</li>
 </ul>
 <p><strong><u>Unit II: The Return to Inner Truth</u></strong><br><em>From Self-knowledge to Inner Connection</em></p>
 <ul>
-<li><strong>What is the Soul and what forces govern it? How do I hear my inner voice? How will I find my <span lang="el">Οικειοπραγία</span>, the doing of my own work? Why do I feel sorrow?</strong> We delve into the threefold nature of the Soul, into Truth and inner connection, into trauma and Freedom. We seek our <span lang="grc">Οἰκεῖον Ἔργον</span>, our proper work, and the possibility of our work becoming an ally of our true Nature.</li>
-<li><strong>What is Virtue? How are the Four Cardinal Virtues cultivated? What does it mean to live <span lang="grc">Κατὰ Φύσιν</span>, according to Nature? How does Philosophy become everyday practice?</strong> We explore Virtue, the Four Cardinal Virtues, the Aristotelian Mean and living <span lang="grc">Κατὰ Φύσιν</span>, as the foundations of a life of Truth, Freedom and Eudaimonia.</li>
+<li><strong>What is the Soul and what forces govern it? How do I hear my inner voice? How will I find my <em>Oikeiopragia</em>, the doing of my own work? Why do I feel sorrow?</strong> We delve into the threefold nature of the Soul, into Truth and inner connection, into trauma and Freedom. We seek our <em>Oikeion Ergon</em>, our proper work, and the possibility of our work becoming an ally of our true Nature.</li>
+<li><strong>What is Virtue? How are the Four Cardinal Virtues cultivated? What does it mean to live <em>Kata Physin</em>, according to Nature? How does Philosophy become everyday practice?</strong> We explore Virtue, the Four Cardinal Virtues, the Aristotelian Mean and living <em>Kata Physin</em>, as the foundations of a life of Truth, Freedom and Eudaimonia.</li>
 </ul>
 <p><strong><u>Unit III: Eros, Love and Human Relationships</u></strong><br><em>The Other as a Mirror of the Soul</em></p>
 <ul>
@@ -344,7 +344,7 @@ const allCourses: Course[] = [
 </ul>
 <p><strong><u>Unit IV: The Soul in the World</u></strong><br><em>From Knowledge to Virtue, Psychopolitics and Lived Wisdom</em></p>
 <ul>
-<li><strong>Why Is This Happening to Me Now? Justice &amp; <span lang="el">Ειμαρμένη</span>: the Greek Counterpart of Karma?</strong> Ancient views of responsibility, retribution and catharsis, in dialogue with the idea of karma. The relation between Fate and Freedom. Is there a deeper order in the events of our lives?</li>
+<li><strong>Why Is This Happening to Me Now? Justice &amp; <em>Heimarmene</em>: the Greek Counterpart of Karma?</strong> Ancient views of responsibility, retribution and catharsis, in dialogue with the idea of karma. The relation between Fate and Freedom. Is there a deeper order in the events of our lives?</li>
 <li><strong>Psychopolitics.</strong> How is individual Consciousness connected with collective Consciousness and with Politics? How can we realize our Nature as “political beings”?</li>
 </ul>`,
       },
@@ -440,7 +440,7 @@ const allCourses: Course[] = [
         id: 'orientation',
         label: 'Orientation of the Course',
         html: `<p>Our journey together at the roots of the West, is a calling of the Heart. It is not an attempt to superimpose foreign metaphysical categories upon Greece, but to re-member the Wisdom that shaped our history, our consciousness, our education ~ and which still remains active, alive, shining the way Home – to our true being.</p>
-<p>Greek Philosophy will be approached according to its original meaning; not merely an intellectual endeavor, but a path of Love and Wisdom with the ultimate goal of realizing one’s true nature and living a life of wholeness, inspiration, creativity aligned with this realization. What the Ancients called, “EF ZEN”~ the Good life. (<span lang="grc">Εὖ Ζῆν</span>)</p>`,
+<p>Greek Philosophy will be approached according to its original meaning; not merely an intellectual endeavor, but a path of Love and Wisdom with the ultimate goal of realizing one’s true nature and living a life of wholeness, inspiration, creativity aligned with this realization. What the Ancients called, “EF ZEN”~ the Good life. (<em>Eu Zen</em>)</p>`,
       },
     ],
   },

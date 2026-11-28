@@ -32,7 +32,10 @@ const layers = (source: string, n: number) => {
   if (!open || !shapes) return [source];
   return Array.from({ length: n }, (_, k) => open + shapes.filter((_, i) => i % n === k).join('') + '</svg>');
 };
-const drawings = name === 'sun-rays' ? layers(svg, 3) : [svg];
+// The temple's pediment reads ATHENOA in Latin letters on the English pages (no Greek there; Maria,
+// 28 November 2026)
+const art = getLocale(Astro.url) === 'en' ? svg.replace(/>ΑΘΕΝΟΑ</g, '>ATHENOA<') : svg;
+const drawings = name === 'sun-rays' ? layers(art, 3) : [art];
 ---
 
 <span

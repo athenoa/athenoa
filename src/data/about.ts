@@ -13,7 +13,7 @@ export const about = {
 
   intro: [
     'Dr. Athena D. Potari is a Doctor of Philosophy at the University of Oxford, holder of a Master’s Degree specializing in Platonic Polity and Cosmology, and founder of the Philosophical Academy “ATHENOA”.',
-    'The purpose of founding the Academy is to highlight Greek Philosophy and to teach it as a Living Spiritual Tradition, with the main goal of Awakening of Consciousness and <span lang="grc">Εὖ Ζῆν</span> (Good Living).',
+    'The purpose of founding the Academy is to highlight Greek Philosophy and to teach it as a Living Spiritual Tradition, with the main goal of Awakening of Consciousness and <em>Eu Zen</em> (Good Living).',
     'Athena Potari’s vision is the continuation and revival of the Platonic Academy. With the founding of the Philosophical Academy ATHENOA, she gives flesh and bones to this vision and undertakes the Teaching of Philosophy in combination with Science and Spirituality, as a Path of Self-Knowledge and Awakening, with its direct and experiential application in our lives.',
   ],
 
@@ -49,7 +49,7 @@ export const about = {
       paragraphs: [
         'She spent long periods of ascetic and meditative practice close to the greatest Teacher… Mother Nature, mainly in the mountains, until she realized and experienced that what she was seeking was already here: first of all, within her and secondly, in the cradle of the Spiritual Light from which she had set out - our Blessed Greece.',
         'In 2019, these two streams of her life, academic and inner study, were united in the founding of the Academy of Hellenic Wisdom ATHENOA, dedicated to the Guide-Protector of Philosophy and Goddess of Wisdom - the Goddess Athena.',
-        'The School seeks the continuation of the Platonic Academy, approaching Greek Philosophy as a living, experiential spiritual tradition that combines Scientific Reason with Self-Knowledge, Mystagogy, and Spirituality, with the ultimate aim of the Awakening of Consciousness and the activation of <span lang="grc">Εὖ Ζῆν</span> (Good Living).',
+        'The School seeks the continuation of the Platonic Academy, approaching Greek Philosophy as a living, experiential spiritual tradition that combines Scientific Reason with Self-Knowledge, Mystagogy, and Spirituality, with the ultimate aim of the Awakening of Consciousness and the activation of <em>Eu Zen</em> (Good Living).',
       ],
     },
     {
@@ -58,7 +58,7 @@ export const about = {
       paragraphs: [
         'At the Academy, the in-depth study of Ancient Texts, Dialectics, Interdisciplinarity that unites the Philosophical, Theological, and Psychological with the Physical and Cosmological dimensions of Knowledge, Etymology and contact with the all-powerful Ancient Greek Language, are complemented by the teaching of direct experiential practices and tools of spiritual technology, such as: Meditations, Methods of Self-Knowledge, Ancient Hieratic Art, Orphic Hymns, direct study of Consciousness, as well as ethical criteria for action in daily life.',
         'In this way, Philosophy is approached not as a vague theoretical knowledge, but is highlighted as a Way of Life - and, according to Plato’s words, as a Polity of the Soul.',
-        'The goal of the Academy is the Promotion of the Hellenic Teaching, the Revival of the Greek Spiritual Tradition, and the Fulfillment of the Apollonian Command: <span lang="grc">Γνῶθι Σαυτόν</span> “Know Thyself”.',
+        'The goal of the Academy is the Promotion of the Hellenic Teaching, the Revival of the Greek Spiritual Tradition, and the Fulfillment of the Apollonian Command: <em>Gnothi Seauton</em> “Know Thyself”.',
       ],
     },
   ],

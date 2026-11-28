@@ -33,7 +33,7 @@ const discount = reg.upfrontDiscount ?? 0;
 // The Academy's membership banner (Maria, 22 November 2026): crème by day, navy by night; only the one
 // for the current theme is shown, and a hidden lazy picture is never fetched.
 const bannerAlt = {
-  en: 'Banner: “Φιλόσοφος γίνου” (Become a philosopher). Become an annual Member of the Academy',
+  en: 'Banner: “Become a philosopher”. Become an annual Member of the Academy',
   el: 'Αφίσα: «Φιλόσοφος γίνου». Γίνε ετήσιο Μέλος της Ακαδημίας',
   grc: 'Πίναξ: «Φιλόσοφος γίνου». Γένεσθε ἑταῖροι τῆς Ἀκαδημίας ἐπ’ ἐνιαυτόν',
 }[locale];
@@ -45,7 +45,11 @@ const bannerAlt = {
       <header class="mem__head">
         {/* the banner's motto as an eyebrow over the title; the banner itself is gone from the page
             (it repeated the page), and is kept only as the link preview (Maria, 23 November 2026) */}
-        <p class="mem__eyebrow" lang="el">“Φιλόσοφος γίνου”</p>
+        {locale === 'en' ? (
+          <p class="mem__eyebrow">“Become a philosopher”</p>
+        ) : (
+          <p class="mem__eyebrow" lang="el">“Φιλόσοφος γίνου”</p>
+        )}
         <h1 class="t-1" data-split>{m.title}</h1>
         {/* The goddess on her plinth, the statue from the home page's hero, in place of the bees
             (Athena, 23 November 2026: "a symbol like the temple or the goddess"). No pebble behind her. */}

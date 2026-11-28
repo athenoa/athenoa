@@ -51,6 +51,16 @@ const top = (ids: string[]) =>
         .slice(0, 8)
     : [];
 const langOf = (lang?: string) => (lang === 'el' ? t.lang.el : t.lang.en);
+// On the English pages nothing is in Greek (Maria, 28 November 2026): each Greek talk or writing goes by
+// its English title alone (its language is still named beside it), and Greek channel names are spelt out.
+const english = locale === 'en';
+const latin: Record<string, string> = {
+  'Ναυτεμπορική': 'Naftemporiki',
+  'Παλαίχθων Κορίνθου': 'Palaichthon, Corinth',
+  'Παλαίχθων': 'Palaichthon',
+  'Ιωάννης Αυγουστάτος': 'Ioannis Avgoustatos',
+};
+const name = (text?: string) => (english && text ? (latin[text] ?? text.replace(/\s*\(ΔΕΕΑΕΦ\)/, '')) : text);
 ---
 
   <section class="section nsrc" aria-labelledby="nsrc-talks">
@@ -63,9 +73,13 @@ const langOf = (lang?: string) => (lang === 'el' ? t.lang.el : t.lang.en);
             return (
               <li class="nsrc__item">
                 <div class="nsrc__main">
-                  <h3 class="nsrc__title" lang={talk.lang === 'el' ? 'el' : 'en'}>{talk.title}</h3>
-                  {talk.lang === 'el' && talk.en && <p class="nsrc__en" lang="en">{talk.en.replace(/^#\s*/, '')}</p>}
-                  <p class="nsrc__meta">{talk.channel}</p>
+                  {english ? (
+                    <h3 class="nsrc__title">{talk.en?.replace(/^#\s*/, '') || talk.title}</h3>
+                  ) : (
+                    <h3 class="nsrc__title" lang={talk.lang === 'el' ? 'el' : 'en'}>{talk.title}</h3>
+                  )}
+                  {!english && talk.lang === 'el' && talk.en && <p class="nsrc__en" lang="en">{talk.en.replace(/^#\s*/, '')}</p>}
+                  <p class="nsrc__meta">{name(talk.channel)}</p>
                   {ideas.length > 0 && (
                     <p class="nsrc__ideas" aria-label={t.ideas}>
                       {ideas.map((id) => (
@@ -108,9 +122,13 @@ const langOf = (lang?: string) => (lang === 'el' ? t.lang.el : t.lang.en);
             return (
               <li class="nsrc__item">
                 <div class="nsrc__main">
-                  <h3 class="nsrc__title" lang={w.lang === 'el' ? 'el' : 'en'}>{w.title}</h3>
-                  {w.title_en && w.title_en !== w.title && <p class="nsrc__en" lang="en">{w.title_en}</p>}
-                  <p class="nsrc__meta">{[w.venue, w.year].filter(Boolean).join(' · ')}</p>
+                  {english ? (
+                    <h3 class="nsrc__title">{w.title_en || w.title}</h3>
+                  ) : (
+                    <h3 class="nsrc__title" lang={w.lang === 'el' ? 'el' : 'en'}>{w.title}</h3>
+                  )}
+                  {!english && w.title_en && w.title_en !== w.title && <p class="nsrc__en" lang="en">{w.title_en}</p>}
+                  <p class="nsrc__meta">{[name(w.venue), w.year].filter(Boolean).join(' · ')}</p>
                   {w.summary && <p class="nsrc__summary" lang="en">{w.summary}</p>}
                   {(w.key_ideas ?? []).length > 0 && (
                     <details class="nsrc__more">
