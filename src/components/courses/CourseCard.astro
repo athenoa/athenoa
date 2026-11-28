@@ -9,6 +9,7 @@
 //
 // Its one button, its picture and its title all lead to the course's own page (Maria, 22 November 2026).
 import Media from '../Media.astro';
+import LangNote from './LangNote.astro';
 import { content } from '../../data';
 import type { Course } from '../../data/courses';
 import { getLocale } from '../../lib/locale';
@@ -64,7 +65,7 @@ const facts = [
   comma < 0
     ? { label: ui.facts.format, value: course.format }
     : { label: ui.facts.format, value: course.format!.slice(0, comma), note: course.format!.slice(comma + 2) },
-  { label: ui.facts.language, value: course.teaching && ui.languages[course.teaching] },
+  { label: ui.facts.language, value: course.teaching && ui.languages[course.teaching], lang: true },
   { label: ui.facts.fee, value: course.price?.display, fee: true },
 ].filter((fact) => fact.value && (!brief || fact.label === ui.facts.dates));
 // "€200 & VAT (24%)": the amount stands out, the tax note sits smaller beside it.
@@ -147,7 +148,10 @@ const splitFee = (display: string) => {
                 <span class="card__aside">{fact.note}</span>
               </dd>
             ) : (
-              <dd>{fact.value}</dd>
+              <dd>
+                {fact.value}
+                {'lang' in fact && <LangNote teaching={course.teaching} />}
+              </dd>
             )}
           </div>
         ))

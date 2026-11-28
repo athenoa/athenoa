@@ -471,6 +471,10 @@ export const coursesPage = {
     when: { last: 'Last lesson', until: 'until {date}', months: '{n} months' },
     // The languages a course is taught in (Course.teaching)
     languages: { el: 'Greek', en: 'English' },
+    // Beside a language other than the one the site is read in (LangNote.astro, Maria, 27 November 2026)
+    // under the start date once the course has begun, in Athena's hand (Maria, 28 November 2026)
+    missedNote: 'If you sign up now, we will send you the recordings of any lessons you missed.',
+    langNote: 'This course is taught in {language}, not in the language you are reading the site in. Just double-check that it suits you.',
     // The small mark on a course not open yet (Course.comingSoon)
     soon: 'Coming soon',
     // The small mark on a course open now, in the courses menu (Maria, 24 November 2026)

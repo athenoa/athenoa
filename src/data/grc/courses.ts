@@ -30,6 +30,8 @@ export const coursesPage = {
     // The four facts as four questions: when, for how long, how, and (Apology 20b) for how much.
     facts: { dates: 'Πότε', duration: 'Πόσον χρόνον', format: 'Πῶς', language: 'Τίνι γλώττῃ', fee: 'Πόσου' },
     languages: { el: 'Ἑλληνιστί', en: 'Ἀγγλιστί' },
+    missedNote: 'Ἐὰν νῦν ἐγγραφῆτε, πέμψομεν ὑμῖν τὰς ἀναγραφὰς τῶν μαθημάτων ἃ παρήκατε.',
+    langNote: 'Τοῦτο τὸ μάθημα {language} διδάσκεται, οὐχ ᾗ γλώσσῃ νῦν ἀναγιγνώσκεις· σκόπει οὖν εἰ σοι ἁρμόττει.',
     when: greekPage.ui.when,
     // the pills on the course cards: "any moment now", and "live" (ζῶν, as in Ζῶντα μαθήματα)
     soon: 'Ὅσον οὔπω',
