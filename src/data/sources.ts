@@ -1,12 +1,13 @@
 // "Where did you hear about us?" One list of answers, shared by the contact form and the enrolment
-// request (SourceField.astro). New wording, asked for by the client on 11 October 2026.
+// request (SourceField.astro). New wording, asked for by the client on 11 October 2026; ATHENOA's own mailing
+// list added (Maria, 28 November 2026).
 // The Ancient Greek is a draft, like the rest of that language.
 import type { Locale } from '../lib/locale';
 
 export const sources = {
   en: {
     choose: 'Choose one',
-    options: ['YouTube', 'Instagram', 'Facebook', 'Search engine', 'AI agent', 'Word of mouth', 'Academic work'],
+    options: ['YouTube', 'Instagram', 'Facebook', "ATHENOA's Mailing List", 'Search engine', 'AI agent', 'Word of mouth', 'Academic work'],
     other: 'Other',
     // The label of the small field that appears when "Other" is chosen
     otherLabel: 'Where?',
@@ -18,6 +19,7 @@ export const sources = {
       'YouTube',
       'Instagram',
       'Facebook',
+      'Το ενημερωτικό δελτίο της ΑΘΕΝΟΑ',
       'Μηχανή αναζήτησης',
       'Βοηθός τεχνητής νοημοσύνης',
       'Από γνωστούς',
@@ -33,6 +35,7 @@ export const sources = {
       'YouTube',
       'Instagram',
       'Facebook',
+      'Αἱ ἐπιστολαὶ τῆς ΑΘΕΝΟΑ',
       'Ζητῶν ἐν τῷ δικτύῳ',
       'Παρὰ τεχνητῆς νοήσεως',
       'Παρὰ φίλων',
