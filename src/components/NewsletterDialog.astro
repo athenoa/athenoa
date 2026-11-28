@@ -74,7 +74,8 @@ const contactHref = pathIn(locale, '/about-athena/#contact');
       <div class="nl__note" tabindex="-1" data-newsletter-note>
         <p data-newsletter-msg>{t.pending}</p>
         <p data-newsletter-fail hidden>{t.failed}</p>
-        <p><a href={contactHref} data-newsletter-contact>{t.pendingLink}</a></p>
+        {/* only when the address could not be kept: the thanks stands alone (Maria, 28 November 2026) */}
+        <p data-newsletter-help><a href={contactHref} data-newsletter-contact>{t.pendingLink}</a></p>
       </div>
     </Fragment>
   </Portico>
@@ -158,6 +159,7 @@ const contactHref = pathIn(locale, '/about-athena/#contact');
       if (ok) setText(dialog.querySelector<HTMLElement>('[data-newsletter-msg]'), (await texts).text);
       dialog.querySelector<HTMLElement>('[data-newsletter-msg]')!.hidden = !ok;
       dialog.querySelector<HTMLElement>('[data-newsletter-fail]')!.hidden = ok;
+      dialog.querySelector<HTMLElement>('[data-newsletter-help]')!.hidden = ok;
       dialog.setAttribute('data-sent', '');
       note.focus();
     });
@@ -192,6 +194,7 @@ const contactHref = pathIn(locale, '/about-athena/#contact');
         setText(msg, fields.text);
         msg.hidden = false;
         dialog.querySelector<HTMLElement>('[data-newsletter-fail]')!.hidden = true;
+        dialog.querySelector<HTMLElement>('[data-newsletter-help]')!.hidden = true;
         open(dialog, null);
         dialog.setAttribute('data-sent', '');
       });
