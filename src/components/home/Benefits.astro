@@ -25,11 +25,11 @@ const t = {
   },
   el: {
     gatheringAlt:
-      'Ένας κύκλος γυναικών ντυμένων στα λευκά αγκαλιάζονται σε ένα πέτρινο πλάτωμα δίπλα σε μια πισίνα, ψηλά πάνω από τη θάλασσα',
+      'Ένας κύκλος γυναικών ντυμένων στα λευκά αγκαλιάζονται σε ένα πέτρινο πλάτωμα δίπλα σε μια πισίνα, ψηλά πάνω από την θάλασσα',
     hilltopAlt:
       'Μια γυναίκα κάθεται σε διαλογισμό ανάμεσα σε αρχαίες πέτρες, σε έναν ηλιόλουστο λόφο, με θαμπά βουνά στο βάθος',
     readingAlt:
-      'Μια χαμογελαστή γυναίκα διαβάζει ένα βιβλίο στον ήλιο, με τη θάλασσα και τον φωτεινό ουρανό πίσω της',
+      'Μια χαμογελαστή γυναίκα διαβάζει ένα βιβλίο στον ήλιο, με την θάλασσα και τον φωτεινό ουρανό πίσω της',
     columnAlt:
       'Μια γυναίκα με μπλε φόρεμα στέκεται μπροστά στην Ακαδημία Αθηνών, κάτω από τον ψηλό κίονα με το άγαλμα της Αθηνάς',
   },
@@ -139,6 +139,11 @@ const looks: { surface: string; mat: string; photo: Photo; second?: Photo }[] = 
   /* gold rim around the reading photograph only (Maria for Athena, 23 November 2026) */
   .unit--2 .unit__frame::before {
     background-color: var(--gold);
+  }
+  /* the hilltop pill's rim in Greek blue, so it no longer matches the arch beside it (Maria, 28 November 2026) */
+  .unit__frame.unit__second::before {
+    background-color: var(--blue);
+    background-image: url('/textures/grain-light.webp');
   }
   .benefits__grid {
     display: grid;

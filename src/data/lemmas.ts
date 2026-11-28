@@ -133,7 +133,7 @@ export const symbolLemmas: Record<string, Lemma & { word: string }> = {
     kind: { en: 'image', el: 'εικόνα' },
     note: {
       en: 'Heraclitus’s image of harmony in tension: what is drawn apart agrees with itself, as in the bow and the lyre.',
-      el: 'Η εικόνα του Ηρακλείτου για την αρμονία των αντιθέτων: ό,τι τείνει σε αντίθετες κατευθύνσεις συμφωνεί με τον εαυτό του, όπως στο τόξο και στη λύρα.',
+      el: 'Η εικόνα του Ηρακλείτου για την αρμονία των αντιθέτων: ό,τι τείνει σε αντίθετες κατευθύνσεις συμφωνεί με τον εαυτό του, όπως στο τόξο και στην λύρα.',
     },
     source: { en: 'Heraclitus, fragment B51', el: 'Ηράκλειτος, απόσπασμα B51' },
   },
@@ -153,7 +153,7 @@ export const symbolLemmas: Record<string, Lemma & { word: string }> = {
     kind: { en: 'noun', el: 'ουσιαστικό' },
     note: {
       en: 'The steps of Diotima’s ascent: from one beautiful body, rung by rung, up to Beauty itself.',
-      el: 'Τα σκαλοπάτια της ανόδου της Διοτίμας: από ένα ωραίο σώμα, βαθμίδα τη βαθμίδα, ως το ίδιο το Ωραίο.',
+      el: 'Τα σκαλοπάτια της ανόδου της Διοτίμας: από ένα ωραίο σώμα, βαθμίδα την βαθμίδα, ως το ίδιο το Ωραίο.',
     },
     source: { en: 'Plato, Symposium 211c', el: 'Πλάτων, Συμπόσιον 211c' },
   },
@@ -173,7 +173,7 @@ export const symbolLemmas: Record<string, Lemma & { word: string }> = {
     kind: { en: 'noun', el: 'ουσιαστικό' },
     note: {
       en: 'The Orphic gold tablets tell the soul to pass the spring by the white cypress and drink from the lake of Memory.',
-      el: 'Τα ορφικά χρυσά ελάσματα λένε στην ψυχή να προσπεράσει την πηγή δίπλα στο λευκό κυπαρίσσι και να πιει από τη λίμνη της Μνημοσύνης.',
+      el: 'Τα ορφικά χρυσά ελάσματα λένε στην ψυχή να προσπεράσει την πηγή δίπλα στο λευκό κυπαρίσσι και να πιει από την λίμνη της Μνημοσύνης.',
     },
     source: { en: 'Gold tablet of Hipponion', el: 'Χρυσό έλασμα του Ιππωνίου' },
   },

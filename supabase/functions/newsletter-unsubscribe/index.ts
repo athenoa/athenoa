@@ -17,5 +17,5 @@ Deno.serve(async (req) => {
   if (!/^[0-9a-f-]{36}$/i.test(id)) return page('Κάτι δεν πήγε καλά', 'Ο σύνδεσμος δεν είναι σωστός.');
   const db = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!);
   await db.from('newsletter').update({ unsubscribed_at: new Date().toISOString() }).eq('id', id).is('unsubscribed_at', null);
-  return page('Διαγραφήκατε από τη λίστα', 'Δεν θα λαμβάνετε πλέον το ενημερωτικό μας δελτίο. Σας ευχαριστούμε που ήσασταν μαζί μας.');
+  return page('Διαγραφήκατε από την λίστα', 'Δεν θα λαμβάνετε πλέον το ενημερωτικό μας δελτίο. Σας ευχαριστούμε που ήσασταν μαζί μας.');
 });
