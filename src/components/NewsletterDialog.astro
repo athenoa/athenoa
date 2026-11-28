@@ -82,6 +82,7 @@ const contactHref = pathIn(locale, '/about-athena/#contact');
 
 <script>
   import { addRow } from '../lib/forms';
+  import { screenTexts, setText } from '../scripts/screen-texts';
   const motionOn = () => document.documentElement.classList.contains('motion');
   const find = () => document.querySelector<HTMLDialogElement>('dialog#newsletter[data-ready]');
   // What was clicked to open the popup: focus goes back there when it closes.
@@ -149,9 +150,12 @@ const contactHref = pathIn(locale, '/about-athena/#contact');
       const heard = (other || picked).slice(0, 300);
       const row: Record<string, string> = { email, locale: document.documentElement.lang || 'el' };
       if (heard) row.heard_from = heard;
+      // the team's thanks from the dashboard's Screens tab, asked for while the address is being kept
+      const texts = screenTexts('newsletter');
       const ok = await addRow('newsletter', row)
         .then(() => true)
         .catch(() => false);
+      if (ok) setText(dialog.querySelector<HTMLElement>('[data-newsletter-msg]'), (await texts).text);
       dialog.querySelector<HTMLElement>('[data-newsletter-msg]')!.hidden = !ok;
       dialog.querySelector<HTMLElement>('[data-newsletter-fail]')!.hidden = ok;
       dialog.setAttribute('data-sent', '');

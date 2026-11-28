@@ -67,6 +67,7 @@ const t = ui.waitlist;
 
 <script>
   import { addRow } from '../lib/forms';
+  import { screenTexts, setText } from '../scripts/screen-texts';
 
   const motionOn = () => document.documentElement.classList.contains('motion');
   const find = () => document.querySelector<HTMLDialogElement>('dialog#waitlist[data-ready]');
@@ -137,6 +138,8 @@ const t = ui.waitlist;
       const data = new FormData(form);
       const lang = document.documentElement.lang;
       button.disabled = true;
+      // the team's thanks from the dashboard's Screens tab, asked for while the address is being kept
+      const texts = screenTexts('waitlist');
       try {
         await addRow('waitlist', {
           email: String(data.get('email') ?? '').trim(),
@@ -149,6 +152,7 @@ const t = ui.waitlist;
       } finally {
         button.disabled = false;
       }
+      setText(note.querySelector<HTMLElement>('p'), (await texts).text);
       dialog.setAttribute('data-sent', '');
       note.focus();
     });

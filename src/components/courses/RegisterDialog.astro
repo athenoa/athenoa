@@ -358,6 +358,7 @@ const monthly = (tier: (typeof tiers)[number]) =>
 
 <script>
   import { addRow } from '../../lib/forms';
+  import { screenTexts, setText } from '../../scripts/screen-texts';
 
   type Pay = 'full' | 'monthly' | 'bank';
   type Control = HTMLInputElement;
@@ -476,7 +477,7 @@ const monthly = (tier: (typeof tiers)[number]) =>
     const showDone = (kept: boolean, bankDetails: boolean) => {
       const text = done.querySelector<HTMLElement>('[data-done-text]')!;
       done.querySelector<HTMLElement>('[data-done-title]')!.hidden = !kept;
-      text.textContent = kept ? text.dataset.ok! : text.dataset.failedText!;
+      setText(text, kept ? text.dataset.ok! : text.dataset.failedText!);
       text.hidden = !bankDetails;
       done.querySelectorAll<HTMLElement>('[data-done-bank], [data-done-total]').forEach((el) => (el.hidden = !bankDetails));
       form.hidden = true;
@@ -516,6 +517,8 @@ const monthly = (tier: (typeof tiers)[number]) =>
       if (heard) row.heard_from = heard;
 
       busy(true);
+      // a bank transfer ends on our own thanks: the team's words from the dashboard's Screens tab, asked for meanwhile
+      const texts = link ? null : screenTexts('registration-bank');
       try {
         await addRow('registrations', row);
       } catch {
@@ -538,6 +541,9 @@ const monthly = (tier: (typeof tiers)[number]) =>
       } catch {}
       if (link) window.location.assign(withReference(link, reference));
       else {
+        const fields = texts ? await texts : {};
+        setText(done.querySelector<HTMLElement>('[data-done-title]'), fields.title);
+        if (fields.text) done.querySelector<HTMLElement>('[data-done-text]')!.dataset.ok = fields.text;
         busy(false);
         showDone(true, true);
       }

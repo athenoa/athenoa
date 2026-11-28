@@ -9,6 +9,7 @@ import Illustration from '../Illustration.astro';
 import Signature from '../Signature.astro';
 import { content } from '../../data';
 import { getLocale } from '../../lib/locale';
+import { paymentWords } from '../../data/payment';
 
 interface Props {
   kind: 'success' | 'membership' | 'failed';
@@ -17,71 +18,7 @@ const { kind } = Astro.props;
 const locale = getLocale(Astro.url);
 const { site } = content(locale);
 const email = site.emails[0];
-const words = {
-  el: {
-    success: {
-      kicker: 'Σας ευχαριστούμε',
-      title: 'Η θέση σας εξασφαλίστηκε',
-      text: ['Η πληρωμή σας ολοκληρώθηκε και η εγγραφή σας καταχωρήθηκε.', 'Θα σας στείλουμε σύντομα email με όλες τις λεπτομέρειες για την έναρξη.'],
-    },
-    membership: {
-      kicker: 'Σας ευχαριστούμε',
-      title: 'Καλώς ήρθατε στην Ακαδημία',
-      text: ['Η πληρωμή σας ολοκληρώθηκε και είστε πλέον Μέλος της Ακαδημίας ΑΘΕΝΟΑ.', 'Θα σας στείλουμε σύντομα email με όλα όσα περιλαμβάνει η συνδρομή σας.'],
-    },
-    failed: {
-      kicker: 'Κάτι δεν πήγε καλά',
-      title: 'Η πληρωμή δεν ολοκληρώθηκε',
-      text: ['Η πληρωμή σας δεν ολοκληρώθηκε, οπότε δεν έγινε καμία χρέωση.', 'Μπορείτε να δοκιμάσετε ξανά, να επιλέξετε κατάθεση σε τραπεζικό λογαριασμό, ή να μας γράψετε και θα σας βοηθήσουμε.'],
-    },
-    ask: 'Για οτιδήποτε, γράψτε μας στο',
-    home: 'Αρχική σελίδα',
-    retry: 'Δοκιμάστε ξανά',
-    courses: 'Δείτε τα μαθήματα',
-  },
-  en: {
-    success: {
-      kicker: 'Thank you',
-      title: 'Your place is secured',
-      text: ['Your payment went through and your registration is recorded.', 'We will email you soon with all the details for the start.'],
-    },
-    membership: {
-      kicker: 'Thank you',
-      title: 'Welcome to the Academy',
-      text: ['Your payment went through and you are now a Member of the ATHENOA Academy.', 'We will email you soon with everything your membership includes.'],
-    },
-    failed: {
-      kicker: 'Something went wrong',
-      title: 'The payment did not go through',
-      text: ['Your payment was not completed, so nothing was charged.', 'You can try again, choose a bank transfer, or write to us and we will help.'],
-    },
-    ask: 'For anything at all, write to us at',
-    home: 'Home page',
-    retry: 'Try again',
-    courses: 'See the courses',
-  },
-  grc: {
-    success: {
-      kicker: 'Χάριν ἴσμεν',
-      title: 'Ἡ χώρα ὑμῖν φυλάττεται',
-      text: ['Ἡ καταβολὴ ἐτελέσθη καὶ ἡ ἐγγραφὴ ὑμῶν ἀναγέγραπται.', 'Ἐν τάχει ἐπιστελοῦμεν ὑμῖν πάντα τὰ περὶ τῆς ἀρχῆς.'],
-    },
-    membership: {
-      kicker: 'Χάριν ἴσμεν',
-      title: 'Καλῶς ἤλθετε εἰς τὴν Ἀκαδημίαν',
-      text: ['Ἡ καταβολὴ ἐτελέσθη καὶ νῦν ἑταῖροι τῆς Ἀκαδημίας ἐστέ.', 'Ἐν τάχει ἐπιστελοῦμεν ὑμῖν πάντα ὅσα ἡ ἑταιρεία περιέχει.'],
-    },
-    failed: {
-      kicker: 'Οὐ κατὰ γνώμην ἐχώρησεν',
-      title: 'Ἡ καταβολὴ οὐκ ἐτελέσθη',
-      text: ['Ἡ καταβολὴ ὑμῶν οὐκ ἐτελέσθη, ὥστε οὐδὲν ἀργύριον ἐλήφθη.', 'Ἔξεστιν ὑμῖν αὖθις πειρᾶσθαι, ἢ διὰ τραπέζης καταβαλεῖν, ἢ ἐπιστεῖλαι ἡμῖν, καὶ βοηθήσομεν.'],
-    },
-    ask: 'Περὶ παντὸς ἐπιστείλατε ἡμῖν πρὸς',
-    home: 'Οἴκαδε',
-    retry: 'Πειράσασθε αὖθις',
-    courses: 'Ἴδετε τὰ μαθήματα',
-  },
-}[locale];
+const words = paymentWords[locale];
 const w = words[kind];
 ---
 
@@ -484,6 +421,7 @@ const w = words[kind];
 
 <script>
   import { ambienceMuted, playSound } from '../../scripts/sound';
+  import { screenTexts, setText } from '../../scripts/screen-texts';
 
   // Stripe sends everyone back to the Greek page; whoever registered on the English (or Ancient Greek) pages
   // sees it in that language
@@ -511,7 +449,16 @@ const w = words[kind];
       name = (localStorage.getItem('ath-pay-name') ?? '').trim().split(/\s+/)[0] ?? '';
     } catch {}
     const kicker = document.querySelector<HTMLElement>('[data-kicker]');
-    if (name && kicker && thanks) kicker.textContent = `${kicker.textContent}, ${name}`;
+    const suffix = name && thanks ? `, ${name}` : '';
+    if (kicker && suffix) kicker.textContent = `${kicker.textContent}${suffix}`;
+    // the team's words from the dashboard's Screens tab, where they have changed any (screen-texts.ts)
+    const screen = location.pathname.match(/\/payment\/(success|membership|failed)/)?.[1];
+    if (screen)
+      void screenTexts(`payment-${screen}`).then((fields) => {
+        if (fields.kicker && kicker) kicker.textContent = fields.kicker + suffix;
+        setText(document.querySelector<HTMLElement>('#pay-title'), fields.title);
+        setText(document.querySelector<HTMLElement>('.pay__text'), fields.text);
+      });
     // "try again" leads back to the page they registered on (a course, or membership), at its prices
     let back = '';
     try {
